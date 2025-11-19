@@ -1,0 +1,286 @@
+#!/usr/bin/env python3
+"""
+AI-powered artist data enrichment for Down The Rabbit Hole Festival Tracker
+
+Uses AI to automatically fill in artist details (genre, country, bio, etc.)
+when new artists are added to the CSV.
+"""
+
+import csv
+import sys
+from pathlib import Path
+from typing import Dict, List
+import json
+
+
+def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
+    """Load CSV file and return headers and rows."""
+    if not csv_path.exists():
+        print(f"✗ CSV file not found: {csv_path}")
+        sys.exit(1)
+    
+    with open(csv_path, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        headers = reader.fieldnames
+        rows = list(reader)
+    return headers, rows
+
+
+def save_csv(csv_path: Path, headers: List[str], rows: List[Dict]):
+    """Save CSV file with UTF-8 encoding."""
+    with open(csv_path, 'w', encoding='utf-8', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def needs_enrichment(row: Dict) -> bool:
+    """Check if artist row needs data enrichment."""
+    essential_fields = ["Genre", "Country", "Bio", "My take", "My rating"]
+    return any(not row.get(field, "").strip() for field in essential_fields)
+
+
+def create_enrichment_prompt(artist_name: str) -> str:
+    """Create a prompt for AI to enrich artist data."""
+    return f"""Provide comprehensive information about the musical artist "{artist_name}" in JSON format with these exact fields:
+
+{{
+    "Genre": "primary genre(s), separated by /",
+    "Country": "country of origin",
+    "Bio": "concise 1-2 sentence biography focusing on their music style and achievements",
+    "My take": "brief critical assessment of their artistry and live performance potential, informed by reviews and consensus",
+    "My rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance",
+    "Spotify link": "full Spotify artist URL (https://open.spotify.com/artist/...)",
+    "Number of People in Act": "number as integer, or empty if solo/varies",
+    "Gender of Front Person": "Male/Female/Mixed/Non-binary",
+    "Front Person of Color?": "Yes/No"
+}}
+
+Guidelines:
+- Bio should be factual, concise, and music-focused
+- My take should reflect critical consensus and live performance reviews (1-2 sentences)
+- My rating should be objective, based on critical acclaim and festival suitability (integer 1-10)
+- Use official Spotify URLs only
+- For groups with multiple frontpeople, use "Mixed" for gender
+- Be accurate about demographics; use "Yes" for Front Person of Color only if confirmed
+- Leave "Number of People in Act" empty for solo artists or when it varies (DJs, producers)
+
+Return ONLY valid JSON, no additional text."""
+
+
+def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
+    """
+    Use GitHub Models API (GPT-4o) to enrich artist data.
+    Requires GitHub CLI authentication or OPENAI_API_KEY.
+    """
+    import os
+    import requests
+    import subprocess
+    
+    # Try to get token from gh CLI first, then environment variables
+    api_key = None
+    try:
+        result = subprocess.run(
+            ["gh", "auth", "token"],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode == 0:
+            api_key = result.stdout.strip()
+    except:
+        pass
+    
+    # Fallback to environment variables
+    if not api_key:
+        api_key = os.getenv("GITHUB_TOKEN") or os.getenv("OPENAI_API_KEY")
+    
+    if not api_key:
+        print(f"  ✗ {artist_name}: No authentication found (gh auth login or set GITHUB_TOKEN)")
+        return {}
+    
+    endpoint = "https://models.github.ai/inference/chat/completions"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+    }
+    
+    prompt = create_enrichment_prompt(artist_name)
+    
+    payload = {
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are a music expert providing accurate, factual information about artists. Return only valid JSON."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        "model": "openai/gpt-4o",
+        "temperature": 0.3,
+        "max_tokens": 1000
+    }
+    
+    try:
+        response = requests.post(endpoint, headers=headers, json=payload, timeout=30)
+        response.raise_for_status()
+        
+        result = response.json()
+        content = result["choices"][0]["message"]["content"]
+        
+        # Extract JSON from response
+        content = content.strip()
+        if content.startswith("```json"):
+            content = content.split("```json")[1].split("```")[0].strip()
+        elif content.startswith("```"):
+            content = content.split("```")[1].split("```")[0].strip()
+        
+        artist_data = json.loads(content)
+        print(f"  ✓ {artist_name}: Enriched with AI")
+        return artist_data
+        
+    except requests.exceptions.RequestException as e:
+        print(f"  ✗ {artist_name}: API error - {e}")
+        return {}
+    except (json.JSONDecodeError, KeyError) as e:
+        print(f"  ✗ {artist_name}: Invalid response - {e}")
+        return {}
+
+
+def enrich_csv(csv_path: Path, use_ai: bool = False):
+    """
+    Enrich CSV with artist data.
+    
+    Args:
+        csv_path: Path to CSV file
+        use_ai: If True, use AI to automatically fill data (requires API setup)
+    """
+    print(f"\n=== Enriching Artist Data ===\n")
+    
+    headers, rows = load_csv(csv_path)
+    enriched_count = 0
+    
+    # Track metadata to preserve user edits
+    from festival_tracker import FestivalTracker
+    tracker = FestivalTracker(2026)  # TODO: make year dynamic
+    metadata = tracker._load_metadata()
+    
+    for row in rows:
+        artist_name = row.get("Artist", "").strip()
+        if not artist_name:
+            continue
+        
+        if needs_enrichment(row):
+            enriched_count += 1
+            
+            if use_ai:
+                # AI enrichment (requires API integration)
+                enriched_data = enrich_artist_with_ai(artist_name)
+                
+                # Update row with enriched data (don't overwrite existing data OR user edits)
+                for field, value in enriched_data.items():
+                    if field in row:
+                        # Check if user has edited this field
+                        user_edited = (
+                            artist_name in metadata.get("user_edits", {}) and
+                            field in metadata["user_edits"][artist_name]
+                        )
+                        
+                        # Only fill if empty AND not user-edited
+                        if not row[field].strip() and not user_edited:
+                            row[field] = value
+            else:
+                print(f"  ⚠️  {artist_name}: Missing data - please fill manually")
+    
+    if enriched_count > 0:
+        if use_ai:
+            save_csv(csv_path, headers, rows)
+            print(f"\n✓ Enriched {enriched_count} artist(s) with AI-generated data")
+            print("⚠️  Please review and verify AI-generated content")
+        else:
+            print(f"\n⚠️  {enriched_count} artist(s) need manual data entry")
+            print("💡 Tip: Use --ai flag to enable automatic enrichment (requires API setup)")
+    else:
+        print("✓ All artists have complete data!")
+
+
+def setup_ai_instructions():
+    """Print instructions for setting up AI enrichment."""
+    print("""
+=== AI Enrichment Setup Instructions ===
+
+Using GitHub Models (GPT-4o) - Recommended:
+
+1. Install required package:
+   pip install requests
+
+2. Get a GitHub Personal Access Token:
+   - Go to https://github.com/settings/tokens
+   - Click "Generate new token" → "Fine-grained tokens"
+   - Name it "Festival Tracker" (or similar)
+   - Set expiration (90 days recommended)
+   - Under "Repository access": Select "Public Repositories (read-only)"
+   - Under "Permissions" → "Contents": Read-only
+   - Generate and copy the token
+
+3. Set environment variable:
+   Windows (PowerShell):
+     $env:GITHUB_TOKEN = "your-github-token"
+   
+   Linux/Mac:
+     export GITHUB_TOKEN="your-github-token"
+   
+   To persist (add to your profile):
+     Windows: Add to $PROFILE
+     Linux/Mac: Add to ~/.bashrc or ~/.zshrc
+
+4. Run with --ai flag:
+   python enrich_artists.py --ai
+
+The script uses GitHub Models (free) with GPT-4o for accurate music metadata.
+
+Note: Always verify AI-generated content for accuracy.
+""")
+
+
+def main():
+    """Main enrichment process."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(
+        description="Enrich artist data in festival CSV"
+    )
+    parser.add_argument(
+        "--year",
+        type=int,
+        default=2026,
+        help="Festival year (default: 2026)"
+    )
+    parser.add_argument(
+        "--ai",
+        action="store_true",
+        help="Use AI to automatically enrich data (requires API setup)"
+    )
+    parser.add_argument(
+        "--setup",
+        action="store_true",
+        help="Show AI setup instructions"
+    )
+    
+    args = parser.parse_args()
+    
+    if args.setup:
+        setup_ai_instructions()
+        return
+    
+    csv_path = Path(f"{args.year}.csv")
+    
+    enrich_csv(csv_path, use_ai=args.ai)
+
+
+if __name__ == "__main__":
+    main()
