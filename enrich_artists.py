@@ -48,8 +48,8 @@ def create_enrichment_prompt(artist_name: str) -> str:
     "Genre": "primary genre(s), separated by /",
     "Country": "country of origin",
     "Bio": "concise 1-2 sentence biography focusing on their music style and achievements",
-    "My take": "brief critical assessment of their artistry and live performance potential, informed by reviews and consensus",
-    "My rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance",
+    "My take": "brief critical assessment of their artistry and live performance potential, informed by reviews and consensus (or empty string if insufficient info)",
+    "My rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance (or empty string if insufficient info)",
     "Spotify link": "full Spotify artist URL (https://open.spotify.com/artist/...)",
     "Number of People in Act": "number as integer, or empty if solo/varies",
     "Gender of Front Person": "Male/Female/Mixed/Non-binary",
@@ -167,6 +167,22 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
         
         artist_data = json.loads(content)
         provider = "Azure OpenAI" if use_azure else "GitHub Models"
+        
+        # Validate and log rating issues
+        rating = artist_data.get("My rating", "")
+        my_take = artist_data.get("My take", "")
+        
+        # Convert rating to string and handle edge cases
+        if rating == 0 or rating == "0":
+            print(f"  ⚠️  {artist_name}: AI returned rating 0 (not enough publicly available critical reviews or performance data) - setting to empty")
+            artist_data["My rating"] = ""
+        elif not str(rating).strip():
+            print(f"  ⚠️  {artist_name}: AI returned empty rating (not enough publicly available critical reviews or performance data)")
+            artist_data["My rating"] = ""
+        
+        if not my_take.strip():
+            print(f"  ⚠️  {artist_name}: AI returned empty 'My take' (not enough publicly available critical reviews or performance data)")
+        
         print(f"  ✓ {artist_name}: Enriched with AI ({provider})")
         
         # No delay needed with Azure OpenAI
@@ -258,8 +274,14 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
                                     if artist_name in metadata.get("edited_artists", {}):
                                         user_edits = metadata["edited_artists"][artist_name].get("fields", [])
                                         if key not in user_edits:
+                                            # Log if we're filling with empty value
+                                            if key in ["My rating", "My take"] and not str(value).strip():
+                                                print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
                                             row[key] = value
                                     else:
+                                        # Log if we're filling with empty value
+                                        if key in ["My rating", "My take"] and not str(value).strip():
+                                            print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
                                         row[key] = value
                     except Exception as e:
                         print(f"  ✗ {artist_name}: Unexpected error - {e}")
@@ -295,6 +317,9 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
                         
                         # Only fill if empty AND not user-edited
                         if not row[field].strip() and not user_edited:
+                            # Log if we're filling with empty value (AI had insufficient data)
+                            if field in ["My rating", "My take"] and not str(value).strip():
+                                print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data)")
                             row[field] = value
             else:
                 print(f"  ⚠️  {artist_name}: Missing data - please fill manually")
