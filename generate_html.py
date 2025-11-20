@@ -507,7 +507,7 @@ def generate_html(csv_file, output_dir):
                 <div class="filter-group">
                     <label style="margin-bottom: 8px; display: block;">Person of Color</label>
                     <div class="checkbox-group" id="pocFilters">
-                        <label><input type="checkbox" value="Yes" checked> ✓ Yes</label>
+                        <label><input type="checkbox" value="Yes" checked> Yes</label>
                         <label><input type="checkbox" value="No" checked> No</label>
                     </div>
                 </div>
