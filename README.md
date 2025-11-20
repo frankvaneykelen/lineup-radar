@@ -114,7 +114,7 @@ The generated pages are mobile-responsive and ready to publish via GitHub Pages.
 1. Commit the generated `docs/` folder to your repository
 2. Go to repository Settings → Pages
 3. Set source to "main" branch, "/docs" folder
-4. Your festival data will be published at `https://yourusername.github.io/down-the-rabbit-hole/`
+4. Your festival data will be published at `https://frankvaneykelen.github.io/down-the-rabbit-hole/`
 
 ## Data Sources
 
