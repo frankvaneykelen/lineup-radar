@@ -9,6 +9,7 @@ import os
 import sys
 from pathlib import Path
 import json
+import re
 
 def escape_html(text):
     """Escape HTML special characters."""
@@ -20,6 +21,35 @@ def escape_html(text):
             .replace(">", "&gt;")
             .replace('"', "&quot;")
             .replace("'", "&#39;"))
+
+
+def artist_name_to_slug(name: str) -> str:
+    """Convert artist name to URL slug format for festival website."""
+    # Special mappings for known artists
+    special_cases = {
+        'Florence + The Machine': 'florence-the-machine',
+        'The xx': 'the-xx',
+        '¥ØU$UK€ ¥UK1MAT$U': 'yenouukeur-yenuk1matu',
+        'Derya Yıldırım & Grup Şimşek': 'derya-yildirim-grup-simsek',
+        'Arp Frique & The Perpetual Singers': 'arp-frique-the-perpetual-singers',
+        'Mall Grab b2b Narciss': 'mall-grab-b2b-narciss',
+        "Kin'Gongolo Kiniata": 'kingongolo-kiniata',
+        'Lumï': 'lumi',
+        'De Staat Becomes De Staat': 'de-staat-becomes-de-staat'
+    }
+    
+    if name in special_cases:
+        return special_cases[name]
+    
+    # General conversion
+    slug = name.lower()
+    slug = slug.replace(' ', '-')
+    slug = slug.replace('&', '')
+    slug = slug.replace('+', '')
+    slug = slug.replace("'", '')
+    slug = re.sub(r'[^a-z0-9-]', '', slug)
+    slug = re.sub(r'-+', '-', slug)
+    return slug.strip('-')
 
 def generate_html(csv_file, output_dir):
     """Generate HTML page from CSV file."""
@@ -144,6 +174,26 @@ def generate_html(csv_file, output_dir):
             cursor: pointer;
         }}
         
+        .checkbox-group {{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }}
+        
+        .checkbox-group label {{
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            cursor: pointer;
+        }}
+        
+        .checkbox-group input[type="checkbox"] {{
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }}
+        
         .table-container {{
             overflow-x: auto;
             padding: 0 40px 40px;
@@ -193,12 +243,34 @@ def generate_html(csv_file, output_dir):
             vertical-align: top;
         }}
         
+        tbody tr:nth-child(even) {{
+            background: #fafbfc;
+        }}
+        
         tr:hover {{
-            background: #f8f9fa;
+            background: #f0f1f3 !important;
         }}
         
         tr.hidden {{
             display: none;
+        }}
+        
+        /* Link icon styling */
+        .link-icon {{
+            display: inline-block;
+            margin-left: 4px;
+            font-size: 0.8em;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }}
+        
+        a:hover .link-icon {{
+            opacity: 1;
+        }}
+        
+        /* Larger emoji for gender and POC columns */
+        td[title*="Gender"], td[title*="Person of Color"] {{
+            font-size: 1.4em;
         }}
         
         .rating {{
@@ -230,7 +302,6 @@ def generate_html(csv_file, output_dir):
         
         .take {{
             max-width: 400px;
-            font-style: italic;
             color: #555;
         }}
         
@@ -250,32 +321,134 @@ def generate_html(csv_file, output_dir):
             font-size: 12px;
             font-weight: 600;
             color: #495057;
+            margin: 2px 0;
+            white-space: nowrap;
+        }}
+        
+        .badge-container {{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-width: 120px;
+        }}
+        
+        .country-badge {{
+            background: #d1ecf1;
+            color: #0c5460;
+        }}
+        
+        @media print {{
+            body {{
+                background: white;
+            }}
+            
+            .controls, .stats {{
+                display: none;
+            }}
+            
+            .badge {{
+                border: 1px solid #333;
+                background: white !important;
+                color: black !important;
+            }}
+            
+            .country-badge {{
+                border: 2px solid #333;
+            }}
+            
+            tbody tr:nth-child(even) {{
+                background: #f5f5f5;
+            }}
+            
+            a {{
+                color: black;
+                text-decoration: underline;
+            }}
         }}
         
         @media (max-width: 768px) {{
             body {{
-                padding: 10px;
+                padding: 5px;
+                font-size: 13px;
             }}
             
             header {{
-                padding: 20px;
+                padding: 15px 10px;
             }}
             
             h1 {{
-                font-size: 1.8em;
+                font-size: 1.4em;
+                margin-bottom: 5px;
             }}
             
-            .controls, .table-container {{
-                padding: 20px;
+            .subtitle {{
+                font-size: 0.9em;
             }}
             
-            th, td {{
-                padding: 8px 6px;
+            .controls {{
+                padding: 12px 10px;
+            }}
+            
+            .table-container {{
+                padding: 0 5px 15px;
+            }}
+            
+            .search-box {{
+                padding: 8px 12px;
                 font-size: 14px;
             }}
             
+            .filters {{
+                gap: 8px;
+                margin-top: 10px;
+            }}
+            
+            .filter-group {{
+                min-width: 100px;
+            }}
+            
+            .filter-group label {{
+                font-size: 12px;
+                margin-bottom: 3px;
+            }}
+            
+            .filter-group select {{
+                padding: 6px;
+                font-size: 12px;
+            }}
+            
+            table {{
+                margin-top: 10px;
+            }}
+            
+            th, td {{
+                padding: 6px 4px;
+                font-size: 11px;
+            }}
+            
             .bio, .take {{
-                max-width: 200px;
+                max-width: 180px;
+                font-size: 11px;
+                line-height: 1.3;
+            }}
+            
+            .badge {{
+                padding: 2px 6px;
+                font-size: 10px;
+            }}
+            
+            .spotify-link {{
+                padding: 4px 8px;
+                font-size: 10px;
+            }}
+            
+            .rating {{
+                font-size: 0.95em;
+            }}
+            
+            .stats {{
+                padding: 12px 10px;
+                font-size: 12px;
             }}
         }}
     </style>
@@ -288,7 +461,12 @@ def generate_html(csv_file, output_dir):
         </header>
         
         <div class="controls">
-            <input type="text" id="searchBox" class="search-box" placeholder="Search artists, genres, countries...">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <input type="text" id="searchBox" class="search-box" placeholder="Search artists, genres, countries..." style="flex: 1; margin: 0;">
+                <div style="margin-left: 15px; color: #666; font-size: 14px; white-space: nowrap;">
+                    Showing <strong><span id="visibleCountTop">{len(artists)}</span></strong> of <strong>{len(artists)}</strong> artists
+                </div>
+            </div>
             
             <div class="filters">
                 <div class="filter-group">
@@ -315,6 +493,24 @@ def generate_html(csv_file, output_dir):
                         <option value="6">6+ (Above Average)</option>
                     </select>
                 </div>
+                
+                <div class="filter-group">
+                    <label style="margin-bottom: 8px; display: block;">Gender</label>
+                    <div class="checkbox-group" id="genderFilters">
+                        <label><input type="checkbox" value="Male" checked> ♂️ Male</label>
+                        <label><input type="checkbox" value="Female" checked> ♀️ Female</label>
+                        <label><input type="checkbox" value="Mixed" checked> ⚤ Mixed</label>
+                        <label><input type="checkbox" value="Non-binary" checked> ⚧️ Non-binary</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label style="margin-bottom: 8px; display: block;">Person of Color</label>
+                    <div class="checkbox-group" id="pocFilters">
+                        <label><input type="checkbox" value="Yes" checked> ✓ Yes</label>
+                        <label><input type="checkbox" value="No" checked> No</label>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -328,37 +524,97 @@ def generate_html(csv_file, output_dir):
                         <th data-column="Bio">Bio</th>
                         <th data-column="My take">My Take</th>
                         <th class="sortable" data-column="My rating">Rating</th>
-                        <th data-column="Spotify link">Spotify</th>
                         <th class="sortable" data-column="Number of People in Act">Size</th>
-                        <th class="sortable" data-column="Gender of Front Person">Gender</th>
-                        <th class="sortable" data-column="Front Person of Color?">POC</th>
+                        <th class="sortable" data-column="Gender of Front Person" title="Gender of Front Person">⚧️</th>
+                        <th class="sortable" data-column="Front Person of Color?" title="Front Person of Color?">🌍</th>
                     </tr>
                 </thead>
                 <tbody id="artistTableBody">
 """
     
     # Add table rows
-    for artist in artists:
+    for idx, artist in enumerate(artists):
         spotify_link = artist.get('Spotify link', '').strip()
-        spotify_html = f'<a href="{escape_html(spotify_link)}" target="_blank" class="spotify-link">🎧 Listen</a>' if spotify_link else ''
+        spotify_html = f'<a href="{escape_html(spotify_link)}" target="_blank" class="spotify-link">Spotify<span class="link-icon">🔗</span></a>' if spotify_link else ''
         
         rating = artist.get('My rating', '').strip()
         rating_html = f'<span class="rating">{escape_html(rating)}</span>' if rating else ''
         
-        bio = escape_html(artist.get('Bio', ''))
+        bio_text = artist.get('Bio', '').strip()
+        bio = escape_html(bio_text)
         take = escape_html(artist.get('My take', ''))
         
-        html_content += f"""                    <tr>
-                        <td><strong>{escape_html(artist.get('Artist', ''))}</strong></td>
-                        <td><span class="badge">{escape_html(artist.get('Genre', ''))}</span></td>
-                        <td>{escape_html(artist.get('Country', ''))}</td>
-                        <td class="bio" title="{bio}">{bio}</td>
+        # Add Spotify link to bio if available
+        if spotify_link:
+            bio_with_link = f'{bio}<br><br><a href="{escape_html(spotify_link)}" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a>'
+            bio_title = bio_text
+        else:
+            bio_with_link = bio
+            bio_title = bio_text
+        
+        # Process genres - split by / and create separate badges
+        genre_str = artist.get('Genre', '').strip()
+        bio_text_lower = bio_text.lower()
+        artist_name_lower = artist.get('Artist', '').lower()
+        
+        # Check if artist is a DJ (by bio, artist name, or genre description)
+        is_dj = ('dj' in bio_text_lower or 
+                 'dj' in artist_name_lower or 
+                 'b2b' in artist_name_lower or
+                 'producer and dj' in bio_text_lower or
+                 'dj and producer' in bio_text_lower or
+                 'dj collective' in bio_text_lower)
+        
+        if genre_str:
+            genres = [g.strip() for g in genre_str.split('/')]
+            genre_badges = ''.join(f'<span class="badge">{escape_html(g)}</span>' for g in genres)
+            dj_badge = '<span class="badge" style="background: #fff3cd; color: #856404;">DJ</span>' if is_dj else ''
+            genre_html = f'<div class="badge-container">{genre_badges}{dj_badge}</div>'
+        else:
+            genre_html = ''
+        
+        # Process countries - split by / and create separate badges
+        country_str = artist.get('Country', '').strip()
+        if country_str:
+            countries = [c.strip() for c in country_str.split('/')]
+            country_html = '<div class="badge-container">' + ''.join(f'<span class="badge country-badge">{escape_html(c)}</span>' for c in countries) + '</div>'
+        else:
+            country_html = ''
+        
+        # Convert gender to emoji
+        gender = artist.get('Gender of Front Person', '').strip()
+        gender_emoji_map = {
+            'Male': '♂️',
+            'Female': '♀️',
+            'Mixed': '⚤',
+            'Non-binary': '⚧️'
+        }
+        gender_display = gender_emoji_map.get(gender, escape_html(gender))
+        
+        # Convert POC to emoji
+        poc = artist.get('Front Person of Color?', '').strip()
+        poc_emoji_map = {
+            'Yes': '✓',
+            'No': ''
+        }
+        poc_display = poc_emoji_map.get(poc, escape_html(poc))
+        
+        # Create festival page link
+        artist_name = artist.get('Artist', '')
+        artist_slug = artist_name_to_slug(artist_name)
+        festival_url = f"https://downtherabbithole.nl/programma/{artist_slug}"
+        artist_link = f'<a href="{festival_url}" target="_blank" style="color: inherit; text-decoration: none;">{escape_html(artist_name)}<span class="link-icon">🔗</span></a>'
+        
+        html_content += f"""                    <tr data-index="{idx}">
+                        <td><strong>{artist_link}</strong></td>
+                        <td>{genre_html}</td>
+                        <td>{country_html}</td>
+                        <td class="bio" title="{bio_title}">{bio_with_link}</td>
                         <td class="take">{take}</td>
                         <td>{rating_html}</td>
-                        <td>{spotify_html}</td>
                         <td>{escape_html(artist.get('Number of People in Act', ''))}</td>
-                        <td>{escape_html(artist.get('Gender of Front Person', ''))}</td>
-                        <td>{escape_html(artist.get('Front Person of Color?', ''))}</td>
+                        <td title="{escape_html(gender)}">{gender_display}</td>
+                        <td title="Front Person of Color: {escape_html(poc)}">{poc_display}</td>
                     </tr>
 """
     
@@ -405,19 +661,26 @@ def generate_html(csv_file, output_dir):
             const countryFilter = document.getElementById('countryFilter').value;
             const ratingFilter = document.getElementById('ratingFilter').value;
             
+            // Get checked genders and POC values
+            const checkedGenders = Array.from(document.querySelectorAll('#genderFilters input:checked')).map(cb => cb.value);
+            const checkedPOC = Array.from(document.querySelectorAll('#pocFilters input:checked')).map(cb => cb.value);
+            
             const rows = document.querySelectorAll('#artistTableBody tr');
             let visibleCount = 0;
             
-            rows.forEach((row, index) => {{
-                const artist = artistsData[index];
+            rows.forEach(row => {{
+                const dataIndex = parseInt(row.getAttribute('data-index'));
+                const artist = artistsData[dataIndex];
                 const searchText = Object.values(artist).join(' ').toLowerCase();
                 
                 const matchesSearch = !searchTerm || searchText.includes(searchTerm);
                 const matchesGenre = !genreFilter || artist.Genre === genreFilter;
-                    const matchesCountry = !countryFilter || (artist.Country && artist.Country.toLowerCase().includes(countryFilter.toLowerCase()));
+                const matchesCountry = !countryFilter || (artist.Country && artist.Country.toLowerCase().includes(countryFilter.toLowerCase()));
                 const matchesRating = !ratingFilter || (artist['My rating'] && parseFloat(artist['My rating']) >= parseFloat(ratingFilter));
+                const matchesGender = checkedGenders.includes(artist['Gender of Front Person']);
+                const matchesPOC = checkedPOC.includes(artist['Front Person of Color?']);
                 
-                if (matchesSearch && matchesGenre && matchesCountry && matchesRating) {{
+                if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesGender && matchesPOC) {{
                     row.classList.remove('hidden');
                     visibleCount++;
                 }} else {{
@@ -426,12 +689,19 @@ def generate_html(csv_file, output_dir):
             }});
             
             document.getElementById('visibleCount').textContent = visibleCount;
+            document.getElementById('visibleCountTop').textContent = visibleCount;
         }}
         
         // Sorting functionality
         function sortTable(column) {{
             const tbody = document.getElementById('artistTableBody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // Create array of row-data pairs using data-index attribute
+            const rowData = rows.map(row => ({{
+                row: row,
+                data: artistsData[parseInt(row.getAttribute('data-index'))]
+            }}));
             
             // Toggle sort direction
             if (currentSort.column === column) {{
@@ -449,12 +719,10 @@ def generate_html(csv_file, output_dir):
             const header = document.querySelector(`th[data-column="${{column}}"]`);
             header.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
             
-            // Sort rows
-            rows.sort((a, b) => {{
-                const aIndex = rows.indexOf(a);
-                const bIndex = rows.indexOf(b);
-                const aValue = artistsData[aIndex][column] || '';
-                const bValue = artistsData[bIndex][column] || '';
+            // Sort row-data pairs
+            rowData.sort((a, b) => {{
+                const aValue = a.data[column] || '';
+                const bValue = b.data[column] || '';
                 
                 // Handle numeric sorting for rating
                 if (column === 'My rating' || column === 'Number of People in Act') {{
@@ -463,13 +731,31 @@ def generate_html(csv_file, output_dir):
                     return currentSort.direction === 'asc' ? aNum - bNum : bNum - aNum;
                 }}
                 
-                // String sorting
-                const comparison = aValue.toString().localeCompare(bValue.toString());
+                // String sorting with normalization for special characters
+                const normalizeForSort = (str) => {{
+                    let normalized = str.toString()
+                        .replace(/¥/g, 'Y')
+                        .replace(/Ø/g, 'O')
+                        .replace(/\\$/g, 'S')
+                        .replace(/€/g, 'E')
+                        .replace(/1/g, 'I')
+                        .normalize('NFD')
+                        .replace(/[\\u0300-\\u036f]/g, ''); // Remove diacritics
+                    
+                    // Remove leading articles for sorting (The, De, etc.)
+                    normalized = normalized.replace(/^(The|De|Le|La|Les|Los|Las|El|Il|Die|Der|Das)\\s+/i, '');
+                    
+                    return normalized;
+                }};
+                
+                const aNormalized = normalizeForSort(aValue);
+                const bNormalized = normalizeForSort(bValue);
+                const comparison = aNormalized.localeCompare(bNormalized);
                 return currentSort.direction === 'asc' ? comparison : -comparison;
             }});
             
             // Reorder DOM
-            rows.forEach(row => tbody.appendChild(row));
+            rowData.forEach(item => tbody.appendChild(item.row));
         }}
         
         // Event listeners
@@ -478,11 +764,19 @@ def generate_html(csv_file, output_dir):
         document.getElementById('countryFilter').addEventListener('change', filterTable);
         document.getElementById('ratingFilter').addEventListener('change', filterTable);
         
+        // Add listeners for gender and POC checkboxes
+        document.querySelectorAll('#genderFilters input, #pocFilters input').forEach(checkbox => {{
+            checkbox.addEventListener('change', filterTable);
+        }});
+        
         document.querySelectorAll('th.sortable').forEach(th => {{
             th.addEventListener('click', () => {{
                 sortTable(th.dataset.column);
             }});
         }});
+        
+        // Sort by Artist name on page load
+        sortTable('Artist');
     </script>
 </body>
 </html>
