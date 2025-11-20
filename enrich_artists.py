@@ -70,42 +70,68 @@ Return ONLY valid JSON, no additional text."""
 
 def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
     """
-    Use GitHub Models API (GPT-4o) to enrich artist data.
-    Requires GitHub CLI authentication or OPENAI_API_KEY.
+    Use Azure OpenAI or GitHub Models API to enrich artist data.
+    
+    Priority order:
+    1. Azure OpenAI (if AZURE_OPENAI_KEY and AZURE_OPENAI_ENDPOINT are set)
+    2. GitHub Models (if GITHUB_TOKEN is set)
+    3. OpenAI (if OPENAI_API_KEY is set)
     """
     import os
     import requests
     import subprocess
+    import time
     
-    # Try to get token from gh CLI first, then environment variables
-    api_key = None
-    try:
-        result = subprocess.run(
-            ["gh", "auth", "token"],
-            capture_output=True,
-            text=True,
-            timeout=5
-        )
-        if result.returncode == 0:
-            api_key = result.stdout.strip()
-    except:
-        pass
+    # Check for Azure OpenAI first (recommended for pay-as-you-go)
+    azure_key = os.getenv("AZURE_OPENAI_KEY")
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o")
     
-    # Fallback to environment variables
-    if not api_key:
-        api_key = os.getenv("GITHUB_TOKEN") or os.getenv("OPENAI_API_KEY")
-    
-    if not api_key:
-        print(f"  ✗ {artist_name}: No authentication found (gh auth login or set GITHUB_TOKEN)")
-        return {}
-    
-    endpoint = "https://models.github.ai/inference/chat/completions"
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28"
-    }
+    if azure_key and azure_endpoint:
+        # Use Azure OpenAI
+        endpoint = f"{azure_endpoint.rstrip('/')}/openai/deployments/{azure_deployment}/chat/completions?api-version=2024-12-01-preview"
+        headers = {
+            "Content-Type": "application/json",
+            "api-key": azure_key
+        }
+        model_name = azure_deployment
+        use_azure = True
+    else:
+        # Try GitHub token
+        api_key = None
+        try:
+            result = subprocess.run(
+                ["gh", "auth", "token"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            if result.returncode == 0:
+                api_key = result.stdout.strip()
+        except:
+            pass
+        
+        if not api_key:
+            api_key = os.getenv("GITHUB_TOKEN") or os.getenv("OPENAI_API_KEY")
+        
+        if not api_key:
+            print(f"  ✗ {artist_name}: No authentication found")
+            print(f"     Option 1 (Recommended): Azure OpenAI with your credits:")
+            print(f"       Set: $env:AZURE_OPENAI_KEY = 'your-key'")
+            print(f"            $env:AZURE_OPENAI_ENDPOINT = 'https://your-resource.openai.azure.com'")
+            print(f"     Option 2: GitHub Models (free, rate limited):")
+            print(f"       Set: $env:GITHUB_TOKEN = 'your-token'")
+            return {}
+        
+        endpoint = "https://models.github.ai/inference/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28"
+        }
+        model_name = "openai/gpt-4o"
+        use_azure = False
     
     prompt = create_enrichment_prompt(artist_name)
     
@@ -120,7 +146,7 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
                 "content": prompt
             }
         ],
-        "model": "openai/gpt-4o",
+        "model": model_name,
         "temperature": 0.3,
         "max_tokens": 1000
     }
@@ -140,10 +166,38 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
             content = content.split("```")[1].split("```")[0].strip()
         
         artist_data = json.loads(content)
-        print(f"  ✓ {artist_name}: Enriched with AI")
+        provider = "Azure OpenAI" if use_azure else "GitHub Models"
+        print(f"  ✓ {artist_name}: Enriched with AI ({provider})")
+        
+        # No delay needed with Azure OpenAI
         return artist_data
         
     except requests.exceptions.RequestException as e:
+        error_msg = str(e)
+        if "429" in error_msg:
+            # Try to get rate limit info from response headers
+            if hasattr(e, 'response') and e.response is not None:
+                headers = e.response.headers
+                retry_after = headers.get('Retry-After', '60')
+                try:
+                    wait_seconds = int(retry_after)
+                    wait_minutes = wait_seconds / 60
+                    if wait_seconds > 300:  # More than 5 minutes
+                        print(f"  ⚠️  {artist_name}: Rate limited - need to wait {wait_minutes:.1f} minutes")
+                        print(f"     GitHub Models free tier has limited requests.")
+                        print(f"     Skipping for now - run the script again later to continue.")
+                        return {}
+                    else:
+                        print(f"  ⚠️  {artist_name}: Rate limited, waiting {wait_seconds} seconds...")
+                        time.sleep(wait_seconds)
+                        return {}
+                except:
+                    wait_seconds = 60
+            else:
+                wait_seconds = 60
+            print(f"  ⚠️  {artist_name}: Rate limited, waiting {wait_seconds} seconds...")
+            time.sleep(wait_seconds)
+            return {}
         print(f"  ✗ {artist_name}: API error - {e}")
         return {}
     except (json.JSONDecodeError, KeyError) as e:
@@ -151,13 +205,14 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
         return {}
 
 
-def enrich_csv(csv_path: Path, use_ai: bool = False):
+def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
     """
     Enrich CSV with artist data.
     
     Args:
         csv_path: Path to CSV file
         use_ai: If True, use AI to automatically fill data (requires API setup)
+        parallel: If True, process multiple artists concurrently (faster with Azure)
     """
     print(f"\n=== Enriching Artist Data ===\n")
     
@@ -169,6 +224,54 @@ def enrich_csv(csv_path: Path, use_ai: bool = False):
     tracker = FestivalTracker(2026)  # TODO: make year dynamic
     metadata = tracker._load_metadata()
     
+    if use_ai and parallel:
+        # Parallel processing for faster completion
+        import concurrent.futures
+        import os
+        
+        # Determine if we're using Azure (no rate limits) or GitHub Models (rate limited)
+        use_azure = bool(os.getenv("AZURE_OPENAI_KEY") and os.getenv("AZURE_OPENAI_ENDPOINT"))
+        max_workers = 5 if use_azure else 2  # More parallelism with Azure
+        
+        artists_to_enrich = [(i, row) for i, row in enumerate(rows) if needs_enrichment(row)]
+        
+        if artists_to_enrich:
+            print(f"Processing {len(artists_to_enrich)} artists in parallel (max {max_workers} workers)...\n")
+            
+            with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_artist = {
+                    executor.submit(enrich_artist_with_ai, row.get("Artist", "").strip()): (i, row)
+                    for i, row in artists_to_enrich
+                }
+                
+                for future in concurrent.futures.as_completed(future_to_artist):
+                    i, row = future_to_artist[future]
+                    artist_name = row.get("Artist", "").strip()
+                    try:
+                        enriched_data = future.result()
+                        if enriched_data:
+                            enriched_count += 1
+                            # Update row with enriched data
+                            for key, value in enriched_data.items():
+                                if key in row and not row.get(key, "").strip():
+                                    # Check if user has edited this field
+                                    if artist_name in metadata.get("edited_artists", {}):
+                                        user_edits = metadata["edited_artists"][artist_name].get("fields", [])
+                                        if key not in user_edits:
+                                            row[key] = value
+                                    else:
+                                        row[key] = value
+                    except Exception as e:
+                        print(f"  ✗ {artist_name}: Unexpected error - {e}")
+        
+        # Save after parallel processing
+        if enriched_count > 0:
+            save_csv(csv_path, headers, rows)
+            print(f"\n✓ Enriched {enriched_count} artist(s) with AI")
+            print("⚠️  Please review and verify AI-generated content")
+        return
+    
+    # Sequential processing (original logic)
     for row in rows:
         artist_name = row.get("Artist", "").strip()
         if not artist_name:
@@ -213,8 +316,24 @@ def setup_ai_instructions():
     print("""
 === AI Enrichment Setup Instructions ===
 
-Using GitHub Models (GPT-4o) - Recommended:
+OPTION 1: Azure OpenAI (Recommended - Better Rate Limits)
+----------------------------------------------------------
+1. Set Azure OpenAI environment variables:
+   Windows (PowerShell):
+     $env:AZURE_OPENAI_KEY = "your-azure-key"
+     $env:AZURE_OPENAI_ENDPOINT = "https://your-resource.cognitiveservices.azure.com/"
+     $env:AZURE_OPENAI_DEPLOYMENT = "gpt-4o"
+   
+   Linux/Mac:
+     export AZURE_OPENAI_KEY="your-azure-key"
+     export AZURE_OPENAI_ENDPOINT="https://your-resource.cognitiveservices.azure.com/"
+     export AZURE_OPENAI_DEPLOYMENT="gpt-4o"
 
+2. Run with --ai flag (add --parallel for faster processing):
+   python enrich_artists.py --ai --parallel
+
+OPTION 2: GitHub Models (Free, Limited Rate Limits)
+----------------------------------------------------
 1. Install required package:
    pip install requests
 
@@ -241,9 +360,8 @@ Using GitHub Models (GPT-4o) - Recommended:
 4. Run with --ai flag:
    python enrich_artists.py --ai
 
-The script uses GitHub Models (free) with GPT-4o for accurate music metadata.
-
-Note: Always verify AI-generated content for accuracy.
+NOTE: The script will use Azure OpenAI if configured, otherwise falls back to GitHub Models.
+      Always verify AI-generated content for accuracy.
 """)
 
 
@@ -266,6 +384,11 @@ def main():
         help="Use AI to automatically enrich data (requires API setup)"
     )
     parser.add_argument(
+        "--parallel",
+        action="store_true",
+        help="Process multiple artists in parallel (faster with Azure OpenAI)"
+    )
+    parser.add_argument(
         "--setup",
         action="store_true",
         help="Show AI setup instructions"
@@ -279,7 +402,7 @@ def main():
     
     csv_path = Path(f"{args.year}.csv")
     
-    enrich_csv(csv_path, use_ai=args.ai)
+    enrich_csv(csv_path, use_ai=args.ai, parallel=args.parallel)
 
 
 if __name__ == "__main__":

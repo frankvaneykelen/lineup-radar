@@ -75,6 +75,15 @@ python enrich_artists.py --ai
 
 This requires API setup. Run `python enrich_artists.py --setup` for instructions.
 
+**Quick setup example (Azure OpenAI):**
+
+```powershell
+$env:AZURE_OPENAI_KEY = "your-azure-openai-key-here"
+$env:AZURE_OPENAI_ENDPOINT = "https://your-resource.cognitiveservices.azure.com"
+$env:AZURE_OPENAI_DEPLOYMENT = "gpt-4o"
+python enrich_artists.py --ai --parallel
+```
+
 The AI will automatically populate all empty fields including:
 
 - **Objective data**: Genre, Country, Bio, Spotify links, group size, demographics
