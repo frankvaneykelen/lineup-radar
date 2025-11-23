@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""
+Generate the main archive index page (docs/index.html).
+This page serves as the landing page linking to all yearly lineups.
+"""
+
+import sys
+from pathlib import Path
+from typing import List
+
+
+def find_year_folders(docs_dir: Path) -> List[str]:
+    """Find all year folders in the docs directory."""
+    years = []
+    for item in docs_dir.iterdir():
+        if item.is_dir() and item.name.isdigit():
+            # Check if index.html exists in that year folder
+            if (item / "index.html").exists():
+                years.append(item.name)
+    return sorted(years, reverse=True)  # Most recent first
+
+
+def generate_archive_index(docs_dir: Path):
+    """Generate the main archive index page."""
+    years = find_year_folders(docs_dir)
+    
+    if not years:
+        print("⚠️  No year folders found with index.html files")
+        print("   Generate yearly lineups first with: python generate_html.py")
+        sys.exit(1)
+    
+    html = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,10 +59,16 @@
                         </p>
                         
                         <div class="year-list">
-                            <div class="year-item mb-3">
-                                <a href="2026/index.html" class="btn btn-primary btn-lg w-100" style="font-size: 1.3em; padding: 20px;">2026 Festival →</a>
+"""
+    
+    # Add a button for each year
+    for year in years:
+        html += f"""                            <div class="year-item mb-3">
+                                <a href="{year}/index.html" class="btn btn-primary btn-lg w-100" style="font-size: 1.3em; padding: 20px;">{year} Festival →</a>
                             </div>
-                        </div>
+"""
+    
+    html += """                        </div>
                     </div>
                     
                     <div class="section text-center" style="color: #6c757d; padding-top: 2rem; border-top: 1px solid #dee2e6;">
@@ -68,3 +105,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+"""
+    
+    output_file = docs_dir / "index.html"
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(html)
+    
+    print(f"✓ Generated archive index: {output_file}")
+    print(f"  Found {len(years)} year(s): {', '.join(years)}")
+
+
+def main():
+    """Main entry point."""
+    docs_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("docs")
+    
+    if not docs_dir.exists():
+        print(f"✗ Docs directory not found: {docs_dir}")
+        print("  Create it first or run generate_html.py")
+        sys.exit(1)
+    
+    generate_archive_index(docs_dir)
+    print("\n✓ Done!")
+
+
+if __name__ == "__main__":
+    main()

@@ -104,6 +104,8 @@ These changes will be preserved during updates.
 
 Create interactive HTML pages from your CSV data for publishing via GitHub Pages:
 
+#### Step 1: Main lineup page
+
 ```powershell
 python generate_html.py 2026.csv docs
 ```
@@ -112,9 +114,46 @@ This will:
 
 1. Generate a beautiful, interactive HTML table in `docs/2026/index.html`
 2. Include sorting functionality (click column headers)
-3. Add filtering by Genre, Country, and Rating
+3. Add filtering by Genre, Country, Rating, Gender, and Person of Color
 4. Include real-time search across all fields
 5. Provide Spotify links for each artist
+6. Link each artist name to their individual detail page
+
+#### Step 2: Individual artist pages
+
+```powershell
+python generate_artist_pages.py 2026.csv docs
+```
+
+This will:
+
+1. Generate individual HTML pages for each artist in `docs/2026/artists/`
+2. Download and display artist photos from the festival website
+3. Include festival bio (Dutch + English translation), AI-generated background, your personal take and rating
+4. Show detailed information (group size, gender, demographics)
+5. Provide links to Spotify and festival page
+6. Add previous/next navigation between artists
+
+#### Step 3: Archive index page
+
+```powershell
+python generate_archive_index.py docs
+```
+
+This will:
+
+1. Generate the main landing page at `docs/index.html`
+2. Automatically detect all year folders with lineup pages
+3. Create buttons linking to each year's lineup
+4. Serve as the entry point for your GitHub Pages site
+
+#### Quick generation of all pages
+
+```powershell
+python generate_html.py 2026.csv docs; python generate_artist_pages.py 2026.csv docs; python generate_archive_index.py docs
+```
+
+All pages share a common CSS file (`docs/2026/styles.css`) for easy styling updates.
 
 The generated pages are mobile-responsive and ready to publish via GitHub Pages.
 
@@ -123,7 +162,7 @@ The generated pages are mobile-responsive and ready to publish via GitHub Pages.
 1. Commit the generated `docs/` folder to your repository
 2. Go to repository Settings → Pages
 3. Set source to "main" branch, "/docs" folder
-4. Your festival data will be published at https://frankvaneykelen.github.io/down-the-rabbit-hole/
+4. Your festival data will be published at <https://frankvaneykelen.github.io/down-the-rabbit-hole/>
 
 ## Data Sources
 

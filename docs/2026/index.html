@@ -4,382 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Down The Rabbit Hole 2026 - Artist Lineup</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .subtitle {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-        
-        .controls {
-            padding: 30px 40px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-        }
-        
-        .search-box {
-            width: 100%;
-            padding: 12px 20px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            transition: border-color 0.3s;
-        }
-        
-        .search-box:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .filters {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .filter-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .filter-group select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            background: white;
-            cursor: pointer;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: normal;
-            cursor: pointer;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            cursor: pointer;
-            width: 16px;
-            height: 16px;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            padding: 0 40px 40px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        th {
-            background: #667eea;
-            color: white;
-            padding: 15px 12px;
-            text-align: left;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            cursor: pointer;
-            user-select: none;
-            white-space: nowrap;
-        }
-        
-        th:hover {
-            background: #5568d3;
-        }
-        
-        th.sortable::after {
-            content: ' ⇅';
-            opacity: 0.5;
-        }
-        
-        th.sort-asc::after {
-            content: ' ↑';
-            opacity: 1;
-        }
-        
-        th.sort-desc::after {
-            content: ' ↓';
-            opacity: 1;
-        }
-        
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            vertical-align: top;
-        }
-        
-        tbody tr:nth-child(even) {
-            background: #fafbfc;
-        }
-        
-        tr:hover {
-            background: #f0f1f3 !important;
-        }
-        
-        tr.hidden {
-            display: none;
-        }
-        
-        /* Link icon styling */
-        .link-icon {
-            display: inline-block;
-            margin-left: 4px;
-            font-size: 0.8em;
-            opacity: 0.6;
-            transition: opacity 0.2s;
-        }
-        
-        a:hover .link-icon {
-            opacity: 1;
-        }
-        
-        /* Larger emoji for gender and POC columns */
-        td[title*="Gender"], td[title*="Person of Color"] {
-            font-size: 1.4em;
-        }
-        
-        .rating {
-            font-weight: 700;
-            color: #667eea;
-            font-size: 1.1em;
-        }
-        
-        .spotify-link {
-            display: inline-block;
-            padding: 6px 12px;
-            background: #1DB954;
-            color: white;
-            text-decoration: none;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        
-        .spotify-link:hover {
-            background: #1ed760;
-        }
-        
-        .bio {
-            max-width: 400px;
-            line-height: 1.5;
-        }
-        
-        .take {
-            max-width: 400px;
-            color: #555;
-        }
-        
-        .stats {
-            padding: 20px 40px;
-            background: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-            text-align: center;
-            color: #666;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            background: #e9ecef;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #495057;
-            margin: 2px 0;
-            white-space: nowrap;
-        }
-        
-        .badge-container {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            max-width: 120px;
-        }
-        
-        .country-badge {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-        
-        @media print {
-            body {
-                background: white;
-            }
-            
-            .controls, .stats {
-                display: none;
-            }
-            
-            .badge {
-                border: 1px solid #333;
-                background: white !important;
-                color: black !important;
-            }
-            
-            .country-badge {
-                border: 2px solid #333;
-            }
-            
-            tbody tr:nth-child(even) {
-                background: #f5f5f5;
-            }
-            
-            a {
-                color: black;
-                text-decoration: underline;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 5px;
-                font-size: 13px;
-            }
-            
-            header {
-                padding: 15px 10px;
-            }
-            
-            h1 {
-                font-size: 1.4em;
-                margin-bottom: 5px;
-            }
-            
-            .subtitle {
-                font-size: 0.9em;
-            }
-            
-            .controls {
-                padding: 12px 10px;
-            }
-            
-            .table-container {
-                padding: 0 5px 15px;
-            }
-            
-            .search-box {
-                padding: 8px 12px;
-                font-size: 14px;
-            }
-            
-            .filters {
-                gap: 8px;
-                margin-top: 10px;
-            }
-            
-            .filter-group {
-                min-width: 100px;
-            }
-            
-            .filter-group label {
-                font-size: 12px;
-                margin-bottom: 3px;
-            }
-            
-            .filter-group select {
-                padding: 6px;
-                font-size: 12px;
-            }
-            
-            table {
-                margin-top: 10px;
-            }
-            
-            th, td {
-                padding: 6px 4px;
-                font-size: 11px;
-            }
-            
-            .bio, .take {
-                max-width: 180px;
-                font-size: 11px;
-                line-height: 1.3;
-            }
-            
-            .badge {
-                padding: 2px 6px;
-                font-size: 10px;
-            }
-            
-            .spotify-link {
-                padding: 4px 8px;
-                font-size: 10px;
-            }
-            
-            .rating {
-                font-size: 0.95em;
-            }
-            
-            .stats {
-                padding: 12px 10px;
-                font-size: 12px;
-            }
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎵 Down The Rabbit Hole 2026</h1>
-            <p class="subtitle">Artist Lineup & Reviews</p>
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <a href="../index.html" class="btn btn-outline-light home-btn" title="Home">
+                <i class="bi bi-house-door-fill"></i>
+            </a>
+            <div class="artist-header-content">
+                <h1>Down The Rabbit Hole 2026</h1>
+                <p class="subtitle">Artist Lineup & Appraisals</p>
+            </div>
+            <div style="width: 120px;"></div>
         </header>
         
         <div class="controls">
@@ -417,7 +55,7 @@
                 </div>
                 
                 <div class="filter-group">
-                    <label style="margin-bottom: 8px; display: block;">Gender</label>
+                    <label style="margin-bottom: 8px; display: block;">Gender of Front Person</label>
                     <div class="checkbox-group" id="genderFilters">
                         <label><input type="checkbox" value="Male" checked> ♂️ Male</label>
                         <label><input type="checkbox" value="Female" checked> ♀️ Female</label>
@@ -427,9 +65,9 @@
                 </div>
                 
                 <div class="filter-group">
-                    <label style="margin-bottom: 8px; display: block;">Person of Color</label>
+                    <label style="margin-bottom: 8px; display: block;">Front Person of Color?</label>
                     <div class="checkbox-group" id="pocFilters">
-                        <label><input type="checkbox" value="Yes" checked> ✓ Yes</label>
+                        <label><input type="checkbox" value="Yes" checked> Yes</label>
                         <label><input type="checkbox" value="No" checked> No</label>
                     </div>
                 </div>
@@ -453,9 +91,11 @@
                 </thead>
                 <tbody id="artistTableBody">
                     <tr data-index="0">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/florence-the-machine" target="_blank" style="color: inherit; text-decoration: none;">Florence + The Machine<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Indie Rock</span><span class="badge">Art Pop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/florence-the-machine.html'" style="background-image: url('images/florence-the-machine_ada7c280.png');">
+                            <strong>Florence + The Machine</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Indie Rock</span><span class="badge rounded-pill bg-info text-dark">Art Pop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="Florence Welch leads this British indie rock band known for dramatic, baroque pop with powerful vocals and orchestral arrangements.">Florence Welch leads this British indie rock band known for dramatic, baroque pop with powerful vocals and orchestral arrangements.<br><br><a href="https://open.spotify.com/artist/1moxjboGR7GNWYIMWsRjgG" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Florence Welch&#39;s commanding vocals and theatrical stage presence make Florence + The Machine a standout act, praised for their emotional depth and captivating live performances. They are a festival favorite and critically acclaimed for their artistry.</td>
                         <td><span class="rating">9</span></td>
@@ -464,9 +104,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="1">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/little-simz" target="_blank" style="color: inherit; text-decoration: none;">Little Simz<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Hip Hop</span><span class="badge">Rap</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/little-simz.html'" style="background-image: url('images/little-simz_fa38d938.png');">
+                            <strong>Little Simz</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Hip Hop</span><span class="badge rounded-pill bg-info text-dark">Rap</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="British rapper and actress known for introspective lyrics and sophisticated production, winner of multiple awards.">British rapper and actress known for introspective lyrics and sophisticated production, winner of multiple awards.<br><br><a href="https://open.spotify.com/artist/6eXZu6O7nAUA5z6vLV8NKI" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Little Simz is a standout artist in modern hip-hop, praised for her lyrical depth and dynamic live performances, making her a favorite at festivals and among critics alike.</td>
                         <td><span class="rating">9</span></td>
@@ -475,9 +117,11 @@
                         <td title="Front Person of Color: Yes">✓</td>
                     </tr>
                     <tr data-index="2">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/the-xx" target="_blank" style="color: inherit; text-decoration: none;">The xx<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Indie Pop</span><span class="badge">Electronic</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-xx.html'" style="background-image: url('images/the-xx_c1d29c9d.jpg');">
+                            <strong>The xx</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Indie Pop</span><span class="badge rounded-pill bg-info text-dark">Electronic</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="Minimalist indie pop band known for intimate, atmospheric sound and sparse instrumentation.">Minimalist indie pop band known for intimate, atmospheric sound and sparse instrumentation.<br><br><a href="https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">The xx are celebrated for their innovative soundscapes and emotional depth, making them a standout act in modern indie music. Their live performances are often described as hypnotic and emotionally resonant.</td>
                         <td><span class="rating">9</span></td>
@@ -486,9 +130,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="3">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/david-byrne" target="_blank" style="color: inherit; text-decoration: none;">David Byrne<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Art Rock</span><span class="badge">World Music</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/david-byrne.html'" style="background-image: url('images/david-byrne_9b66db59.jpg');">
+                            <strong>David Byrne</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Art Rock</span><span class="badge rounded-pill bg-info text-dark">World Music</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="Former Talking Heads frontman, innovative artist blending rock, funk, and world music influences.">Former Talking Heads frontman, innovative artist blending rock, funk, and world music influences.<br><br><a href="https://open.spotify.com/artist/20vuBdFblWUo2FCOvUzusB" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">David Byrne is widely regarded as a groundbreaking artist whose live performances are celebrated for their creativity and theatricality, making him a standout in both recorded and live music settings.</td>
                         <td><span class="rating">9</span></td>
@@ -497,9 +143,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="4">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/empire-of-the-sun" target="_blank" style="color: inherit; text-decoration: none;">Empire Of The Sun<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">Synth-pop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Australia</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/empire-of-the-sun.html'" style="background-image: url('images/empire-of-the-sun_2cab2483.png');">
+                            <strong>Empire Of The Sun</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">Synth-pop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Australia</span></div></td>
                         <td class="bio" title="Australian electronic music duo known for theatrical performances and upbeat synth-pop sound.">Australian electronic music duo known for theatrical performances and upbeat synth-pop sound.<br><br><a href="https://open.spotify.com/artist/67hb7towEyKvt5Z8Bx306c" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Empire of the Sun delivers a unique blend of dreamy synth-pop and visually stunning live performances, earning them critical acclaim and a strong festival presence. Their music is both innovative and accessible, appealing to a wide audience.</td>
                         <td><span class="rating">8</span></td>
@@ -508,9 +156,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="5">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/loyle-carner" target="_blank" style="color: inherit; text-decoration: none;">Loyle Carner<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Hip Hop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/loyle-carner.html'" style="background-image: url('images/loyle-carner_173862e6.jpg');">
+                            <strong>Loyle Carner</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Hip Hop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="British rapper known for jazz-influenced hip hop and deeply personal, introspective lyrics.">British rapper known for jazz-influenced hip hop and deeply personal, introspective lyrics.<br><br><a href="https://open.spotify.com/artist/4oDjh8wNW5vDHyFRrDYC4k" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Loyle Carner is celebrated for his heartfelt storytelling and smooth delivery, making him a standout in the UK hip-hop scene. His live performances are praised for their intimacy and emotional resonance.</td>
                         <td><span class="rating">9</span></td>
@@ -519,9 +169,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="6">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/all-them-witches" target="_blank" style="color: inherit; text-decoration: none;">All Them Witches<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Psychedelic Rock</span><span class="badge">Blues</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/all-them-witches.html'" style="background-image: url('images/all-them-witches_cbad33bd.jpg');">
+                            <strong>All Them Witches</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Psychedelic Rock</span><span class="badge rounded-pill bg-info text-dark">Blues</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="American rock band blending psychedelic rock, blues, and heavy grooves.">American rock band blending psychedelic rock, blues, and heavy grooves.<br><br><a href="https://open.spotify.com/artist/29Wmfm1CojrjQ3aQP0FI65" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">All Them Witches are celebrated for their ability to blend heavy riffs with intricate, jam-like compositions, making them a standout act in the modern rock scene. Their live shows are often praised for their intensity and improvisational energy.</td>
                         <td><span class="rating">8</span></td>
@@ -530,9 +182,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="7">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/apparat" target="_blank" style="color: inherit; text-decoration: none;">Apparat<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">Ambient</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Germany</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/apparat.html'" style="background-image: url('images/apparat_77c9d152.jpg');">
+                            <strong>Apparat</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">Ambient</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Germany</span></div></td>
                         <td class="bio" title="German electronic musician known for atmospheric, melancholic electronica and film scores.">German electronic musician known for atmospheric, melancholic electronica and film scores.<br><br><a href="https://open.spotify.com/artist/40Ojab0UtVQFjA76qXr8Ot" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Apparat&#39;s artistry is marked by a deep emotional resonance and technical precision, making his music compelling both in studio recordings and live performances. His live shows are often praised for their immersive quality and sonic depth.</td>
                         <td><span class="rating">9</span></td>
@@ -541,9 +195,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="8">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/beirut" target="_blank" style="color: inherit; text-decoration: none;">Beirut<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Indie Folk</span><span class="badge">World Music</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/beirut.html'" style="background-image: url('images/beirut_8f7e9ef2.jpg');">
+                            <strong>Beirut</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Indie Folk</span><span class="badge rounded-pill bg-info text-dark">World Music</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="Zach Condon's project blending indie folk with Balkan, European folk, and world music influences.">Zach Condon&#39;s project blending indie folk with Balkan, European folk, and world music influences.<br><br><a href="https://open.spotify.com/artist/6pmxr66tMAePxzOLfjGNcX" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Beirut&#39;s artistry is marked by their unique fusion of global musical traditions and indie sensibilities, making them a standout act in the genre. Their live performances are often praised for their rich, immersive sound and emotional resonance.</td>
                         <td><span class="rating">8</span></td>
@@ -552,9 +208,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="9">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/cmat" target="_blank" style="color: inherit; text-decoration: none;">CMAT<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Pop</span><span class="badge">Country</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Ireland</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/cmat.html'" style="background-image: url('images/cmat_01b59fdf.jpg');">
+                            <strong>CMAT</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Pop</span><span class="badge rounded-pill bg-info text-dark">Country</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Ireland</span></div></td>
                         <td class="bio" title="Irish singer-songwriter blending pop, country, and indie influences with witty, heartfelt lyrics.">Irish singer-songwriter blending pop, country, and indie influences with witty, heartfelt lyrics.<br><br><a href="https://open.spotify.com/artist/3VBNIRx1LxVdRqOiPgkLwv" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">CMAT&#39;s artistry is marked by clever lyricism and a unique blend of genres, making her a standout in contemporary music. Her live performances are praised for their charisma and engaging energy.</td>
                         <td><span class="rating">8</span></td>
@@ -563,9 +221,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="10">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/paradise-bangkok-molam-international-band" target="_blank" style="color: inherit; text-decoration: none;">Paradise Bangkok Molam International Band<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">World Music</span><span class="badge">Thai Folk</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Thailand</span><span class="badge country-badge">UK</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/paradise-bangkok-molam-international-band.html'" style="background-image: url('images/paradise-bangkok-molam-international-band_4f831baf.jpg');">
+                            <strong>Paradise Bangkok Molam International Band</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">World Music</span><span class="badge rounded-pill bg-info text-dark">Thai Folk</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Thailand</span><span class="badge rounded-pill bg-primary">UK</span></div></td>
                         <td class="bio" title="Collaboration bringing traditional Thai molam music to international audiences with modern arrangements.">Collaboration bringing traditional Thai molam music to international audiences with modern arrangements.<br><br><a href="https://open.spotify.com/artist/1cBpduQulXQHJaj9m0RYS8" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Their artistry is praised for its innovative fusion of Thai folk traditions with modern grooves, offering a captivating live experience that bridges cultural and musical boundaries. They are highly regarded for their energetic and authentic performances.</td>
                         <td><span class="rating">8</span></td>
@@ -574,9 +234,11 @@
                         <td title="Front Person of Color: Yes">✓</td>
                     </tr>
                     <tr data-index="11">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/westside-cowboy" target="_blank" style="color: inherit; text-decoration: none;">Westside Cowboy<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Hip Hop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/westside-cowboy.html'" style="background-image: url('images/westside-cowboy_9b0f12bf.jpg');">
+                            <strong>Westside Cowboy</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Hip Hop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span></div></td>
                         <td class="bio" title="Dutch hip hop artist known for introspective lyrics and smooth production.">Dutch hip hop artist known for introspective lyrics and smooth production.<br><br><a href="https://open.spotify.com/artist/5LfO4rbJarBvHjB34mU9m2" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take"></td>
                         <td></td>
@@ -585,9 +247,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="12">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/dabeull-live-band" target="_blank" style="color: inherit; text-decoration: none;">Dabeull Live Band<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Funk</span><span class="badge">Disco</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">France</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/dabeull-live-band.html'" style="background-image: url('images/dabeull-live-band_e0b720a2.jpg');">
+                            <strong>Dabeull Live Band</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Funk</span><span class="badge rounded-pill bg-info text-dark">Disco</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">France</span></div></td>
                         <td class="bio" title="French producer bringing live funk and disco grooves with full band arrangements.">French producer bringing live funk and disco grooves with full band arrangements.<br><br><a href="https://open.spotify.com/artist/7sw3xJMTpdcpfssx17hfrb" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Dabeull Live Band delivers an authentic and energetic funk experience, praised for their tight instrumentation and ability to captivate audiences during live shows.</td>
                         <td><span class="rating">8</span></td>
@@ -596,9 +260,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="13">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/harry-mack" target="_blank" style="color: inherit; text-decoration: none;">Harry Mack<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Hip Hop</span><span class="badge">Freestyle</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/harry-mack.html'" style="background-image: url('images/harry-mack_ca472d11.jpg');">
+                            <strong>Harry Mack</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Hip Hop</span><span class="badge rounded-pill bg-info text-dark">Freestyle</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="Freestyle rap virtuoso known for incredible improvisation skills and viral videos.">Freestyle rap virtuoso known for incredible improvisation skills and viral videos.<br><br><a href="https://open.spotify.com/artist/3XOZM0DtztbmC1IE3amUnn" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Harry Mack is widely praised for his unparalleled freestyle abilities and engaging live performances, making him a standout in the hip-hop genre. His talent for audience interaction and spontaneity sets him apart as a unique and dynamic artist.</td>
                         <td><span class="rating">9</span></td>
@@ -607,9 +273,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="14">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/joy-crookes" target="_blank" style="color: inherit; text-decoration: none;">Joy Crookes<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Soul</span><span class="badge">R&amp;B</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/joy-crookes.html'" style="background-image: url('images/joy-crookes_2e7e83d5.jpg');">
+                            <strong>Joy Crookes</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Soul</span><span class="badge rounded-pill bg-info text-dark">R&amp;B</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="British-Bangladeshi singer-songwriter blending soul, R&B, and jazz influences with personal storytelling.">British-Bangladeshi singer-songwriter blending soul, R&amp;B, and jazz influences with personal storytelling.<br><br><a href="https://open.spotify.com/artist/5XMyhVhi5ZN2pi0Qwi1zXS" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Joy Crookes is a standout artist with a rich, emotive vocal style and a knack for storytelling, making her a compelling presence both in studio recordings and live performances. Her artistry has been praised for its authenticity and cultural depth.</td>
                         <td><span class="rating">9</span></td>
@@ -618,9 +286,11 @@
                         <td title="Front Person of Color: Yes">✓</td>
                     </tr>
                     <tr data-index="15">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/matt-berninger" target="_blank" style="color: inherit; text-decoration: none;">Matt Berninger<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Indie Rock</span><span class="badge">Alternative</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/matt-berninger.html'" style="background-image: url('images/matt-berninger_ebaac8e1.jpg');">
+                            <strong>Matt Berninger</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Indie Rock</span><span class="badge rounded-pill bg-info text-dark">Alternative</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="The National's frontman performing solo work with introspective, baritone vocals.">The National&#39;s frontman performing solo work with introspective, baritone vocals.<br><br><a href="https://open.spotify.com/artist/27jRNjIvlUcGN7FBRDnqhp" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Matt Berninger is widely praised for his emotive vocal delivery and poetic lyricism, making him a standout figure in indie rock. His live performances are often described as intimate and deeply engaging.</td>
                         <td><span class="rating">9</span></td>
@@ -629,9 +299,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="16">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/oklou" target="_blank" style="color: inherit; text-decoration: none;">Oklou<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">Art Pop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">France</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/oklou.html'" style="background-image: url('images/oklou_755c241c.jpg');">
+                            <strong>Oklou</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">Art Pop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">France</span></div></td>
                         <td class="bio" title="French electronic artist creating ethereal, experimental pop with emotional depth.">French electronic artist creating ethereal, experimental pop with emotional depth.<br><br><a href="https://open.spotify.com/artist/6fFcUOFcbjeIuEomuUthkw" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Oklou is celebrated for her ability to craft immersive soundscapes and emotionally resonant tracks, with a growing reputation for intimate and captivating live performances.</td>
                         <td><span class="rating">8</span></td>
@@ -640,9 +312,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="17">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/overmono" target="_blank" style="color: inherit; text-decoration: none;">Overmono<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">UK Bass</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/overmono.html'" style="background-image: url('images/overmono_89a6fe53.jpg');">
+                            <strong>Overmono</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">UK Bass</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="British electronic duo blending UK garage, breakbeat, and rave influences.">British electronic duo blending UK garage, breakbeat, and rave influences.<br><br><a href="https://open.spotify.com/artist/01PnN11ovfen6xUOHfNpn3" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Overmono has garnered widespread praise for their ability to merge emotive melodies with club-ready beats, making them a standout act in contemporary electronic music and a must-see at festivals.</td>
                         <td><span class="rating">9</span></td>
@@ -651,9 +325,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="18">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/sierra-ferrell" target="_blank" style="color: inherit; text-decoration: none;">Sierra Ferrell<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Country</span><span class="badge">Folk</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/sierra-ferrell.html'" style="background-image: url('images/sierra-ferrell_a361f81d.jpg');">
+                            <strong>Sierra Ferrell</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Country</span><span class="badge rounded-pill bg-info text-dark">Folk</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="American singer-songwriter blending traditional country, folk, and Americana with a unique voice.">American singer-songwriter blending traditional country, folk, and Americana with a unique voice.<br><br><a href="https://open.spotify.com/artist/3oVcF3VdpMuvMvLLyHPT4t" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Sierra Ferrell&#39;s artistry is widely praised for its authenticity and genre-blending appeal, with live performances often described as captivating and emotionally resonant. She has a strong potential for festival stages due to her unique sound and engaging stage presence.</td>
                         <td><span class="rating">9</span></td>
@@ -662,9 +338,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="19">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/son-mieux" target="_blank" style="color: inherit; text-decoration: none;">Son Mieux<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Indie Pop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/son-mieux.html'" style="background-image: url('images/son-mieux_8a2f6a63.jpg');">
+                            <strong>Son Mieux</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Indie Pop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span></div></td>
                         <td class="bio" title="Dutch indie pop project with soulful vocals and atmospheric production.">Dutch indie pop project with soulful vocals and atmospheric production.<br><br><a href="https://open.spotify.com/artist/1BCBAzjX8J0qpvNTPRDCLc" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Son Mieux delivers infectious melodies and heartfelt lyrics, making them a standout act in the indie pop scene. Their live shows are praised for their vibrant energy and audience engagement.</td>
                         <td><span class="rating">8</span></td>
@@ -673,9 +351,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="20">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/de-staat-becomes-de-staat" target="_blank" style="color: inherit; text-decoration: none;">De Staat Becomes De Staat<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Alternative Rock</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/de-staat-becomes-de-staat.html'" style="background-image: url('images/de-staat-becomes-de-staat_2d4d7676.png');">
+                            <strong>De Staat Becomes De Staat</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Alternative Rock</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span></div></td>
                         <td class="bio" title="Dutch rock band known for heavy riffs, electronic elements, and energetic performances.">Dutch rock band known for heavy riffs, electronic elements, and energetic performances.<br><br><a href="https://open.spotify.com/artist/4rZJKub3qA5t1yYcT3qmm4" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">De Staat is widely praised for their creativity and ability to push musical boundaries, with live shows that are both dynamic and immersive. Their artistry makes them a standout act in the alternative rock scene.</td>
                         <td><span class="rating">9</span></td>
@@ -684,9 +364,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="21">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/sticks" target="_blank" style="color: inherit; text-decoration: none;">Sticks<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Jazz</span><span class="badge">Electronic</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/sticks.html'" style="background-image: url('images/sticks_dbc51a19.jpg');">
+                            <strong>Sticks</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Jazz</span><span class="badge rounded-pill bg-info text-dark">Electronic</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span></div></td>
                         <td class="bio" title="Dutch jazz collective blending improvisation with electronic production.">Dutch jazz collective blending improvisation with electronic production.<br><br><a href="https://open.spotify.com/artist/0DnbOatBnP7UDkeiQACgxd" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Sticks is widely regarded for his poetic approach to rap and his ability to captivate audiences with his storytelling, making him a standout figure in Dutch hip-hop. His live performances are praised for their energy and connection with the crowd.</td>
                         <td><span class="rating">8</span></td>
@@ -695,9 +377,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="22">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/yenouukeur-yenuk1matu" target="_blank" style="color: inherit; text-decoration: none;">¥ØU$UK€ ¥UK1MAT$U<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Hip Hop</span><span class="badge">Trap</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Belgium</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/yenouukeur-yenuk1matu.html'" style="background-image: url('images/yenouukeur-yenuk1matu_400e2eaf.jpg');">
+                            <strong>¥ØU$UK€ ¥UK1MAT$U</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Hip Hop</span><span class="badge rounded-pill bg-info text-dark">Trap</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Belgium</span></div></td>
                         <td class="bio" title="Belgian-Japanese rapper known for aggressive trap style and multilingual lyrics.">Belgian-Japanese rapper known for aggressive trap style and multilingual lyrics.<br><br><a href="https://open.spotify.com/artist/2lZb0cOx5IDw8Zoi1bF73r" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">¥ØU$UK€ ¥UK1MAT$U&#39;s artistry is celebrated for its innovative approach to electronic music, though live performances may appeal more to niche audiences due to their abstract nature.</td>
                         <td><span class="rating">7</span></td>
@@ -706,9 +390,11 @@
                         <td title="Front Person of Color: Yes">✓</td>
                     </tr>
                     <tr data-index="23">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/zwangere-guy" target="_blank" style="color: inherit; text-decoration: none;">Zwangere Guy<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Hip Hop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Belgium</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/zwangere-guy.html'" style="background-image: url('images/zwangere-guy_a4ca354f.jpg');">
+                            <strong>Zwangere Guy</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Hip Hop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Belgium</span></div></td>
                         <td class="bio" title="Belgian rapper and artist known for raw, emotional hip hop and visual art.">Belgian rapper and artist known for raw, emotional hip hop and visual art.<br><br><a href="https://open.spotify.com/artist/2Sm4rGKWBnOQhdqDy4JJh0" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Zwangere Guy is a standout artist in the Belgian rap scene, praised for his authenticity and engaging live shows that captivate audiences with their intensity and charisma.</td>
                         <td><span class="rating">8</span></td>
@@ -717,9 +403,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="24">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/arp-frique-the-perpetual-singers" target="_blank" style="color: inherit; text-decoration: none;">Arp Frique &amp; The Perpetual Singers<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Afro-Funk</span><span class="badge">Disco</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span><span class="badge country-badge">Suriname</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/arp-frique-the-perpetual-singers.html'" style="background-image: url('images/arp-frique-the-perpetual-singers_315fd591.jpg');">
+                            <strong>Arp Frique &amp; The Perpetual Singers</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Afro-Funk</span><span class="badge rounded-pill bg-info text-dark">Disco</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span><span class="badge rounded-pill bg-primary">Suriname</span></div></td>
                         <td class="bio" title="Dutch-Surinamese collective blending African rhythms, funk, and disco grooves.">Dutch-Surinamese collective blending African rhythms, funk, and disco grooves.<br><br><a href="https://open.spotify.com/artist/2Rm5Fw56mWmB0Pz0JPcOyb" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Arp Frique &amp; The Perpetual Singers deliver an infectious blend of global grooves and retro-inspired funk, making them a standout in the modern disco revival scene. Their live shows are praised for their energy and musicianship, appealing to both niche and mainstream audiences.</td>
                         <td><span class="rating">8</span></td>
@@ -728,9 +416,11 @@
                         <td title="Front Person of Color: Yes">✓</td>
                     </tr>
                     <tr data-index="25">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/avalon-emerson" target="_blank" style="color: inherit; text-decoration: none;">Avalon Emerson<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">Techno</span><span class="badge" style="background: #fff3cd; color: #856404;">DJ</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/avalon-emerson.html'" style="background-image: url('images/avalon-emerson_62649a58.png');">
+                            <strong>Avalon Emerson</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">Techno</span><span class="badge rounded-pill bg-warning text-dark">DJ</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="American DJ and producer known for eclectic techno sets and productions.">American DJ and producer known for eclectic techno sets and productions.<br><br><a href="https://open.spotify.com/artist/4yrO1N273PlTaixa4BNwBz" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Avalon Emerson is widely praised for her genre-defying productions and dynamic live DJ sets, showcasing technical skill and emotional depth. Her performances are celebrated for their energy and ability to connect with audiences.</td>
                         <td><span class="rating">9</span></td>
@@ -739,9 +429,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="26">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/baxter-dury" target="_blank" style="color: inherit; text-decoration: none;">Baxter Dury<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Indie</span><span class="badge">Art Pop</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/baxter-dury.html'" style="background-image: url('images/baxter-dury_91b7fec2.jpg');">
+                            <strong>Baxter Dury</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Indie</span><span class="badge rounded-pill bg-info text-dark">Art Pop</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="British artist creating sardonic, spoken-word influenced indie pop.">British artist creating sardonic, spoken-word influenced indie pop.<br><br><a href="https://open.spotify.com/artist/0EgHhNmWcjusA7F2heSD0O" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Baxter Dury is celebrated for his sharp storytelling and unique vocal delivery, often described as charismatic and sardonic. His live performances are praised for their intimate and engaging nature, showcasing his ability to connect with audiences.</td>
                         <td><span class="rating">8</span></td>
@@ -750,9 +442,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="27">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/charlotte-cardin" target="_blank" style="color: inherit; text-decoration: none;">Charlotte Cardin<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Pop</span><span class="badge">R&amp;B</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Canada</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/charlotte-cardin.html'" style="background-image: url('images/charlotte-cardin_59bdd376.png');">
+                            <strong>Charlotte Cardin</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Pop</span><span class="badge rounded-pill bg-info text-dark">R&amp;B</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Canada</span></div></td>
                         <td class="bio" title="Canadian singer-songwriter blending pop, R&B, and electronic influences.">Canadian singer-songwriter blending pop, R&amp;B, and electronic influences.<br><br><a href="https://open.spotify.com/artist/1G0YV9WooUBjrwDq0Q7EFK" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Charlotte Cardin is a standout artist with a unique voice and a strong ability to connect with audiences through her introspective lyrics and dynamic live performances. Her artistry has been praised for its emotional depth and versatility.</td>
                         <td><span class="rating">8</span></td>
@@ -761,9 +455,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="28">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/derya-yildirim-grup-simsek" target="_blank" style="color: inherit; text-decoration: none;">Derya Yıldırım &amp; Grup Şimşek<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Psychedelic</span><span class="badge">Anatolian Rock</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Turkey</span><span class="badge country-badge">Germany</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/derya-yildirim-grup-simsek.html'" style="background-image: url('images/derya-yildirim-grup-simsek_fa7c9f04.jpg');">
+                            <strong>Derya Yıldırım &amp; Grup Şimşek</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Psychedelic</span><span class="badge rounded-pill bg-info text-dark">Anatolian Rock</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Turkey</span><span class="badge rounded-pill bg-primary">Germany</span></div></td>
                         <td class="bio" title="Turkish-German group reviving Anatolian psych rock with modern energy.">Turkish-German group reviving Anatolian psych rock with modern energy.<br><br><a href="https://open.spotify.com/artist/2Y0SH69uxHrHrjiZCuTSaT" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Their artistry is widely praised for its authentic yet modern approach to Anatolian music, with live performances described as deeply immersive and emotionally resonant.</td>
                         <td><span class="rating">9</span></td>
@@ -772,9 +468,11 @@
                         <td title="Front Person of Color: Yes">✓</td>
                     </tr>
                     <tr data-index="29">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/florence-road" target="_blank" style="color: inherit; text-decoration: none;">Florence Road<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Soul</span><span class="badge">Funk</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/florence-road.html'" style="background-image: url('images/florence-road_2a64b096.jpg');">
+                            <strong>Florence Road</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Soul</span><span class="badge rounded-pill bg-info text-dark">Funk</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span></div></td>
                         <td class="bio" title="Dutch soul and funk band with powerful vocals and tight grooves.">Dutch soul and funk band with powerful vocals and tight grooves.<br><br><a href="https://open.spotify.com/artist/0zzKEeF2bAVKrWeKc9CyJV" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take"></td>
                         <td></td>
@@ -783,9 +481,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="30">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/folk-bitch-trio" target="_blank" style="color: inherit; text-decoration: none;">Folk Bitch Trio<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Folk</span><span class="badge">Experimental</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Germany</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/folk-bitch-trio.html'" style="background-image: url('images/folk-bitch-trio_cf1a57d0.jpg');">
+                            <strong>Folk Bitch Trio</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Folk</span><span class="badge rounded-pill bg-info text-dark">Experimental</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Germany</span></div></td>
                         <td class="bio" title="German experimental folk trio with unconventional instrumentation and vocals.">German experimental folk trio with unconventional instrumentation and vocals.<br><br><a href="https://open.spotify.com/artist/26jdbJyBkpr6LivDYvKp2r" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Their artistry is praised for its emotional depth and captivating live performances, making them a standout in the indie folk scene.</td>
                         <td></td>
@@ -794,9 +494,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="31">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/kevin-morby" target="_blank" style="color: inherit; text-decoration: none;">Kevin Morby<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Indie Folk</span><span class="badge">Rock</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United States</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/kevin-morby.html'" style="background-image: url('images/kevin-morby_4787c31d.jpg');">
+                            <strong>Kevin Morby</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Indie Folk</span><span class="badge rounded-pill bg-info text-dark">Rock</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United States</span></div></td>
                         <td class="bio" title="American singer-songwriter creating contemplative indie folk with literary lyrics.">American singer-songwriter creating contemplative indie folk with literary lyrics.<br><br><a href="https://open.spotify.com/artist/6fxk3UXHTFYET8qCT9WlBF" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Kevin Morby is a gifted songwriter whose music resonates with emotional depth and timeless appeal. His live performances are praised for their intimate and engaging atmosphere, making him a standout in the indie music scene.</td>
                         <td><span class="rating">8</span></td>
@@ -805,9 +507,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="32">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/kingongolo-kiniata" target="_blank" style="color: inherit; text-decoration: none;">Kin&#39;Gongolo Kiniata<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Afrobeat</span><span class="badge">Congolese Rumba</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Congo</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/kingongolo-kiniata.html'" style="background-image: url('images/kingongolo-kiniata_762bf6e8.jpg');">
+                            <strong>Kin&#39;Gongolo Kiniata</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Afrobeat</span><span class="badge rounded-pill bg-info text-dark">Congolese Rumba</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Congo</span></div></td>
                         <td class="bio" title="Congolese band blending traditional rumba with modern Afrobeat influences.">Congolese band blending traditional rumba with modern Afrobeat influences.<br><br><a href="https://open.spotify.com/artist/7zfl0DQa6Ds6AsB1OQBM54" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take"></td>
                         <td></td>
@@ -816,9 +520,11 @@
                         <td title="Front Person of Color: Yes">✓</td>
                     </tr>
                     <tr data-index="33">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/lumi" target="_blank" style="color: inherit; text-decoration: none;">Lumï<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">R&amp;B</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">France</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/lumi.html'" style="background-image: url('images/lumi_3971da92.jpg');">
+                            <strong>Lumï</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">R&amp;B</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">France</span></div></td>
                         <td class="bio" title="French electronic artist creating moody R&B-influenced electronic music.">French electronic artist creating moody R&amp;B-influenced electronic music.<br><br><a href="https://open.spotify.com/artist/4YVmec1RYeLcalC4yvHv2T" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take"></td>
                         <td></td>
@@ -827,9 +533,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="34">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/mall-grab-b2b-narciss" target="_blank" style="color: inherit; text-decoration: none;">Mall Grab b2b Narciss<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">House</span><span class="badge" style="background: #fff3cd; color: #856404;">DJ</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Australia</span><span class="badge country-badge">Germany</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/mall-grab-b2b-narciss.html'" style="background-image: url('images/mall-grab-b2b-narciss_742d792f.png');">
+                            <strong>Mall Grab b2b Narciss</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">House</span><span class="badge rounded-pill bg-warning text-dark">DJ</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Australia</span><span class="badge rounded-pill bg-primary">Germany</span></div></td>
                         <td class="bio" title="Australian house producer and German DJ joining forces for energetic sets.">Australian house producer and German DJ joining forces for energetic sets.<br><br><a href="https://open.spotify.com/artist/7jEmLGxzh2RuOwdj96tlyL" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Their b2b sets are praised for their synergy and ability to energize crowds, showcasing a seamless mix of diverse techno influences. Both artists are highly regarded for their technical skill and adaptability in live settings.</td>
                         <td><span class="rating">8</span></td>
@@ -838,9 +546,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="35">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/the-mary-wallopers" target="_blank" style="color: inherit; text-decoration: none;">The Mary Wallopers<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Folk</span><span class="badge">Traditional</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Ireland</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-mary-wallopers.html'" style="background-image: url('images/the-mary-wallopers_040a29b8.jpg');">
+                            <strong>The Mary Wallopers</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Folk</span><span class="badge rounded-pill bg-info text-dark">Traditional</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Ireland</span></div></td>
                         <td class="bio" title="Irish folk band performing traditional songs with raw, authentic energy.">Irish folk band performing traditional songs with raw, authentic energy.<br><br><a href="https://open.spotify.com/artist/7aLfd5azGVKmim6H38mZk2" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">The Mary Wallopers deliver a captivating live experience, combining raw energy with a deep respect for Irish musical heritage, making them a standout act in the contemporary folk scene.</td>
                         <td><span class="rating">8</span></td>
@@ -849,9 +559,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="36">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/mind-enterprises" target="_blank" style="color: inherit; text-decoration: none;">Mind Enterprises<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Synth-pop</span><span class="badge">Electronic</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">United Kingdom</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/mind-enterprises.html'" style="background-image: url('images/mind-enterprises_335439b8.png');">
+                            <strong>Mind Enterprises</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Synth-pop</span><span class="badge rounded-pill bg-info text-dark">Electronic</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">United Kingdom</span></div></td>
                         <td class="bio" title="British producer creating retro-futuristic synth-pop with emotional depth.">British producer creating retro-futuristic synth-pop with emotional depth.<br><br><a href="https://open.spotify.com/artist/5pN1DJhPFDKso4OtC0QhnB" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Mind Enterprises delivers a unique blend of vintage and contemporary sounds, making his music highly danceable and festival-friendly. His live performances are praised for their energy and ability to engage audiences.</td>
                         <td><span class="rating">8</span></td>
@@ -860,9 +572,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="37">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/de-nachtwacht" target="_blank" style="color: inherit; text-decoration: none;">De Nachtwacht<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">House</span><span class="badge" style="background: #fff3cd; color: #856404;">DJ</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/de-nachtwacht.html'" style="background-image: url('images/de-nachtwacht_39632e26.jpg');">
+                            <strong>De Nachtwacht</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">House</span><span class="badge rounded-pill bg-warning text-dark">DJ</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span></div></td>
                         <td class="bio" title="Dutch DJ collective known for vibrant house and disco sets.">Dutch DJ collective known for vibrant house and disco sets.<br><br><a href="https://open.spotify.com/artist/3Sd7vfg45nJIesPsjvyFgp" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take"></td>
                         <td></td>
@@ -871,9 +585,11 @@
                         <td title="Front Person of Color: No"></td>
                     </tr>
                     <tr data-index="38">
-                        <td><strong><a href="https://downtherabbithole.nl/programma/tomora" target="_blank" style="color: inherit; text-decoration: none;">TOMORA<span class="link-icon">🔗</span></a></strong></td>
-                        <td><div class="badge-container"><span class="badge">Electronic</span><span class="badge">Bass</span></div></td>
-                        <td><div class="badge-container"><span class="badge country-badge">Netherlands</span></div></td>
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/tomora.html'" style="background-image: url('images/tomora_887d05a1.jpg');">
+                            <strong>TOMORA</strong>
+                        </td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-info text-dark">Electronic</span><span class="badge rounded-pill bg-info text-dark">Bass</span></div></td>
+                        <td><div class="badge-container d-flex flex-wrap gap-1"><span class="badge rounded-pill bg-primary">Netherlands</span></div></td>
                         <td class="bio" title="Dutch electronic producer creating bass-heavy, experimental electronic music.">Dutch electronic producer creating bass-heavy, experimental electronic music.<br><br><a href="https://open.spotify.com/artist/3VEcvGxMqXcdyXkzpBdlZm" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take"></td>
                         <td></td>
@@ -1038,5 +754,30 @@
         // Sort by Artist name on page load
         sortTable('Artist');
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
+        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+        <div>
+            <p style="margin-bottom: 15px;">
+                <strong>Content Notice:</strong> These pages combine content scraped from the 
+                <a href="https://downtherabbithole.nl" target="_blank" style="color: #00d9ff; text-decoration: none;">Down The Rabbit Hole festival website</a>
+                with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
+            </p>
+            <p style="margin-bottom: 15px;">
+                <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
+                Please verify critical details on official sources.
+            </p>
+            <p style="margin-bottom: 0;">
+                Generated with ❤️ • 
+                <a href="https://github.com/frankvaneykelen/down-the-rabbit-hole" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <i class="bi bi-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
