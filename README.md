@@ -91,6 +91,16 @@ The AI will automatically populate all empty fields including:
 
 **Important**: Once you edit "My take" or "My rating" manually, those fields will never be overwritten by future AI enrichments. Your personal edits are always preserved.
 
+**Validating AI enrichment:**
+
+To verify that AI enrichment produces accurate data (not hallucinated), you can validate existing enrichments:
+
+```powershell
+python validate_enrichment.py --artist "Artist Name"
+```
+
+This read-only tool re-runs AI enrichment with updated guidelines and compares results to check if newer, more conservative guidelines would have prevented inaccurate data. Use `--all` to validate all artists (uses many API calls).
+
 ### Personal Editing
 
 Feel free to modify these columns at any time:
@@ -116,8 +126,10 @@ This will:
 2. Include sorting functionality (click column headers)
 3. Add filtering by Genre, Country, Rating, Gender, and Person of Color
 4. Include real-time search across all fields
-5. Provide Spotify links for each artist
-6. Link each artist name to their individual detail page
+5. Display artist images as background in the artist name cells
+6. Provide Spotify links for each artist
+7. Link each artist name to their individual detail page
+8. Include dark mode toggle with persistent preference
 
 #### Step 2: Individual artist pages
 
@@ -131,8 +143,10 @@ This will:
 2. Download and display artist photos from the festival website
 3. Include festival bio (Dutch + English translation), AI-generated background, your personal take and rating
 4. Show detailed information (group size, gender, demographics)
-5. Provide links to Spotify and festival page
-6. Add previous/next navigation between artists
+5. Extract and display social media links from the festival website
+6. Display multiple images in a carousel when available
+7. Add previous/next navigation between artists
+8. Show fallback messages when information is unavailable
 
 #### Step 3: Archive index page
 
@@ -153,9 +167,13 @@ This will:
 python generate_html.py 2026.csv docs; python generate_artist_pages.py 2026.csv docs; python generate_archive_index.py docs
 ```
 
-All pages share a common CSS file (`docs/2026/styles.css`) for easy styling updates.
+All pages share common files for consistency:
 
-The generated pages are mobile-responsive and ready to publish via GitHub Pages.
+- **CSS**: `docs/2026/styles.css` - Styling with dark mode support
+- **JavaScript**: `docs/2026/script.js` - Dark mode toggle functionality
+- **Images**: `docs/2026/artists/<slug>/` - Artist photos and additional images
+
+The generated pages are mobile-responsive, include dark mode, and are ready to publish via GitHub Pages.
 
 **Publishing to GitHub Pages:**
 
