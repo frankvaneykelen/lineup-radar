@@ -194,12 +194,48 @@ def fetch_artist_page_content(artist_name: str) -> Dict[str, any]:
             print(f"  → Translating bio to English...")
             festival_bio_en = translate_text(festival_bio_nl, "Dutch", "English")
         
+        # Extract social/website links from "Meer weten over" section only
+        social_links = []
+        # Look for the specific section that contains artist social links
+        # This section has class "border p-8 mt-8" and contains the social media icons
+        section_pattern = r'<div[^>]*class="[^"]*border p-8 mt-8[^"]*"[^>]*>(.*?)</div>'
+        section_match = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
+        
+        if section_match:
+            section_content = section_match.group(1)
+            # Extract links only from this section
+            link_pattern = r'<a[^>]*target="_blank"[^>]*href="([^"]+)"[^>]*>'
+            potential_links = re.findall(link_pattern, section_content)
+            
+            # Filter to only artist-related links (exclude festival/footer links)
+            for link in potential_links:
+                link_lower = link.lower()
+                # Exclude festival/mojo/livenation/newsletter links
+                if any(exclude in link_lower for exclude in [
+                    'dtrh_festival', 'dtrh_fest', 'downtherabbithole',
+                    'mojo.nl', 'livenation', 'list-manage.com'
+                ]):
+                    continue
+                # Only include social media and artist websites
+                if any(domain in link_lower for domain in [
+                    'instagram.com', 'youtube.com', 'spotify.com', 
+                    'facebook.com', 'twitter.com', 'soundcloud.com',
+                    'bandcamp.com', 'tiktok.com', 'apple.com/music'
+                ]) or (
+                    # Include other http links that made it through the filters above
+                    link.startswith('http') and 
+                    'rabobank' not in link_lower
+                ):
+                    if link not in social_links:
+                        social_links.append(link)
+        
         return {
             'url': url,
             'festival_bio': festival_bio,
             'festival_bio_nl': festival_bio_nl,
             'festival_bio_en': festival_bio_en,
             'images': artist_images,
+            'social_links': social_links,
             'found': True
         }
         
@@ -211,6 +247,7 @@ def fetch_artist_page_content(artist_name: str) -> Dict[str, any]:
             'festival_bio_nl': '',
             'festival_bio_en': '',
             'images': [],
+            'social_links': [],
             'found': False
         }
 
@@ -235,6 +272,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     festival_bio_nl = festival_content.get('festival_bio_nl', '')
     festival_bio_en = festival_content.get('festival_bio_en', '')
     images = festival_content['images']
+    social_links = festival_content.get('social_links', [])
     
     # Process genres and countries into badges
     genres = [g.strip() for g in genre.split('/')] if genre else []
@@ -460,10 +498,38 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <div class="d-flex gap-2 flex-wrap">
 """
     
+    # Festival page first
+    html += f'                        <a href="{escape_html(festival_url)}" target="_blank" class="btn btn-info"><i class="bi bi-globe"></i> Festival Page</a>\n'
+    
+    # Then Spotify from CSV if available
     if spotify_link:
         html += f'                        <a href="{escape_html(spotify_link)}" target="_blank" class="btn btn-success"><i class="bi bi-spotify"></i> Listen on Spotify</a>\n'
     
-    html += f'                        <a href="{escape_html(festival_url)}" target="_blank" class="btn btn-info"><i class="bi bi-globe"></i> Festival Page</a>\n'
+    # Add social links from festival website
+    for link in social_links:
+        link_lower = link.lower()
+        # Skip Spotify links if we already have one from CSV
+        if 'spotify.com' in link_lower and spotify_link:
+            continue
+        if 'instagram.com' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-instagram"></i> Instagram</a>\n'
+        elif 'youtube.com' in link_lower or 'youtu.be' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-danger"><i class="bi bi-youtube"></i> YouTube</a>\n'
+        elif 'facebook.com' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-facebook"></i> Facebook</a>\n'
+        elif 'twitter.com' in link_lower or 'x.com' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-info"><i class="bi bi-twitter-x"></i> Twitter/X</a>\n'
+        elif 'soundcloud.com' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-warning"><i class="bi bi-soundwave"></i> SoundCloud</a>\n'
+        elif 'bandcamp.com' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-disc"></i> Bandcamp</a>\n'
+        elif 'tiktok.com' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-dark"><i class="bi bi-tiktok"></i> TikTok</a>\n'
+        elif 'apple.com' in link_lower and 'music' in link_lower:
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-music-note"></i> Apple Music</a>\n'
+        else:
+            # Generic website link
+            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-link-45deg"></i> Website</a>\n'
     
     html += """                    </div>
                 </div>

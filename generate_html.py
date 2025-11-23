@@ -243,20 +243,23 @@ def generate_html(csv_file, output_dir):
         artist_page_url = f"artists/{artist_slug}.html"
         
         # Get artist image if it exists
-        image_path = f"images/{artist_slug}_"
         artist_cell_class = 'artist-cell-clickable'
         artist_cell_style = ''
         
-        # Check if there's an image for this artist
+        # Check if there's an image for this artist in the artist directory
         import glob
-        image_dir = Path(output_dir) / year / 'images'
-        if image_dir.exists():
-            matching_images = list(image_dir.glob(f"{artist_slug}_*"))
-            if matching_images:
-                # Use the first matching image
-                image_file = matching_images[0].name
-                artist_cell_class = 'artist-cell-clickable artist-cell-with-bg'
-                artist_cell_style = f' style="background-image: url(\'images/{image_file}\');"'
+        artist_dir = Path(output_dir) / year / 'artists' / artist_slug
+        if artist_dir.exists():
+            # Look for any image file in the artist directory
+            image_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+            for ext in image_extensions:
+                matching_images = list(artist_dir.glob(f"*{ext}"))
+                if matching_images:
+                    # Use the first matching image (sorted alphabetically)
+                    image_file = sorted(matching_images)[0].name
+                    artist_cell_class = 'artist-cell-clickable artist-cell-with-bg'
+                    artist_cell_style = f' style="background-image: url(\'artists/{artist_slug}/{image_file}\');"'
+                    break
         
         html_content += f"""                    <tr data-index="{idx}">
                         <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'"{artist_cell_style}>
