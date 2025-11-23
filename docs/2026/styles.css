@@ -632,6 +632,40 @@ td[title*="Gender"], td[title*="Person of Color"] {
     border: 2px solid #00d9ff;
 }
 
+/* Carousel specific styles */
+.carousel.hero-image {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #00d9ff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.carousel.hero-image img {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.carousel-indicators {
+    margin-bottom: 0.5rem;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: #00d9ff;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 217, 255, 0.8);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+body.dark-mode .carousel-control-prev-icon,
+body.dark-mode .carousel-control-next-icon {
+    background-color: rgba(0, 168, 204, 0.9);
+}
+
 /* Print Styles */
 @media print {
     body {

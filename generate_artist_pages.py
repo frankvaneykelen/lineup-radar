@@ -78,8 +78,13 @@ def translate_text(text: str, from_lang: str = "Dutch", to_lang: str = "English"
     azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o")
     
     if not azure_key or not azure_endpoint:
-        print(f"  ⚠️  Translation skipped: Set AZURE_OPENAI_KEY and AZURE_OPENAI_ENDPOINT")
-        return ""
+        print(f"\n✗ ERROR: Azure OpenAI credentials not set!")
+        print(f"  Please set AZURE_OPENAI_KEY and AZURE_OPENAI_ENDPOINT environment variables")
+        print(f"\n  Example:")
+        print(f"    $env:AZURE_OPENAI_KEY = \"your-key\"")
+        print(f"    $env:AZURE_OPENAI_ENDPOINT = \"https://your-resource.cognitiveservices.azure.com\"")
+        print(f"    $env:AZURE_OPENAI_DEPLOYMENT = \"gpt-4o\"")
+        sys.exit(1)
     
     endpoint = f"{azure_endpoint.rstrip('/')}/openai/deployments/{azure_deployment}/chat/completions?api-version=2024-12-01-preview"
     headers = {
@@ -302,13 +307,45 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 <div class="col-auto left-column" style="width: 670px;">
 """
     
-    # LEFT COLUMN: Hero Image, Background, My Take
+    # LEFT COLUMN: Hero Image/Carousel, Background, My Take
     
-    # Hero Image Section
+    # Hero Image Section or Carousel
     if images:
-        img_url = images[0]  # Use the first (and only) image
-        html += f"""                <div class="hero-image">
+        if len(images) == 1:
+            # Single image - display as before
+            img_url = images[0]
+            html += f"""                <div class="hero-image">
                     <img src="{escape_html(img_url)}" alt="{escape_html(artist_name)}" loading="lazy">
+                </div>
+"""
+        else:
+            # Multiple images - create Bootstrap carousel
+            carousel_id = f"carousel-{escape_html(artist_name_to_slug(artist_name))}"
+            html += f"""                <div id="{carousel_id}" class="carousel slide hero-image" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+"""
+            for i in range(len(images)):
+                active = "active" if i == 0 else ""
+                html += f"""                        <button type="button" data-bs-target="#{carousel_id}" data-bs-slide-to="{i}" class="{active}" aria-current="{'true' if i == 0 else 'false'}" aria-label="Slide {i + 1}"></button>
+"""
+            html += """                    </div>
+                    <div class="carousel-inner">
+"""
+            for i, img_url in enumerate(images):
+                active = "active" if i == 0 else ""
+                html += f"""                        <div class="carousel-item {active}">
+                            <img src="{escape_html(img_url)}" class="d-block w-100" alt="{escape_html(artist_name)} - Image {i + 1}" loading="lazy">
+                        </div>
+"""
+            html += f"""                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#{carousel_id}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#{carousel_id}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
 """
     
@@ -543,13 +580,14 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path):
         artist_images_dir = artist_pages_dir / slug
         artist_images_dir.mkdir(parents=True, exist_ok=True)
         
-        # Check if images already exist locally
-        existing_images = list(artist_images_dir.glob(f"{slug}_*"))
+        # Check if images already exist locally (official + any manually added)
+        official_images = list(artist_images_dir.glob(f"{slug}_*"))
+        all_images = [f for f in artist_images_dir.glob("*") if f.is_file() and f.suffix.lower() in ['.jpg', '.jpeg', '.png', '.webp']]
         
-        if existing_images:
-            # Use existing images, don't fetch from website
-            print(f"  ✓ Using cached images ({len(existing_images)} found)")
-            for img_path in existing_images:
+        if official_images:
+            # Use all images found in the directory
+            print(f"  ✓ Using cached images ({len(all_images)} found)")
+            for img_path in sorted(all_images):
                 local_images.append(f"{slug}/{img_path.name}")
         else:
             # Fetch festival content only if we need to download images
@@ -563,7 +601,7 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path):
                     local_images.append(f"{slug}/{local_path}")
         
         # If we didn't fetch content yet, do it now for bio/description
-        if existing_images:
+        if official_images:
             festival_content = fetch_artist_page_content(artist_name)
         
         # Update festival content with local image paths
