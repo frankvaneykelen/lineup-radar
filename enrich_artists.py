@@ -56,14 +56,18 @@ def create_enrichment_prompt(artist_name: str) -> str:
     "Front Person of Color?": "Yes/No"
 }}
 
-Guidelines:
-- Bio should be factual, concise, and music-focused
-- My take should reflect critical consensus and live performance reviews (1-2 sentences)
-- My rating should be objective, based on critical acclaim and festival suitability (integer 1-10)
+CRITICAL GUIDELINES:
+- ONLY provide information if you have reliable, verifiable data about this artist
+- If the artist is mysterious, unknown, or you cannot find reliable information: leave Bio, My take, My rating, and demographic fields EMPTY
+- DO NOT hallucinate or guess about artist gender, demographics, or biographical details
+- Bio should be factual, concise, and music-focused - or empty if insufficient data
+- My take should reflect critical consensus and live performance reviews (1-2 sentences) - or empty if insufficient data
+- My rating should be objective, based on critical acclaim and festival suitability (integer 1-10) - or empty if insufficient data
 - Use official Spotify URLs only
 - For groups with multiple frontpeople, use "Mixed" for gender
-- Be accurate about demographics; use "Yes" for Front Person of Color only if confirmed
+- Be accurate about demographics; use "Yes" for Front Person of Color only if confirmed, otherwise "No"
 - Leave "Number of People in Act" empty for solo artists or when it varies (DJs, producers)
+- When in doubt about ANY field, leave it empty rather than guessing
 
 Return ONLY valid JSON, no additional text."""
 

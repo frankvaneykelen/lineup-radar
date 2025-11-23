@@ -396,6 +396,14 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     </div>
                 </div>
 """
+    else:
+        html += """                <div class="section">
+                    <h2>Background</h2>
+                    <div class="background-text" style="color: #999; font-style: italic;">
+                        <p>No information about this artist was found to generate a background.</p>
+                    </div>
+                </div>
+"""
     
     # My Take Section
     if my_take:
@@ -403,6 +411,14 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <h2>My Take</h2>
                     <div class="my-take">
                         <p>{escape_html(my_take)}</p>
+                    </div>
+                </div>
+"""
+    else:
+        html += """                <div class="section">
+                    <h2>My Take</h2>
+                    <div class="my-take" style="color: #999; font-style: italic;">
+                        <p>No information about this artist was found to generate an appraisal.</p>
                     </div>
                 </div>
 """
@@ -421,9 +437,8 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <p>{escape_html(festival_bio_en)}</p>
                 </div>
 """
-    
     # Dutch Bio Section (collapsible/secondary)
-    if festival_bio_nl:
+    elif festival_bio_nl:
         html += f"""                <div class="section">
                     <h2>Over (Nederlands)</h2>
                     <details>
@@ -432,12 +447,17 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     </details>
                 </div>
 """
-    
     # Festival Bio Section (fallback for old pattern)
-    if festival_bio and not festival_bio_nl and not festival_bio_en:
+    elif festival_bio:
         html += f"""                <div class="section">
                     <h2>About (from Festival)</h2>
                     <p>{escape_html(festival_bio)}</p>
+                </div>
+"""
+    else:
+        html += """                <div class="section">
+                    <h2>About (from Festival)</h2>
+                    <p style="color: #999; font-style: italic;">No information on this artist was found on the festival website.</p>
                 </div>
 """
     
