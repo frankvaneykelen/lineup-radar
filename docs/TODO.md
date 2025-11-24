@@ -17,6 +17,9 @@
 - [ ] improve the styling of the generated HTML pages (CSS)
 - [ ] add more customization options to the generate_html.py script (e.g., colors, fonts)
 - [ ] optimize image sizes for faster loading times on the website
+- [ ] add a To Top button on the index.html pages for easier navigation
+- [ ] implement lazy loading for images on the main lineup page
+
 
 # Not To Do
 
