@@ -46,7 +46,7 @@ def create_enrichment_prompt(artist_name: str) -> str:
 
 {{
     "Genre": "primary genre(s), separated by /",
-    "Country": "country of origin",
+    "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",
     "Bio": "concise 1-2 sentence biography focusing on their music style and achievements",
     "My take": "brief critical assessment of their artistry and live performance potential, informed by reviews and consensus (or empty string if insufficient info)",
     "My rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance (or empty string if insufficient info)",
@@ -67,6 +67,7 @@ CRITICAL GUIDELINES:
 - For groups with multiple frontpeople, use "Mixed" for gender
 - Be accurate about demographics; use "Yes" for Front Person of Color only if confirmed, otherwise "No"
 - Leave "Number of People in Act" empty for solo artists or when it varies (DJs, producers)
+- Use abbreviated country names: "UK" not "United Kingdom", "USA" not "United States", "DR Congo" not "Democratic Republic of the Congo"
 - When in doubt about ANY field, leave it empty rather than guessing
 
 Return ONLY valid JSON, no additional text."""

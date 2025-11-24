@@ -86,6 +86,14 @@ def generate_html(csv_file, output_dir):
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Rotate device message for mobile portrait -->
+    <div class="rotate-message">
+        <div class="rotate-content">
+            <i class="bi bi-phone-landscape" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <p>For the best experience, please rotate your device to landscape mode</p>
+        </div>
+    </div>
+    
     <div class="container-fluid">
         <header class="artist-header lineup-header">
             <a href="../index.html" class="btn btn-outline-light home-btn" title="Home">

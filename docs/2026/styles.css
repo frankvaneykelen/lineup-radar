@@ -321,19 +321,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    table-layout: fixed;
+    table-layout: auto;
 }
-
-/* Column widths */
-th:nth-child(1) { width: 15%; } /* Artist */
-th:nth-child(2) { width: 10%; } /* Genre */
-th:nth-child(3) { width: 8%; }  /* Country */
-th:nth-child(4) { width: 25%; } /* Bio */
-th:nth-child(5) { width: 25%; } /* My Take */
-th:nth-child(6) { width: 5%; }  /* Rating */
-th:nth-child(7) { width: 5%; }  /* Size */
-th:nth-child(8) { width: 3.5%; } /* Gender */
-th:nth-child(9) { width: 3.5%; } /* Person of Color */
 
 th {
     background: linear-gradient(135deg, #00a8cc 0%, #0086a8 100%);
@@ -802,6 +791,37 @@ body.dark-mode .carousel-control-next-icon {
         font-size: 12px;
     }
     
+    /* Mobile table column optimization */
+    table th:nth-child(1), /* Artist */
+    table td:nth-child(1) {
+        width: 100px;
+    }
+    
+    table th:nth-child(2), /* Genre */
+    table td:nth-child(2) {
+        width: 50px;
+    }
+    
+    table th:nth-child(3), /* Country */
+    table td:nth-child(3) {
+        width: 50px;
+    }
+    
+    table th:nth-child(4), /* Bio */
+    table td:nth-child(4) {
+        min-width: 110px;
+    }
+    
+    table th:nth-child(5), /* My Take */
+    table td:nth-child(5) {
+        min-width: 110px;
+    }
+    
+    table th:nth-child(6), /* My Rating */
+    table td:nth-child(6) {
+        width: 60px;
+    }
+    
     /* Artist Page Mobile */
     .artist-header {
         padding: 15px 10px;
@@ -841,5 +861,49 @@ body.dark-mode .carousel-control-next-icon {
     
     .container {
         max-width: 900px;
+    }
+}
+
+/* Rotate device message - only show in portrait on mobile */
+.rotate-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--main-bg);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.rotate-content {
+    color: var(--main-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--border-color);
+}
+
+body.dark-mode .rotate-content {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.rotate-content p {
+    font-size: 1.2rem;
+    max-width: 300px;
+    margin: 0;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+    .rotate-message {
+        display: flex;
     }
 }
