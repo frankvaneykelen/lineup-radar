@@ -205,9 +205,9 @@ def generate_html(csv_file, output_dir):
         
         if genre_str:
             genres = [g.strip() for g in genre_str.split('/')]
-            genre_badges = ''.join(f'<span class="badge rounded-pill bg-info text-dark">{escape_html(g)}</span>' for g in genres)
+            genre_badges = ''.join(f'<span class="badge rounded-pill bg-info text-dark me-1">{escape_html(g)}</span>' for g in genres)
             dj_badge = '<span class="badge rounded-pill bg-warning text-dark">DJ</span>' if is_dj else ''
-            genre_html = f'<div class="badge-container d-flex flex-wrap gap-1">{genre_badges}{dj_badge}</div>'
+            genre_html = f'{genre_badges}{dj_badge}'
         else:
             genre_html = ''
         
@@ -215,7 +215,7 @@ def generate_html(csv_file, output_dir):
         country_str = artist.get('Country', '').strip()
         if country_str:
             countries = [c.strip() for c in country_str.split('/')]
-            country_html = '<div class="badge-container d-flex flex-wrap gap-1">' + ''.join(f'<span class="badge rounded-pill bg-primary">{escape_html(c)}</span>' for c in countries) + '</div>'
+            country_html = ''.join(f'<span class="badge rounded-pill bg-primary me-1">{escape_html(c)}</span>' for c in countries)
         else:
             country_html = ''
         
