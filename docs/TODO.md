@@ -19,7 +19,7 @@
 - [ ] optimize image sizes for faster loading times on the website
 - [ ] add a To Top button on the index.html pages for easier navigation
 - [ ] implement lazy loading for images on the main lineup page
-
+- [ ] Restore the About (from festival) in the original Dutch version scraped from the festival website
 
 # Not To Do
 
