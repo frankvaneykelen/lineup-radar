@@ -321,7 +321,19 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: fixed;
 }
+
+/* Column widths */
+th:nth-child(1) { width: 15%; } /* Artist */
+th:nth-child(2) { width: 10%; } /* Genre */
+th:nth-child(3) { width: 8%; }  /* Country */
+th:nth-child(4) { width: 25%; } /* Bio */
+th:nth-child(5) { width: 25%; } /* My Take */
+th:nth-child(6) { width: 5%; }  /* Rating */
+th:nth-child(7) { width: 5%; }  /* Size */
+th:nth-child(8) { width: 3.5%; } /* Gender */
+th:nth-child(9) { width: 3.5%; } /* Person of Color */
 
 th {
     background: linear-gradient(135deg, #00a8cc 0%, #0086a8 100%);
@@ -431,13 +443,20 @@ tr.hidden {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    max-width: 150px;
+    width: fit-content;
 }
 
 /* Override Bootstrap badge defaults for table context */
 table .badge {
     font-size: 11px;
     margin: 2px 0;
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+table .badge-container {
+    width: auto;
+    min-width: 0;
 }
 
 /* Artist Page Badge Styles */
@@ -487,12 +506,13 @@ td[title*="Gender"], td[title*="Person of Color"] {
 
 .bio {
     max-width: 400px;
-    line-height: 1.5;
+    /* line-height: 1.5; */
+    font-size: 80%;
 }
 
 .take {
     max-width: 400px;
-    color: #555;
+    font-size: 80%;
 }
 
 /* Stats */

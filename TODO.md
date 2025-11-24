@@ -20,6 +20,8 @@
 - [ ] add a To Top button on the index.html pages for easier navigation
 - [ ] implement lazy loading for images on the main lineup page
 - [ ] Restore the About (from festival) in the original Dutch version scraped from the festival website
+- [x] the `badge rounded-pill` are fixed width causing wide columns, make them auto width
+- [ ] add a print stylesheet to make the pages printer-friendly
 
 # Not To Do
 
