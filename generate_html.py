@@ -279,15 +279,36 @@ def generate_html(csv_file, output_dir, config):
         const artistsData = {artists_json};
         let currentSort = {{ column: null, direction: 'asc' }};
         
-        // Populate filter dropdowns
-        const genres = [...new Set(artistsData.map(a => a.Genre).filter(Boolean))].sort();
-        const countries = [...new Set(artistsData.map(a => a.Country).filter(Boolean))].sort();
+        // Populate filter dropdowns with counts
+        // Count genres (split by / to handle multiple genres per artist)
+        const genreCounts = {{}};
+        artistsData.forEach(a => {{
+            if (a.Genre) {{
+                a.Genre.split('/').forEach(g => {{
+                    const genre = g.trim();
+                    genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+                }});
+            }}
+        }});
+        const genres = Object.keys(genreCounts).sort();
+        
+        // Count countries (split by / to handle multiple countries per artist)
+        const countryCounts = {{}};
+        artistsData.forEach(a => {{
+            if (a.Country) {{
+                a.Country.split('/').forEach(c => {{
+                    const country = c.trim();
+                    countryCounts[country] = (countryCounts[country] || 0) + 1;
+                }});
+            }}
+        }});
+        const countries = Object.keys(countryCounts).sort();
         
         const genreSelect = document.getElementById('genreFilter');
         genres.forEach(genre => {{
             const option = document.createElement('option');
             option.value = genre;
-            option.textContent = genre;
+            option.textContent = `${{genre}} (${{genreCounts[genre]}})`;
             genreSelect.appendChild(option);
         }});
         
@@ -295,8 +316,56 @@ def generate_html(csv_file, output_dir, config):
         countries.forEach(country => {{
             const option = document.createElement('option');
             option.value = country;
-            option.textContent = country;
+            option.textContent = `${{country}} (${{countryCounts[country]}})`;
             countrySelect.appendChild(option);
+        }});
+        
+        // Count ratings
+        const ratingCounts = {{ '9': 0, '8': 0, '7': 0, '6': 0 }};
+        artistsData.forEach(a => {{
+            const rating = parseFloat(a['My rating']);
+            if (rating >= 9) ratingCounts['9']++;
+            if (rating >= 8) ratingCounts['8']++;
+            if (rating >= 7) ratingCounts['7']++;
+            if (rating >= 6) ratingCounts['6']++;
+        }});
+        
+        // Update rating filter options with counts
+        const ratingSelect = document.getElementById('ratingFilter');
+        ratingSelect.innerHTML = `
+            <option value="">All Ratings</option>
+            <option value="9">9+ (Excellent) (${{ratingCounts['9']}})</option>
+            <option value="8">8+ (Very Good) (${{ratingCounts['8']}})</option>
+            <option value="7">7+ (Good) (${{ratingCounts['7']}})</option>
+            <option value="6">6+ (Above Average) (${{ratingCounts['6']}})</option>
+        `;
+        
+        // Count genders and POC
+        const genderCounts = {{}};
+        const pocCounts = {{}};
+        artistsData.forEach(a => {{
+            const gender = a['Gender of Front Person'] || '';
+            const poc = a['Front Person of Color?'] || '';
+            if (gender) genderCounts[gender] = (genderCounts[gender] || 0) + 1;
+            if (poc) pocCounts[poc] = (pocCounts[poc] || 0) + 1;
+        }});
+        
+        // Update gender checkboxes with counts
+        document.querySelectorAll('#genderFilters label').forEach(label => {{
+            const input = label.querySelector('input');
+            const value = input.value;
+            const count = genderCounts[value] || 0;
+            const icon = label.textContent.split(' ')[0]; // Get emoji
+            label.innerHTML = `${{input.outerHTML}} ${{icon}} ${{value}} (${{count}})`;
+        }});
+        
+        // Update POC checkboxes with counts
+        document.querySelectorAll('#pocFilters label').forEach(label => {{
+            const input = label.querySelector('input');
+            const value = input.value;
+            const count = pocCounts[value] || 0;
+            const icon = label.textContent.split(' ')[0]; // Get emoji
+            label.innerHTML = `${{input.outerHTML}} ${{icon}} ${{value}} (${{count}})`;
         }});
         
         // Search and filter functionality
@@ -319,8 +388,8 @@ def generate_html(csv_file, output_dir, config):
                 const searchText = Object.values(artist).join(' ').toLowerCase();
                 
                 const matchesSearch = !searchTerm || searchText.includes(searchTerm);
-                const matchesGenre = !genreFilter || artist.Genre === genreFilter;
-                const matchesCountry = !countryFilter || artist.Country === countryFilter;
+                const matchesGenre = !genreFilter || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).includes(genreFilter));
+                const matchesCountry = !countryFilter || (artist.Country && artist.Country.split('/').map(c => c.trim()).includes(countryFilter));
                 const matchesRating = !ratingFilter || (artist['My rating'] && parseFloat(artist['My rating']) >= parseFloat(ratingFilter));
                 const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person']);
                 const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?']);
@@ -493,9 +562,10 @@ def main():
     # Get festival config
     config = get_festival_config(args.festival, args.year)
     
-    # Try multiple locations for CSV file
+    # Try multiple locations for CSV file (festival-specific paths)
     csv_locations = [
-        f"{args.year}.csv",  # Root directory
+        f"{config.slug}/{args.year}.csv",  # Festival directory
+        f"{args.year}.csv",  # Legacy root directory (for down-the-rabbit-hole)
         f"docs/{args.year}/{args.year}.csv",  # Docs subdirectory
         f"{args.output}/{args.year}/{args.year}.csv"  # Custom output directory
     ]

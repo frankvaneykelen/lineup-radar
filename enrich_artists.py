@@ -279,15 +279,37 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
                                     if artist_name in metadata.get("edited_artists", {}):
                                         user_edits = metadata["edited_artists"][artist_name].get("fields", [])
                                         if key not in user_edits:
+                                            # Use festival bio as fallback for Bio when AI has no data
+                                            if key == "Bio" and not str(value).strip():
+                                                festival_bio_en = row.get("Festival Bio (EN)", "").strip()
+                                                festival_bio_nl = row.get("Festival Bio (NL)", "").strip()
+                                                festival_bio = festival_bio_en or festival_bio_nl
+                                                if festival_bio:
+                                                    row[key] = f"[using festival bio due to a lack of publicly available data] {festival_bio}"
+                                                    print(f"    ℹ️  {artist_name}.{key}: Using festival bio as fallback")
+                                                else:
+                                                    print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data, no festival bio)")
                                             # Log if we're filling with empty value
-                                            if key in ["My rating", "My take"] and not str(value).strip():
+                                            elif key in ["My rating", "My take"] and not str(value).strip():
                                                 print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
-                                            row[key] = value
+                                            else:
+                                                row[key] = value
                                     else:
+                                        # Use festival bio as fallback for Bio when AI has no data
+                                        if key == "Bio" and not str(value).strip():
+                                            festival_bio_en = row.get("Festival Bio (EN)", "").strip()
+                                            festival_bio_nl = row.get("Festival Bio (NL)", "").strip()
+                                            festival_bio = festival_bio_en or festival_bio_nl
+                                            if festival_bio:
+                                                row[key] = f"[using festival bio due to a lack of publicly available data] {festival_bio}"
+                                                print(f"    ℹ️  {artist_name}.{key}: Using festival bio as fallback")
+                                            else:
+                                                print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data, no festival bio)")
                                         # Log if we're filling with empty value
-                                        if key in ["My rating", "My take"] and not str(value).strip():
+                                        elif key in ["My rating", "My take"] and not str(value).strip():
                                             print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
-                                        row[key] = value
+                                        else:
+                                            row[key] = value
                     except Exception as e:
                         print(f"  ✗ {artist_name}: Unexpected error - {e}")
         
@@ -322,10 +344,21 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
                         
                         # Only fill if empty AND not user-edited
                         if not row[field].strip() and not user_edited:
+                            # Use festival bio as fallback for Bio when AI has no data
+                            if field == "Bio" and not str(value).strip():
+                                festival_bio_en = row.get("Festival Bio (EN)", "").strip()
+                                festival_bio_nl = row.get("Festival Bio (NL)", "").strip()
+                                festival_bio = festival_bio_en or festival_bio_nl
+                                if festival_bio:
+                                    row[field] = f"[using festival bio due to a lack of publicly available data] {festival_bio}"
+                                    print(f"    ℹ️  {artist_name}.{field}: Using festival bio as fallback")
+                                else:
+                                    print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data, no festival bio)")
                             # Log if we're filling with empty value (AI had insufficient data)
-                            if field in ["My rating", "My take"] and not str(value).strip():
+                            elif field in ["My rating", "My take"] and not str(value).strip():
                                 print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data)")
-                            row[field] = value
+                            else:
+                                row[field] = value
             else:
                 print(f"  ⚠️  {artist_name}: Missing data - please fill manually")
     
@@ -403,6 +436,12 @@ def main():
         description="Enrich artist data in festival CSV"
     )
     parser.add_argument(
+        "--festival",
+        type=str,
+        default='down-the-rabbit-hole',
+        help="Festival identifier (default: down-the-rabbit-hole)"
+    )
+    parser.add_argument(
         "--year",
         type=int,
         default=2026,
@@ -430,7 +469,8 @@ def main():
         setup_ai_instructions()
         return
     
-    csv_path = Path(f"{args.year}.csv")
+    # Use festival-specific CSV path
+    csv_path = Path(f"{args.festival}/{args.year}.csv")
     
     enrich_csv(csv_path, use_ai=args.ai, parallel=args.parallel)
 

@@ -80,17 +80,28 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
     
     try:
         # Fetch bio
-        bio_nl = scraper.fetch_artist_bio(artist_name)
-        if bio_nl:
-            result['Festival Bio (NL)'] = bio_nl
-            print(f"  ✓ Fetched bio ({len(bio_nl)} chars)")
+        bio = scraper.fetch_artist_bio(artist_name)
+        if bio:
+            print(f"  ✓ Fetched bio ({len(bio)} chars)")
             
-            # Translate to English
-            print(f"  → Translating bio to English...")
-            bio_en = translate_text(bio_nl, "Dutch", "English")
-            if bio_en:
-                result['Festival Bio (EN)'] = bio_en
-                print(f"  ✓ Translated bio ({len(bio_en)} chars)")
+            # Handle language-specific logic
+            if config.bio_language == 'Dutch':
+                result['Festival Bio (NL)'] = bio
+                
+                # Translate to English
+                print(f"  → Translating bio to English...")
+                bio_en = translate_text(bio, "Dutch", "English")
+                if bio_en:
+                    result['Festival Bio (EN)'] = bio_en
+                    print(f"  ✓ Translated bio ({len(bio_en)} chars)")
+            elif config.bio_language == 'English':
+                # Bio is already in English
+                result['Festival Bio (EN)'] = bio
+                result['Festival Bio (NL)'] = ''  # No Dutch version
+            else:
+                # Unknown language - store as English
+                result['Festival Bio (EN)'] = bio
+                result['Festival Bio (NL)'] = ''
         else:
             print(f"  ⚠ No bio found on festival website")
         
@@ -185,8 +196,8 @@ def main():
     config = get_festival_config(args.festival, args.year)
     scraper = FestivalScraper(config)
     
-    # CSV file path
-    csv_path = Path(f"{args.year}.csv")
+    # CSV file path - use festival-specific path
+    csv_path = Path(f"{config.slug}/{args.year}.csv")
     
     if not csv_path.exists():
         print(f"✗ CSV file not found: {csv_path}")

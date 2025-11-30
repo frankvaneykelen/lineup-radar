@@ -23,6 +23,8 @@
 - [x] the `badge rounded-pill` are fixed width causing wide columns, make them auto width
 - [ ] add a print stylesheet to make the pages printer-friendly
 - [ ] make the badges for Genre and Country links to the filtered view for the festival
+- [ ] add a FAQ section to the README.md
+- [ ] add charts showing the diversity statistics for each year
 
 # Not To Do
 
