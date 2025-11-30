@@ -17,35 +17,13 @@ import json
 import hashlib
 from functools import cmp_to_key
 import requests
-
-
-def artist_name_to_slug(name: str) -> str:
-    """Convert artist name to URL slug format for festival website."""
-    # Special mappings for known artists
-    special_cases = {
-        'Florence + The Machine': 'florence-the-machine',
-        'The xx': 'the-xx',
-        '¥ØU$UK€ ¥UK1MAT$U': 'yenouukeur-yenuk1matu',
-        'Derya Yıldırım & Grup Şimşek': 'derya-yildirim-grup-simsek',
-        'Arp Frique & The Perpetual Singers': 'arp-frique-the-perpetual-singers',
-        'Mall Grab b2b Narciss': 'mall-grab-b2b-narciss',
-        "Kin'Gongolo Kiniata": 'kingongolo-kiniata',
-        'Lumï': 'lumi',
-        'De Staat Becomes De Staat': 'de-staat-becomes-de-staat'
-    }
-    
-    if name in special_cases:
-        return special_cases[name]
-    
-    # General conversion
-    slug = name.lower()
-    slug = slug.replace(' ', '-')
-    slug = slug.replace('&', '')
-    slug = slug.replace('+', '')
-    slug = slug.replace("'", '')
-    slug = re.sub(r'[^a-z0-9-]', '', slug)
-    slug = re.sub(r'-+', '-', slug)
-    return slug.strip('-')
+from festival_helpers import (
+    artist_name_to_slug,
+    translate_text,
+    FestivalScraper,
+    get_festival_config
+)
+from festival_helpers.slug import get_sort_name
 
 
 def escape_html(text):
@@ -60,201 +38,138 @@ def escape_html(text):
             .replace("'", "&#39;"))
 
 
-def get_sort_name(artist_name: str) -> str:
-    """Get sort name for artist, ignoring 'The' prefix."""
-    name = artist_name.strip()
-    if name.lower().startswith('the '):
-        return name[4:]
-    return name
-
-
-def translate_text(text: str, from_lang: str = "Dutch", to_lang: str = "English") -> str:
-    """Translate text using Azure OpenAI."""
-    if not text or not text.strip():
-        return ""
+def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
+    """
+    Get artist information from CSV (festival data should be pre-fetched).
+    Falls back to scraping if CSV data is missing.
+    """
+    if config is None:
+        config = get_festival_config()
     
-    azure_key = os.getenv("AZURE_OPENAI_KEY")
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o")
-    
-    if not azure_key or not azure_endpoint:
-        print(f"\n✗ ERROR: Azure OpenAI credentials not set!")
-        print(f"  Please set AZURE_OPENAI_KEY and AZURE_OPENAI_ENDPOINT environment variables")
-        print(f"\n  Example:")
-        print(f"    $env:AZURE_OPENAI_KEY = \"your-key\"")
-        print(f"    $env:AZURE_OPENAI_ENDPOINT = \"https://your-resource.cognitiveservices.azure.com\"")
-        print(f"    $env:AZURE_OPENAI_DEPLOYMENT = \"gpt-4o\"")
-        sys.exit(1)
-    
-    endpoint = f"{azure_endpoint.rstrip('/')}/openai/deployments/{azure_deployment}/chat/completions?api-version=2024-12-01-preview"
-    headers = {
-        "Content-Type": "application/json",
-        "api-key": azure_key
-    }
-    
-    payload = {
-        "messages": [
-            {
-                "role": "system",
-                "content": f"You are a professional translator. Translate the following text from {from_lang} to {to_lang}. Preserve the tone and style. Return ONLY the translated text, nothing else."
-            },
-            {
-                "role": "user",
-                "content": text
-            }
-        ],
-        "model": azure_deployment,
-        "temperature": 0.3,
-        "max_tokens": 1000
-    }
-    
-    try:
-        response = requests.post(endpoint, headers=headers, json=payload, timeout=30)
-        response.raise_for_status()
-        result = response.json()
-        translated = result["choices"][0]["message"]["content"].strip()
-        return translated
-    except Exception as e:
-        print(f"  ⚠️  Translation failed: {e}")
-        return ""
-
-
-def fetch_artist_page_content(artist_name: str) -> Dict[str, any]:
-    """Fetch artist information from festival website."""
+    artist_name = artist.get('Artist', '')
     slug = artist_name_to_slug(artist_name)
-    url = f"https://downtherabbithole.nl/programma/{slug}"
+    url = artist.get('Festival URL', '') or config.get_artist_url(slug)
     
+    # Try to get data from CSV first (pre-fetched)
+    festival_bio_nl = artist.get('Festival Bio (NL)', '').strip()
+    festival_bio_en = artist.get('Festival Bio (EN)', '').strip()
+    social_links_json = artist.get('Social Links', '').strip()
+    
+    # Parse social links from JSON
+    social_links = []
+    if social_links_json:
+        try:
+            social_links_dict = json.loads(social_links_json)
+            social_links = list(social_links_dict.values())
+        except json.JSONDecodeError:
+            pass
+    
+    # Check if we need to scrape (fallback for missing data)
+    if not festival_bio_nl or not social_links:
+        print(f"  ⚠ Missing festival data in CSV, fetching from website...")
+        
+        try:
+            scraper = FestivalScraper(config)
+            html = scraper.fetch_artist_page(artist_name)
+            
+            if html and not festival_bio_nl:
+                # Extract bio using scraper
+                bio_from_web = scraper.extract_bio(html)
+                if bio_from_web:
+                    festival_bio_nl = bio_from_web
+                    # Translate
+                    print(f"  → Translating bio to English...")
+                    festival_bio_en = translate_text(festival_bio_nl, "Dutch", "English")
+            
+            if html and not social_links:
+                # Extract social links
+                social_links = extract_social_links_from_html(html)
+        
+        except Exception as e:
+            print(f"  ✗ Error fetching from website: {e}")
+    
+    # Extract image URLs from website (always fetch, as these aren't in CSV yet)
+    artist_images = []
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            html = response.read().decode('utf-8')
+        scraper = FestivalScraper(config)
+        html = scraper.fetch_artist_page(artist_name)
         
-        # Extract Dutch bio from specific div class
-        dutch_bio_pattern = r'<div[^>]*class="[^"]*column text-xl font-normal prose !max-w-none[^"]*"[^>]*>(.*?)</div>'
-        dutch_bio_match = re.search(dutch_bio_pattern, html, re.DOTALL | re.IGNORECASE)
-        festival_bio_nl = dutch_bio_match.group(1).strip() if dutch_bio_match else ""
-        
-        # Clean up HTML tags from bio but keep basic formatting
-        festival_bio_nl = re.sub(r'<br\s*/?>', '\n', festival_bio_nl)
-        festival_bio_nl = re.sub(r'<p[^>]*>', '\n', festival_bio_nl)
-        festival_bio_nl = re.sub(r'</p>', '\n', festival_bio_nl)
-        festival_bio_nl = re.sub(r'<[^>]+>', '', festival_bio_nl)
-        festival_bio_nl = re.sub(r'\n\s*\n', '\n\n', festival_bio_nl).strip()
-        
-        # Also try the old description pattern as fallback
-        festival_bio = ""
-        if not festival_bio_nl:
-            bio_pattern = r'<div[^>]*class="[^"]*description[^"]*"[^>]*>(.*?)</div>'
-            bio_match = re.search(bio_pattern, html, re.DOTALL | re.IGNORECASE)
-            festival_bio = bio_match.group(1).strip() if bio_match else ""
-            festival_bio = re.sub(r'<br\s*/?>', '\n', festival_bio)
-            festival_bio = re.sub(r'<p[^>]*>', '\n', festival_bio)
-            festival_bio = re.sub(r'</p>', '\n', festival_bio)
-            festival_bio = re.sub(r'<[^>]+>', '', festival_bio)
-            festival_bio = re.sub(r'\n\s*\n', '\n\n', festival_bio).strip()
-        
-        # Extract image URLs - artist photos are in <picture> tags with srcset
-        # Pattern: <source srcset="..." or <img srcset="..."
-        srcset_pattern = r'srcset=["\']([^"\']+)["\']'
-        all_srcsets = re.findall(srcset_pattern, html)
-        
-        artist_images = []
-        for img_url in all_srcsets:
-            img_lower = img_url.lower()
+        if html:
+            import re
+            srcset_pattern = r'srcset=["\']([^"\']+)["\']'
+            all_srcsets = re.findall(srcset_pattern, html)
             
-            # Look for the specific artist photo pattern
-            # These are high-res cropped/fitted images from the festival site
-            if 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower):
-                # Skip sponsor/partner logos (they have different naming)
-                if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo']):
-                    continue
+            for img_url in all_srcsets:
+                img_lower = img_url.lower()
                 
-                # Make absolute URLs
-                if img_url.startswith('//'):
-                    img_url = 'https:' + img_url
-                elif img_url.startswith('/'):
-                    img_url = 'https://downtherabbithole.nl' + img_url
-                
-                # Avoid duplicates
-                if img_url not in artist_images:
-                    artist_images.append(img_url)
-        
-        # Only use the second image (index 1) - first is crop, third is video placeholder
-        if len(artist_images) >= 2:
-            artist_images = [artist_images[1]]
-        elif artist_images:
-            # If only one image, keep it
-            artist_images = [artist_images[0]]
-        else:
-            artist_images = []
-        
-        # Translate Dutch bio to English if present
-        festival_bio_en = ""
-        if festival_bio_nl:
-            print(f"  → Translating bio to English...")
-            festival_bio_en = translate_text(festival_bio_nl, "Dutch", "English")
-        
-        # Extract social/website links from "Meer weten over" section only
-        social_links = []
-        # Look for the specific section that contains artist social links
-        # This section has class "border p-8 mt-8" and contains the social media icons
-        section_pattern = r'<div[^>]*class="[^"]*border p-8 mt-8[^"]*"[^>]*>(.*?)</div>'
-        section_match = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
-        
-        if section_match:
-            section_content = section_match.group(1)
-            # Extract links only from this section
-            link_pattern = r'<a[^>]*target="_blank"[^>]*href="([^"]+)"[^>]*>'
-            potential_links = re.findall(link_pattern, section_content)
+                if 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower):
+                    if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo']):
+                        continue
+                    
+                    if img_url.startswith('//'):
+                        img_url = 'https:' + img_url
+                    elif img_url.startswith('/'):
+                        img_url = config.base_url.rstrip('/') + img_url
+                    
+                    if img_url not in artist_images:
+                        artist_images.append(img_url)
             
-            # Filter to only artist-related links (exclude festival/footer links)
-            for link in potential_links:
-                link_lower = link.lower()
-                # Exclude festival/mojo/livenation/newsletter links
-                if any(exclude in link_lower for exclude in [
-                    'dtrh_festival', 'dtrh_fest', 'downtherabbithole',
-                    'mojo.nl', 'livenation', 'list-manage.com'
-                ]):
-                    continue
-                # Only include social media and artist websites
-                if any(domain in link_lower for domain in [
-                    'instagram.com', 'youtube.com', 'spotify.com', 
-                    'facebook.com', 'twitter.com', 'soundcloud.com',
-                    'bandcamp.com', 'tiktok.com', 'apple.com/music'
-                ]) or (
-                    # Include other http links that made it through the filters above
-                    link.startswith('http') and 
-                    'rabobank' not in link_lower
-                ):
-                    if link not in social_links:
-                        social_links.append(link)
-        
-        return {
-            'url': url,
-            'festival_bio': festival_bio,
-            'festival_bio_nl': festival_bio_nl,
-            'festival_bio_en': festival_bio_en,
-            'images': artist_images,
-            'social_links': social_links,
-            'found': True
-        }
-        
+            # Use second image if available
+            if len(artist_images) >= 2:
+                artist_images = [artist_images[1]]
+            elif artist_images:
+                artist_images = [artist_images[0]]
+    
     except Exception as e:
-        print(f"  ⚠️  Could not fetch page for {artist_name}: {e}")
-        return {
-            'url': url,
-            'festival_bio': '',
-            'festival_bio_nl': '',
-            'festival_bio_en': '',
-            'images': [],
-            'social_links': [],
-            'found': False
-        }
+        print(f"  ✗ Error fetching images: {e}")
+    
+    # Return consolidated festival content
+    return {
+        'url': url,
+        'festival_bio': festival_bio_nl or festival_bio_en,  # Prefer Dutch, fallback to English
+        'festival_bio_nl': festival_bio_nl,
+        'festival_bio_en': festival_bio_en,
+        'images': artist_images,
+        'social_links': social_links,
+        'found': bool(festival_bio_nl or festival_bio_en or artist_images or social_links)
+    }
+
+
+def extract_social_links_from_html(html: str) -> list:
+    """Extract social media links from festival page HTML."""
+    import re
+    
+    social_links = []
+    section_pattern = r'<div[^>]*class="[^"]*border p-8 mt-8[^"]*"[^>]*>(.*?)</div>'
+    section_match = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
+    
+    if section_match:
+        section_content = section_match.group(1)
+        link_pattern = r'<a[^>]*target="_blank"[^>]*href="([^"]+)"[^>]*>'
+        potential_links = re.findall(link_pattern, section_content)
+        
+        for link in potential_links:
+            link_lower = link.lower()
+            if any(exclude in link_lower for exclude in [
+                'dtrh_festival', 'dtrh_fest', 'downtherabbithole',
+                'mojo.nl', 'livenation', 'list-manage.com'
+            ]):
+                continue
+            if any(domain in link_lower for domain in [
+                'instagram.com', 'youtube.com', 'spotify.com', 
+                'facebook.com', 'twitter.com', 'soundcloud.com',
+                'bandcamp.com', 'tiktok.com', 'apple.com/music'
+            ]) or (link.startswith('http') and 'rabobank' not in link_lower):
+                if link not in social_links:
+                    social_links.append(link)
+    
+    return social_links
 
 
 def generate_artist_page(artist: Dict, year: str, festival_content: Dict, 
                          prev_artist: Optional[Dict] = None, 
-                         next_artist: Optional[Dict] = None) -> str:
+                         next_artist: Optional[Dict] = None,
+                         config = None) -> str:
     """Generate HTML page for a single artist."""
     artist_name = artist.get('Artist', '')
     genre = artist.get('Genre', '').strip()
@@ -304,14 +219,32 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         next_link = '<button class="btn btn-outline-light" disabled>Next <i class="bi bi-chevron-right"></i></button>'
         next_link_footer = '<button class="btn btn-primary" disabled>Next <i class="bi bi-chevron-right"></i></button>'
     
+    # Create meta description from bio or festival bio
+    meta_description = ""
+    if bio:
+        meta_description = bio[:160] + "..." if len(bio) > 160 else bio
+    elif festival_bio_en:
+        meta_description = festival_bio_en[:160] + "..." if len(festival_bio_en) > 160 else festival_bio_en
+    elif festival_bio_nl:
+        meta_description = festival_bio_nl[:160] + "..." if len(festival_bio_nl) > 160 else festival_bio_nl
+    else:
+        meta_description = f"{artist_name} performing at {config.name} {year}. Explore artist details, genres, and festival information."
+    
+    # Create keywords from genres and countries
+    meta_keywords = f"{artist_name}, {config.name} {year}, " + ", ".join(genres[:5]) if genres else f"{artist_name}, {config.name} {year}"
+    
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{escape_html(artist_name)} - Down The Rabbit Hole {year}</title>
+    <title>{escape_html(artist_name)} - {config.name} {year} - Frank's LineupRadar</title>
+    <meta name="description" content="{escape_html(meta_description)}">
+    <meta name="keywords" content="{escape_html(meta_keywords)}">
+    <meta name="author" content="Frank van Eykelen">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../../../shared/styles.css">
+    <link rel="stylesheet" href="../overrides.css">
 </head>
 <body>
     <div class="container-fluid">
@@ -435,16 +368,21 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         html += f"""                <div class="section">
                     <h2>About (from Festival)</h2>
                     <p>{escape_html(festival_bio_en)}</p>
-                </div>
 """
-    # Dutch Bio Section (collapsible/secondary)
-    elif festival_bio_nl:
-        html += f"""                <div class="section">
-                    <h2>Over (Nederlands)</h2>
-                    <details>
+        # Add collapsible Dutch text if available
+        if festival_bio_nl:
+            html += f"""                    <details style="margin-top: 15px;">
                         <summary style="cursor: pointer; color: #00a8cc; font-weight: 600;">Show original Dutch text</summary>
                         <p style="margin-top: 10px;">{escape_html(festival_bio_nl)}</p>
                     </details>
+"""
+        html += """                </div>
+"""
+    # Dutch Bio Section (if no English)
+    elif festival_bio_nl:
+        html += f"""                <div class="section">
+                    <h2>Over (Nederlands)</h2>
+                    <p>{escape_html(festival_bio_nl)}</p>
                 </div>
 """
     # Festival Bio Section (fallback for old pattern)
@@ -573,7 +511,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
             <div>
                 <p style="margin-bottom: 15px;">
                     <strong>Content Notice:</strong> These pages combine content scraped from the 
-                    <a href="https://downtherabbithole.nl" target="_blank" style="color: #00d9ff; text-decoration: none;">Down The Rabbit Hole festival website</a>
+                    <a href="{config.base_url}" target="_blank" style="color: #00d9ff; text-decoration: none;">{config.name} festival website</a>
                     with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
                 </p>
                 <p style="margin-bottom: 15px;">
@@ -589,7 +527,8 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
             </div>
         </footer>
     </div>
-    <script src="../script.js"></script>
+    <script src="../../../shared/script.js"></script>
+    <script src="../overrides.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
@@ -633,7 +572,7 @@ def download_image(img_url: str, output_dir: Path, artist_slug: str) -> Optional
         return None
 
 
-def generate_all_artist_pages(csv_file: Path, output_dir: Path):
+def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 'down-the-rabbit-hole'):
     """Generate individual pages for all artists."""
     # Read CSV data
     artists = []
@@ -645,7 +584,8 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path):
     artists = sorted(artists, key=lambda a: get_sort_name(a.get('Artist', '')))
     
     year = csv_file.stem
-    artist_pages_dir = output_dir / year / "artists"
+    config = get_festival_config(festival, int(year))
+    artist_pages_dir = output_dir / festival / year / "artists"
     artist_pages_dir.mkdir(parents=True, exist_ok=True)
     
     print(f"\n=== Generating Individual Artist Pages ===\n")
@@ -678,7 +618,7 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path):
         else:
             # Fetch festival content only if we need to download images
             print(f"  → Fetching from website...")
-            festival_content = fetch_artist_page_content(artist_name)
+            festival_content = fetch_artist_page_content(artist, config)
             
             for img_url in festival_content.get('images', []):
                 local_path = download_image(img_url, artist_images_dir, slug)
@@ -688,7 +628,7 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path):
         
         # If we didn't fetch content yet, do it now for bio/description
         if official_images:
-            festival_content = fetch_artist_page_content(artist_name)
+            festival_content = fetch_artist_page_content(artist, config)
         
         # Update festival content with local image paths
         festival_content['images'] = local_images
@@ -698,7 +638,7 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path):
         next_artist = artists[idx + 1] if idx < len(artists) - 1 else None
         
         # Generate HTML
-        html = generate_artist_page(artist, year, festival_content, prev_artist, next_artist)
+        html = generate_artist_page(artist, year, festival_content, prev_artist, next_artist, config)
         
         # Save file
         slug = artist_name_to_slug(artist_name)
@@ -718,19 +658,57 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path):
 
 def main():
     """Main entry point."""
-    if len(sys.argv) < 2:
-        print("Usage: python generate_artist_pages.py <csv_file> [output_dir]")
-        print("Example: python generate_artist_pages.py 2026.csv docs")
+    import argparse
+    
+    parser = argparse.ArgumentParser(
+        description="Generate individual HTML pages for each artist"
+    )
+    parser.add_argument(
+        "--year",
+        type=int,
+        default=2026,
+        help="Festival year (default: 2026)"
+    )
+    parser.add_argument(
+        "--festival",
+        type=str,
+        default="down-the-rabbit-hole",
+        help="Festival identifier (default: down-the-rabbit-hole)"
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="docs",
+        help="Output directory (default: docs)"
+    )
+    
+    args = parser.parse_args()
+    
+    # Get festival config
+    config = get_festival_config(args.festival, args.year)
+    output_dir = Path(args.output)
+    
+    # Try multiple locations for CSV file
+    csv_locations = [
+        Path(f"{args.year}.csv"),  # Root directory
+        Path(f"docs/{args.year}/{args.year}.csv"),  # Docs subdirectory
+        Path(f"{args.output}/{args.year}/{args.year}.csv")  # Custom output directory
+    ]
+    
+    csv_file = None
+    for location in csv_locations:
+        if location.exists():
+            csv_file = location
+            break
+    
+    if not csv_file:
+        print(f"✗ CSV file not found. Tried:")
+        for location in csv_locations:
+            print(f"  - {location}")
         sys.exit(1)
     
-    csv_file = Path(sys.argv[1])
-    output_dir = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("docs")
-    
-    if not csv_file.exists():
-        print(f"✗ CSV file not found: {csv_file}")
-        sys.exit(1)
-    
-    generate_all_artist_pages(csv_file, output_dir)
+    print(f"\n=== Generating Artist Pages for {config.name} {args.year} ===\n")
+    generate_all_artist_pages(csv_file, output_dir, args.festival)
     print("\n✓ Done!")
 
 

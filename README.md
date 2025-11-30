@@ -39,19 +39,40 @@ This project helps track and rate artists performing at Down The Rabbit Hole fes
 
 ### Updating with New Artists
 
-When new artists are announced on the festival website, run the update script:
+When new artists are announced on the festival website, follow these steps:
+
+#### Step 1: Update lineup from website
 
 ```powershell
 python update_lineup.py
 ```
 
-The script will:
+This will:
 
 1. Fetch the updated lineup from <https://downtherabbithole.nl/programma>
 2. Track your existing edits to "My take" and "My rating"
 3. Compare with existing CSV
 4. Add only new artists (preserving all existing user edits)
-5. Display which new artists were added
+
+#### Step 2: Fetch festival data (bio, social links)
+
+```powershell
+python fetch_festival_data.py --year 2026
+```
+
+This will:
+
+1. Scrape festival bio (Dutch) from artist pages
+2. Translate bio to English using AI
+3. Extract social media links
+4. Store all data in CSV for later use
+
+**Benefits:**
+
+- Only fetches data once per artist
+- Future page generation is instant (no API calls)
+- Translations are cached
+- Can regenerate pages without API costs
 
 Your personal notes (My take, My rating) are never overwritten during updates.
 
@@ -117,7 +138,7 @@ Create interactive HTML pages from your CSV data for publishing via GitHub Pages
 #### Step 1: Main lineup page
 
 ```powershell
-python generate_html.py 2026.csv docs
+python generate_html.py --year 2026 --festival down-the-rabbit-hole
 ```
 
 This will:
@@ -134,7 +155,7 @@ This will:
 #### Step 2: Individual artist pages
 
 ```powershell
-python generate_artist_pages.py 2026.csv docs
+python generate_artist_pages.py --year 2026 --festival down-the-rabbit-hole
 ```
 
 This will:
@@ -164,7 +185,7 @@ This will:
 #### Quick generation of all pages
 
 ```powershell
-python generate_html.py 2026.csv docs; python generate_artist_pages.py 2026.csv docs; python generate_archive_index.py docs
+python generate_html.py --year 2026; python generate_artist_pages.py --year 2026; python generate_archive_index.py docs
 ```
 
 All pages share common files for consistency:

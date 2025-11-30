@@ -7,44 +7,57 @@ This page serves as the landing page linking to all yearly lineups.
 import sys
 from pathlib import Path
 from typing import List
+from itertools import groupby
 
 
-def find_year_folders(docs_dir: Path) -> List[str]:
-    """Find all year folders in the docs directory."""
-    years = []
-    for item in docs_dir.iterdir():
-        if item.is_dir() and item.name.isdigit():
-            # Check if index.html exists in that year folder
-            if (item / "index.html").exists():
-                years.append(item.name)
-    return sorted(years, reverse=True)  # Most recent first
+def find_festival_lineups(docs_dir: Path) -> List[dict]:
+    """Find all festival lineups in the docs directory."""
+    lineups = []
+    
+    # Look for festival/year/index.html structure
+    for festival_dir in docs_dir.iterdir():
+        if festival_dir.is_dir() and not festival_dir.name.startswith('.'):
+            for year_dir in festival_dir.iterdir():
+                if year_dir.is_dir() and year_dir.name.isdigit():
+                    if (year_dir / "index.html").exists():
+                        lineups.append({
+                            'festival': festival_dir.name,
+                            'year': year_dir.name,
+                            'path': f"{festival_dir.name}/{year_dir.name}/index.html"
+                        })
+    
+    # Sort by year (most recent first), then by festival name
+    return sorted(lineups, key=lambda x: (x['year'], x['festival']), reverse=True)
 
 
 def generate_archive_index(docs_dir: Path):
     """Generate the main archive index page."""
-    years = find_year_folders(docs_dir)
+    lineups = find_festival_lineups(docs_dir)
     
-    if not years:
-        print("⚠️  No year folders found with index.html files")
-        print("   Generate yearly lineups first with: python generate_html.py")
+    if not lineups:
+        print("⚠️  No festival lineups found")
+        print("   Generate lineups first with: python generate_html.py --year YYYY --festival FESTIVAL")
         sys.exit(1)
     
-    html = """<!DOCTYPE html>
+    html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Down The Rabbit Hole - Festival Archive</title>
+    <title>Frank's LineupRadar | Discover Festival Lineups & Hidden Gems</title>
+    <meta name="description" content="Explore complete festival lineups, artist bios, ratings, and metadata. Discover emerging acts before the festival starts with Frank's LineupRadar.">
+    <meta name="keywords" content="festival lineup, indie festivals, artist discovery, setlist, music metadata, boutique festivals, lineup archive, music diversity">
+    <meta name="author" content="Frank van Eykelen">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="2026/styles.css">
+    <link rel="stylesheet" href="shared/styles.css">
 </head>
 <body>
     <div class="container-fluid">
         <header class="artist-header lineup-header">
             <div style="width: 60px;"></div>
             <div class="artist-header-content">
-                <h1>Down The Rabbit Hole</h1>
-                <p class="subtitle">Festival Lineup Archive</p>
+                <h1>Frank's LineupRadar</h1>
+                <p class="subtitle">Your Artist Lineup Archive & Discovery Tool</p>
             </div>
             <div style="width: 120px;"></div>
         </header>
@@ -53,18 +66,47 @@ def generate_archive_index(docs_dir: Path):
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
                     <div class="section">
+                        <h2 style="color: #00d9ff; margin-bottom: 1.5rem;">Never Miss the Acts Everyone Talks About</h2>
                         <p class="intro" style="font-size: 1.1em; line-height: 1.8; margin-bottom: 2rem;">
-                            Welcome to the Down The Rabbit Hole festival archive! 
-                            Browse artist lineups, ratings, and appraisals from each year.
+                            Ever read post-festival reviews and realize you skipped the breakout artist everyone loved?<br>
+                            <strong>LineupRadar</strong> helps you discover those hidden gems before the festival starts—so you can proudly say: <em>"I was there!"</em>
+                        </p>
+                        
+                        <h3 style="color: #00d9ff; margin-top: 2rem; margin-bottom: 1rem;">Why Use LineupRadar?</h3>
+                        <ul style="font-size: 1.05em; line-height: 1.8; margin-bottom: 2rem;">
+                            <li><strong>Explore Complete Festival Lineups:</strong> Browse curated tables with ratings, bios, and metadata for every act.</li>
+                            <li><strong>Discover Emerging Artists:</strong> Find the next big names before they hit the main stage.</li>
+                            <li><strong>Filter by Diversity & Style:</strong> Tired of endless guitar bands? Use filters to uncover unique sounds and diverse performers.</li>
+                            <li><strong>Click Through for Details:</strong> Each artist has a dedicated page with background info, genre tags, and links.</li>
+                            <li><strong>Plan Your Perfect Festival Schedule:</strong> Avoid clashes and make sure you catch the acts that matter.</li>
+                        </ul>
+                        
+                        <h3 style="color: #00d9ff; margin-bottom: 1rem;">Ideal For</h3>
+                        <ul style="font-size: 1.05em; line-height: 1.8; margin-bottom: 2rem;">
+                            <li>Indie and boutique festival fans</li>
+                            <li>Music bloggers and reviewers</li>
+                            <li>Anyone who wants to go beyond the headliners</li>
+                        </ul>
+                        
+                        <p style="font-size: 1.1em; font-weight: 600; margin-bottom: 2rem; color: #00d9ff;">
+                            Start exploring now and turn your festival experience into a discovery adventure.
                         </p>
                         
                         <div class="year-list">
 """
     
-    # Add a button for each year
-    for year in years:
-        html += f"""                            <div class="year-item mb-3">
-                                <a href="{year}/index.html" class="btn btn-primary btn-lg w-100" style="font-size: 1.3em; padding: 20px;">{year} Festival →</a>
+    # Group lineups by year for better organization
+    from itertools import groupby
+    
+    for year, year_lineups in groupby(lineups, key=lambda x: x['year']):
+        year_lineups = list(year_lineups)
+        html += f"""                            <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #00d9ff;">{year}</h3>
+"""
+        for lineup in year_lineups:
+            # Format festival name nicely (replace dashes with spaces, title case)
+            festival_display = lineup['festival'].replace('-', ' ').title()
+            html += f"""                            <div class="year-item mb-3">
+                                <a href="{lineup['path']}" class="btn btn-primary btn-lg w-100" style="font-size: 1.3em; padding: 20px;">{festival_display} {year} →</a>
                             </div>
 """
     
@@ -84,8 +126,7 @@ def generate_archive_index(docs_dir: Path):
             </button>
             <div>
                 <p style="margin-bottom: 15px;">
-                    <strong>Content Notice:</strong> These pages combine content scraped from the 
-                    <a href="https://downtherabbithole.nl" target="_blank" style="color: #00d9ff; text-decoration: none;">Down The Rabbit Hole festival website</a>
+                    <strong>Content Notice:</strong> These pages combine content scraped from festival websites 
                     with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
                 </p>
                 <p style="margin-bottom: 15px;">
@@ -101,7 +142,7 @@ def generate_archive_index(docs_dir: Path):
             </div>
         </footer>
     </div>
-    <script src="2026/script.js"></script>
+    <script src="shared/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
@@ -112,7 +153,9 @@ def generate_archive_index(docs_dir: Path):
         f.write(html)
     
     print(f"✓ Generated archive index: {output_file}")
-    print(f"  Found {len(years)} year(s): {', '.join(years)}")
+    print(f"  Found {len(lineups)} lineup(s) across {len(set(l['year'] for l in lineups))} year(s)")
+    for lineup in lineups:
+        print(f"    - {lineup['festival']} {lineup['year']}")
 
 
 def main():

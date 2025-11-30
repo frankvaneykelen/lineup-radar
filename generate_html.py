@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 import json
 import re
+from festival_helpers import artist_name_to_slug, get_festival_config
+from festival_helpers.slug import get_sort_name
 
 def escape_html(text):
     """Escape HTML special characters."""
@@ -22,36 +24,7 @@ def escape_html(text):
             .replace('"', "&quot;")
             .replace("'", "&#39;"))
 
-
-def artist_name_to_slug(name: str) -> str:
-    """Convert artist name to URL slug format for festival website."""
-    # Special mappings for known artists
-    special_cases = {
-        'Florence + The Machine': 'florence-the-machine',
-        'The xx': 'the-xx',
-        '¥ØU$UK€ ¥UK1MAT$U': 'yenouukeur-yenuk1matu',
-        'Derya Yıldırım & Grup Şimşek': 'derya-yildirim-grup-simsek',
-        'Arp Frique & The Perpetual Singers': 'arp-frique-the-perpetual-singers',
-        'Mall Grab b2b Narciss': 'mall-grab-b2b-narciss',
-        "Kin'Gongolo Kiniata": 'kingongolo-kiniata',
-        'Lumï': 'lumi',
-        'De Staat Becomes De Staat': 'de-staat-becomes-de-staat'
-    }
-    
-    if name in special_cases:
-        return special_cases[name]
-    
-    # General conversion
-    slug = name.lower()
-    slug = slug.replace(' ', '-')
-    slug = slug.replace('&', '')
-    slug = slug.replace('+', '')
-    slug = slug.replace("'", '')
-    slug = re.sub(r'[^a-z0-9-]', '', slug)
-    slug = re.sub(r'-+', '-', slug)
-    return slug.strip('-')
-
-def generate_html(csv_file, output_dir):
+def generate_html(csv_file, output_dir, config):
     """Generate HTML page from CSV file."""
     
     # Read CSV data
@@ -71,8 +44,8 @@ def generate_html(csv_file, output_dir):
     # Get year from filename (e.g., 2026.csv -> 2026)
     year = Path(csv_file).stem
     
-    # Create output directory
-    output_path = Path(output_dir) / year
+    # Create output directory with festival name
+    output_path = Path(output_dir) / config.slug / year
     output_path.mkdir(parents=True, exist_ok=True)
     
     # Generate HTML content
@@ -81,9 +54,13 @@ def generate_html(csv_file, output_dir):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Down The Rabbit Hole {year} - Artist Lineup</title>
+    <title>{config.name} {year} - Frank's LineupRadar</title>
+    <meta name="description" content="Browse the complete {config.name} {year} lineup with artist ratings, genres, and bios. Discover hidden gems and plan your perfect festival schedule.">
+    <meta name="keywords" content="{config.name}, {year} lineup, festival artists, music discovery, artist ratings, {config.name} {year}">
+    <meta name="author" content="Frank van Eykelen">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <link rel="stylesheet" href="overrides.css">
 </head>
 <body>
     <!-- Rotate device message for mobile portrait -->
@@ -96,11 +73,11 @@ def generate_html(csv_file, output_dir):
     
     <div class="container-fluid">
         <header class="artist-header lineup-header">
-            <a href="../index.html" class="btn btn-outline-light home-btn" title="Home">
+            <a href="../../index.html" class="btn btn-outline-light home-btn" title="Home">
                 <i class="bi bi-house-door-fill"></i>
             </a>
             <div class="artist-header-content">
-                <h1>Down The Rabbit Hole {year}</h1>
+                <h1>{config.name} {year}</h1>
                 <p class="subtitle">Artist Lineup & Appraisals</p>
             </div>
             <div style="width: 120px;"></div>
@@ -256,18 +233,20 @@ def generate_html(csv_file, output_dir):
         
         # Check if there's an image for this artist in the artist directory
         import glob
-        artist_dir = Path(output_dir) / year / 'artists' / artist_slug
+        artist_dir = Path(output_dir) / config.slug / year / 'artists' / artist_slug
         if artist_dir.exists():
             # Look for any image file in the artist directory
-            image_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+            image_extensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif']
+            all_images = []
             for ext in image_extensions:
-                matching_images = list(artist_dir.glob(f"*{ext}"))
-                if matching_images:
-                    # Use the first matching image (sorted alphabetically)
-                    image_file = sorted(matching_images)[0].name
-                    artist_cell_class = 'artist-cell-clickable artist-cell-with-bg'
-                    artist_cell_style = f' style="background-image: url(\'artists/{artist_slug}/{image_file}\');"'
-                    break
+                all_images.extend(artist_dir.glob(f"*{ext}"))
+                all_images.extend(artist_dir.glob(f"*{ext.upper()}"))
+            
+            if all_images:
+                # Use the first image (sorted alphabetically)
+                image_file = sorted(all_images, key=lambda p: p.name.lower())[0].name
+                artist_cell_class = 'artist-cell-clickable artist-cell-with-bg'
+                artist_cell_style = f' style="background-image: url(\'artists/{artist_slug}/{image_file}\');"'
         
         html_content += f"""                    <tr data-index="{idx}">
                         <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'"{artist_cell_style}>
@@ -341,10 +320,10 @@ def generate_html(csv_file, output_dir):
                 
                 const matchesSearch = !searchTerm || searchText.includes(searchTerm);
                 const matchesGenre = !genreFilter || artist.Genre === genreFilter;
-                const matchesCountry = !countryFilter || (artist.Country && artist.Country.toLowerCase().includes(countryFilter.toLowerCase()));
+                const matchesCountry = !countryFilter || artist.Country === countryFilter;
                 const matchesRating = !ratingFilter || (artist['My rating'] && parseFloat(artist['My rating']) >= parseFloat(ratingFilter));
-                const matchesGender = checkedGenders.includes(artist['Gender of Front Person']);
-                const matchesPOC = checkedPOC.includes(artist['Front Person of Color?']);
+                const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person']);
+                const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?']);
                 
                 if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesGender && matchesPOC) {{
                     row.classList.remove('hidden');
@@ -453,7 +432,7 @@ def generate_html(csv_file, output_dir):
         <div>
             <p style="margin-bottom: 15px;">
                 <strong>Content Notice:</strong> These pages combine content scraped from the 
-                <a href="https://downtherabbithole.nl" target="_blank" style="color: #00d9ff; text-decoration: none;">Down The Rabbit Hole festival website</a>
+                <a href="{config.base_url}" target="_blank" style="color: #00d9ff; text-decoration: none;">{config.name} festival website</a>
                 with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
             </p>
             <p style="margin-bottom: 15px;">
@@ -468,7 +447,8 @@ def generate_html(csv_file, output_dir):
             </p>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script src="../../shared/script.js"></script>
+    <script src="overrides.js"></script>
 </body>
 </html>
 """
@@ -484,26 +464,62 @@ def generate_html(csv_file, output_dir):
 
 def main():
     """Main entry point."""
-    if len(sys.argv) < 2:
-        print("Usage: python generate_html.py <csv_file> [output_dir]")
-        print("Example: python generate_html.py 2026.csv docs")
+    import argparse
+    
+    parser = argparse.ArgumentParser(
+        description="Generate HTML pages from festival CSV data"
+    )
+    parser.add_argument(
+        "--year",
+        type=int,
+        default=2026,
+        help="Festival year (default: 2026)"
+    )
+    parser.add_argument(
+        "--festival",
+        type=str,
+        default="down-the-rabbit-hole",
+        help="Festival identifier (default: down-the-rabbit-hole)"
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="docs",
+        help="Output directory (default: docs)"
+    )
+    
+    args = parser.parse_args()
+    
+    # Get festival config
+    config = get_festival_config(args.festival, args.year)
+    
+    # Try multiple locations for CSV file
+    csv_locations = [
+        f"{args.year}.csv",  # Root directory
+        f"docs/{args.year}/{args.year}.csv",  # Docs subdirectory
+        f"{args.output}/{args.year}/{args.year}.csv"  # Custom output directory
+    ]
+    
+    csv_file = None
+    for location in csv_locations:
+        if os.path.exists(location):
+            csv_file = location
+            break
+    
+    if not csv_file:
+        print(f"Error: CSV file not found. Tried:")
+        for location in csv_locations:
+            print(f"  - {location}")
         sys.exit(1)
     
-    csv_file = sys.argv[1]
-    output_dir = sys.argv[2] if len(sys.argv) > 2 else "docs"
-    
-    if not os.path.exists(csv_file):
-        print(f"Error: CSV file not found: {csv_file}")
-        sys.exit(1)
-    
-    print(f"\n=== Generating HTML from {csv_file} ===\n")
-    generate_html(csv_file, output_dir)
+    print(f"\n=== Generating HTML for {config.name} {args.year} ===\n")
+    generate_html(csv_file, args.output, config)
     print("\n✓ HTML generation complete!")
-    print(f"\nTo preview locally, open: {output_dir}/{Path(csv_file).stem}/index.html")
+    print(f"\nTo preview locally, open: {args.output}/{config.slug}/{args.year}/index.html")
     print("To publish via GitHub Pages:")
     print("  1. Commit the generated files")
     print("  2. Enable GitHub Pages in repository settings")
-    print(f"  3. Set source to 'main' branch, '/{output_dir}' folder")
+    print(f"  3. Set source to 'main' branch, '/{args.output}' folder")
 
 if __name__ == "__main__":
     main()
