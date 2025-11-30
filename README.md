@@ -10,6 +10,7 @@ This project helps track and rate artists performing at different festivals. Eac
 
 - **Down The Rabbit Hole** (Dutch, Beuningen)
 - **Pinkpop** (English, Landgraaf)
+- **Rock Werchter** (English, Werchter)
 
 Each festival can have its own configuration (language, scraping patterns, etc.).
 
@@ -63,8 +64,9 @@ For adding a new festival:
    }
    ```
 
-2. Scrape initial lineup: `python fetch_festival_data.py --festival festival-slug --year 2026`
-3. The script will automatically create the directory structure and CSV file with all artists
+2. Activate virtual environment: `.venv\Scripts\Activate.ps1`
+3. Scrape initial lineup: `python fetch_festival_data.py --festival festival-slug --year 2026`
+4. The script will automatically create the directory structure and CSV file with all artists
 
 ### Updating with New Artists
 
@@ -73,8 +75,13 @@ When new artists are announced on the festival website, follow these steps:
 #### Step 1: Scrape lineup from website
 
 ```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
+# Then run fetch commands
 python fetch_festival_data.py --festival down-the-rabbit-hole --year 2026
 python fetch_festival_data.py --festival pinkpop --year 2026
+python fetch_festival_data.py --festival rock-werchter --year 2026
 ```
 
 This will:
@@ -94,8 +101,10 @@ After scraping new artists, you can enrich their data with AI:
 **AI-powered enrichment:**
 
 ```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
 python enrich_artists.py --festival down-the-rabbit-hole --year 2026 --ai --parallel
 python enrich_artists.py --festival pinkpop --year 2026 --ai --parallel
+python enrich_artists.py --festival rock-werchter --year 2026 --ai --parallel
 ```
 
 This requires API setup. Run `python enrich_artists.py --setup` for instructions.
@@ -134,8 +143,10 @@ Create interactive HTML pages from your CSV data for publishing via GitHub Pages
 #### Step 1: Main lineup page
 
 ```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
 python generate_html.py --festival down-the-rabbit-hole --year 2026
 python generate_html.py --festival pinkpop --year 2026
+python generate_html.py --festival rock-werchter --year 2026
 ```
 
 This will:
@@ -152,17 +163,19 @@ This will:
 #### Step 2: Individual artist pages
 
 ```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
 python generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
 python generate_artist_pages.py --festival pinkpop --year 2026
+python generate_artist_pages.py --festival rock-werchter --year 2026
 ```
 
 This will:
 
 1. Generate individual HTML pages for each artist in `docs/festival-slug/2026/artists/`
-2. Download and display artist photos from the festival website
-3. Include festival bio (Dutch + English translation), AI-generated background, your personal take and rating
-4. Show detailed information (group size, gender, demographics)
-5. Extract and display social media links from the festival website
+2. Download and display artist photos from the festival website (images only)
+3. Include festival bio and social links from CSV (populated by `fetch_festival_data.py`)
+4. Include AI-generated background, your personal take and rating
+5. Show detailed information (group size, gender, demographics)
 6. Display multiple images in a carousel when available
 7. Add previous/next navigation between artists
 8. Show fallback messages when information is unavailable
@@ -188,11 +201,16 @@ When adding a new festival or year, manually update `docs/index.html`:
 #### Quick generation of all pages
 
 ```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
 # Generate for all festivals
 python generate_html.py --festival down-the-rabbit-hole --year 2026
 python generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
 python generate_html.py --festival pinkpop --year 2026
 python generate_artist_pages.py --festival pinkpop --year 2026
+python generate_html.py --festival rock-werchter --year 2026
+python generate_artist_pages.py --festival rock-werchter --year 2026
 python generate_archive_index.py docs
 ```
 
@@ -215,6 +233,7 @@ The generated pages are mobile-responsive, include dark mode, and are ready to p
 
 - **Down The Rabbit Hole**: <https://downtherabbithole.nl/programma> (Dutch)
 - **Pinkpop**: <https://www.pinkpop.nl/en/programme/> (English)
+- **Rock Werchter**: <https://www.rockwerchter.be/en/line-up/a-z> (English)
 - **AI Enrichment**: Azure OpenAI GPT-4o for artist metadata and analysis
 - **Images**: Festival websites and Spotify API fallback
 

@@ -101,41 +101,9 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
         except json.JSONDecodeError:
             pass
     
-    # Check if we need to scrape (fallback for missing data)
-    # For English festivals, check EN bio; for Dutch festivals, check NL bio
-    has_bio = festival_bio_en if config.bio_language == 'English' else festival_bio_nl
-    if not has_bio or not social_links:
-        print(f"  ⚠ Missing festival data in CSV, fetching from website...")
-        
-        try:
-            scraper = FestivalScraper(config)
-            html = scraper.fetch_artist_page(artist_name)
-            
-            if html and not has_bio:
-                # Extract bio using scraper
-                bio_from_web = scraper.extract_bio(html)
-                if bio_from_web:
-                    # Handle language-specific logic based on festival config
-                    if config.bio_language == 'Dutch':
-                        festival_bio_nl = bio_from_web
-                        # Translate to English
-                        print(f"  → Translating bio to English...")
-                        festival_bio_en = translate_text(festival_bio_nl, "Dutch", "English")
-                    elif config.bio_language == 'English':
-                        # Bio is already in English
-                        festival_bio_en = bio_from_web
-                        festival_bio_nl = ''
-                    else:
-                        # Unknown language - treat as English
-                        festival_bio_en = bio_from_web
-                        festival_bio_nl = ''
-            
-            if html and not social_links:
-                # Extract social links
-                social_links = extract_social_links_from_html(html)
-        
-        except Exception as e:
-            print(f"  ✗ Error fetching from website: {e}")
+    # Note: We no longer fetch from website as fallback
+    # If data is not in CSV (from fetch_festival_data.py), leave it empty
+    # This avoids redundant scraping when data truly isn't available on the website
     
     # Extract image URLs from website (always fetch, as these aren't in CSV yet)
     artist_images = []
@@ -145,8 +113,14 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
         
         if html:
             import re
+            
+            # Try srcset first (DTRH, Pinkpop)
             srcset_pattern = r'srcset=["\']([^"\']+)["\']'
             all_srcsets = re.findall(srcset_pattern, html)
+            
+            # Also try regular img src (Rock Werchter)
+            img_pattern = r'<img[^>]+src=["\']([^"\']+)["\'][^>]*>'
+            all_imgs = re.findall(img_pattern, html)
             
             for srcset in all_srcsets:
                 # Parse srcset - it contains multiple URLs separated by commas
@@ -164,9 +138,33 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
                 # Check for Pinkpop images (WordPress uploads with acts-header pattern)
                 is_pinkpop_image = 'wp-content/uploads' in img_lower and 'acts-header' in img_lower
                 
-                if is_dtrh_image or is_pinkpop_image:
+                # Check for Rock Werchter images (cache/default_band or media/cache)
+                is_rock_werchter_image = 'cache/default_band' in img_lower or ('media/cache' in img_lower and 'rockwerchter' in img_lower)
+                
+                if is_dtrh_image or is_pinkpop_image or is_rock_werchter_image:
                     # Skip sponsor/logo images
                     if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo', 'brand']):
+                        continue
+                    
+                    if img_url.startswith('//'):
+                        img_url = 'https:' + img_url
+                    elif img_url.startswith('/'):
+                        img_url = config.base_url.rstrip('/') + img_url
+                    
+                    if img_url not in artist_images:
+                        artist_images.append(img_url)
+            
+            # Also check regular img tags for Rock Werchter
+            for img_url in all_imgs:
+                img_lower = img_url.lower()
+                
+                # Check for Rock Werchter images - must have the specific upload path pattern
+                is_rock_werchter_image = ('/media/cache/default_band/upload/' in img_lower or 
+                                         'cache/default_band/upload/' in img_lower)
+                
+                if is_rock_werchter_image:
+                    # Skip logos and other non-artist images
+                    if any(skip in img_lower for skip in ['logo', 'icon', 'brand', 'sponsor']):
                         continue
                     
                     if img_url.startswith('//'):
@@ -686,14 +684,14 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 
         # Check if we have any images (official or manually added)
         if all_images:
             # Use all images found in the directory (official scraped + manually added)
-            print(f"  ✓ Using images from folder ({len(all_images)} found)")
+            print(f"  ✓ Using cached images ({len(all_images)} found, skipping website fetch)")
             for img_path in sorted(all_images):
                 local_images.append(f"{slug}/{img_path.name}")
             # Still need to fetch content for bio/description
             festival_content = fetch_artist_page_content(artist, config)
         else:
-            # No images locally - try to fetch from website
-            print(f"  → Fetching from website...")
+            # No images locally - need to fetch from website
+            print(f"  → No cached images found, fetching from website...")
             festival_content = fetch_artist_page_content(artist, config)
             
             for img_url in festival_content.get('images', []):

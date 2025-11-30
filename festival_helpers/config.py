@@ -58,6 +58,13 @@ FESTIVALS = {
         'artist_path': '/en/line-up/',
         'bio_language': 'English',
     },
+    'rock-werchter': {
+        'name': 'Rock Werchter',
+        'base_url': 'https://www.rockwerchter.be',
+        'lineup_url': 'https://www.rockwerchter.be/en/line-up/a-z',
+        'artist_path': '/en/acts/',
+        'bio_language': 'English',
+    },
     # Add more festivals here as needed
     # 'lowlands': {
     #     'name': 'Lowlands',

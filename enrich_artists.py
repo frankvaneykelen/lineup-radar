@@ -57,12 +57,13 @@ def create_enrichment_prompt(artist_name: str) -> str:
 }}
 
 CRITICAL GUIDELINES:
-- ONLY provide information if you have reliable, verifiable data about this artist
-- If the artist is mysterious, unknown, or you cannot find reliable information: leave Bio, My take, My rating, and demographic fields EMPTY
-- DO NOT hallucinate or guess about artist gender, demographics, or biographical details
-- Bio should be factual, concise, and music-focused - or empty if insufficient data
-- My take should reflect critical consensus and live performance reviews (1-2 sentences) - or empty if insufficient data
-- My rating should be objective, based on critical acclaim and festival suitability (integer 1-10) - or empty if insufficient data
+- Provide information for ALL artists unless they are completely unknown (no online presence whatsoever)
+- For emerging/indie artists: provide genre, country, basic bio, and reasonable estimates for rating (4-6 range is fine for developing artists)
+- DO NOT say "no verifiable information" - if the artist has ANY online presence, social media, or streaming presence, provide what you can
+- Bio should always contain SOMETHING - even if it's "emerging [genre] artist from [country] known for [style]"
+- My take can acknowledge limited data but should still provide a brief assessment (e.g., "Emerging artist with growing following, performances show promise")
+- My rating should use 4-6 for emerging artists, 7-8 for established acts, 9-10 only for legends
+- Only leave fields COMPLETELY empty if the artist has zero online presence (very rare for festival acts)
 
 RATING SCALE (USE THE FULL RANGE - be critical and realistic):
 - 10: Reserved ONLY for universally acclaimed legends (e.g., Radiohead, Beyoncé, Kendrick Lamar level)
@@ -99,7 +100,8 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
     # Check for Azure OpenAI first (recommended for pay-as-you-go)
     azure_key = os.getenv("AZURE_OPENAI_KEY")
     azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o")
+    # Default to gpt-4o-mini (less conservative, much cheaper) or set AZURE_OPENAI_DEPLOYMENT to override
+    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
     
     if azure_key and azure_endpoint:
         # Use Azure OpenAI
