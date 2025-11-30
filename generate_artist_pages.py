@@ -26,6 +26,43 @@ from festival_helpers import (
 from festival_helpers.slug import get_sort_name
 
 
+def get_spotify_artist_image(artist_name: str) -> Optional[str]:
+    """
+    Fetch artist image from Spotify API as fallback when no festival images found.
+    Uses public Spotify search endpoint without authentication.
+    
+    Args:
+        artist_name: Name of the artist to search for
+        
+    Returns:
+        URL of the largest artist image, or None if not found
+    """
+    try:
+        # URL-encode the artist name for the search query
+        query = urllib.parse.quote(artist_name)
+        url = f"https://api.spotify.com/v1/search?q={query}&type=artist&limit=1"
+        
+        # Create request with timeout
+        req = urllib.request.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
+        
+        # Fetch and parse response
+        with urllib.request.urlopen(req, timeout=10) as response:
+            data = json.loads(response.read())
+            artists = data.get('artists', {}).get('items', [])
+            
+            # Return largest image (first in array) if available
+            if artists and artists[0].get('images'):
+                images = artists[0]['images']
+                if images:
+                    return images[0]['url']
+    except Exception as e:
+        # Silently fail - this is a fallback mechanism
+        pass
+    
+    return None
+
+
 def escape_html(text):
     """Escape HTML special characters."""
     if not text:
@@ -65,21 +102,33 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
             pass
     
     # Check if we need to scrape (fallback for missing data)
-    if not festival_bio_nl or not social_links:
+    # For English festivals, check EN bio; for Dutch festivals, check NL bio
+    has_bio = festival_bio_en if config.bio_language == 'English' else festival_bio_nl
+    if not has_bio or not social_links:
         print(f"  ⚠ Missing festival data in CSV, fetching from website...")
         
         try:
             scraper = FestivalScraper(config)
             html = scraper.fetch_artist_page(artist_name)
             
-            if html and not festival_bio_nl:
+            if html and not has_bio:
                 # Extract bio using scraper
                 bio_from_web = scraper.extract_bio(html)
                 if bio_from_web:
-                    festival_bio_nl = bio_from_web
-                    # Translate
-                    print(f"  → Translating bio to English...")
-                    festival_bio_en = translate_text(festival_bio_nl, "Dutch", "English")
+                    # Handle language-specific logic based on festival config
+                    if config.bio_language == 'Dutch':
+                        festival_bio_nl = bio_from_web
+                        # Translate to English
+                        print(f"  → Translating bio to English...")
+                        festival_bio_en = translate_text(festival_bio_nl, "Dutch", "English")
+                    elif config.bio_language == 'English':
+                        # Bio is already in English
+                        festival_bio_en = bio_from_web
+                        festival_bio_nl = ''
+                    else:
+                        # Unknown language - treat as English
+                        festival_bio_en = bio_from_web
+                        festival_bio_nl = ''
             
             if html and not social_links:
                 # Extract social links
@@ -99,11 +148,25 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
             srcset_pattern = r'srcset=["\']([^"\']+)["\']'
             all_srcsets = re.findall(srcset_pattern, html)
             
-            for img_url in all_srcsets:
+            for srcset in all_srcsets:
+                # Parse srcset - it contains multiple URLs separated by commas
+                # Take the largest image (last URL in the srcset)
+                urls = [url.strip().split()[0] for url in srcset.split(',') if url.strip()]
+                if not urls:
+                    continue
+                    
+                img_url = urls[-1]  # Use the largest size
                 img_lower = img_url.lower()
                 
-                if 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower):
-                    if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo']):
+                # Check for Down The Rabbit Hole images
+                is_dtrh_image = 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower)
+                
+                # Check for Pinkpop images (WordPress uploads with acts-header pattern)
+                is_pinkpop_image = 'wp-content/uploads' in img_lower and 'acts-header' in img_lower
+                
+                if is_dtrh_image or is_pinkpop_image:
+                    # Skip sponsor/logo images
+                    if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo', 'brand']):
                         continue
                     
                     if img_url.startswith('//'):
@@ -122,6 +185,16 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
     
     except Exception as e:
         print(f"  ✗ Error fetching images: {e}")
+    
+    # Fallback: Try to get image from Spotify if no festival images found
+    if not artist_images:
+        try:
+            spotify_image = get_spotify_artist_image(artist_name)
+            if spotify_image:
+                print(f"  ✓ Using Spotify image as fallback")
+                artist_images = [spotify_image]
+        except Exception as e:
+            pass  # Silently fail on Spotify fallback
     
     # Return consolidated festival content
     return {
@@ -253,7 +326,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 <i class="bi bi-house-door-fill"></i>
             </a>
             <div class="artist-header-content">
-                <h1>{escape_html(artist_name)}</h1>
+                <h1>{escape_html(artist_name)} @ {config.name} {year}</h1>
                 <div class="badges d-flex flex-wrap gap-2">
 """
     
@@ -610,13 +683,16 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 
         official_images = list(artist_images_dir.glob(f"{slug}_*"))
         all_images = [f for f in artist_images_dir.glob("*") if f.is_file() and f.suffix.lower() in ['.jpg', '.jpeg', '.png', '.webp']]
         
-        if official_images:
-            # Use all images found in the directory
-            print(f"  ✓ Using cached images ({len(all_images)} found)")
+        # Check if we have any images (official or manually added)
+        if all_images:
+            # Use all images found in the directory (official scraped + manually added)
+            print(f"  ✓ Using images from folder ({len(all_images)} found)")
             for img_path in sorted(all_images):
                 local_images.append(f"{slug}/{img_path.name}")
+            # Still need to fetch content for bio/description
+            festival_content = fetch_artist_page_content(artist, config)
         else:
-            # Fetch festival content only if we need to download images
+            # No images locally - try to fetch from website
             print(f"  → Fetching from website...")
             festival_content = fetch_artist_page_content(artist, config)
             
@@ -625,10 +701,6 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 
                 if local_path:
                     # Store relative path from artist page to image
                     local_images.append(f"{slug}/{local_path}")
-        
-        # If we didn't fetch content yet, do it now for bio/description
-        if official_images:
-            festival_content = fetch_artist_page_content(artist, config)
         
         # Update festival content with local image paths
         festival_content['images'] = local_images
@@ -688,9 +760,10 @@ def main():
     config = get_festival_config(args.festival, args.year)
     output_dir = Path(args.output)
     
-    # Try multiple locations for CSV file
+    # Try multiple locations for CSV file (festival-specific paths)
     csv_locations = [
-        Path(f"{args.year}.csv"),  # Root directory
+        Path(f"{config.slug}/{args.year}.csv"),  # Festival directory
+        Path(f"{args.year}.csv"),  # Legacy root directory (for down-the-rabbit-hole)
         Path(f"docs/{args.year}/{args.year}.csv"),  # Docs subdirectory
         Path(f"{args.output}/{args.year}/{args.year}.csv")  # Custom output directory
     ]

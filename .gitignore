@@ -37,3 +37,11 @@ desktop.ini
 
 # Personal notes backup
 *.backup
+
+# Debug/one-time scripts
+fix_*.py
+populate_*.py
+remove_*.py
+use_*.py
+scrape_*_lineup.py
+*_lineup.html

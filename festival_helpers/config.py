@@ -18,6 +18,7 @@ class FestivalConfig:
     lineup_url: str
     artist_path: str  # Path segment for artist pages (e.g., "/programma/")
     slug: str = ''  # URL/directory slug for the festival
+    bio_language: str = 'Dutch'  # Language of the bio on festival website
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -39,7 +40,7 @@ class FestivalConfig:
     @property
     def output_dir(self) -> str:
         """Get output directory for generated files."""
-        return f"docs/{self.year}"
+        return f"docs/{self.slug}/{self.year}"
 
 
 # Festival configurations
@@ -49,6 +50,13 @@ FESTIVALS = {
         'base_url': 'https://downtherabbithole.nl',
         'lineup_url': 'https://downtherabbithole.nl/programma',
         'artist_path': '/programma/',
+    },
+    'pinkpop': {
+        'name': 'Pinkpop',
+        'base_url': 'https://www.pinkpop.nl',
+        'lineup_url': 'https://www.pinkpop.nl/en/programme/',
+        'artist_path': '/en/line-up/',
+        'bio_language': 'English',
     },
     # Add more festivals here as needed
     # 'lowlands': {
@@ -96,7 +104,8 @@ def get_festival_config(
         base_url=fest_data['base_url'],
         lineup_url=fest_data['lineup_url'],
         artist_path=fest_data['artist_path'],
-        slug=festival
+        slug=festival,
+        bio_language=fest_data.get('bio_language', 'Dutch')
     )
 
 

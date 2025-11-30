@@ -165,6 +165,33 @@ class FestivalScraper:
                 if text:
                     return text
         
+        # For Pinkpop: Look for the first substantial paragraph after the artist name
+        # The bio is typically in the main content area without specific classes
+        h1 = soup.find('h1')
+        if h1:
+            # Find all paragraphs after the h1
+            candidate_bio = None
+            for elem in h1.find_all_next('p'):
+                text = elem.get_text(strip=True)
+                # Skip very short paragraphs
+                if len(text) < 100:
+                    continue
+                # Stop looking once we hit "You might also like" section
+                if 'you might also like' in text.lower():
+                    break
+                # Store first substantial paragraph as candidate
+                if not candidate_bio:
+                    candidate_bio = text
+                # Look for paragraphs with typical bio keywords (preferred)
+                bio_keywords = ['artist', 'band', 'music', 'singer', 'songwriter', 'album', 
+                               'tour', 'festival', 'released', 'formed', 'world', 'indie', 
+                               'pop', 'rock', 'sound', 'debut', 'hit', 'stage', 'performance']
+                if any(word in text.lower() for word in bio_keywords):
+                    return text
+            # If no keyword match but we have a candidate, use it
+            if candidate_bio:
+                return candidate_bio
+        
         return ""
     
     def fetch_artist_bio(self, artist_name: str) -> str:
