@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival Comparison Charts - Frank's LineupRadar</title>
+    <meta name="description" content="Compare lineup diversity and quality across Down The Rabbit Hole, Pinkpop, and Rock Werchter festivals.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="shared/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="artist-header">
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+                    <div class="festival-section">Down The Rabbit Hole</div>
+                    <a href="down-the-rabbit-hole/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">Pinkpop</div>
+                    <a href="pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">Rock Werchter</div>
+                    <a href="rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">About</div>
+                    <a href="charts.html" class="festival-year">
+                        <i class="bi bi-bar-chart-fill"></i> Charts
+                    </a>
+                    <a href="faq.html" class="festival-year">
+                        <i class="bi bi-question-circle"></i> FAQ
+                    </a>
+                </div>
+            </div>
+            <div class="artist-header-content">
+                <h1>Festival Comparison Charts</h1>
+                <p class="subtitle">Comparing lineup diversity and quality across festivals</p>
+            </div>
+            <div style="width: 120px;"></div>
+        </header>
+        
+        <div class="container" style="max-width: 1200px;">
+
+            <!-- Diversity Index Summary -->
+            <div class="chart-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 30px;">
+                <h2 style="color: white; margin-bottom: 20px;">Diversity Index Summary</h2>
+                <p style="opacity: 0.95; margin-bottom: 25px;">Overall diversity score (0-100). Targets: 50% female (50 pts), 25% POC (30 pts), 50% from countries outside top 3 (20 pts).</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <h3 style="color: white; margin-bottom: 10px;">Down The Rabbit Hole 2026</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #FFD700; margin: 15px 0;">76.6</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">
+                            <div>♀️ Female: 31.4%</div>
+                            <div>🌍 POC: 23.1%</div>
+                            <div>🗺️ Geographic: 43.6%</div>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <h3 style="color: white; margin-bottom: 10px;">Pinkpop 2026</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #FFD700; margin: 15px 0;">31.7</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">
+                            <div>♀️ Female: 19.2%</div>
+                            <div>🌍 POC: 3.1%</div>
+                            <div>🗺️ Geographic: 21.9%</div>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <h3 style="color: white; margin-bottom: 10px;">Rock Werchter 2026</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #FFD700; margin: 15px 0;">24.5</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">
+                            <div>♀️ Female: 10.7%</div>
+                            <div>🌍 POC: 6.9%</div>
+                            <div>🗺️ Geographic: 13.8%</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Overview Stats -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <h3>Down The Rabbit Hole 2026</h3>
+                    <div class="stat-value">39</div>
+                    <div>Total Artists</div>
+                    <hr>
+                    <div><strong>31.4%</strong> Female Front Person</div>
+                    <div><strong>23.1%</strong> POC Front Person</div>
+                    <div><strong>7.6</strong> Average Rating</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Pinkpop 2026</h3>
+                    <div class="stat-value">32</div>
+                    <div>Total Artists</div>
+                    <hr>
+                    <div><strong>19.2%</strong> Female Front Person</div>
+                    <div><strong>3.1%</strong> POC Front Person</div>
+                    <div><strong>7.2</strong> Average Rating</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Rock Werchter 2026</h3>
+                    <div class="stat-value">29</div>
+                    <div>Total Artists</div>
+                    <hr>
+                    <div><strong>10.7%</strong> Female Front Person</div>
+                    <div><strong>6.9%</strong> POC Front Person</div>
+                    <div><strong>7.6</strong> Average Rating</div>
+                </div>
+
+            </div>
+            
+            <!-- Gender Distribution Chart -->
+            <div class="chart-container">
+                <h2>Gender Distribution of Front Person</h2>
+                <div class="chart-wrapper">
+                    <canvas id="genderChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- POC Representation Chart -->
+            <div class="chart-container">
+                <h2>Person of Color Representation</h2>
+                <div class="chart-wrapper">
+                    <canvas id="pocChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Rating Distribution Charts -->
+            <div class="chart-container">
+                <h2>Rating Distribution by Festival</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px;">
+                    <div style="text-align: center;">
+                        <h3 style="margin-bottom: 15px;">Down The Rabbit Hole</h3>
+                        <div style="height: 300px;"><canvas id="ratingsDTRH"></canvas></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="margin-bottom: 15px;">Pinkpop</h3>
+                        <div style="height: 300px;"><canvas id="ratingsPinkpop"></canvas></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="margin-bottom: 15px;">Rock Werchter</h3>
+                        <div style="height: 300px;"><canvas id="ratingsRockWerchter"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Country Distribution -->
+            <div class="chart-container">
+                <h2>Country Distribution</h2>
+                <p>Geographic representation of artists across festivals (top countries shown).</p>
+                <div class="chart-wrapper">
+                    <canvas id="countryChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Combined Diversity Score -->
+            <div class="chart-container">
+                <h2>Female & Person of Color Representation Combined</h2>
+                <div class="chart-wrapper">
+                    <canvas id="diversityChart"></canvas>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script src="shared/script.js"></script>
+    <script>
+        // Prepare data
+        const festivalData = {
+        "Down The Rabbit Hole": {
+                "total_artists": 39,
+                "gender": {
+                        "Female": 11,
+                        "Mixed": 4,
+                        "Male": 20
+                },
+                "gender_total": 35,
+                "poc": {
+                        "Yes": 9,
+                        "No": 24,
+                        "Unknown": 6
+                },
+                "ratings": {
+                        "9": 4,
+                        "8": 9,
+                        "7": 14
+                },
+                "countries": {
+                        "UK": 8,
+                        "USA": 8,
+                        "Australia": 2,
+                        "Germany": 1,
+                        "Ireland": 3,
+                        "Thailand": 1,
+                        "France": 2,
+                        "Netherlands": 6,
+                        "Japan": 1,
+                        "Belgium": 1,
+                        "Canada": 1,
+                        "Turkey/France": 1,
+                        "DR Congo": 1,
+                        "Italy": 1,
+                        "Norway": 1
+                },
+                "color": "#FF6B6B",
+                "slug": "down-the-rabbit-hole"
+        },
+        "Pinkpop": {
+                "total_artists": 32,
+                "gender": {
+                        "Male": 19,
+                        "Female": 5,
+                        "Mixed": 2
+                },
+                "gender_total": 26,
+                "poc": {
+                        "Yes": 1,
+                        "No": 25,
+                        "Unknown": 6
+                },
+                "ratings": {
+                        "7": 14,
+                        "5": 1,
+                        "9": 2,
+                        "8": 5,
+                        "6": 3
+                },
+                "countries": {
+                        "UK": 9,
+                        "Netherlands": 7,
+                        "USA": 9,
+                        "Germany": 2,
+                        "Canada": 2,
+                        "Australia": 1,
+                        "Belgium": 1,
+                        "Sweden": 1
+                },
+                "color": "#4ECDC4",
+                "slug": "pinkpop"
+        },
+        "Rock Werchter": {
+                "total_artists": 29,
+                "gender": {
+                        "Male": 22,
+                        "Female": 3,
+                        "Non-binary": 1,
+                        "Mixed": 2
+                },
+                "gender_total": 28,
+                "poc": {
+                        "Yes": 2,
+                        "No": 26,
+                        "Unknown": 1
+                },
+                "ratings": {
+                        "8": 12,
+                        "7": 9,
+                        "9": 5,
+                        "5": 1,
+                        "6": 2
+                },
+                "countries": {
+                        "USA": 12,
+                        "UK": 11,
+                        "Belgium": 2,
+                        "Canada": 2,
+                        "Germany": 1,
+                        "Australia": 1
+                },
+                "color": "#95E1D3",
+                "slug": "rock-werchter"
+        }
+};
+        
+        // Gender Distribution Chart
+        const genderLabels = ['Male', 'Female', 'Mixed', 'Non-binary', 'Unknown'];
+        const genderDatasets = [];
+        
+        for (const [festival, data] of Object.entries(festivalData)) {
+            const genderData = genderLabels.map(label => data.gender[label] || 0);
+            genderDatasets.push({
+                label: festival + ' 2026',
+                data: genderData,
+                backgroundColor: data.color,
+                borderColor: data.color,
+                borderWidth: 1
+            });
+        }
+        
+        new Chart(document.getElementById('genderChart'), {
+            type: 'bar',
+            data: {
+                labels: genderLabels,
+                datasets: genderDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+        
+        // POC Representation Chart
+        const pocLabels = ['Yes', 'No', 'Unknown'];
+        const pocDatasets = [];
+        
+        for (const [festival, data] of Object.entries(festivalData)) {
+            const pocData = pocLabels.map(label => data.poc[label] || 0);
+            pocDatasets.push({
+                label: festival + ' 2026',
+                data: pocData,
+                backgroundColor: data.color,
+                borderColor: data.color,
+                borderWidth: 1
+            });
+        }
+        
+        new Chart(document.getElementById('pocChart'), {
+            type: 'bar',
+            data: {
+                labels: pocLabels,
+                datasets: pocDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Rating Distribution Bar Charts
+        const ratingLabels = ['5', '6', '7', '8', '9'];
+        
+        // Down The Rabbit Hole
+        const dtrh = festivalData['Down The Rabbit Hole'];
+        const dtrhRatings = ratingLabels.map(label => dtrh.ratings[parseInt(label)] || 0);
+        new Chart(document.getElementById('ratingsDTRH'), {
+            type: 'bar',
+            data: {
+                labels: ratingLabels.map(l => `Rating ${l}`),
+                datasets: [{
+                    label: 'Number of Artists',
+                    data: dtrhRatings,
+                    backgroundColor: '#FF6B6B',
+                    borderColor: '#FF6B6B',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Artists'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Rating'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Pinkpop
+        const pinkpop = festivalData['Pinkpop'];
+        const pinkpopRatings = ratingLabels.map(label => pinkpop.ratings[parseInt(label)] || 0);
+        new Chart(document.getElementById('ratingsPinkpop'), {
+            type: 'bar',
+            data: {
+                labels: ratingLabels.map(l => `Rating ${l}`),
+                datasets: [{
+                    label: 'Number of Artists',
+                    data: pinkpopRatings,
+                    backgroundColor: '#4ECDC4',
+                    borderColor: '#4ECDC4',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Artists'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Rating'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Rock Werchter
+        const rockWerchter = festivalData['Rock Werchter'];
+        const rockWerchterRatings = ratingLabels.map(label => rockWerchter.ratings[parseInt(label)] || 0);
+        new Chart(document.getElementById('ratingsRockWerchter'), {
+            type: 'bar',
+            data: {
+                labels: ratingLabels.map(l => `Rating ${l}`),
+                datasets: [{
+                    label: 'Number of Artists',
+                    data: rockWerchterRatings,
+                    backgroundColor: '#95E1D3',
+                    borderColor: '#95E1D3',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Artists'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Rating'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Country Distribution Chart
+        // Aggregate all countries across festivals
+        const allCountries = {};
+        for (const [festival, data] of Object.entries(festivalData)) {
+            for (const [country, count] of Object.entries(data.countries)) {
+                if (!allCountries[country]) {
+                    allCountries[country] = {};
+                }
+                allCountries[country][festival] = count;
+            }
+        }
+        
+        // Sort by total count and take top 10
+        const countrySums = {};
+        for (const [country, festivals] of Object.entries(allCountries)) {
+            countrySums[country] = Object.values(festivals).reduce((a, b) => a + b, 0);
+        }
+        const topCountries = Object.keys(countrySums)
+            .sort((a, b) => countrySums[b] - countrySums[a])
+            .slice(0, 10);
+        
+        // Add "Other" category for remaining countries
+        const countryLabels = [...topCountries, 'Other'];
+        
+        const countryDatasets = [];
+        for (const [festival, data] of Object.entries(festivalData)) {
+            const countryData = topCountries.map(country => data.countries[country] || 0);
+            
+            // Calculate "Other" count
+            const topCountryTotal = countryData.reduce((a, b) => a + b, 0);
+            const allCountryTotal = Object.values(data.countries).reduce((a, b) => a + b, 0);
+            const otherCount = allCountryTotal - topCountryTotal;
+            countryData.push(otherCount);
+            
+            countryDatasets.push({
+                label: festival + ' 2026',
+                data: countryData,
+                backgroundColor: data.color,
+                borderColor: data.color,
+                borderWidth: 1
+            });
+        }
+        
+        new Chart(document.getElementById('countryChart'), {
+            type: 'bar',
+            data: {
+                labels: countryLabels,
+                datasets: countryDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Artists'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Country'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Diversity Score Chart (Female + POC percentages)
+        const diversityDatasets = [];
+        const diversityLabels = Object.keys(festivalData).map(f => f + ' 2026');
+        
+        const femalePercentages = [];
+        const pocPercentages = [];
+        
+        for (const [festival, data] of Object.entries(festivalData)) {
+            const femaleCount = data.gender['Female'] || 0;
+            const femalePct = data.gender_total > 0 ? (femaleCount / data.gender_total * 100) : 0;
+            femalePercentages.push(femalePct.toFixed(1));
+            
+            const pocYes = data.poc['Yes'] || 0;
+            const pocPct = data.total_artists > 0 ? (pocYes / data.total_artists * 100) : 0;
+            pocPercentages.push(pocPct.toFixed(1));
+        }
+        
+        new Chart(document.getElementById('diversityChart'), {
+            type: 'bar',
+            data: {
+                labels: diversityLabels,
+                datasets: [
+                    {
+                        label: 'Female Front Person %',
+                        data: femalePercentages,
+                        backgroundColor: '#FF6B9D',
+                        borderColor: '#FF6B9D',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'POC Front Person %',
+                        data: pocPercentages,
+                        backgroundColor: '#4ECDC4',
+                        borderColor: '#4ECDC4',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

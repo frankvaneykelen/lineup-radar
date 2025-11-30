@@ -44,6 +44,12 @@ def generate_html(csv_file, output_dir, config):
     # Get year from filename (e.g., 2026.csv -> 2026)
     year = Path(csv_file).stem
     
+    # Get last modified time of CSV file in UTC
+    from datetime import datetime
+    csv_path = Path(csv_file)
+    last_modified = datetime.utcfromtimestamp(csv_path.stat().st_mtime)
+    last_updated_str = last_modified.strftime("%B %d, %Y %H:%M UTC")
+    
     # Create output directory with festival name
     output_path = Path(output_dir) / config.slug / year
     output_path.mkdir(parents=True, exist_ok=True)
@@ -73,12 +79,32 @@ def generate_html(csv_file, output_dir, config):
     
     <div class="container-fluid">
         <header class="artist-header lineup-header">
-            <a href="../../index.html" class="btn btn-outline-light home-btn" title="Home">
-                <i class="bi bi-house-door-fill"></i>
-            </a>
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="../../index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+                    <div class="festival-section">Down The Rabbit Hole</div>
+                    <a href="../../down-the-rabbit-hole/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">Pinkpop</div>
+                    <a href="../../pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">Rock Werchter</div>
+                    <a href="../../rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">About</div>
+                    <a href="../../charts.html" class="festival-year">
+                        <i class="bi bi-bar-chart-fill"></i> Charts
+                    </a>
+                    <a href="../../faq.html" class="festival-year">
+                        <i class="bi bi-question-circle"></i> FAQ
+                    </a>
+                </div>
+            </div>
             <div class="artist-header-content">
                 <h1>{config.name} {year}</h1>
-                <p class="subtitle">Artist Lineup & Appraisals</p>
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">Last updated: {last_updated_str}</p>
             </div>
             <div style="width: 120px;"></div>
         </header>
