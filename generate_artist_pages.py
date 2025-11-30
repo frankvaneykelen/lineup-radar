@@ -520,7 +520,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 </p>
                 <p style="margin-bottom: 0;">
                     Generated with ❤️ • 
-                    <a href="https://github.com/frankvaneykelen/down-the-rabbit-hole" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
                         <i class="bi bi-github"></i> View on GitHub
                     </a>
                 </p>

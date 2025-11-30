@@ -112,10 +112,6 @@ def generate_archive_index(docs_dir: Path):
     
     html += """                        </div>
                     </div>
-                    
-                    <div class="section text-center" style="color: #6c757d; padding-top: 2rem; border-top: 1px solid #dee2e6;">
-                        <p>Browse artist lineups, ratings, and appraisals from each year.</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -135,7 +131,7 @@ def generate_archive_index(docs_dir: Path):
                 </p>
                 <p style="margin-bottom: 0;">
                     Generated with ❤️ • 
-                    <a href="https://github.com/frankvaneykelen/down-the-rabbit-hole" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
                         <i class="bi bi-github"></i> View on GitHub
                     </a>
                 </p>
