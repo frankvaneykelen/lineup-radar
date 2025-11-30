@@ -762,9 +762,10 @@ def main():
     
     # Try multiple locations for CSV file (festival-specific paths)
     csv_locations = [
-        Path(f"{config.slug}/{args.year}.csv"),  # Festival directory
+        Path(f"docs/{config.slug}/{args.year}/{args.year}.csv"),  # Docs location (primary)
+        Path(f"{config.slug}/{args.year}.csv"),  # Festival directory (legacy)
         Path(f"{args.year}.csv"),  # Legacy root directory (for down-the-rabbit-hole)
-        Path(f"docs/{args.year}/{args.year}.csv"),  # Docs subdirectory
+        Path(f"docs/{args.year}/{args.year}.csv"),  # Docs subdirectory (legacy)
         Path(f"{args.output}/{args.year}/{args.year}.csv")  # Custom output directory
     ]
     
