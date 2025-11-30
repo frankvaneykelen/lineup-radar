@@ -237,6 +237,33 @@ The generated pages are mobile-responsive, include dark mode, and are ready to p
 - **AI Enrichment**: Azure OpenAI GPT-4o for artist metadata and analysis
 - **Images**: Festival websites and Spotify API fallback
 
+## Testing
+
+The project includes a comprehensive unit test suite to ensure code quality and reliability:
+
+```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
+# Run all tests
+pytest tests/ -v
+
+# Run tests with coverage report
+pytest tests/ -v --cov=. --cov-report=term-missing
+```
+
+**Test Coverage:**
+
+- **CSV operations** (`test_csv_operations.py`): Load, save, encoding, error handling
+- **Festival configuration** (`test_config.py`): Config loading, URL generation, all festivals
+- **Web scraping** (`test_scraper.py`): Artist page fetching, bio extraction, rate limiting
+- **Slugification** (`test_slug.py`): Artist name normalization, sort name generation
+- **Data fetching** (`test_fetch_festival_data.py`): Social link extraction, data validation
+
+All tests use mock data and fixtures to avoid making real HTTP requests, ensuring fast and reliable test execution.
+
+For more details on running tests and test structure, see `tests/README.md`.
+
 ## Notes
 
 - CSV files use UTF-8 encoding to support international characters

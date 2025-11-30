@@ -25,7 +25,36 @@ function initDarkMode() {
     });
 }
 
+// Hamburger menu dropdown functionality
+function initHamburgerMenu() {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    
+    if (!hamburgerBtn || !dropdownMenu) return;
+    
+    // Toggle dropdown on button click
+    hamburgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!hamburgerBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.classList.remove('show');
+        }
+    });
+    
+    // Close dropdown when clicking a link
+    dropdownMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            dropdownMenu.classList.remove('show');
+        });
+    });
+}
+
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     initDarkMode();
+    initHamburgerMenu();
 });

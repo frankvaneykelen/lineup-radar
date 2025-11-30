@@ -7,10 +7,10 @@
 - [x] add a column for 'bio translated' to the CSV, and use that to store the AI-generated translation
 - [ ] add a column for 'background generated' to the CSV, and use that to store the AI-generated background info
 - [x] add a column for 'social media links scraped' to the CSV, and use that to store whether the links have been scraped already
-- [ ] add a column for 'images downloaded' to the CSV, and use that to store whether the images have been downloaded already
+- [x] add a column for 'images downloaded' to the CSV, and use that to store whether the images have been downloaded already
 - [x] update the generate_artist_pages.py script to skip downloading/translating/scraping if the relevant columns are already filled
 - [ ] improve error handling and logging in all scripts
-- [ ] add unit tests for the main functions in each script
+- [x] add unit tests for the main functions in each script
 - [ ] create a requirements.txt file for easy installation of dependencies  
 - [ ] add a CONTRIBUTING.md file with guidelines for contributing to the project
 - [ ] set up continuous integration (CI) to automatically run tests on pull requests
