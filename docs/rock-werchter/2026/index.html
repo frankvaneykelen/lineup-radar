@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Werchter 2026 - Frank's LineupRadar</title>
+    <meta name="description" content="Browse the complete Rock Werchter 2026 lineup with artist ratings, genres, and bios. Discover hidden gems and plan your perfect festival schedule.">
+    <meta name="keywords" content="Rock Werchter, 2026 lineup, festival artists, music discovery, artist ratings, Rock Werchter 2026">
+    <meta name="author" content="Frank van Eykelen">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <link rel="stylesheet" href="overrides.css">
+</head>
+<body>
+    <!-- Rotate device message for mobile portrait -->
+    <div class="rotate-message">
+        <div class="rotate-content">
+            <i class="bi bi-phone-landscape" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <p>For the best experience, please rotate your device to landscape mode</p>
+        </div>
+    </div>
+    
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <a href="../../index.html" class="btn btn-outline-light home-btn" title="Home">
+                <i class="bi bi-house-door-fill"></i>
+            </a>
+            <div class="artist-header-content">
+                <h1>Rock Werchter 2026</h1>
+                <p class="subtitle">Artist Lineup & Appraisals</p>
+            </div>
+            <div style="width: 120px;"></div>
+        </header>
+        
+        <div class="controls">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <input type="text" id="searchBox" class="search-box" placeholder="Search artists, genres, countries..." style="flex: 1; margin: 0;">
+                <div style="margin-left: 15px; color: #666; font-size: 14px; white-space: nowrap;">
+                    Showing <strong><span id="visibleCountTop">29</span></strong> of <strong>29</strong> artists
+                </div>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="genreFilter">Filter by Genre</label>
+                    <select id="genreFilter">
+                        <option value="">All Genres</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="countryFilter">Filter by Country</label>
+                    <select id="countryFilter">
+                        <option value="">All Countries</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="ratingFilter">Filter by Rating</label>
+                    <select id="ratingFilter">
+                        <option value="">All Ratings</option>
+                        <option value="9">9+ (Excellent)</option>
+                        <option value="8">8+ (Very Good)</option>
+                        <option value="7">7+ (Good)</option>
+                        <option value="6">6+ (Above Average)</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label style="margin-bottom: 8px; display: block;">Gender of Front Person</label>
+                    <div class="checkbox-group" id="genderFilters">
+                        <label><input type="checkbox" value="Male" checked> ♂️ Male</label>
+                        <label><input type="checkbox" value="Female" checked> ♀️ Female</label>
+                        <label><input type="checkbox" value="Mixed" checked> ⚤ Mixed</label>
+                        <label><input type="checkbox" value="Non-binary" checked> ⚧️ Non-binary</label>
+                        <label><input type="checkbox" value="Unknown" checked> ❓ Unknown</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label style="margin-bottom: 8px; display: block;">Front Person of Color?</label>
+                    <div class="checkbox-group" id="pocFilters">
+                        <label><input type="checkbox" value="Yes" checked> Yes</label>
+                        <label><input type="checkbox" value="No" checked> No</label>
+                        <label><input type="checkbox" value="Unknown" checked> ❓ Unknown</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="artistTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="Artist">Artist</th>
+                        <th class="sortable" data-column="Genre">Genre</th>
+                        <th class="sortable" data-column="Country">Country</th>
+                        <th data-column="Bio">Bio</th>
+                        <th data-column="My take">My Take</th>
+                        <th class="sortable" data-column="My rating">Rating</th>
+                        <th class="sortable" data-column="Number of People in Act">Size</th>
+                        <th class="sortable" data-column="Gender of Front Person" title="Gender of Front Person">⚧️</th>
+                        <th class="sortable" data-column="Front Person of Color?" title="Front Person of Color?">🌍</th>
+                    </tr>
+                </thead>
+                <tbody id="artistTableBody">
+                    <tr data-index="0">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/a-perfect-circle.html'" style="background-image: url('artists/a-perfect-circle/a-perfect-circle_3088170b.jpg');">
+                            <strong>A Perfect Circle</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Alternative Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Hard Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="A Perfect Circle is an American rock supergroup formed in 1999 by guitarist Billy Howerdel and Tool vocalist Maynard James Keenan. Known for their atmospheric and melodic sound, the band has released critically acclaimed albums such as 'Mer de Noms' and 'Thirteenth Step', blending elements of rock, art rock, and progressive music.">A Perfect Circle is an American rock supergroup formed in 1999 by guitarist Billy Howerdel and Tool vocalist Maynard James Keenan. Known for their atmospheric and melodic sound, the band has released critically acclaimed albums such as &#39;Mer de Noms&#39; and &#39;Thirteenth Step&#39;, blending elements of rock, art rock, and progressive music.<br><br><a href="https://open.spotify.com/artist/2yEwvVSSSUkcLeSTNyHKh8" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">A Perfect Circle is praised for their intricate compositions and Keenan&#39;s distinctive vocal delivery, with their live performances often noted for their precision and emotional depth.</td>
+                        <td><span class="rating">8</span></td>
+                        <td>5</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="1">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/all-them-witches.html'" style="background-image: url('artists/all-them-witches/all-them-witches_5f950096.jpg');">
+                            <strong>All Them Witches</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Psychedelic Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Blues Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Stoner Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="All Them Witches is a Nashville-based band known for their blend of psychedelic rock, blues, and stoner rock, creating atmospheric and dynamic music. They have gained a strong following through their extensive touring and critically acclaimed albums like 'Dying Surfer Meets His Maker' and 'Sleeping Through the War.'">All Them Witches is a Nashville-based band known for their blend of psychedelic rock, blues, and stoner rock, creating atmospheric and dynamic music. They have gained a strong following through their extensive touring and critically acclaimed albums like &#39;Dying Surfer Meets His Maker&#39; and &#39;Sleeping Through the War.&#39;<br><br><a href="https://open.spotify.com/artist/0ZxZlO7oWCSYMXhehpyMvE" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">All Them Witches are praised for their immersive live performances and ability to create a rich, textured sound that resonates with fans of heavy, experimental rock.</td>
+                        <td><span class="rating">7</span></td>
+                        <td>4</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="2">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-cure.html'" style="background-image: url('artists/the-cure/the-cure_a5f90977.png');">
+                            <strong>The Cure</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Post-punk</span><span class="badge rounded-pill bg-info text-dark me-1">New Wave</span><span class="badge rounded-pill bg-info text-dark me-1">Gothic Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="The Cure is a seminal British band formed in 1978, known for their pioneering role in the post-punk and gothic rock genres, with iconic albums like 'Disintegration' and hits such as 'Just Like Heaven' and 'Friday I'm in Love'. Their music blends melancholic lyrics with atmospheric instrumentation, earning them a devoted global fanbase and critical acclaim.">The Cure is a seminal British band formed in 1978, known for their pioneering role in the post-punk and gothic rock genres, with iconic albums like &#39;Disintegration&#39; and hits such as &#39;Just Like Heaven&#39; and &#39;Friday I&#39;m in Love&#39;. Their music blends melancholic lyrics with atmospheric instrumentation, earning them a devoted global fanbase and critical acclaim.<br><br><a href="https://open.spotify.com/artist/7bu3H8JO7d0UbMoVzbo70s" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The Cure is celebrated for their emotional depth, innovative sound, and captivating live performances, making them a cornerstone of alternative music history.</td>
+                        <td><span class="rating">9</span></td>
+                        <td>5</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="3">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/dylan-gossett.html'" style="background-image: url('artists/dylan-gossett/dylan-gossett_3fb84b74.jpg');">
+                            <strong>Dylan Gossett</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie Pop</span><span class="badge rounded-pill bg-info text-dark me-1">Alternative</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="No verifiable information is currently available about this artist.">No verifiable information is currently available about this artist.<br><br><a href="https://open.spotify.com/artist/1L4y7y3eZ7X9U6G5gD4W0e" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Emerging artist with a growing following; performances show promise and potential for wider appeal.</td>
+                        <td><span class="rating">5</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="4">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/ethel-cain.html'" style="background-image: url('artists/ethel-cain/ethel-cain_b9d47703.jpg');">
+                            <strong>Ethel Cain</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie Pop</span><span class="badge rounded-pill bg-info text-dark me-1">Alternative</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="Ethel Cain is an American singer-songwriter known for her haunting, atmospheric music that blends elements of indie pop, alternative, and Southern Gothic themes. Her debut album 'Preacher’s Daughter' received critical acclaim for its narrative depth and unique sound.">Ethel Cain is an American singer-songwriter known for her haunting, atmospheric music that blends elements of indie pop, alternative, and Southern Gothic themes. Her debut album &#39;Preacher’s Daughter&#39; received critical acclaim for its narrative depth and unique sound.<br><br><a href="https://open.spotify.com/artist/4kSGbjWGxTchKpIxXPJv0B" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Ethel Cain has been praised for her evocative storytelling and immersive live performances, which showcase her ability to create a deeply emotional connection with her audience.</td>
+                        <td><span class="rating">7</span></td>
+                        <td></td>
+                        <td title="Female">♀️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="5">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/gorillaz.html'" style="background-image: url('artists/gorillaz/gorillaz_273eaa7e.jpg');">
+                            <strong>Gorillaz</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Alternative</span><span class="badge rounded-pill bg-info text-dark me-1">Virtual Band</span><span class="badge rounded-pill bg-info text-dark me-1">Electronic</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="Gorillaz is a virtual band created by musician Damon Albarn and artist Jamie Hewlett, blending alternative rock, hip-hop, and electronic music. Known for their innovative animated personas, they have achieved global success with hits like 'Clint Eastwood' and 'Feel Good Inc.'">Gorillaz is a virtual band created by musician Damon Albarn and artist Jamie Hewlett, blending alternative rock, hip-hop, and electronic music. Known for their innovative animated personas, they have achieved global success with hits like &#39;Clint Eastwood&#39; and &#39;Feel Good Inc.&#39;<br><br><a href="https://open.spotify.com/artist/3AA28KZvwAUcZuOKwyblJQ" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Gorillaz is celebrated for their genre-defying sound and groundbreaking multimedia approach, making them a standout act both in studio recordings and visually immersive live performances.</td>
+                        <td><span class="rating">9</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="6">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/halsey.html'" style="background-image: url('artists/halsey/halsey_b250486e.jpg');">
+                            <strong>Halsey</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Pop</span><span class="badge rounded-pill bg-info text-dark me-1">Alternative Pop</span><span class="badge rounded-pill bg-info text-dark me-1">Electropop</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="Halsey is an American singer-songwriter known for their genre-blending style, combining elements of pop, alternative, and electronic music. They have achieved significant commercial success with hits like 'Without Me' and 'Bad at Love,' and are recognized for their introspective lyrics and dynamic vocal performances.">Halsey is an American singer-songwriter known for their genre-blending style, combining elements of pop, alternative, and electronic music. They have achieved significant commercial success with hits like &#39;Without Me&#39; and &#39;Bad at Love,&#39; and are recognized for their introspective lyrics and dynamic vocal performances.<br><br><a href="https://open.spotify.com/artist/26VFTg2z8YR0cCuwLzESi2" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Halsey is widely praised for their ability to craft deeply personal and relatable music, and their live performances are known for emotional intensity and strong stage presence.</td>
+                        <td><span class="rating">8</span></td>
+                        <td></td>
+                        <td title="Non-binary">⚧️</td>
+                        <td title="Front Person of Color: Yes">✓</td>
+                    </tr>
+                    <tr data-index="7">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-haunted-youth.html'" style="background-image: url('artists/the-haunted-youth/the-haunted-youth_8ed81077.jpg');">
+                            <strong>The Haunted Youth</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Dream Pop</span><span class="badge rounded-pill bg-info text-dark me-1">Psych Pop</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Belgium</span></td>
+                        <td class="bio" title="The Haunted Youth is a Belgian band known for their dreamy, melancholic soundscapes, blending elements of dream pop and psychedelic pop. Their music has gained international attention for its lush production and emotive melodies.">The Haunted Youth is a Belgian band known for their dreamy, melancholic soundscapes, blending elements of dream pop and psychedelic pop. Their music has gained international attention for its lush production and emotive melodies.<br><br><a href="https://open.spotify.com/artist/5mXWqv3m0sQ7X5hvqkY4k3" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The Haunted Youth has been praised for their atmospheric sound and strong live performances, making them a promising act in the indie and festival circuits.</td>
+                        <td><span class="rating">7</span></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="8">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/kasabian.html'" style="background-image: url('artists/kasabian/kasabian_950f2099.jpg');">
+                            <strong>Kasabian</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Alternative Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Indie Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Electronic Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="Kasabian is a British rock band formed in Leicester in 1997, known for their blend of electronic rock and indie influences. They have achieved critical and commercial success with multiple chart-topping albums and hits like 'Fire' and 'Club Foot', and are renowned for their energetic live performances.">Kasabian is a British rock band formed in Leicester in 1997, known for their blend of electronic rock and indie influences. They have achieved critical and commercial success with multiple chart-topping albums and hits like &#39;Fire&#39; and &#39;Club Foot&#39;, and are renowned for their energetic live performances.<br><br><a href="https://open.spotify.com/artist/7ka1KiZNL7Q6PzR4chJeaP" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Kasabian is celebrated for their anthemic sound and ability to captivate large festival crowds, making them a standout act in the alternative rock scene.</td>
+                        <td><span class="rating">8</span></td>
+                        <td>4</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="9">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/kneecap.html'" style="background-image: url('artists/kneecap/kneecap_b63da4cf.jpg');">
+                            <strong>Kneecap</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Hip-hop</span><span class="badge rounded-pill bg-info text-dark me-1">Rap</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="Kneecap is a Belfast-based Irish-language hip-hop trio known for their politically charged lyrics, humor, and energetic performances. They have gained a cult following for their unique blend of Irish culture and contemporary rap.">Kneecap is a Belfast-based Irish-language hip-hop trio known for their politically charged lyrics, humor, and energetic performances. They have gained a cult following for their unique blend of Irish culture and contemporary rap.<br><br><a href="https://open.spotify.com/artist/0T5iIrX2w8g5p8J4p2pXcY" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Kneecap has been praised for their ability to merge activism with music, delivering memorable live performances that are both provocative and entertaining.</td>
+                        <td><span class="rating">7</span></td>
+                        <td>3</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="10">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-last-dinner-party.html'" style="background-image: url('artists/the-last-dinner-party/the-last-dinner-party_455ada68.jpg');">
+                            <strong>The Last Dinner Party</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Art Pop</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="The Last Dinner Party is a UK-based band known for their blend of indie rock and art pop, characterized by theatrical performances and intricate arrangements. They gained attention for their dynamic live shows and a fresh approach to storytelling in their music.">The Last Dinner Party is a UK-based band known for their blend of indie rock and art pop, characterized by theatrical performances and intricate arrangements. They gained attention for their dynamic live shows and a fresh approach to storytelling in their music.<br><br><a href="https://open.spotify.com/artist/3pXwF5qZx9VbW8G3Xzih4g" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The Last Dinner Party shows promise with their unique sound and engaging live performances, making them a rising act to watch in the indie scene.</td>
+                        <td><span class="rating">6</span></td>
+                        <td>5</td>
+                        <td title="Female">♀️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="11">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/lauren-spencer-smith.html'" style="background-image: url('artists/lauren-spencer-smith/lauren-spencer-smith_c44a1336.jpg');">
+                            <strong>Lauren Spencer Smith</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Pop</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Canada</span></td>
+                        <td class="bio" title="Lauren Spencer Smith is a Canadian singer-songwriter who gained widespread recognition after appearing on American Idol in 2020. Known for her emotive vocals and heartfelt lyrics, she has released viral hits like 'Fingers Crossed' and 'Flowers,' showcasing her talent for crafting relatable pop ballads.">Lauren Spencer Smith is a Canadian singer-songwriter who gained widespread recognition after appearing on American Idol in 2020. Known for her emotive vocals and heartfelt lyrics, she has released viral hits like &#39;Fingers Crossed&#39; and &#39;Flowers,&#39; showcasing her talent for crafting relatable pop ballads.<br><br><a href="https://open.spotify.com/artist/0tBbt8CrmxbjRP0pueQkyU" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Lauren Spencer Smith has been praised for her powerful voice and ability to connect emotionally with her audience, making her a promising live performer with potential for further acclaim.</td>
+                        <td><span class="rating">7</span></td>
+                        <td></td>
+                        <td title="Female">♀️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="12">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/lewis-capaldi.html'" style="background-image: url('artists/lewis-capaldi/lewis-capaldi_5a440484.jpg');">
+                            <strong>Lewis Capaldi</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Pop</span><span class="badge rounded-pill bg-info text-dark me-1">Soul</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="Lewis Capaldi is a Scottish singer-songwriter known for his emotive ballads and powerful vocal performances. He gained international fame with his hit single 'Someone You Loved,' which topped charts worldwide and earned him a Grammy nomination.">Lewis Capaldi is a Scottish singer-songwriter known for his emotive ballads and powerful vocal performances. He gained international fame with his hit single &#39;Someone You Loved,&#39; which topped charts worldwide and earned him a Grammy nomination.<br><br><a href="https://open.spotify.com/artist/4GNC7GD6oZMSxPGyXy4MNB" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Capaldi is praised for his raw emotional delivery and relatable lyrics, making him a standout in contemporary pop. His live performances are noted for their humor and heartfelt connection with audiences.</td>
+                        <td><span class="rating">8</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="13">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/loyle-carner.html'" style="background-image: url('artists/loyle-carner/loyle-carner_7f633adf.jpg');">
+                            <strong>Loyle Carner</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Hip-hop</span><span class="badge rounded-pill bg-info text-dark me-1">Jazz Rap</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="Loyle Carner is a British rapper known for his introspective lyrics and blending of hip-hop with jazz influences. He has received critical acclaim for albums like 'Yesterday's Gone' and 'Not Waving, But Drowning', earning Mercury Prize nominations and a dedicated fanbase.">Loyle Carner is a British rapper known for his introspective lyrics and blending of hip-hop with jazz influences. He has received critical acclaim for albums like &#39;Yesterday&#39;s Gone&#39; and &#39;Not Waving, But Drowning&#39;, earning Mercury Prize nominations and a dedicated fanbase.<br><br><a href="https://open.spotify.com/artist/4iHNK0tOyZPYnBU7nGAgpQ" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Loyle Carner&#39;s artistry is praised for its emotional depth and storytelling, with live performances often described as intimate and engaging.</td>
+                        <td><span class="rating">8</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: Yes">✓</td>
+                    </tr>
+                    <tr data-index="14">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-lumineers.html'" style="background-image: url('artists/the-lumineers/the-lumineers_6d797f28.jpg');">
+                            <strong>The Lumineers</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Folk rock</span><span class="badge rounded-pill bg-info text-dark me-1">Indie folk</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="The Lumineers are a Grammy-nominated folk rock band known for their heartfelt lyrics, acoustic instrumentation, and anthemic songs like 'Ho Hey' and 'Ophelia'. They have achieved international success with multiple chart-topping albums and are recognized for their raw, emotive storytelling.">The Lumineers are a Grammy-nominated folk rock band known for their heartfelt lyrics, acoustic instrumentation, and anthemic songs like &#39;Ho Hey&#39; and &#39;Ophelia&#39;. They have achieved international success with multiple chart-topping albums and are recognized for their raw, emotive storytelling.<br><br><a href="https://open.spotify.com/artist/16oZKvXb6WkQlVAjwo2Wbg" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The Lumineers are celebrated for their ability to connect with audiences through intimate, powerful performances and timeless songwriting, making them a standout in the indie folk genre.</td>
+                        <td><span class="rating">8</span></td>
+                        <td>2</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="15">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/matt-berninger.html'" style="background-image: url('artists/matt-berninger/matt-berninger_4fccf947.jpg');">
+                            <strong>Matt Berninger</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Alternative Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="Matt Berninger is the lead vocalist and lyricist of the critically acclaimed indie rock band The National, known for his baritone voice and introspective, poetic songwriting. He has also released solo work, including his 2020 album 'Serpentine Prison,' which showcases a more personal and melodic approach.">Matt Berninger is the lead vocalist and lyricist of the critically acclaimed indie rock band The National, known for his baritone voice and introspective, poetic songwriting. He has also released solo work, including his 2020 album &#39;Serpentine Prison,&#39; which showcases a more personal and melodic approach.<br><br><a href="https://open.spotify.com/artist/5gspAQIAH8nJUrMYgXjCJ2" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Matt Berninger is widely praised for his evocative lyrics and distinctive vocal delivery, with live performances often noted for their emotional depth and intensity.</td>
+                        <td><span class="rating">8</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="16">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/moby.html'" style="background-image: url('artists/moby/moby_c7ccfa2d.jpg');">
+                            <strong>Moby</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Electronic</span><span class="badge rounded-pill bg-info text-dark me-1">Downtempo</span><span class="badge rounded-pill bg-info text-dark me-1">Ambient</span><span class="badge rounded-pill bg-warning text-dark">DJ</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="Moby is an American electronic musician, producer, and DJ known for his pioneering work in electronic music and his critically acclaimed album 'Play,' which became a global success with its innovative use of samples and ambient sounds.">Moby is an American electronic musician, producer, and DJ known for his pioneering work in electronic music and his critically acclaimed album &#39;Play,&#39; which became a global success with its innovative use of samples and ambient sounds.<br><br><a href="https://open.spotify.com/artist/3OsRAKCvk37zwYcnzRf5XF" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Moby is widely regarded as a trailblazer in electronic music, with a strong ability to blend emotional depth and accessibility. His live performances are praised for their energy and immersive quality.</td>
+                        <td><span class="rating">9</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="17">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/mumford-sons.html'" style="background-image: url('artists/mumford-sons/mumford-sons_2f1161ee.jpg');">
+                            <strong>Mumford &amp; Sons</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Folk rock</span><span class="badge rounded-pill bg-info text-dark me-1">Indie folk</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="Mumford & Sons is a British band known for their blend of folk, rock, and bluegrass influences, characterized by their use of traditional instruments like the banjo and their anthemic, emotionally resonant songs. They achieved global success with albums such as 'Sigh No More' and 'Babel,' the latter winning the Grammy Award for Album of the Year in 2013.">Mumford &amp; Sons is a British band known for their blend of folk, rock, and bluegrass influences, characterized by their use of traditional instruments like the banjo and their anthemic, emotionally resonant songs. They achieved global success with albums such as &#39;Sigh No More&#39; and &#39;Babel,&#39; the latter winning the Grammy Award for Album of the Year in 2013.<br><br><a href="https://open.spotify.com/artist/3gd8FJtBJtkRxdfbTu19U2" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Mumford &amp; Sons are praised for their energetic live performances and ability to connect with audiences through their heartfelt lyrics and dynamic instrumentation.</td>
+                        <td><span class="rating">8</span></td>
+                        <td>4</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="18">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/palaye-royale.html'" style="background-image: url('artists/palaye-royale/palaye-royale_cf4c31c1.jpg');">
+                            <strong>Palaye Royale</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Alternative Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Glam Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Canada</span></td>
+                        <td class="bio" title="Palaye Royale is a Canadian-American rock band known for their fusion of alternative rock, glam rock, and art-inspired aesthetics. They have gained a dedicated fanbase through their theatrical live performances and albums like 'Boom Boom Room' and 'The Bastards.'">Palaye Royale is a Canadian-American rock band known for their fusion of alternative rock, glam rock, and art-inspired aesthetics. They have gained a dedicated fanbase through their theatrical live performances and albums like &#39;Boom Boom Room&#39; and &#39;The Bastards.&#39;<br><br><a href="https://open.spotify.com/artist/3xwYqj1NM1p1Wt3O0Qxtmn" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Palaye Royale is praised for their energetic and theatrical live shows, blending a vintage rock sound with modern flair, though some critics note their style can overshadow substance at times.</td>
+                        <td><span class="rating">7</span></td>
+                        <td>3</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="19">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/paul-kalkbrenner.html'" style="background-image: url('artists/paul-kalkbrenner/paul-kalkbrenner_4854cf24.jpg');">
+                            <strong>Paul Kalkbrenner</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Techno</span><span class="badge rounded-pill bg-info text-dark me-1">Electronic</span><span class="badge rounded-pill bg-warning text-dark">DJ</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Germany</span></td>
+                        <td class="bio" title="Paul Kalkbrenner is a German electronic music producer and DJ known for his melodic and cinematic approach to techno. He gained international recognition with his 2008 album 'Berlin Calling' and its hit single 'Sky and Sand'.">Paul Kalkbrenner is a German electronic music producer and DJ known for his melodic and cinematic approach to techno. He gained international recognition with his 2008 album &#39;Berlin Calling&#39; and its hit single &#39;Sky and Sand&#39;.<br><br><a href="https://open.spotify.com/artist/5l8VQNuIg0turYE1VtM9zV" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Kalkbrenner is celebrated for his ability to blend emotional depth with dancefloor energy, making his live performances a standout experience in the electronic music scene.</td>
+                        <td><span class="rating">8</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="20">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/pixies.html'" style="background-image: url('artists/pixies/pixies_fe8625ed.jpg');">
+                            <strong>Pixies</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Alternative Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Indie Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="Pixies are a pioneering alternative rock band formed in 1986 in Boston, known for their dynamic sound that blends quiet melodies with explosive guitar-driven choruses. They are widely credited with influencing the grunge movement and inspiring bands like Nirvana and Radiohead.">Pixies are a pioneering alternative rock band formed in 1986 in Boston, known for their dynamic sound that blends quiet melodies with explosive guitar-driven choruses. They are widely credited with influencing the grunge movement and inspiring bands like Nirvana and Radiohead.<br><br><a href="https://open.spotify.com/artist/6zvul52xwTWzilBZl6BUbT" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Pixies are celebrated for their raw energy, innovative songwriting, and powerful live performances, making them a staple of alternative rock history.</td>
+                        <td><span class="rating">9</span></td>
+                        <td>4</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="21">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-prodigy.html'" style="background-image: url('artists/the-prodigy/the-prodigy_21ac61f4.jpg');">
+                            <strong>The Prodigy</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Electronic</span><span class="badge rounded-pill bg-info text-dark me-1">Big Beat</span><span class="badge rounded-pill bg-info text-dark me-1">Rave</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="The Prodigy is a pioneering electronic music group formed in 1990, known for their high-energy big beat sound and hits like 'Firestarter' and 'Breathe'. They are regarded as one of the most influential acts in electronic music, with multiple chart-topping albums and a reputation for electrifying live performances.">The Prodigy is a pioneering electronic music group formed in 1990, known for their high-energy big beat sound and hits like &#39;Firestarter&#39; and &#39;Breathe&#39;. They are regarded as one of the most influential acts in electronic music, with multiple chart-topping albums and a reputation for electrifying live performances.<br><br><a href="https://open.spotify.com/artist/1vCWHaC5f2uS3yhpwWbIA6" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The Prodigy is widely celebrated for their innovative sound and intense live shows, which have made them a staple of the electronic and festival scenes. Their ability to blend punk energy with electronic beats has earned them critical acclaim and a lasting legacy.</td>
+                        <td><span class="rating">9</span></td>
+                        <td>3</td>
+                        <td title="Mixed">⚤</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="22">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/royel-otis.html'" style="background-image: url('artists/royel-otis/royel-otis_1c2066fd.jpg');">
+                            <strong>Royel Otis</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Dream Pop</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Australia</span></td>
+                        <td class="bio" title="Royel Otis is an Australian indie rock duo known for their dreamy, melodic sound and nostalgic yet modern approach to songwriting. They have gained attention for their catchy hooks and vibrant, summery tracks.">Royel Otis is an Australian indie rock duo known for their dreamy, melodic sound and nostalgic yet modern approach to songwriting. They have gained attention for their catchy hooks and vibrant, summery tracks.<br><br><a href="https://open.spotify.com/artist/6W9RN8hJb3XfZJkZ9yMsjL" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Royel Otis has been praised for their ability to craft infectious indie tunes, making them a promising act in the indie music scene with potential for strong live performances.</td>
+                        <td><span class="rating">6</span></td>
+                        <td>2</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="23">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/teddy-swims.html'" style="background-image: url('artists/teddy-swims/teddy-swims_a1d6e756.jpg');">
+                            <strong>Teddy Swims</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">R&amp;B</span><span class="badge rounded-pill bg-info text-dark me-1">Soul</span><span class="badge rounded-pill bg-info text-dark me-1">Pop</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="Teddy Swims is an American singer-songwriter known for his soulful voice and genre-blending style, combining elements of R&B, soul, and pop. He gained popularity through viral covers on social media and has since released original music, including his debut EP 'Unlearning' in 2021.">Teddy Swims is an American singer-songwriter known for his soulful voice and genre-blending style, combining elements of R&amp;B, soul, and pop. He gained popularity through viral covers on social media and has since released original music, including his debut EP &#39;Unlearning&#39; in 2021.<br><br><a href="https://open.spotify.com/artist/2gduEC76ry33RVurAvT05p" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Teddy Swims is widely praised for his powerful vocals and emotional delivery, with live performances that showcase his versatility and connection with audiences.</td>
+                        <td><span class="rating">7</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="24">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-vaccines.html'" style="background-image: url('artists/the-vaccines/the-vaccines_fdc7d049.jpg');">
+                            <strong>The Vaccines</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie rock</span><span class="badge rounded-pill bg-info text-dark me-1">Garage rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="The Vaccines are a British indie rock band formed in 2010, known for their energetic guitar-driven sound and catchy melodies. They gained widespread attention with their debut album 'What Did You Expect from The Vaccines?' and have since released several critically acclaimed records.">The Vaccines are a British indie rock band formed in 2010, known for their energetic guitar-driven sound and catchy melodies. They gained widespread attention with their debut album &#39;What Did You Expect from The Vaccines?&#39; and have since released several critically acclaimed records.<br><br><a href="https://open.spotify.com/artist/4uSftVc3FPWe6RJuMZNEe9" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The Vaccines are celebrated for their infectious hooks and high-energy live performances, making them a favorite at festivals and among indie rock fans.</td>
+                        <td><span class="rating">7</span></td>
+                        <td>5</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="25">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/twenty-one-pilots.html'" style="background-image: url('artists/twenty-one-pilots/twenty-one-pilots_717084c6.jpg');">
+                            <strong>Twenty One Pilots</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Alternative</span><span class="badge rounded-pill bg-info text-dark me-1">Pop Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="Twenty One Pilots is an American duo known for blending alternative rock, pop, hip-hop, and electronic elements, achieving mainstream success with hits like 'Stressed Out' and 'Heathens.' They have won multiple awards, including a Grammy, and are celebrated for their energetic and theatrical live performances.">Twenty One Pilots is an American duo known for blending alternative rock, pop, hip-hop, and electronic elements, achieving mainstream success with hits like &#39;Stressed Out&#39; and &#39;Heathens.&#39; They have won multiple awards, including a Grammy, and are celebrated for their energetic and theatrical live performances.<br><br><a href="https://open.spotify.com/artist/3YQKmKGau1PzlVlkL1iodx" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Twenty One Pilots are praised for their genre-defying sound and engaging live shows, which often feature elaborate stage setups and audience interaction.</td>
+                        <td><span class="rating">8</span></td>
+                        <td>2</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="26">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-war-on-drugs.html'" style="background-image: url('artists/the-war-on-drugs/the-war-on-drugs_dd7ed5ef.jpg');">
+                            <strong>The War on Drugs</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie Rock</span><span class="badge rounded-pill bg-info text-dark me-1">Heartland Rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">USA</span></td>
+                        <td class="bio" title="The War on Drugs is an American indie rock band known for their expansive, atmospheric sound that blends heartland rock with elements of shoegaze and psychedelia. They have received critical acclaim for albums like 'Lost in the Dream' and the Grammy-winning 'A Deeper Understanding.'">The War on Drugs is an American indie rock band known for their expansive, atmospheric sound that blends heartland rock with elements of shoegaze and psychedelia. They have received critical acclaim for albums like &#39;Lost in the Dream&#39; and the Grammy-winning &#39;A Deeper Understanding.&#39;<br><br><a href="https://open.spotify.com/artist/6g0mn2VfL2p07JU0xJRK8z" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The War on Drugs is celebrated for their lush, cinematic soundscapes and emotionally resonant songwriting. Their live performances are often praised for their immersive and dynamic quality.</td>
+                        <td><span class="rating">8</span></td>
+                        <td>6</td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="27">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/the-xx.html'" style="background-image: url('artists/the-xx/the-xx_c9324b0a.jpg');">
+                            <strong>The xx</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Indie pop</span><span class="badge rounded-pill bg-info text-dark me-1">Indie rock</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">UK</span></td>
+                        <td class="bio" title="The xx is a critically acclaimed British band known for their minimalist sound, blending indie pop, electronic, and R&B influences. Their debut album won the Mercury Prize in 2010, and they have been praised for their atmospheric music and emotional depth.">The xx is a critically acclaimed British band known for their minimalist sound, blending indie pop, electronic, and R&amp;B influences. Their debut album won the Mercury Prize in 2010, and they have been praised for their atmospheric music and emotional depth.<br><br><a href="https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">The xx are celebrated for their innovative soundscapes and intimate live performances, which have earned them a strong reputation in the indie music scene.</td>
+                        <td><span class="rating">8</span></td>
+                        <td>3</td>
+                        <td title="Mixed">⚤</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="28">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/zwangere-guy.html'" style="background-image: url('artists/zwangere-guy/zwangere-guy_5756edcc.jpg');">
+                            <strong>Zwangere Guy</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">Hip-Hop</span><span class="badge rounded-pill bg-info text-dark me-1">Rap</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Belgium</span></td>
+                        <td class="bio" title="Zwangere Guy is a Belgian rapper known for his raw and introspective lyrics, blending humor and social commentary with a distinctive delivery. He has gained recognition for his contributions to the Belgian hip-hop scene and his impactful live performances.">Zwangere Guy is a Belgian rapper known for his raw and introspective lyrics, blending humor and social commentary with a distinctive delivery. He has gained recognition for his contributions to the Belgian hip-hop scene and his impactful live performances.<br><br><a href="https://open.spotify.com/artist/0Qd1nCzUe5hV0zB6uW3z3s" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="take">Zwangere Guy is praised for his authentic storytelling and energetic stage presence, making him a standout in the European rap scene.</td>
+                        <td><span class="rating">7</span></td>
+                        <td></td>
+                        <td title="Male">♂️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="stats">
+            <p>Showing <strong><span id="visibleCount">29</span></strong> of <strong>29</strong> artists</p>
+        </div>
+    </div>
+    
+    <script>
+        const artistsData = [{"Artist": "A Perfect Circle", "Genre": "Alternative Rock/Hard Rock", "Country": "USA", "Bio": "A Perfect Circle is an American rock supergroup formed in 1999 by guitarist Billy Howerdel and Tool vocalist Maynard James Keenan. Known for their atmospheric and melodic sound, the band has released critically acclaimed albums such as 'Mer de Noms' and 'Thirteenth Step', blending elements of rock, art rock, and progressive music.", "My take": "A Perfect Circle is praised for their intricate compositions and Keenan's distinctive vocal delivery, with their live performances often noted for their precision and emotional depth.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/2yEwvVSSSUkcLeSTNyHKh8", "Number of People in Act": "5", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/a-perfect-circle", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "All Them Witches", "Genre": "Psychedelic Rock/Blues Rock/Stoner Rock", "Country": "USA", "Bio": "All Them Witches is a Nashville-based band known for their blend of psychedelic rock, blues, and stoner rock, creating atmospheric and dynamic music. They have gained a strong following through their extensive touring and critically acclaimed albums like 'Dying Surfer Meets His Maker' and 'Sleeping Through the War.'", "My take": "All Them Witches are praised for their immersive live performances and ability to create a rich, textured sound that resonates with fans of heavy, experimental rock.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/0ZxZlO7oWCSYMXhehpyMvE", "Number of People in Act": "4", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/all-them-witches", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The Cure", "Genre": "Post-punk/New Wave/Gothic Rock", "Country": "UK", "Bio": "The Cure is a seminal British band formed in 1978, known for their pioneering role in the post-punk and gothic rock genres, with iconic albums like 'Disintegration' and hits such as 'Just Like Heaven' and 'Friday I'm in Love'. Their music blends melancholic lyrics with atmospheric instrumentation, earning them a devoted global fanbase and critical acclaim.", "My take": "The Cure is celebrated for their emotional depth, innovative sound, and captivating live performances, making them a cornerstone of alternative music history.", "My rating": "9", "Spotify link": "https://open.spotify.com/artist/7bu3H8JO7d0UbMoVzbo70s", "Number of People in Act": "5", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/the-cure", "Festival Bio (NL)": "", "Festival Bio (EN)": "The Cure, from Crawley in Sussex, England, first took to the stage in 1978. Their breakthrough came in 1980 with the album Seventeen Seconds, which features their first hit single \u201cA Forest.\u201d To date, the band has played around 1,800 concerts and released several concert films, books and more. In 2019, they were inducted into the Rock and Roll Hall of Fame. Their catalogue includes classics such as \u201cBoys Don\u2019t Cry,\u201d \u201cJust Like Heaven,\u201d \u201cLovesong,\u201d \u201cInbetween Days,\u201d \u201cPictures of You,\u201d \u201cLullaby,\u201d and \u201cFriday I\u2019m In Love,\u201d as well as some of the most influential albums in modern pop history: Seventeen Seconds, Pornography, Kiss Me Kiss Me Kiss Me, Disintegration, and Wish. At the end of last year, they returned with their first new album in sixteen years: Songs of a Lost World, which was met with rave reviews. This year followed Mixes of a Lost World, a stunning remix album. Over the past 47 years, the band has had a total of 13 members. In 2026, five of them will take the stage: Robert Smith (vocals and guitar), Simon Gallup (bass), Jason Cooper (drums), Roger O\u2019Donnell (keyboards), and Reeves Gabrels (guitar).", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Dylan Gossett", "Genre": "Indie Pop / Alternative", "Country": "USA", "Bio": "No verifiable information is currently available about this artist.", "My take": "Emerging artist with a growing following; performances show promise and potential for wider appeal.", "My rating": "5", "Spotify link": "https://open.spotify.com/artist/1L4y7y3eZ7X9U6G5gD4W0e", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/dylan-gossett", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Ethel Cain", "Genre": "Indie Pop/Alternative", "Country": "USA", "Bio": "Ethel Cain is an American singer-songwriter known for her haunting, atmospheric music that blends elements of indie pop, alternative, and Southern Gothic themes. Her debut album 'Preacher\u2019s Daughter' received critical acclaim for its narrative depth and unique sound.", "My take": "Ethel Cain has been praised for her evocative storytelling and immersive live performances, which showcase her ability to create a deeply emotional connection with her audience.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/4kSGbjWGxTchKpIxXPJv0B", "Number of People in Act": "", "Gender of Front Person": "Female", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/ethel-cain", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Gorillaz", "Genre": "Alternative/Virtual Band/Electronic", "Country": "UK", "Bio": "Gorillaz is a virtual band created by musician Damon Albarn and artist Jamie Hewlett, blending alternative rock, hip-hop, and electronic music. Known for their innovative animated personas, they have achieved global success with hits like 'Clint Eastwood' and 'Feel Good Inc.'", "My take": "Gorillaz is celebrated for their genre-defying sound and groundbreaking multimedia approach, making them a standout act both in studio recordings and visually immersive live performances.", "My rating": "9", "Spotify link": "https://open.spotify.com/artist/3AA28KZvwAUcZuOKwyblJQ", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/gorillaz", "Festival Bio (NL)": "", "Festival Bio (EN)": "Gorillaz, the BRIT and Grammy-winning band, formed following a collision of mishaps, meetings and pure luck to blow up a pre-digital world with their colourful backstory and ground-breaking virtual ways. Based at Kong Studios, Gorillaz settled into a life of musical innovation with an eye-wateringly exciting roster of collaborators, a list that includes musical legends, geniuses and future stars from Elton John to Little Simz, MF Doom to Jean-Michel Jarre, Grace Jones to slowthai, Kali Uchis to Sidiki Diabat\u00e9, plus so many more. With eight albums to their name, Gorillaz (2001), Demon Days (2005), Plastic Beach (2010), The Fall (2011), Humanz (2017), The Now Now (2018), Song Machine: Season One \u2013 Strange Timez (2020) and Cracker Island (2023), Gorillaz is a truly global phenomenon, achieving success in entirely new and unique ways, touring the world from San Diego to Syria, Montevideo to Manchester and winning numerous awards including the coveted Jim Henson Creativity Honor. The band\u2019s recent acclaimed run of London shows to celebrate 25 years of Gorillaz saw The Guardian declare: \u201cDamon Albarn and Jamie Hewlett\u2019s cartoon band are still riveting and relevant\u201d, with London\u2019s Evening Standard adding \u201cAlbarn and Hewlett are still legions ahead of the pack,\u201d, and The Observer headline proclaim \u201cGorillaz stun in star-studded show of lush visuals and borderless music.\u201d Gorillaz\u2019 new studio album The Mountain will be released in 2026.", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Halsey", "Genre": "Pop/Alternative Pop/Electropop", "Country": "USA", "Bio": "Halsey is an American singer-songwriter known for their genre-blending style, combining elements of pop, alternative, and electronic music. They have achieved significant commercial success with hits like 'Without Me' and 'Bad at Love,' and are recognized for their introspective lyrics and dynamic vocal performances.", "My take": "Halsey is widely praised for their ability to craft deeply personal and relatable music, and their live performances are known for emotional intensity and strong stage presence.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/26VFTg2z8YR0cCuwLzESi2", "Number of People in Act": "", "Gender of Front Person": "Non-binary", "Front Person of Color?": "Yes", "Festival URL": "https://www.rockwerchter.be/en/acts/halsey", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The Haunted Youth", "Genre": "Dream Pop/Psych Pop", "Country": "Belgium", "Bio": "The Haunted Youth is a Belgian band known for their dreamy, melancholic soundscapes, blending elements of dream pop and psychedelic pop. Their music has gained international attention for its lush production and emotive melodies.", "My take": "The Haunted Youth has been praised for their atmospheric sound and strong live performances, making them a promising act in the indie and festival circuits.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/5mXWqv3m0sQ7X5hvqkY4k3", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Festival URL": "https://www.rockwerchter.be/en/acts/the-haunted-youth", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Kasabian", "Genre": "Alternative Rock/Indie Rock/Electronic Rock", "Country": "UK", "Bio": "Kasabian is a British rock band formed in Leicester in 1997, known for their blend of electronic rock and indie influences. They have achieved critical and commercial success with multiple chart-topping albums and hits like 'Fire' and 'Club Foot', and are renowned for their energetic live performances.", "My take": "Kasabian is celebrated for their anthemic sound and ability to captivate large festival crowds, making them a standout act in the alternative rock scene.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/7ka1KiZNL7Q6PzR4chJeaP", "Number of People in Act": "4", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/kasabian", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Kneecap", "Genre": "Hip-hop/Rap", "Country": "UK", "Bio": "Kneecap is a Belfast-based Irish-language hip-hop trio known for their politically charged lyrics, humor, and energetic performances. They have gained a cult following for their unique blend of Irish culture and contemporary rap.", "My take": "Kneecap has been praised for their ability to merge activism with music, delivering memorable live performances that are both provocative and entertaining.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/0T5iIrX2w8g5p8J4p2pXcY", "Number of People in Act": "3", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/kneecap", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The Last Dinner Party", "Genre": "Indie Rock/Art Pop", "Country": "UK", "Bio": "The Last Dinner Party is a UK-based band known for their blend of indie rock and art pop, characterized by theatrical performances and intricate arrangements. They gained attention for their dynamic live shows and a fresh approach to storytelling in their music.", "My take": "The Last Dinner Party shows promise with their unique sound and engaging live performances, making them a rising act to watch in the indie scene.", "My rating": "6", "Spotify link": "https://open.spotify.com/artist/3pXwF5qZx9VbW8G3Xzih4g", "Number of People in Act": "5", "Gender of Front Person": "Female", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/the-last-dinner-party", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Lauren Spencer Smith", "Genre": "Pop", "Country": "Canada", "Bio": "Lauren Spencer Smith is a Canadian singer-songwriter who gained widespread recognition after appearing on American Idol in 2020. Known for her emotive vocals and heartfelt lyrics, she has released viral hits like 'Fingers Crossed' and 'Flowers,' showcasing her talent for crafting relatable pop ballads.", "My take": "Lauren Spencer Smith has been praised for her powerful voice and ability to connect emotionally with her audience, making her a promising live performer with potential for further acclaim.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/0tBbt8CrmxbjRP0pueQkyU", "Number of People in Act": "", "Gender of Front Person": "Female", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/lauren-spencer-smith", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Lewis Capaldi", "Genre": "Pop/Soul", "Country": "UK", "Bio": "Lewis Capaldi is a Scottish singer-songwriter known for his emotive ballads and powerful vocal performances. He gained international fame with his hit single 'Someone You Loved,' which topped charts worldwide and earned him a Grammy nomination.", "My take": "Capaldi is praised for his raw emotional delivery and relatable lyrics, making him a standout in contemporary pop. His live performances are noted for their humor and heartfelt connection with audiences.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/4GNC7GD6oZMSxPGyXy4MNB", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/lewis-capaldi", "Festival Bio (NL)": "", "Festival Bio (EN)": "Lewis Capaldi is back! After a two-year break he took for his mental health, he made his big comeback at Glastonbury 2025. Exactly at the same spot where he had to cut short his big hit 'Someone You Loved' two years earlier. The audience carried the singing in a touching moment that went viral. Last summer, he surprised Glastonbury with a short set, including that same hit and his bold new track \"Survive\". The Scottish singer-songwriter is considered one of the greatest talents of recent years. Since 2018, Capaldi has continued to rack up extraordinary achievements. His debut album,\u00a0'Divinely Uninspired to a Hellish Extent'\u00a0(2019), featuring the beautiful \u201cSomeone You Loved\u201d, spent 77 weeks in the UK Top 10, breaking Ed Sheeran\u2019s record. His first UK stadium tour sold out in a mere second.", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Loyle Carner", "Genre": "Hip-hop/Jazz Rap", "Country": "UK", "Bio": "Loyle Carner is a British rapper known for his introspective lyrics and blending of hip-hop with jazz influences. He has received critical acclaim for albums like 'Yesterday's Gone' and 'Not Waving, But Drowning', earning Mercury Prize nominations and a dedicated fanbase.", "My take": "Loyle Carner's artistry is praised for its emotional depth and storytelling, with live performances often described as intimate and engaging.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/4iHNK0tOyZPYnBU7nGAgpQ", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "Yes", "Festival URL": "https://www.rockwerchter.be/en/acts/loyle-carner", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The Lumineers", "Genre": "Folk rock/Indie folk", "Country": "USA", "Bio": "The Lumineers are a Grammy-nominated folk rock band known for their heartfelt lyrics, acoustic instrumentation, and anthemic songs like 'Ho Hey' and 'Ophelia'. They have achieved international success with multiple chart-topping albums and are recognized for their raw, emotive storytelling.", "My take": "The Lumineers are celebrated for their ability to connect with audiences through intimate, powerful performances and timeless songwriting, making them a standout in the indie folk genre.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/16oZKvXb6WkQlVAjwo2Wbg", "Number of People in Act": "2", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/the-lumineers", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Matt Berninger", "Genre": "Indie Rock/Alternative Rock", "Country": "USA", "Bio": "Matt Berninger is the lead vocalist and lyricist of the critically acclaimed indie rock band The National, known for his baritone voice and introspective, poetic songwriting. He has also released solo work, including his 2020 album 'Serpentine Prison,' which showcases a more personal and melodic approach.", "My take": "Matt Berninger is widely praised for his evocative lyrics and distinctive vocal delivery, with live performances often noted for their emotional depth and intensity.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/5gspAQIAH8nJUrMYgXjCJ2", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/matt-berninger", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Moby", "Genre": "Electronic/Downtempo/Ambient", "Country": "USA", "Bio": "Moby is an American electronic musician, producer, and DJ known for his pioneering work in electronic music and his critically acclaimed album 'Play,' which became a global success with its innovative use of samples and ambient sounds.", "My take": "Moby is widely regarded as a trailblazer in electronic music, with a strong ability to blend emotional depth and accessibility. His live performances are praised for their energy and immersive quality.", "My rating": "9", "Spotify link": "https://open.spotify.com/artist/3OsRAKCvk37zwYcnzRf5XF", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/moby", "Festival Bio (NL)": "", "Festival Bio (EN)": "Moby was born Richard Melville Hall in Harlem, NYC in 1965. \u200bHis father gave him his nickname \u201cMoby\u201d when he was 10 minutes old, as a result of his hereditary relationship to Herman Melville. Moby started playing classical music and studying music theory when he was 9 years old, and then came of age musically in the punk rock scene in and around NYC in the early 80\u2019s. He released his first single, \u201cGo,\u201d in 1991 (listed as one of \u201cRolling Stone'' magazine's best records of all time), and has been making albums ever since. \u200bHe has sold over 20,000,000 albums worldwide. In addition to making his own records, Moby has also produced and remixed artists as varied and disparate as David Bowie, Public Enemy, Ozzy Osbourne, The Beastie Boys, and Daft Punk, to name a few. Moby also works with and supports a variety of non-profit organizations, including The Humane Society, Emily\u2019s List, The ACLU, and The Institute for Music and Neurologic Function. He has also branched out into film and television production with his company Little Walnut. \u200bIn addition to their award-winning documentaries \u201cMoby Doc\u201d and \u201cPunk Rock Vegan Movie,\u201d Little Walnut is planning a summer 2026 release of their first narrative feature, \u201cTecie.\u201d", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Mumford & Sons", "Genre": "Folk rock/Indie folk", "Country": "UK", "Bio": "Mumford & Sons is a British band known for their blend of folk, rock, and bluegrass influences, characterized by their use of traditional instruments like the banjo and their anthemic, emotionally resonant songs. They achieved global success with albums such as 'Sigh No More' and 'Babel,' the latter winning the Grammy Award for Album of the Year in 2013.", "My take": "Mumford & Sons are praised for their energetic live performances and ability to connect with audiences through their heartfelt lyrics and dynamic instrumentation.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/3gd8FJtBJtkRxdfbTu19U2", "Number of People in Act": "4", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/mumford-sons", "Festival Bio (NL)": "", "Festival Bio (EN)": "It could be the name of a distinguished coffee-roasting dynasty, or a bespoke tailoring house. Mumford & Sons exude confidence. The band, led by frontman Marcus Mumford, emerged from the West London folk scene \u2013 young city dwellers making rootsy music with accordions and banjos. Their debut,Sigh No More(2009), featuring evergreen tracks likeLittle Lion ManandThe Cave, sold over 3 million copies in the UK and US alone. Their relationship with Belgium is a love story. In November 2025 they play at a sold-out AFAS Dome in Antwerp. And 2026 marks their fifth Rock Werchter appearance. These are creative high times for Marcus & Co. Just seven months afterRushmere(2025), named after the place where it all began, a new albumPrizefighterarrives on 13 February. Mumford & Sons are masters of their craft. They write the most beautiful songs. Their shows are nothing short of spectacular and constitute one of the most anticipated highlights of Rock Werchter 2026.", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Palaye Royale", "Genre": "Alternative Rock/Glam Rock", "Country": "Canada", "Bio": "Palaye Royale is a Canadian-American rock band known for their fusion of alternative rock, glam rock, and art-inspired aesthetics. They have gained a dedicated fanbase through their theatrical live performances and albums like 'Boom Boom Room' and 'The Bastards.'", "My take": "Palaye Royale is praised for their energetic and theatrical live shows, blending a vintage rock sound with modern flair, though some critics note their style can overshadow substance at times.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/3xwYqj1NM1p1Wt3O0Qxtmn", "Number of People in Act": "3", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/palaye-royale", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Paul Kalkbrenner", "Genre": "Techno/Electronic", "Country": "Germany", "Bio": "Paul Kalkbrenner is a German electronic music producer and DJ known for his melodic and cinematic approach to techno. He gained international recognition with his 2008 album 'Berlin Calling' and its hit single 'Sky and Sand'.", "My take": "Kalkbrenner is celebrated for his ability to blend emotional depth with dancefloor energy, making his live performances a standout experience in the electronic music scene.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/5l8VQNuIg0turYE1VtM9zV", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/paul-kalkbrenner", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Pixies", "Genre": "Alternative Rock/Indie Rock", "Country": "USA", "Bio": "Pixies are a pioneering alternative rock band formed in 1986 in Boston, known for their dynamic sound that blends quiet melodies with explosive guitar-driven choruses. They are widely credited with influencing the grunge movement and inspiring bands like Nirvana and Radiohead.", "My take": "Pixies are celebrated for their raw energy, innovative songwriting, and powerful live performances, making them a staple of alternative rock history.", "My rating": "9", "Spotify link": "https://open.spotify.com/artist/6zvul52xwTWzilBZl6BUbT", "Number of People in Act": "4", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/pixies", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The Prodigy", "Genre": "Electronic/Big Beat/Rave", "Country": "UK", "Bio": "The Prodigy is a pioneering electronic music group formed in 1990, known for their high-energy big beat sound and hits like 'Firestarter' and 'Breathe'. They are regarded as one of the most influential acts in electronic music, with multiple chart-topping albums and a reputation for electrifying live performances.", "My take": "The Prodigy is widely celebrated for their innovative sound and intense live shows, which have made them a staple of the electronic and festival scenes. Their ability to blend punk energy with electronic beats has earned them critical acclaim and a lasting legacy.", "My rating": "9", "Spotify link": "https://open.spotify.com/artist/1vCWHaC5f2uS3yhpwWbIA6", "Number of People in Act": "3", "Gender of Front Person": "Mixed", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/the-prodigy", "Festival Bio (NL)": "", "Festival Bio (EN)": "The Prodigy has been crucial in bringing dance music to a guitar-driven audience. You can see that clearly in Werchter\u2019s golden history. In 1996, The Prodigy became the first dance act ever to close the festival, a feat the Brits have repeated three more times. Up front, Keith Flint (\u2020) and Maxim set the place ablaze with fireballs like \u2018Out of Space,\u2019 \u2018Firestarter,\u2019 \u2018Poison,\u2019 and \u2018Smack My Bitch Up,\u2019 while Liam Howlett commanded everything from behind the scenes. \u2018It\u2019ll be The Prodigy just like it was back then, and how it still moves forward,\u2019 the remaining members say about the summer of 2026. \u2018The familiar, full-on experience of nonstop noise and beats.\u2019 Loud and fierce. Punk rock for the 21st century. A new album is on the way. The successor toNo Tourists(2018) will be an ode to Keith Flint.", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Royel Otis", "Genre": "Indie Rock/Dream Pop", "Country": "Australia", "Bio": "Royel Otis is an Australian indie rock duo known for their dreamy, melodic sound and nostalgic yet modern approach to songwriting. They have gained attention for their catchy hooks and vibrant, summery tracks.", "My take": "Royel Otis has been praised for their ability to craft infectious indie tunes, making them a promising act in the indie music scene with potential for strong live performances.", "My rating": "6", "Spotify link": "https://open.spotify.com/artist/6W9RN8hJb3XfZJkZ9yMsjL", "Number of People in Act": "2", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/royel-otis", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Teddy Swims", "Genre": "R&B/Soul/Pop", "Country": "USA", "Bio": "Teddy Swims is an American singer-songwriter known for his soulful voice and genre-blending style, combining elements of R&B, soul, and pop. He gained popularity through viral covers on social media and has since released original music, including his debut EP 'Unlearning' in 2021.", "My take": "Teddy Swims is widely praised for his powerful vocals and emotional delivery, with live performances that showcase his versatility and connection with audiences.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/2gduEC76ry33RVurAvT05p", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/teddy-swims", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The Vaccines", "Genre": "Indie rock/Garage rock", "Country": "UK", "Bio": "The Vaccines are a British indie rock band formed in 2010, known for their energetic guitar-driven sound and catchy melodies. They gained widespread attention with their debut album 'What Did You Expect from The Vaccines?' and have since released several critically acclaimed records.", "My take": "The Vaccines are celebrated for their infectious hooks and high-energy live performances, making them a favorite at festivals and among indie rock fans.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/4uSftVc3FPWe6RJuMZNEe9", "Number of People in Act": "5", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/the-vaccines", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Twenty One Pilots", "Genre": "Alternative/Pop Rock", "Country": "USA", "Bio": "Twenty One Pilots is an American duo known for blending alternative rock, pop, hip-hop, and electronic elements, achieving mainstream success with hits like 'Stressed Out' and 'Heathens.' They have won multiple awards, including a Grammy, and are celebrated for their energetic and theatrical live performances.", "My take": "Twenty One Pilots are praised for their genre-defying sound and engaging live shows, which often feature elaborate stage setups and audience interaction.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/3YQKmKGau1PzlVlkL1iodx", "Number of People in Act": "2", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/twenty-one-pilots", "Festival Bio (NL)": "", "Festival Bio (EN)": "Tyler Joseph and Josh Dun from Columbus, Ohio, make up Twenty One Pilots. The dynamic duo have shifted music and culture as an incomparable creative force and with an ever-evolving vision. They have created a unique universe in which the main character, Clancy, tries to escape the fictional city of Dema and overcome his inner demons, represented by Blurryface. It is a symbolic story about mental health that spans multiple albums. The music, visuals, and mysterious narratives form an immersive world that captivates fans around the globe. Blurryface is also the title of their breakthrough album, which set a remarkable record: every track achieved gold or platinum status. In 2024, they released their seventh album, Clancy. Even before the accompanying tour was completed, they announced a new album. The recently released Breach serves as the epilogue to the mythical story of Clancy, which began more than ten years ago. With over 33 billion streams, more than three million tickets sold, dozens of platinum singles, and even a mention in the Guinness\u00ae World Records book for the longest music video ever, Twenty One Pilots remain one of the most innovative and intriguing acts of their generation. Catch them on Saturday 4 July on the Main Stage!", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The War on Drugs", "Genre": "Indie Rock/Heartland Rock", "Country": "USA", "Bio": "The War on Drugs is an American indie rock band known for their expansive, atmospheric sound that blends heartland rock with elements of shoegaze and psychedelia. They have received critical acclaim for albums like 'Lost in the Dream' and the Grammy-winning 'A Deeper Understanding.'", "My take": "The War on Drugs is celebrated for their lush, cinematic soundscapes and emotionally resonant songwriting. Their live performances are often praised for their immersive and dynamic quality.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/6g0mn2VfL2p07JU0xJRK8z", "Number of People in Act": "6", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/the-war-on-drugs", "Festival Bio (NL)": "", "Festival Bio (EN)": "Back in 2014, The War on Drugs pulled off the near impossible. OnLost in the Dreamthe band sounded as if Fleetwood Mac, Pink Floyd, Chris Rea, and Bruce Springsteen had fused into one. It was the record where frontman Adam Granduciel tamed the chaos in his head and the melancholy in his heart, turning it into pure beauty. Two years of recording, countless revisions, and a revolving cast of collaborators later, perfection was achieved. Granduciel has continued to refine and distill his music ever since, always reassuringly classic, yet intriguingly new. That journey broughtA Deeper Understanding(2017), a Grammy winner, andI Don\u2019t Live Here Anymore(2021), another critical triumph and Grammy nominee. Today, The War on Drugs rank among the giants of modern rock. Their third time at Rock Werchter promises to be unforgettable.", "Social Links": "", "Images Scraped": "No"}, {"Artist": "The xx", "Genre": "Indie pop/Indie rock", "Country": "UK", "Bio": "The xx is a critically acclaimed British band known for their minimalist sound, blending indie pop, electronic, and R&B influences. Their debut album won the Mercury Prize in 2010, and they have been praised for their atmospheric music and emotional depth.", "My take": "The xx are celebrated for their innovative soundscapes and intimate live performances, which have earned them a strong reputation in the indie music scene.", "My rating": "8", "Spotify link": "https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy", "Number of People in Act": "3", "Gender of Front Person": "Mixed", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/the-xx", "Festival Bio (NL)": "", "Festival Bio (EN)": "The xx was formed in 2005 in London. Romy, Oliver Sims, and Jamie xx met at school. Their debut album 'xx' was released in 2009 and received rave reviews, topping numerous \u201cBest of 2009\u201d lists and earning them the prestigious Mercury Music Prize in 2010. With follow-up albums 'Coexist' (2012) and 'I See You' (2017), the band grew into one of the most influential acts of their generation, without ever losing their signature intimate sound. After a long period of silence, marked by the three members\u2019 solo projects, \u200b they\u2019ve now reunited. The xx have shared studio footage on social media, hinting at new music. \u201cIt is like The Avengers! We\u2019ve said it ourselves. It\u2019s always so nice to get back together with them,\u201d said Jamie xx. The xx previously played at Rock Werchter in 2010 and 2012. Their return is eagerly awaited.", "Social Links": "", "Images Scraped": "No"}, {"Artist": "Zwangere Guy", "Genre": "Hip-Hop/Rap", "Country": "Belgium", "Bio": "Zwangere Guy is a Belgian rapper known for his raw and introspective lyrics, blending humor and social commentary with a distinctive delivery. He has gained recognition for his contributions to the Belgian hip-hop scene and his impactful live performances.", "My take": "Zwangere Guy is praised for his authentic storytelling and energetic stage presence, making him a standout in the European rap scene.", "My rating": "7", "Spotify link": "https://open.spotify.com/artist/0Qd1nCzUe5hV0zB6uW3z3s", "Number of People in Act": "", "Gender of Front Person": "Male", "Front Person of Color?": "No", "Festival URL": "https://www.rockwerchter.be/en/acts/zwangere-guy", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "No"}];
+        let currentSort = { column: null, direction: 'asc' };
+        
+        // Populate filter dropdowns with counts
+        // Count genres (split by / to handle multiple genres per artist)
+        const genreCounts = {};
+        artistsData.forEach(a => {
+            if (a.Genre) {
+                a.Genre.split('/').forEach(g => {
+                    const genre = g.trim();
+                    genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+                });
+            }
+        });
+        const genres = Object.keys(genreCounts).sort();
+        
+        // Count countries (split by / to handle multiple countries per artist)
+        const countryCounts = {};
+        artistsData.forEach(a => {
+            if (a.Country) {
+                a.Country.split('/').forEach(c => {
+                    const country = c.trim();
+                    countryCounts[country] = (countryCounts[country] || 0) + 1;
+                });
+            }
+        });
+        const countries = Object.keys(countryCounts).sort();
+        
+        const genreSelect = document.getElementById('genreFilter');
+        genres.forEach(genre => {
+            const option = document.createElement('option');
+            option.value = genre;
+            option.textContent = `${genre} (${genreCounts[genre]})`;
+            genreSelect.appendChild(option);
+        });
+        
+        const countrySelect = document.getElementById('countryFilter');
+        countries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = `${country} (${countryCounts[country]})`;
+            countrySelect.appendChild(option);
+        });
+        
+        // Count ratings
+        const ratingCounts = { '10': 0, '9': 0, '8': 0, '7': 0, '6': 0, '5': 0, '4': 0, '3': 0, '2': 0, '1': 0 };
+        artistsData.forEach(a => {
+            const rating = parseFloat(a['My rating']);
+            if (rating === 10) ratingCounts['10']++;
+            if (rating >= 9) ratingCounts['9']++;
+            if (rating >= 8) ratingCounts['8']++;
+            if (rating >= 7) ratingCounts['7']++;
+            if (rating >= 6) ratingCounts['6']++;
+            if (rating >= 5) ratingCounts['5']++;
+            if (rating >= 4) ratingCounts['4']++;
+            if (rating >= 3) ratingCounts['3']++;
+            if (rating >= 2) ratingCounts['2']++;
+            if (rating >= 1) ratingCounts['1']++;
+        });
+        
+        // Update rating filter options with counts
+        const ratingSelect = document.getElementById('ratingFilter');
+        ratingSelect.innerHTML = `
+            <option value="">All Ratings</option>
+            <option value="10">10 (Legendary) (${ratingCounts['10']})</option>
+            <option value="9">9+ (Must-See) (${ratingCounts['9']})</option>
+            <option value="8">8+ (Excellent) (${ratingCounts['8']})</option>
+            <option value="7">7+ (Very Good) (${ratingCounts['7']})</option>
+            <option value="6">6+ (Good) (${ratingCounts['6']})</option>
+            <option value="5">5+ (Average) (${ratingCounts['5']})</option>
+            <option value="4">4+ (Developing) (${ratingCounts['4']})</option>
+            <option value="3">3+ (Below Average) (${ratingCounts['3']})</option>
+            <option value="2">2+ (Poor) (${ratingCounts['2']})</option>
+            <option value="1">1+ (All) (${ratingCounts['1']})</option>
+        `;
+        
+        // Count genders and POC (treat empty as Unknown)
+        const genderCounts = {};
+        const pocCounts = {};
+        artistsData.forEach(a => {
+            const gender = a['Gender of Front Person'] || 'Unknown';
+            const poc = a['Front Person of Color?'] || 'Unknown';
+            genderCounts[gender] = (genderCounts[gender] || 0) + 1;
+            pocCounts[poc] = (pocCounts[poc] || 0) + 1;
+        });
+        
+        // Update gender checkboxes with counts
+        document.querySelectorAll('#genderFilters label').forEach(label => {
+            const input = label.querySelector('input');
+            const value = input.value;
+            const count = genderCounts[value] || 0;
+            const icon = label.textContent.split(' ')[0]; // Get emoji
+            label.innerHTML = `${input.outerHTML} ${icon} ${value} (${count})`;
+        });
+        
+        // Update POC checkboxes with counts
+        document.querySelectorAll('#pocFilters label').forEach(label => {
+            const input = label.querySelector('input');
+            const value = input.value;
+            const count = pocCounts[value] || 0;
+            const icon = label.textContent.split(' ')[0]; // Get emoji
+            label.innerHTML = `${input.outerHTML} ${icon} ${value} (${count})`;
+        });
+        
+        // Search and filter functionality
+        function filterTable() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const genreFilter = document.getElementById('genreFilter').value;
+            const countryFilter = document.getElementById('countryFilter').value;
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            
+            // Get checked genders and POC values
+            const checkedGenders = Array.from(document.querySelectorAll('#genderFilters input:checked')).map(cb => cb.value);
+            const checkedPOC = Array.from(document.querySelectorAll('#pocFilters input:checked')).map(cb => cb.value);
+            
+            const rows = document.querySelectorAll('#artistTableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const dataIndex = parseInt(row.getAttribute('data-index'));
+                const artist = artistsData[dataIndex];
+                const searchText = Object.values(artist).join(' ').toLowerCase();
+                
+                const matchesSearch = !searchTerm || searchText.includes(searchTerm);
+                const matchesGenre = !genreFilter || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).includes(genreFilter));
+                const matchesCountry = !countryFilter || (artist.Country && artist.Country.split('/').map(c => c.trim()).includes(countryFilter));
+                const matchesRating = !ratingFilter || (artist['My rating'] && parseFloat(artist['My rating']) >= parseFloat(ratingFilter));
+                const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person'] || 'Unknown');
+                const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?'] || 'Unknown');
+                
+                if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesGender && matchesPOC) {
+                    row.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+            
+            document.getElementById('visibleCount').textContent = visibleCount;
+            document.getElementById('visibleCountTop').textContent = visibleCount;
+        }
+        
+        // Sorting functionality
+        function sortTable(column) {
+            const tbody = document.getElementById('artistTableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // Create array of row-data pairs using data-index attribute
+            const rowData = rows.map(row => ({
+                row: row,
+                data: artistsData[parseInt(row.getAttribute('data-index'))]
+            }));
+            
+            // Toggle sort direction
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+            
+            // Update header styling
+            document.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            const header = document.querySelector(`th[data-column="${column}"]`);
+            header.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            
+            // Sort row-data pairs
+            rowData.sort((a, b) => {
+                const aValue = a.data[column] || '';
+                const bValue = b.data[column] || '';
+                
+                // Handle numeric sorting for rating
+                if (column === 'My rating' || column === 'Number of People in Act') {
+                    const aNum = parseFloat(aValue) || 0;
+                    const bNum = parseFloat(bValue) || 0;
+                    return currentSort.direction === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+                
+                // String sorting with normalization for special characters
+                const normalizeForSort = (str) => {
+                    let normalized = str.toString()
+                        .replace(/¥/g, 'Y')
+                        .replace(/Ø/g, 'O')
+                        .replace(/\$/g, 'S')
+                        .replace(/€/g, 'E')
+                        .replace(/1/g, 'I')
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, ''); // Remove diacritics
+                    
+                    // Remove leading articles for sorting (The, De, etc.)
+                    normalized = normalized.replace(/^(The|De|Le|La|Les|Los|Las|El|Il|Die|Der|Das)\s+/i, '');
+                    
+                    return normalized;
+                };
+                
+                const aNormalized = normalizeForSort(aValue);
+                const bNormalized = normalizeForSort(bValue);
+                const comparison = aNormalized.localeCompare(bNormalized);
+                return currentSort.direction === 'asc' ? comparison : -comparison;
+            });
+            
+            // Reorder DOM
+            rowData.forEach(item => tbody.appendChild(item.row));
+        }
+        
+        // Event listeners
+        document.getElementById('searchBox').addEventListener('input', filterTable);
+        document.getElementById('genreFilter').addEventListener('change', filterTable);
+        document.getElementById('countryFilter').addEventListener('change', filterTable);
+        document.getElementById('ratingFilter').addEventListener('change', filterTable);
+        
+        // Add listeners for gender and POC checkboxes
+        document.querySelectorAll('#genderFilters input, #pocFilters input').forEach(checkbox => {
+            checkbox.addEventListener('change', filterTable);
+        });
+        
+        document.querySelectorAll('th.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                sortTable(th.dataset.column);
+            });
+        });
+        
+        // Sort by Artist name on page load
+        sortTable('Artist');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
+        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+        <div>
+            <p style="margin-bottom: 15px;">
+                <strong>Content Notice:</strong> These pages combine content scraped from the 
+                <a href="https://www.rockwerchter.be" target="_blank" style="color: #00d9ff; text-decoration: none;">Rock Werchter festival website</a>
+                with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
+            </p>
+            <p style="margin-bottom: 15px;">
+                <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
+                Please verify critical details on official sources.
+            </p>
+            <p style="margin-bottom: 0;">
+                Generated with ❤️ • 
+                <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <i class="bi bi-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="../../shared/script.js"></script>
+    <script src="overrides.js"></script>
+</body>
+</html>

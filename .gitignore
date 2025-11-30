@@ -45,3 +45,4 @@ remove_*.py
 use_*.py
 scrape_*_lineup.py
 *_lineup.html
+.keys.txt

@@ -236,6 +236,43 @@ class FestivalScraper:
         
         return artists
     
+    def scrape_lineup(self) -> List[dict]:
+        """
+        Scrape lineup and return list of artist dictionaries.
+        
+        Returns:
+            List of dicts with 'name' and 'url' keys
+        """
+        html = self.fetch_page(self.config.lineup_url)
+        if not html:
+            return []
+        
+        soup = BeautifulSoup(html, 'html.parser')
+        
+        artists = []
+        seen_names = set()
+        
+        # Look for links in the lineup/program area
+        for link in soup.find_all('a', href=True):
+            href = link.get('href', '')
+            if self.config.artist_path in href:
+                artist_name = link.get_text(strip=True)
+                
+                # Clean up artist name - remove day/date suffixes common in Rock Werchter format
+                # e.g., "GorillazSat 4 July" -> "Gorillaz"
+                artist_name = re.sub(r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d+\s+(January|February|March|April|May|June|July|August|September|October|November|December)$', '', artist_name, flags=re.IGNORECASE).strip()
+                
+                if artist_name and artist_name not in seen_names:
+                    seen_names.add(artist_name)
+                    # Build full URL
+                    url = href if href.startswith('http') else f"{self.config.base_url}{href}"
+                    artists.append({
+                        'name': artist_name,
+                        'url': url
+                    })
+        
+        return artists
+    
     def rate_limit_delay(self, seconds: float = 0.5):
         """
         Add a delay to respect rate limits.
