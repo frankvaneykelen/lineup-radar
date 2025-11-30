@@ -198,7 +198,29 @@ When adding a new festival or year, manually update `docs/index.html`:
 2. Ensure links point to correct paths: `festival-slug/year/index.html`
 3. Update the "Currently tracking" text if adding new festivals
 
-#### Quick generation of all pages
+#### Quick regeneration of all HTML pages
+
+Use the provided scripts to regenerate all HTML pages for all festivals at once:
+
+**PowerShell (recommended):**
+
+```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
+# Run the regeneration script
+.\regenerate_all.ps1
+```
+
+**Batch file (Windows double-click):**
+
+```batch
+# Simply double-click regenerate_all.bat in Windows Explorer
+# Or run from command prompt:
+regenerate_all.bat
+```
+
+**Manual generation (individual festivals):**
 
 ```powershell
 # Activate virtual environment first

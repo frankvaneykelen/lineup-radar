@@ -328,6 +328,9 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <a href="../../../index.html" class="home-link">
                         <i class="bi bi-house-door-fill"></i> Home
                     </a>
+                    <a href="../../../faq.html">
+                        <i class="bi bi-question-circle"></i> FAQ
+                    </a>
                     <a href="../index.html">
                         <i class="bi bi-arrow-left"></i> Back to Lineup
                     </a>
