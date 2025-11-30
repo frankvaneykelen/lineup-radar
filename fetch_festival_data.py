@@ -197,11 +197,55 @@ def main():
     scraper = FestivalScraper(config)
     
     # CSV file path - use festival-specific path
-    csv_path = Path(f"{config.slug}/{args.year}.csv")
+    # Try multiple locations
+    csv_locations = [
+        Path(f"docs/{config.slug}/{args.year}/{args.year}.csv"),
+        Path(f"{config.slug}/{args.year}.csv")
+    ]
+    csv_path = None
+    for loc in csv_locations:
+        if loc.exists():
+            csv_path = loc
+            break
     
-    if not csv_path.exists():
-        print(f"✗ CSV file not found: {csv_path}")
-        sys.exit(1)
+    # If CSV doesn't exist, create it with scraped lineup
+    if not csv_path:
+        csv_path = Path(f"docs/{config.slug}/{args.year}/{args.year}.csv")
+        print(f"CSV not found. Creating new CSV at: {csv_path}")
+        
+        # Create directory structure
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Scrape lineup to create initial CSV
+        print(f"Scraping lineup from {config.lineup_url}...")
+        artists = scraper.scrape_lineup()
+        
+        if not artists:
+            print("✗ No artists found")
+            sys.exit(1)
+        
+        # Create CSV with basic structure
+        import csv as csv_module
+        with open(csv_path, 'w', encoding='utf-8', newline='') as f:
+            writer = csv_module.DictWriter(f, fieldnames=[
+                'Artist', 'Genre', 'Country', 'Bio', 'My take', 'My rating',
+                'Spotify link', 'Number of People in Act', 'Gender of Front Person',
+                'Front Person of Color?', 'Festival URL', 'Festival Bio (NL)',
+                'Festival Bio (EN)', 'Social Links', 'Images Scraped'
+            ])
+            writer.writeheader()
+            for artist in artists:
+                writer.writerow({
+                    'Artist': artist['name'],
+                    'Festival URL': artist.get('url', ''),
+                    'Genre': '', 'Country': '', 'Bio': '', 'My take': '', 'My rating': '',
+                    'Spotify link': '', 'Number of People in Act': '',
+                    'Gender of Front Person': '', 'Front Person of Color?': '',
+                    'Festival Bio (NL)': '', 'Festival Bio (EN)': '',
+                    'Social Links': '', 'Images Scraped': ''
+                })
+        
+        print(f"✓ Created CSV with {len(artists)} artists")
     
     # Load CSV
     headers, rows = load_csv(csv_path)

@@ -135,15 +135,18 @@ Write-Host ""
 Write-TestHeader "TEST 1: Verify CSV Files"
 
 foreach ($festival in $festivals) {
-    $csvPath = "$festival/$year.csv"
+    $csvPath = "docs/$festival/$year/$year.csv"
+    if (-not (Test-Path $csvPath)) {
+        $csvPath = "$festival/$year.csv"
+    }
     Test-FileExists -Path $csvPath -Description "CSV exists for $festival $year"
 }
 
 # Test 2: Verify CSV data integrity
 Write-TestHeader "TEST 2: Verify CSV Data Integrity"
 
-Test-CSVRowCount -Path "down-the-rabbit-hole/$year.csv" -ExpectedCount 39 -Description "Down The Rabbit Hole has 39 artists"
-Test-CSVRowCount -Path "pinkpop/$year.csv" -ExpectedCount 32 -Description "Pinkpop has 32 artists"
+Test-CSVRowCount -Path "docs/down-the-rabbit-hole/$year/$year.csv" -ExpectedCount 39 -Description "Down The Rabbit Hole has 39 artists"
+Test-CSVRowCount -Path "docs/pinkpop/$year/$year.csv" -ExpectedCount 32 -Description "Pinkpop has 32 artists"
 
 # Test 3: Run fetch_festival_data.py (optional)
 if (-not $SkipFetch) {

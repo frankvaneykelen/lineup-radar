@@ -124,6 +124,7 @@ def generate_html(csv_file, output_dir, config):
                         <label><input type="checkbox" value="Female" checked> ♀️ Female</label>
                         <label><input type="checkbox" value="Mixed" checked> ⚤ Mixed</label>
                         <label><input type="checkbox" value="Non-binary" checked> ⚧️ Non-binary</label>
+                        <label><input type="checkbox" value="Unknown" checked> ❓ Unknown</label>
                     </div>
                 </div>
                 
@@ -132,6 +133,7 @@ def generate_html(csv_file, output_dir, config):
                     <div class="checkbox-group" id="pocFilters">
                         <label><input type="checkbox" value="Yes" checked> Yes</label>
                         <label><input type="checkbox" value="No" checked> No</label>
+                        <label><input type="checkbox" value="Unknown" checked> ❓ Unknown</label>
                     </div>
                 </div>
             </div>
@@ -321,33 +323,45 @@ def generate_html(csv_file, output_dir, config):
         }});
         
         // Count ratings
-        const ratingCounts = {{ '9': 0, '8': 0, '7': 0, '6': 0 }};
+        const ratingCounts = {{ '10': 0, '9': 0, '8': 0, '7': 0, '6': 0, '5': 0, '4': 0, '3': 0, '2': 0, '1': 0 }};
         artistsData.forEach(a => {{
             const rating = parseFloat(a['My rating']);
+            if (rating === 10) ratingCounts['10']++;
             if (rating >= 9) ratingCounts['9']++;
             if (rating >= 8) ratingCounts['8']++;
             if (rating >= 7) ratingCounts['7']++;
             if (rating >= 6) ratingCounts['6']++;
+            if (rating >= 5) ratingCounts['5']++;
+            if (rating >= 4) ratingCounts['4']++;
+            if (rating >= 3) ratingCounts['3']++;
+            if (rating >= 2) ratingCounts['2']++;
+            if (rating >= 1) ratingCounts['1']++;
         }});
         
         // Update rating filter options with counts
         const ratingSelect = document.getElementById('ratingFilter');
         ratingSelect.innerHTML = `
             <option value="">All Ratings</option>
-            <option value="9">9+ (Excellent) (${{ratingCounts['9']}})</option>
-            <option value="8">8+ (Very Good) (${{ratingCounts['8']}})</option>
-            <option value="7">7+ (Good) (${{ratingCounts['7']}})</option>
-            <option value="6">6+ (Above Average) (${{ratingCounts['6']}})</option>
+            <option value="10">10 (Legendary) (${{ratingCounts['10']}})</option>
+            <option value="9">9+ (Must-See) (${{ratingCounts['9']}})</option>
+            <option value="8">8+ (Excellent) (${{ratingCounts['8']}})</option>
+            <option value="7">7+ (Very Good) (${{ratingCounts['7']}})</option>
+            <option value="6">6+ (Good) (${{ratingCounts['6']}})</option>
+            <option value="5">5+ (Average) (${{ratingCounts['5']}})</option>
+            <option value="4">4+ (Developing) (${{ratingCounts['4']}})</option>
+            <option value="3">3+ (Below Average) (${{ratingCounts['3']}})</option>
+            <option value="2">2+ (Poor) (${{ratingCounts['2']}})</option>
+            <option value="1">1+ (All) (${{ratingCounts['1']}})</option>
         `;
         
-        // Count genders and POC
+        // Count genders and POC (treat empty as Unknown)
         const genderCounts = {{}};
         const pocCounts = {{}};
         artistsData.forEach(a => {{
-            const gender = a['Gender of Front Person'] || '';
-            const poc = a['Front Person of Color?'] || '';
-            if (gender) genderCounts[gender] = (genderCounts[gender] || 0) + 1;
-            if (poc) pocCounts[poc] = (pocCounts[poc] || 0) + 1;
+            const gender = a['Gender of Front Person'] || 'Unknown';
+            const poc = a['Front Person of Color?'] || 'Unknown';
+            genderCounts[gender] = (genderCounts[gender] || 0) + 1;
+            pocCounts[poc] = (pocCounts[poc] || 0) + 1;
         }});
         
         // Update gender checkboxes with counts
@@ -391,8 +405,8 @@ def generate_html(csv_file, output_dir, config):
                 const matchesGenre = !genreFilter || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).includes(genreFilter));
                 const matchesCountry = !countryFilter || (artist.Country && artist.Country.split('/').map(c => c.trim()).includes(countryFilter));
                 const matchesRating = !ratingFilter || (artist['My rating'] && parseFloat(artist['My rating']) >= parseFloat(ratingFilter));
-                const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person']);
-                const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?']);
+                const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person'] || 'Unknown');
+                const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?'] || 'Unknown');
                 
                 if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesGender && matchesPOC) {{
                     row.classList.remove('hidden');
@@ -564,9 +578,10 @@ def main():
     
     # Try multiple locations for CSV file (festival-specific paths)
     csv_locations = [
-        f"{config.slug}/{args.year}.csv",  # Festival directory
+        f"docs/{config.slug}/{args.year}/{args.year}.csv",  # Docs location (primary)
+        f"{config.slug}/{args.year}.csv",  # Festival directory (legacy)
         f"{args.year}.csv",  # Legacy root directory (for down-the-rabbit-hole)
-        f"docs/{args.year}/{args.year}.csv",  # Docs subdirectory
+        f"docs/{args.year}/{args.year}.csv",  # Docs subdirectory (legacy)
         f"{args.output}/{args.year}/{args.year}.csv"  # Custom output directory
     ]
     

@@ -17,14 +17,15 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
 
 ### Festival Organization
 
-- Festivals are organized in separate folders: `down-the-rabbit-hole/`, `pinkpop/`, etc.
-- Each festival folder contains:
-  - CSV files per year (e.g., `2026.csv`, `2027.csv`)
-  - Festival-specific configuration in `festivals.json`
+- Festivals are organized within the `docs/` directory structure
+- Each festival has: `docs/festival-slug/year/year.csv` (e.g., `docs/pinkpop/2026/2026.csv`)
+- Festival configuration is stored in `festival_helpers/config.py`
+- This structure keeps all published content (CSV + HTML) together
 
 ### CSV Files
 
-- One CSV file per festival year (e.g., `down-the-rabbit-hole/2026.csv`, `pinkpop/2026.csv`)
+- One CSV file per festival year stored in `docs/festival-slug/year/year.csv`
+- Examples: `docs/down-the-rabbit-hole/2026/2026.csv`, `docs/pinkpop/2026/2026.csv`
 - Each file contains the following columns:
   - **Artist**: Name of the artist/band
   - **Genre**: Musical genre
@@ -48,10 +49,22 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
 
 ### Initial Setup
 
-1. Add festival configuration to `festivals.json`
-2. Create festival folder (e.g., `festival-slug/`)
-3. Scrape initial lineup with `scrape_lineup.py`
-4. The system will create CSV file and populate with artist information
+For adding a new festival:
+
+1. Add festival configuration to `festival_helpers/config.py` in the `FESTIVALS` dictionary:
+
+   ```python
+   'festival-slug': {
+       'name': 'Festival Name',
+       'base_url': 'https://festival.com',
+       'lineup_url': 'https://festival.com/lineup',
+       'artist_path': '/artist/',
+       'bio_language': 'English',  # or 'Dutch'
+   }
+   ```
+
+2. Scrape initial lineup: `python fetch_festival_data.py --festival festival-slug --year 2026`
+3. The script will automatically create the directory structure and CSV file with all artists
 
 ### Updating with New Artists
 
@@ -60,8 +73,8 @@ When new artists are announced on the festival website, follow these steps:
 #### Step 1: Scrape lineup from website
 
 ```powershell
-python scrape_lineup.py --festival down-the-rabbit-hole --year 2026
-python scrape_lineup.py --festival pinkpop --year 2026
+python fetch_festival_data.py --festival down-the-rabbit-hole --year 2026
+python fetch_festival_data.py --festival pinkpop --year 2026
 ```
 
 This will:

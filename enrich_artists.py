@@ -63,6 +63,15 @@ CRITICAL GUIDELINES:
 - Bio should be factual, concise, and music-focused - or empty if insufficient data
 - My take should reflect critical consensus and live performance reviews (1-2 sentences) - or empty if insufficient data
 - My rating should be objective, based on critical acclaim and festival suitability (integer 1-10) - or empty if insufficient data
+
+RATING SCALE (USE THE FULL RANGE - be critical and realistic):
+- 10: Reserved ONLY for universally acclaimed legends (e.g., Radiohead, Beyoncé, Kendrick Lamar level)
+- 8-9: Critically acclaimed, award-winning artists with strong festival track record
+- 6-7: Solid, established acts with good reviews but not breakthrough/groundbreaking
+- 4-5: Developing artists, niche appeal, or mixed critical reception
+- 1-3: Unknown, poor reviews, or very limited appeal
+- IMPORTANT: Most festival acts should be in the 4-7 range. Be realistic and differentiate quality.
+- Don't give everyone 8+. Reserve high ratings for genuinely exceptional artists.
 - Use official Spotify URLs only
 - For groups with multiple frontpeople, use "Mixed" for gender
 - Be accurate about demographics; use "Yes" for Front Person of Color only if confirmed, otherwise "No"
@@ -470,7 +479,19 @@ def main():
         return
     
     # Use festival-specific CSV path
-    csv_path = Path(f"{args.festival}/{args.year}.csv")
+    # Try multiple locations
+    csv_locations = [
+        Path(f"docs/{args.festival}/{args.year}/{args.year}.csv"),
+        Path(f"{args.festival}/{args.year}.csv")
+    ]
+    csv_path = None
+    for loc in csv_locations:
+        if loc.exists():
+            csv_path = loc
+            break
+    if not csv_path:
+        print(f"Error: CSV file not found for {args.festival} {args.year}")
+        sys.exit(1)
     
     enrich_csv(csv_path, use_ai=args.ai, parallel=args.parallel)
 
