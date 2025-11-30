@@ -1,14 +1,14 @@
 # To Do List
 
-- [ ] move all things that can be done a single time, like downloading and translating the bio from the festival website, to the first script that adds (or updates) the CSV data. this means that it will have more columns. running 'python generate_artist_pages.py 2026.csv docs' will be much faster and use less (or no) tokens.
-- [ ] apply the above for the links (social media, spotify, youtube, etc) as well
-- [ ] add a column for 'festival website url' to the CSV, and use that to scrape data (bio, links, images) only once
-- [ ] that link can be scraped from the festival website when the CSV is first created
-- [ ] add a column for 'bio translated' to the CSV, and use that to store the AI-generated translation
+- [x] move all things that can be done a single time, like downloading and translating the bio from the festival website, to the first script that adds (or updates) the CSV data. this means that it will have more columns. running 'python generate_artist_pages.py 2026.csv docs' will be much faster and use less (or no) tokens.
+- [x] apply the above for the links (social media, spotify, youtube, etc) as well
+- [x] add a column for 'festival website url' to the CSV, and use that to scrape data (bio, links, images) only once
+- [x] that link can be scraped from the festival website when the CSV is first created
+- [x] add a column for 'bio translated' to the CSV, and use that to store the AI-generated translation
 - [ ] add a column for 'background generated' to the CSV, and use that to store the AI-generated background info
-- [ ] add a column for 'social media links scraped' to the CSV, and use that to store whether the links have been scraped already
+- [x] add a column for 'social media links scraped' to the CSV, and use that to store whether the links have been scraped already
 - [ ] add a column for 'images downloaded' to the CSV, and use that to store whether the images have been downloaded already
-- [ ] update the generate_artist_pages.py script to skip downloading/translating/scraping if the relevant columns are already filled
+- [x] update the generate_artist_pages.py script to skip downloading/translating/scraping if the relevant columns are already filled
 - [ ] improve error handling and logging in all scripts
 - [ ] add unit tests for the main functions in each script
 - [ ] create a requirements.txt file for easy installation of dependencies  
@@ -22,6 +22,7 @@
 - [ ] Restore the About (from festival) in the original Dutch version scraped from the festival website
 - [x] the `badge rounded-pill` are fixed width causing wide columns, make them auto width
 - [ ] add a print stylesheet to make the pages printer-friendly
+- [ ] make the badges for Genre and Country links to the filtered view for the festival
 
 # Not To Do
 

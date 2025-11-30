@@ -9,47 +9,19 @@ while preserving user edits to "My take" and "My rating" fields.
 import re
 import sys
 from festival_tracker import FestivalTracker
-import urllib.request
+from festival_helpers import FestivalScraper, get_festival_config
 from typing import List, Dict
 
 
-def fetch_artists_from_website() -> List[str]:
-    """Fetch artist list from Down The Rabbit Hole website."""
-    url = "https://downtherabbithole.nl/programma"
+def fetch_artists_from_website(festival: str = 'down-the-rabbit-hole', year: int = 2026) -> List[str]:
+    """Fetch artist list from festival website."""
+    config = get_festival_config(festival, year)
+    scraper = FestivalScraper(config)
     
     try:
-        with urllib.request.urlopen(url) as response:
-            html = response.read().decode('utf-8')
-        
-        # Extract artist URLs using regex
-        pattern = r'programma/([a-z0-9-]+)'
-        matches = re.findall(pattern, html)
-        
-        # Convert URL slugs to artist names
-        artist_names = []
-        for slug in sorted(set(matches)):
-            # Convert slug to proper name
-            name = slug.replace('-', ' ').title()
-            
-            # Handle special cases
-            name_map = {
-                'Florence The Machine': 'Florence + The Machine',
-                'The Xx': 'The xx',
-                'De Staat Becomes De Staat': 'De Staat Becomes De Staat',
-                'Yenouukeur Yenuk1matu': '¥ØU$UK€ ¥UK1MAT$U',
-                'Derya Yildirim Grup Simsek': 'Derya Yıldırım & Grup Şimşek',
-                'Arp Frique The Perpetual Singers': 'Arp Frique & The Perpetual Singers',
-                'Mall Grab B2B Narciss': 'Mall Grab b2b Narciss',
-                'Kingongolo Kiniata': "Kin'Gongolo Kiniata",
-                'Lumi': 'Lumï'
-            }
-            
-            name = name_map.get(name, name)
-            artist_names.append(name)
-        
+        artist_names = scraper.fetch_lineup_artists()
         print(f"✓ Found {len(artist_names)} artists on website")
         return artist_names
-        
     except Exception as e:
         print(f"✗ Error fetching website: {e}")
         sys.exit(1)
@@ -74,6 +46,7 @@ def create_artist_dict(name: str) -> Dict:
 def main():
     """Main update process."""
     year = 2026
+    festival = 'down-the-rabbit-hole'
     
     print(f"\n=== Down The Rabbit Hole {year} - Update Script ===\n")
     
@@ -86,7 +59,7 @@ def main():
     
     # Step 2: Fetch current lineup from website
     print("\nStep 2: Fetching lineup from website...")
-    website_artists = fetch_artists_from_website()
+    website_artists = fetch_artists_from_website(festival, year)
     
     # Step 3: Load existing CSV
     print("\nStep 3: Checking for new artists...")

@@ -15,6 +15,11 @@ from typing import Dict, List
 import json
 import os
 import requests
+from festival_helpers import (
+    artist_name_to_slug,
+    FestivalScraper,
+    get_festival_config
+)
 
 
 def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
@@ -30,83 +35,15 @@ def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
     return headers, rows
 
 
-def artist_name_to_slug(name: str) -> str:
-    """Convert artist name to URL slug format."""
-    import unicodedata
-    
-    # Handle special cases with direct mappings
-    special_cases = {
-        '¥ØU$UK€ ¥UK1MAT$U': 'yenouukeur-yenuk1matu',
-        'Derya Yıldırım & Grup Şimşek': 'derya-yildirim-grup-simsek',
-        'Florence + The Machine': 'florence-the-machine',
-        'Arp Frique & The Perpetual Singers': 'arp-frique-the-perpetual-singers',
-        'Mall Grab b2b Narciss': 'mall-grab-b2b-narciss',
-        "Kin'Gongolo Kiniata": 'kingongolo-kiniata',
-        'Lumï': 'lumi',
-        'The xx': 'the-xx',
-        'De Staat Becomes De Staat': 'de-staat-becomes-de-staat'
-    }
-    
-    if name in special_cases:
-        return special_cases[name]
-    
-    slug = name.lower()
-    
-    # Handle special replacements first
-    slug = slug.replace(' + ', '-')
-    slug = slug.replace('&', '-')
-    slug = slug.replace(' b2b ', '-b2b-')
-    
-    # Normalize unicode characters (ï -> i, etc.)
-    slug = unicodedata.normalize('NFKD', slug)
-    slug = slug.encode('ascii', 'ignore').decode('ascii')
-    
-    # Replace spaces with hyphens
-    slug = slug.replace(' ', '-')
-    
-    # Remove non-alphanumeric characters except hyphens
-    slug = re.sub(r'[^a-z0-9-]', '', slug)
-    
-    # Collapse multiple hyphens
-    slug = re.sub(r'-+', '-', slug)
-    
-    return slug.strip('-')
-
-
-def fetch_festival_bio(artist_name: str) -> str:
+def fetch_festival_bio(artist_name: str, config=None) -> str:
     """Fetch artist bio from festival website."""
-    slug = artist_name_to_slug(artist_name)
-    url = f"https://downtherabbithole.nl/programma/{slug}"
+    if config is None:
+        config = get_festival_config()
     
+    scraper = FestivalScraper(config)
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            html = response.read().decode('utf-8')
-        
-        # Extract Dutch bio from specific div class
-        dutch_bio_pattern = r'<div[^>]*class="[^"]*column text-xl font-normal prose !max-w-none[^"]*"[^>]*>(.*?)</div>'
-        dutch_bio_match = re.search(dutch_bio_pattern, html, re.DOTALL | re.IGNORECASE)
-        festival_bio_nl = dutch_bio_match.group(1).strip() if dutch_bio_match else ""
-        
-        # Clean up HTML tags from bio but keep basic formatting
-        festival_bio_nl = re.sub(r'<br\s*/?>', '\n', festival_bio_nl)
-        festival_bio_nl = re.sub(r'<p[^>]*>', '\n', festival_bio_nl)
-        festival_bio_nl = re.sub(r'</p>', '\n', festival_bio_nl)
-        festival_bio_nl = re.sub(r'<[^>]+>', '', festival_bio_nl)
-        festival_bio_nl = re.sub(r'\n\s*\n', '\n\n', festival_bio_nl).strip()
-        
-        # Try old pattern as fallback
-        if not festival_bio_nl:
-            bio_pattern = r'<div[^>]*class="[^"]*description[^"]*"[^>]*>(.*?)</div>'
-            bio_match = re.search(bio_pattern, html, re.DOTALL | re.IGNORECASE)
-            festival_bio = bio_match.group(1).strip() if bio_match else ""
-            festival_bio = re.sub(r'<br\s*/?>', '\n', festival_bio)
-            festival_bio = re.sub(r'<p[^>]*>', '\n', festival_bio)
-            festival_bio = re.sub(r'</p>', '\n', festival_bio)
-            festival_bio = re.sub(r'<[^>]+>', '', festival_bio)
-            festival_bio_nl = re.sub(r'\n\s*\n', '\n\n', festival_bio).strip()
-        
-        return festival_bio_nl
+        bio = scraper.fetch_artist_bio(artist_name)
+        return bio if bio else ""
     except Exception as e:
         print(f"  ⚠️  Could not fetch festival bio: {e}")
         return ""
