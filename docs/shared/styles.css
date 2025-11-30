@@ -524,17 +524,123 @@ td[title*="Gender"], td[title*="Person of Color"] {
     position: relative;
 }
 
-.home-btn {
-    font-size: 1.5em;
-    transition: transform 0.2s;
+/* Hamburger Menu Styles */
+.hamburger-menu {
+    position: relative;
     flex-shrink: 0;
-    border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
-.home-btn:hover {
+.hamburger-btn {
+    font-size: 1.5em;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    background: transparent;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.hamburger-btn:hover {
     transform: scale(1.05);
     background: rgba(255, 255, 255, 0.2) !important;
     border-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dropdown-menu-custom {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 250px;
+    z-index: 1000;
+    display: none;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.dropdown-menu-custom.show {
+    display: block;
+}
+
+.dropdown-menu-custom a {
+    display: block;
+    padding: 10px 16px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-menu-custom a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu-custom a:hover {
+    background: #f8f9fa;
+    color: #00a8cc;
+}
+
+.dropdown-menu-custom a.home-link {
+    font-weight: bold;
+    background: linear-gradient(135deg, #00d9ff 0%, #00a8cc 100%);
+    color: white;
+    border-bottom: 2px solid #0097b8;
+}
+
+.dropdown-menu-custom a.home-link:hover {
+    background: linear-gradient(135deg, #00a8cc 0%, #008ba8 100%);
+    color: white;
+}
+
+.dropdown-menu-custom .festival-section {
+    padding: 8px 16px;
+    font-weight: bold;
+    color: #666;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.dropdown-menu-custom a.festival-year {
+    padding-left: 28px;
+    font-size: 0.95em;
+}
+
+/* Dark mode styles for dropdown */
+body.dark-mode .dropdown-menu-custom {
+    background: #16213e;
+    border-color: #2a3f5f;
+}
+
+body.dark-mode .dropdown-menu-custom a {
+    color: #e0e0e0;
+    border-bottom-color: #2a3f5f;
+}
+
+body.dark-mode .dropdown-menu-custom a:hover {
+    background: #1e2d4a;
+    color: #00d9ff;
+}
+
+body.dark-mode .dropdown-menu-custom .festival-section {
+    background: #0a1628;
+    color: #00d9ff;
+    border-bottom-color: #2a3f5f;
+}
+
+body.dark-mode .dropdown-menu-custom a.home-link {
+    background: linear-gradient(135deg, #00a8cc 0%, #0a4a5c 100%);
+    color: white;
+    border-bottom-color: #00d9ff;
+}
+
+body.dark-mode .dropdown-menu-custom a.home-link:hover {
+    background: linear-gradient(135deg, #0a4a5c 0%, #083a48 100%);
 }
 
 .artist-header-content {
@@ -833,8 +939,13 @@ body.dark-mode .carousel-control-next-icon {
         font-size: 1.4em;
     }
     
-    .home-btn {
+    .hamburger-btn {
         font-size: 1.2em;
+    }
+    
+    .dropdown-menu-custom {
+        min-width: 200px;
+        max-width: 90vw;
     }
     
     .artist-header-content {
