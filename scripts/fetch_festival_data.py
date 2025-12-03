@@ -12,11 +12,15 @@ Scrapes festival website data for artists and stores in CSV:
 Run this after update_lineup.py adds new artists and before generating pages.
 """
 
-import csv
 import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import festival_helpers
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import csv
 import json
 import argparse
-from pathlib import Path
 from typing import Dict, List
 from festival_helpers import (
     FestivalScraper,

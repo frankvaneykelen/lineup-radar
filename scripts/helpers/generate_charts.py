@@ -95,6 +95,11 @@ def generate_charts_page():
             'csv': Path('docs/rock-werchter/2026/2026.csv'),
             'slug': 'rock-werchter',
             'color': '#95E1D3'
+        },
+        'Footprints': {
+            'csv': Path('docs/footprints/2026/2026.csv'),
+            'slug': 'footprints',
+            'color': '#FFA07A'
         }
     }
     
@@ -197,6 +202,8 @@ def generate_charts_page():
                     <a href="pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
                     <div class="festival-section">Rock Werchter</div>
                     <a href="rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">Footprints</div>
+                    <a href="footprints/2026/index.html" class="festival-year">2026 Lineup</a>
                     <div class="festival-section">About</div>
                     <a href="charts.html" class="festival-year">
                         <i class="bi bi-bar-chart-fill"></i> Charts
@@ -331,6 +338,10 @@ def generate_charts_page():
                     <div style="text-align: center;">
                         <h3 style="margin-bottom: 15px;">Rock Werchter</h3>
                         <div style="height: 300px;"><canvas id="ratingsRockWerchter"></canvas></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="margin-bottom: 15px;">Footprints</h3>
+                        <div style="height: 300px;"><canvas id="ratingsFootprints"></canvas></div>
                     </div>
                 </div>
             </div>
@@ -546,6 +557,50 @@ def generate_charts_page():
                     data: rockWerchterRatings,
                     backgroundColor: '#95E1D3',
                     borderColor: '#95E1D3',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Artists'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Rating'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Footprints
+        const footprints = festivalData['Footprints'];
+        const footprintsRatings = ratingLabels.map(label => footprints.ratings[parseInt(label)] || 0);
+        new Chart(document.getElementById('ratingsFootprints'), {
+            type: 'bar',
+            data: {
+                labels: ratingLabels.map(l => `Rating ${l}`),
+                datasets: [{
+                    label: 'Number of Artists',
+                    data: footprintsRatings,
+                    backgroundColor: '#FFA07A',
+                    borderColor: '#FFA07A',
                     borderWidth: 1
                 }]
             },
