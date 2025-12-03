@@ -4,12 +4,16 @@ Generate individual HTML pages for each artist with detailed information.
 Fetches content from festival website including bio/blurb and images.
 """
 
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import festival_helpers
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import csv
 import re
-import sys
 import time
 import os
-from pathlib import Path
 from typing import Dict, List, Optional
 import urllib.request
 import urllib.parse
@@ -273,19 +277,19 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     }
     gender_display = gender_emoji_map.get(gender, gender)
     
-    # Generate previous/next links for header
+    # Generate previous/next links for header (with data attributes for keyboard navigation)
     if prev_artist:
         prev_slug = artist_name_to_slug(prev_artist.get('Artist', ''))
-        prev_link = f'<a href="{prev_slug}.html" class="btn btn-outline-light" title="{escape_html(prev_artist.get("Artist", ""))}"><i class="bi bi-chevron-left"></i> Prev</a>'
-        prev_link_footer = f'<a href="{prev_slug}.html" class="btn btn-primary" title="{escape_html(prev_artist.get("Artist", ""))}"><i class="bi bi-chevron-left"></i> Prev</a>'
+        prev_link = f'<a href="{prev_slug}.html" class="btn btn-outline-light" data-nav-prev="{prev_slug}.html" title="{escape_html(prev_artist.get("Artist", ""))}"><i class="bi bi-chevron-left"></i> Prev</a>'
+        prev_link_footer = f'<a href="{prev_slug}.html" class="btn btn-primary" data-nav-prev="{prev_slug}.html" title="{escape_html(prev_artist.get("Artist", ""))}"><i class="bi bi-chevron-left"></i> Prev</a>'
     else:
         prev_link = '<button class="btn btn-outline-light" disabled><i class="bi bi-chevron-left"></i> Prev</button>'
         prev_link_footer = '<button class="btn btn-primary" disabled><i class="bi bi-chevron-left"></i> Prev</button>'
     
     if next_artist:
         next_slug = artist_name_to_slug(next_artist.get('Artist', ''))
-        next_link = f'<a href="{next_slug}.html" class="btn btn-outline-light" title="{escape_html(next_artist.get("Artist", ""))}">Next <i class="bi bi-chevron-right"></i></a>'
-        next_link_footer = f'<a href="{next_slug}.html" class="btn btn-primary" title="{escape_html(next_artist.get("Artist", ""))}">Next <i class="bi bi-chevron-right"></i></a>'
+        next_link = f'<a href="{next_slug}.html" class="btn btn-outline-light" data-nav-next="{next_slug}.html" title="{escape_html(next_artist.get("Artist", ""))}">Next <i class="bi bi-chevron-right"></i></a>'
+        next_link_footer = f'<a href="{next_slug}.html" class="btn btn-primary" data-nav-next="{next_slug}.html" title="{escape_html(next_artist.get("Artist", ""))}">Next <i class="bi bi-chevron-right"></i></a>'
     else:
         next_link = '<button class="btn btn-outline-light" disabled>Next <i class="bi bi-chevron-right"></i></button>'
         next_link_footer = '<button class="btn btn-primary" disabled>Next <i class="bi bi-chevron-right"></i></button>'
@@ -340,10 +344,12 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <a href="../../../pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
                     <div class="festival-section">Rock Werchter</div>
                     <a href="../../../rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">Footprints</div>
+                    <a href="../../../footprints/2026/index.html" class="festival-year">2026 Lineup</a>
                 </div>
             </div>
             <div class="artist-header-content">
-                <h1>{escape_html(artist_name)} @ {config.name} {year}</h1>
+                <h1>{escape_html(artist_name)} @ <a href="../index.html" style="color: inherit; text-decoration: none;">{config.name} {year}</a></h1>
                 <div class="badges d-flex flex-wrap gap-2">
 """
     
@@ -678,15 +684,15 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 
     artist_pages_dir = output_dir / festival / year / "artists"
     artist_pages_dir.mkdir(parents=True, exist_ok=True)
     
-    print(f"\n=== Generating Individual Artist Pages ===\n")
-    print(f"Processing {len(artists)} artists...\n")
+    print(f"\n=== Generating Individual Artist Pages ===\n", flush=True)
+    print(f"Processing {len(artists)} artists...\n", flush=True)
     
     for idx, artist in enumerate(artists):
         artist_name = artist.get('Artist', '').strip()
         if not artist_name:
             continue
         
-        print(f"[{idx+1}/{len(artists)}] {artist_name}...")
+        print(f"[{idx+1}/{len(artists)}] {artist_name}...", flush=True)
         
         # Download images and update paths
         local_images = []
@@ -700,24 +706,51 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 
         official_images = list(artist_images_dir.glob(f"{slug}_*"))
         all_images = [f for f in artist_images_dir.glob("*") if f.is_file() and f.suffix.lower() in ['.jpg', '.jpeg', '.png', '.webp']]
         
+        # Check if festival has individual artist pages
+        has_artist_pages = bool(config.artist_path)
+        
         # Check if we have any images (official or manually added)
         if all_images:
             # Use all images found in the directory (official scraped + manually added)
-            print(f"  ✓ Using cached images ({len(all_images)} found, skipping website fetch)")
+            print(f"  ✓ Using cached images ({len(all_images)} found)", flush=True)
             for img_path in sorted(all_images):
                 local_images.append(f"{slug}/{img_path.name}")
-            # Still need to fetch content for bio/description
-            festival_content = fetch_artist_page_content(artist, config)
+            # Fetch content for bio/description only if festival has artist pages
+            if has_artist_pages:
+                festival_content = fetch_artist_page_content(artist, config)
+            else:
+                # Use CSV data directly for festivals without artist pages
+                festival_content = {
+                    'images': [],
+                    'social_links': [],
+                    'url': '',
+                    'festival_bio_nl': artist.get('Festival Bio (NL)', '').strip(),
+                    'festival_bio_en': artist.get('Festival Bio (EN)', '').strip()
+                }
         else:
-            # No images locally - need to fetch from website
-            print(f"  → No cached images found, fetching from website...")
-            festival_content = fetch_artist_page_content(artist, config)
-            
-            for img_url in festival_content.get('images', []):
-                local_path = download_image(img_url, artist_images_dir, slug)
-                if local_path:
-                    # Store relative path from artist page to image
-                    local_images.append(f"{slug}/{local_path}")
+            # No images locally
+            if has_artist_pages:
+                # Try to fetch from website
+                print(f"  → No cached images found, fetching from website...", flush=True)
+                festival_content = fetch_artist_page_content(artist, config)
+                
+                for img_url in festival_content.get('images', []):
+                    local_path = download_image(img_url, artist_images_dir, slug)
+                    if local_path:
+                        # Store relative path from artist page to image
+                        local_images.append(f"{slug}/{local_path}")
+                if local_images:
+                    print(f"  ✓ Downloaded {len(local_images)} image(s)", flush=True)
+            else:
+                # Festival has no artist pages - use CSV data only
+                print(f"  ℹ️  No images (festival has no artist pages - use search_artist_images.py)", flush=True)
+                festival_content = {
+                    'images': [],
+                    'social_links': [],
+                    'url': '',
+                    'festival_bio_nl': artist.get('Festival Bio (NL)', '').strip(),
+                    'festival_bio_en': artist.get('Festival Bio (EN)', '').strip()
+                }
         
         # Update festival content with local image paths
         festival_content['images'] = local_images
@@ -736,13 +769,13 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html)
         
-        print(f"  ✓ Saved: {output_file}")
+        print(f"  ✓ Saved: {output_file}", flush=True)
         
         # Be nice to the server
         time.sleep(0.5)
     
-    print(f"\n✓ Generated {len(artists)} artist pages")
-    print(f"  Output directory: {artist_pages_dir}")
+    print(f"\n✓ Generated {len(artists)} artist pages", flush=True)
+    print(f"  Output directory: {artist_pages_dir}", flush=True)
 
 
 def main():
@@ -798,9 +831,9 @@ def main():
             print(f"  - {location}")
         sys.exit(1)
     
-    print(f"\n=== Generating Artist Pages for {config.name} {args.year} ===\n")
+    print(f"\n=== Generating Artist Pages for {config.name} {args.year} ===\n", flush=True)
     generate_all_artist_pages(csv_file, output_dir, args.festival)
-    print("\n✓ Done!")
+    print("\n✓ Done!", flush=True)
 
 
 if __name__ == "__main__":

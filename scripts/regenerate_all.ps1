@@ -39,20 +39,32 @@ $festivals = @(
         Name = "Rock Werchter"
         Slug = "rock-werchter"
         Year = 2026
+    },
+    @{
+        Name = "Footprints"
+        Slug = "footprints"
+        Year = 2026
     }
 )
 
 # Track success/failure
 $totalFestivals = $festivals.Count
+$totalOperations = ($totalFestivals * 2) + 3  # Each festival: lineup + artist pages, plus homepage + charts + FAQ
+$currentOperation = 0
 $successCount = 0
 $failureCount = 0
 $startTime = Get-Date
 
 # Process each festival
-foreach ($festival in $festivals) {
+for ($i = 0; $i -lt $festivals.Count; $i++) {
+    $festival = $festivals[$i]
     $festivalName = $festival.Name
     $festivalSlug = $festival.Slug
     $year = $festival.Year
+    
+    $currentOperation++
+    $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+    Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName $year ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
     
     Write-Host "Processing: $festivalName $year..." -ForegroundColor Yellow
     Write-Host "Festival slug: $festivalSlug" -ForegroundColor Gray
@@ -60,11 +72,11 @@ foreach ($festival in $festivals) {
     
     try {
         # Run the lineup index page generation script
-        $command1 = "python generate_html.py --festival $festivalSlug --year $year"
+        $command1 = "python scripts/generate_html.py --festival $festivalSlug --year $year"
         Write-Host "Running: $command1" -ForegroundColor Gray
         
         # Execute and capture output
-        $output1 = & python generate_html.py --festival $festivalSlug --year $year 2>&1
+        $output1 = & python scripts/generate_html.py --festival $festivalSlug --year $year 2>&1
         
         # Check if command succeeded
         if ($LASTEXITCODE -ne 0) {
@@ -76,13 +88,19 @@ foreach ($festival in $festivals) {
         }
         
         Write-Host "✓ Generated lineup index page" -ForegroundColor Green
+        $successCount++
+        
+        # Update progress for artist pages
+        $currentOperation++
+        $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+        Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName artist pages ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
         
         # Run the artist pages generation script
-        $command2 = "python generate_artist_pages.py --festival $festivalSlug --year $year"
+        $command2 = "python scripts/generate_artist_pages.py --festival $festivalSlug --year $year"
         Write-Host "Running: $command2" -ForegroundColor Gray
         
         # Execute and capture output
-        $output2 = & python generate_artist_pages.py --festival $festivalSlug --year $year 2>&1
+        $output2 = & python scripts/generate_artist_pages.py --festival $festivalSlug --year $year 2>&1
         
         # Check if command succeeded
         if ($LASTEXITCODE -eq 0) {
@@ -108,20 +126,25 @@ foreach ($festival in $festivals) {
 }
 
 # Regenerate homepage (index.html)
+$currentOperation++
+$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating homepage ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+
 Write-Host ""
 Write-Host "Regenerating homepage..." -ForegroundColor Yellow
 Write-Host ""
 
 try {
-    $command = "python generate_archive_index.py docs"
+    $command = "python scripts/generate_archive_index.py docs"
     Write-Host "Running: $command" -ForegroundColor Gray
     
     # Execute and capture output
-    $output = & python generate_archive_index.py docs 2>&1
+    $output = & python scripts/generate_archive_index.py docs 2>&1
     
     # Check if command succeeded
     if ($LASTEXITCODE -eq 0) {
         Write-Host "✓ Successfully regenerated homepage" -ForegroundColor Green
+        $successCount++
     } else {
         Write-Host "✗ Failed to regenerate homepage" -ForegroundColor Red
         Write-Host "Error output:" -ForegroundColor Red
@@ -140,16 +163,20 @@ Write-Host "----------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 
 # Generate charts page
+$currentOperation++
+$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating charts page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+
 Write-Host ""
 Write-Host "Generating charts comparison page..." -ForegroundColor Yellow
 Write-Host ""
 
 try {
-    $command = "python generate_charts.py"
+    $command = "python scripts/helpers/generate_charts.py"
     Write-Host "Running: $command" -ForegroundColor Gray
     
     # Execute and capture output
-    $output = & python generate_charts.py 2>&1
+    $output = & python scripts/helpers/generate_charts.py 2>&1
     
     # Check if command succeeded
     if ($LASTEXITCODE -eq 0) {
@@ -174,20 +201,25 @@ Write-Host "----------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 
 # Update FAQ timestamps
+$currentOperation++
+$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+Write-Progress -Activity "Regenerating Festival Pages" -Status "Updating FAQ timestamps ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+
 Write-Host ""
 Write-Host "Updating FAQ timestamps..." -ForegroundColor Yellow
 Write-Host ""
 
 try {
-    $command = "python update_faq_timestamps.py"
+    $command = "python scripts/helpers/update_faq_timestamps.py"
     Write-Host "Running: $command" -ForegroundColor Gray
     
     # Execute and capture output
-    $output = & python update_faq_timestamps.py 2>&1
+    $output = & python scripts/helpers/update_faq_timestamps.py 2>&1
     
     # Check if command succeeded
     if ($LASTEXITCODE -eq 0) {
         Write-Host "✓ Successfully updated FAQ timestamps" -ForegroundColor Green
+        $successCount++
     } else {
         Write-Host "✗ Failed to update FAQ timestamps" -ForegroundColor Red
         Write-Host "Error output:" -ForegroundColor Red
@@ -205,6 +237,9 @@ Write-Host ""
 Write-Host "----------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 
+# Complete progress bar
+Write-Progress -Activity "Regenerating Festival Pages" -Status "Complete" -Completed
+
 # Calculate duration
 $endTime = Get-Date
 $duration = $endTime - $startTime
@@ -216,7 +251,9 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  Regeneration Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Total festivals processed: $totalFestivals" -ForegroundColor White
+Write-Host "Festivals processed: $totalFestivals (lineup + artist pages each)" -ForegroundColor White
+Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
+Write-Host "Total operations: $(($totalFestivals * 2) + 3)" -ForegroundColor White
 Write-Host "Successful: $successCount" -ForegroundColor Green
 Write-Host "Failed: $failureCount" -ForegroundColor $(if ($failureCount -eq 0) { "Green" } else { "Red" })
 Write-Host "Duration: $durationSeconds seconds" -ForegroundColor Gray
@@ -224,9 +261,9 @@ Write-Host ""
 
 # Exit with appropriate code
 if ($failureCount -eq 0) {
-    Write-Host "✓ All HTML pages regenerated successfully!" -ForegroundColor Green
+    Write-Host "✓ All pages regenerated successfully!" -ForegroundColor Green
     exit 0
 } else {
-    Write-Host "✗ Some festivals failed to regenerate. Check errors above." -ForegroundColor Red
+    Write-Host "✗ Some operations failed. Check errors above." -ForegroundColor Red
     exit 1
 }

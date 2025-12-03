@@ -53,8 +53,84 @@ function initHamburgerMenu() {
     });
 }
 
+// Keyboard navigation for prev/next artist pages
+function initKeyboardNavigation() {
+    // Find prev/next links by data attributes
+    const prevLink = document.querySelector('[data-nav-prev]');
+    const nextLink = document.querySelector('[data-nav-next]');
+    
+    if (!prevLink && !nextLink) return; // Exit if no navigation links
+    
+    document.addEventListener('keydown', (e) => {
+        // Ignore if user is typing in an input field
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            return;
+        }
+        
+        // Left arrow key - go to previous artist
+        if (e.key === 'ArrowLeft' && prevLink) {
+            const url = prevLink.getAttribute('data-nav-prev');
+            if (url) {
+                window.location.href = url;
+            }
+        }
+        
+        // Right arrow key - go to next artist
+        if (e.key === 'ArrowRight' && nextLink) {
+            const url = nextLink.getAttribute('data-nav-next');
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    });
+}
+
+// Touch swipe navigation for mobile
+function initSwipeNavigation() {
+    // Find prev/next links by data attributes
+    const prevLink = document.querySelector('[data-nav-prev]');
+    const nextLink = document.querySelector('[data-nav-next]');
+    
+    if (!prevLink && !nextLink) return; // Exit if no navigation links
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 50; // Minimum distance for a swipe
+    
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeDistance = touchEndX - touchStartX;
+        
+        // Swipe right (prev artist)
+        if (swipeDistance > minSwipeDistance && prevLink) {
+            const url = prevLink.getAttribute('data-nav-prev');
+            if (url) {
+                window.location.href = url;
+            }
+        }
+        
+        // Swipe left (next artist)
+        if (swipeDistance < -minSwipeDistance && nextLink) {
+            const url = nextLink.getAttribute('data-nav-next');
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    }
+}
+
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     initDarkMode();
     initHamburgerMenu();
+    initKeyboardNavigation();
+    initSwipeNavigation();
 });

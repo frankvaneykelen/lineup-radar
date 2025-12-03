@@ -8,6 +8,11 @@ import sys
 from pathlib import Path
 from typing import List
 from itertools import groupby
+from datetime import datetime
+
+# Add parent directory to sys.path to import festival_helpers
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from festival_helpers.config import get_festival_config
 
 
 def find_festival_lineups(docs_dir: Path) -> List[dict]:
@@ -95,22 +100,58 @@ def generate_archive_index(docs_dir: Path):
                         <div class="year-list">
 """
     
+    # Get current timestamp
+    now = datetime.now()
+    timestamp = now.strftime("%B %d, %Y at %I:%M %p")
+    
     # Group lineups by year for better organization
     from itertools import groupby
     
     for year, year_lineups in groupby(lineups, key=lambda x: x['year']):
         year_lineups = list(year_lineups)
         html += f"""                            <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #00d9ff;">{year}</h3>
+                            <div class="row g-3">
 """
+        # Two-column layout for festival buttons
         for lineup in year_lineups:
-            # Format festival name nicely (replace dashes with spaces, title case)
-            festival_display = lineup['festival'].replace('-', ' ').title()
-            html += f"""                            <div class="year-item mb-3">
-                                <a href="{lineup['path']}" class="btn btn-primary btn-lg w-100" style="font-size: 1.3em; padding: 20px;">{festival_display} {year} →</a>
-                            </div>
+            # Get festival config for proper name and description
+            try:
+                config = get_festival_config(lineup['festival'], int(year))
+                festival_display = config.name
+                description = config.description
+            except:
+                # Fallback if config not found
+                festival_display = lineup['festival'].replace('-', ' ').title()
+                description = ""
+            
+            title_attr = f' title="{description}"' if description else ''
+            html += f"""                                <div class="col-md-6">
+                                    <a href="{lineup['path']}" class="btn btn-primary btn-lg w-100" style="font-size: 1.3em; padding: 20px;"{title_attr}>{festival_display} {year} →</a>
+                                </div>
+"""
+        html += """                            </div>
 """
     
-    html += """                        </div>
+    # Add Charts and FAQ buttons
+    html += f"""
+                            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: #00d9ff;">Explore & Learn</h3>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <a href="charts.html" class="btn btn-info btn-lg w-100" style="font-size: 1.3em; padding: 20px;">
+                                        <i class="bi bi-bar-chart-fill"></i> Charts & Diversity Index →
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="faq.html" class="btn btn-secondary btn-lg w-100" style="font-size: 1.3em; padding: 20px;">
+                                        <i class="bi bi-question-circle-fill"></i> FAQ →
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <p style="margin-top: 2rem; text-align: center; color: #888; font-size: 0.9em;">
+                                <em>Last updated: {timestamp}</em>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -31,6 +31,20 @@ desktop.ini
 *.tmp
 *.bak
 *.log
+.cache
+debug.log
+
+# Excel temporary files
+~$*.xlsx
+~$*.xls
+
+# Python test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
 
 # Metadata tracking (contains edit history)
 .metadata/

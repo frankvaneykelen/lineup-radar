@@ -6,11 +6,15 @@ Re-runs AI enrichment on existing artists to check if the updated guidelines
 would have prevented hallucinated data. Compares old vs new results.
 """
 
-import csv
 import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import festival_helpers
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+import csv
 import re
 import urllib.request
-from pathlib import Path
 from typing import Dict, List
 import json
 import os

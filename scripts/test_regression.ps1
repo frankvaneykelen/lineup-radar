@@ -155,7 +155,7 @@ if (-not $SkipFetch) {
     foreach ($festival in $festivals) {
         try {
             Write-Host "Fetching data for $festival..." -ForegroundColor Yellow
-            python fetch_festival_data.py --festival $festival --year $year 2>&1 | Out-Null
+            python scripts/fetch_festival_data.py --festival $festival --year $year 2>&1 | Out-Null
             
             if ($LASTEXITCODE -eq 0) {
                 Write-TestResult -TestName "fetch_festival_data.py --festival $festival" -Success $true
@@ -177,7 +177,7 @@ foreach ($festival in $festivals) {
     try {
         Write-Host "Generating HTML for $festival..." -ForegroundColor Yellow
         $env:PYTHONIOENCODING = "utf-8"
-        python generate_html.py --festival $festival --year $year 2>&1 | Out-Null
+        python scripts/generate_html.py --festival $festival --year $year 2>&1 | Out-Null
         
         if ($LASTEXITCODE -eq 0) {
             $outputPath = "docs/$festival/$year/index.html"
@@ -201,7 +201,7 @@ foreach ($festival in $festivals) {
     try {
         Write-Host "Generating artist pages for $festival..." -ForegroundColor Yellow
         $env:PYTHONIOENCODING = "utf-8"
-        python generate_artist_pages.py --festival $festival --year $year 2>&1 | Out-Null
+        python scripts/generate_artist_pages.py --festival $festival --year $year 2>&1 | Out-Null
         
         if ($LASTEXITCODE -eq 0) {
             $artistDir = "docs/$festival/$year/artists"
@@ -231,7 +231,7 @@ Write-TestHeader "TEST 6: Generate Archive Index"
 try {
     Write-Host "Generating archive index..." -ForegroundColor Yellow
     $env:PYTHONIOENCODING = "utf-8"
-    python generate_archive_index.py 2>&1 | Out-Null
+    python scripts/generate_archive_index.py 2>&1 | Out-Null
     
     if ($LASTEXITCODE -eq 0) {
         $indexPath = "docs/index.html"

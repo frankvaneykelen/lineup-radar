@@ -19,6 +19,8 @@ class FestivalConfig:
     artist_path: str  # Path segment for artist pages (e.g., "/programma/")
     slug: str = ''  # URL/directory slug for the festival
     bio_language: str = 'Dutch'  # Language of the bio on festival website
+    rating_boost: float = 0.0  # Rating adjustment for discovery/underground festivals (e.g., +1.5 for emerging artists)
+    description: str = ''  # Short description of the festival
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -50,6 +52,7 @@ FESTIVALS = {
         'base_url': 'https://downtherabbithole.nl',
         'lineup_url': 'https://downtherabbithole.nl/programma',
         'artist_path': '/programma/',
+        'description': 'A boutique music and arts festival in Beuningen, Netherlands, known for its eclectic lineup and intimate atmosphere.',
     },
     'pinkpop': {
         'name': 'Pinkpop',
@@ -57,6 +60,7 @@ FESTIVALS = {
         'lineup_url': 'https://www.pinkpop.nl/en/programme/',
         'artist_path': '/en/line-up/',
         'bio_language': 'English',
+        'description': 'The longest-running annual music festival in the Netherlands, held in Landgraaf since 1970.',
     },
     'rock-werchter': {
         'name': 'Rock Werchter',
@@ -64,6 +68,26 @@ FESTIVALS = {
         'lineup_url': 'https://www.rockwerchter.be/en/line-up/a-z',
         'artist_path': '/en/acts/',
         'bio_language': 'English',
+        'description': "Belgium's largest annual rock music festival, held in Werchter since 1974, featuring major international artists.",
+    },
+    'footprints': {
+        'name': 'Footprints Festival',
+        'base_url': 'https://www.tivolivredenburg.nl',
+        'lineup_url': 'https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026',
+        'artist_path': '',  # No individual artist pages
+        'bio_language': 'Dutch',
+        'rating_boost': 1.5,  # Discovery festival: boost emerging artist ratings into 7-9 range
+        'description': 'A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.',
+        'custom_scraper': True,  # Requires custom scraping logic
+        'spotify_playlist': 'https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS',
+        # Artists from the description and lineup section
+        'manual_artists': [
+            'Gizmo Varillas',
+            'Islandman',
+            'Sessa',
+            'Keshavara',
+            'Derya Yıldırım & Grup Şimşek',
+        ],
     },
     # Add more festivals here as needed
     # 'lowlands': {
@@ -112,7 +136,9 @@ def get_festival_config(
         lineup_url=fest_data['lineup_url'],
         artist_path=fest_data['artist_path'],
         slug=festival,
-        bio_language=fest_data.get('bio_language', 'Dutch')
+        bio_language=fest_data.get('bio_language', 'Dutch'),
+        rating_boost=fest_data.get('rating_boost', 0.0),
+        description=fest_data.get('description', '')
     )
 
 

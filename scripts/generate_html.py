@@ -4,10 +4,14 @@ Generate HTML pages from festival CSV data for GitHub Pages.
 Creates interactive tables with sorting and filtering.
 """
 
-import csv
-import os
 import sys
 from pathlib import Path
+
+# Add parent directory to sys.path to import festival_helpers
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import csv
+import os
 import json
 import re
 from festival_helpers import artist_name_to_slug, get_festival_config
@@ -45,9 +49,9 @@ def generate_html(csv_file, output_dir, config):
     year = Path(csv_file).stem
     
     # Get last modified time of CSV file in UTC
-    from datetime import datetime
+    from datetime import datetime, timezone
     csv_path = Path(csv_file)
-    last_modified = datetime.utcfromtimestamp(csv_path.stat().st_mtime)
+    last_modified = datetime.fromtimestamp(csv_path.stat().st_mtime, tz=timezone.utc)
     last_updated_str = last_modified.strftime("%B %d, %Y %H:%M UTC")
     
     # Create output directory with festival name
@@ -93,6 +97,8 @@ def generate_html(csv_file, output_dir, config):
                     <a href="../../pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
                     <div class="festival-section">Rock Werchter</div>
                     <a href="../../rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
+                    <div class="festival-section">Footprints</div>
+                    <a href="../../footprints/2026/index.html" class="festival-year">2026 Lineup</a>
                     <div class="festival-section">About</div>
                     <a href="../../charts.html" class="festival-year">
                         <i class="bi bi-bar-chart-fill"></i> Charts
@@ -103,7 +109,8 @@ def generate_html(csv_file, output_dir, config):
                 </div>
             </div>
             <div class="artist-header-content">
-                <h1>{config.name} {year}</h1>
+                <h1><a href="{config.lineup_url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">{config.name} {year}</a></h1>
+                {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">Last updated: {last_updated_str}</p>
             </div>
             <div style="width: 120px;"></div>

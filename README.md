@@ -11,6 +11,7 @@ This project helps track and rate artists performing at different festivals. Eac
 - **Down The Rabbit Hole** (Dutch, Beuningen)
 - **Pinkpop** (English, Landgraaf)
 - **Rock Werchter** (English, Werchter)
+- **Footprints Festival** (Dutch, Utrecht - custom scraper with Spotify integration)
 
 Each festival can have its own configuration (language, scraping patterns, etc.).
 
@@ -65,7 +66,7 @@ For adding a new festival:
    ```
 
 2. Activate virtual environment: `.venv\Scripts\Activate.ps1`
-3. Scrape initial lineup: `python fetch_festival_data.py --festival festival-slug --year 2026`
+3. Scrape initial lineup: `python scripts/fetch_festival_data.py --festival festival-slug --year 2026`
 4. The script will automatically create the directory structure and CSV file with all artists
 
 ### Updating with New Artists
@@ -79,9 +80,12 @@ When new artists are announced on the festival website, follow these steps:
 .venv\Scripts\Activate.ps1
 
 # Then run fetch commands
-python fetch_festival_data.py --festival down-the-rabbit-hole --year 2026
-python fetch_festival_data.py --festival pinkpop --year 2026
-python fetch_festival_data.py --festival rock-werchter --year 2026
+python scripts/fetch_festival_data.py --festival down-the-rabbit-hole --year 2026
+python scripts/fetch_festival_data.py --festival pinkpop --year 2026
+python scripts/fetch_festival_data.py --festival rock-werchter --year 2026
+
+# For Footprints Festival (custom scraper with Spotify + venue page):
+python scripts/scrape_footprints.py --year 2026
 ```
 
 This will:
@@ -102,12 +106,13 @@ After scraping new artists, you can enrich their data with AI:
 
 ```powershell
 # Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
-python enrich_artists.py --festival down-the-rabbit-hole --year 2026 --ai --parallel
-python enrich_artists.py --festival pinkpop --year 2026 --ai --parallel
-python enrich_artists.py --festival rock-werchter --year 2026 --ai --parallel
+python scripts/enrich_artists.py --festival down-the-rabbit-hole --year 2026 --ai --parallel
+python scripts/enrich_artists.py --festival pinkpop --year 2026 --ai --parallel
+python scripts/enrich_artists.py --festival rock-werchter --year 2026 --ai --parallel
+python scripts/enrich_artists.py --festival footprints --year 2026 --ai --parallel
 ```
 
-This requires API setup. Run `python enrich_artists.py --setup` for instructions.
+This requires API setup. Run `python scripts/enrich_artists.py --setup` for instructions.
 
 **Quick setup example (Azure OpenAI):**
 
@@ -115,7 +120,7 @@ This requires API setup. Run `python enrich_artists.py --setup` for instructions
 $env:AZURE_OPENAI_KEY = "your-azure-openai-key-here"
 $env:AZURE_OPENAI_ENDPOINT = "https://your-resource.cognitiveservices.azure.com"
 $env:AZURE_OPENAI_DEPLOYMENT = "gpt-4o"
-python enrich_artists.py --ai --parallel
+python scripts/enrich_artists.py --ai --parallel
 ```
 
 The AI will automatically populate all empty fields including:
@@ -127,6 +132,96 @@ The AI will automatically populate all empty fields including:
 
 **Note:** When AI lacks data for an artist, the system automatically uses the festival bio as a fallback, prefixed with "[using festival bio due to a lack of publicly available data]".
 
+#### Step 3: Fetch Spotify Links
+
+After enriching artist data, you can fetch official Spotify links from the festival website or Spotify API:
+
+##### Option 1: Scrape from festival pages (DTRH, Pinkpop, Rock Werchter)
+
+```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
+python scripts/fetch_spotify_links.py --festival down-the-rabbit-hole --year 2026
+python scripts/fetch_spotify_links.py --festival pinkpop --year 2026
+python scripts/fetch_spotify_links.py --festival rock-werchter --year 2026
+```
+
+##### Option 2: Use Spotify API (Footprints and others)
+
+For festivals that don't embed Spotify links on artist pages (like Footprints), use the Spotify API:
+
+```powershell
+# First, set up Spotify API credentials (one-time setup):
+$env:SPOTIFY_CLIENT_ID = "your-spotify-client-id"
+$env:SPOTIFY_CLIENT_SECRET = "your-spotify-client-secret"
+# Get credentials from: https://developer.spotify.com/dashboard
+
+# Then fetch Spotify links by searching artist names:
+python scripts/fetch_spotify_links.py --festival footprints --year 2026
+# Or explicitly use API for any festival:
+python scripts/fetch_spotify_links.py --festival down-the-rabbit-hole --year 2026 --api
+```
+
+**Note:** Footprints automatically uses Spotify API (no `--api` flag needed) because TivoliVredenburg doesn't embed Spotify links.
+
+This will:
+
+- Scrape Spotify links from festival pages OR search Spotify API by artist name
+- Update existing links if they've changed
+- Add new links for artists that didn't have them
+- Verify existing links are still correct
+- Fall back to Spotify API if scraping fails
+- Be respectful to servers with rate limiting (0.5s between requests)
+
+**Example output:**
+
+```text
+=== Updating Spotify Links from Down The Rabbit Hole 2026 ===
+
+Processing 65 artists...
+
+Fetching: Florence + The Machine...
+  ✓ Verified: Florence + The Machine
+Fetching: Little Simz...
+  ✓ Added: Little Simz
+Fetching: Loyle Carner...
+  ✓ Updated: Loyle Carner
+    Old: https://open.spotify.com/artist/xyz
+    New: https://open.spotify.com/artist/abc
+
+✓ Complete!
+  - 15 link(s) added
+  - 3 link(s) updated
+  - CSV updated: docs/down-the-rabbit-hole/2026/2026.csv
+```
+
+**Note:** This script extracts Spotify links from the festival's official artist pages, which are often more reliable than AI-generated links. Run this after `scripts/fetch_festival_data.py` to ensure you have the latest links.
+
+#### Step 4: Translate Festival Bios (Optional)
+
+If your festival has Dutch bios but needs English translations, use the translation helper:
+
+```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
+# Set up Azure OpenAI credentials (same as enrichment)
+$env:AZURE_OPENAI_KEY = "your-azure-openai-key-here"
+$env:AZURE_OPENAI_ENDPOINT = "https://your-resource.cognitiveservices.azure.com"
+$env:AZURE_OPENAI_DEPLOYMENT = "gpt-4o"
+
+# Translate Dutch festival bios to English
+python scripts/helpers/translate_festival_bios.py --festival footprints --year 2026
+```
+
+This will:
+
+- Read all artists from the CSV
+- Check for Dutch bios (`Festival Bio (NL)`) without English translations
+- Translate each bio using Azure OpenAI
+- Save translations to the `Festival Bio (EN)` column
+- Skip artists that already have English bios
+- Preserve the original Dutch bios
+
+**Note:** This is particularly useful for Dutch festivals like Down The Rabbit Hole and Footprints that provide bios only in Dutch.
+
 ### Personal Editing
 
 Feel free to modify these columns at any time:
@@ -136,6 +231,25 @@ Feel free to modify these columns at any time:
 
 These changes will be preserved during updates.
 
+#### Editing CSV Files in VS Code
+
+For easier manual editing of CSV files with a spreadsheet-like interface:
+
+1. Install the **Edit CSV** extension in VS Code:
+   - Press `Ctrl+Shift+X` (Extensions)
+   - Search for **"Edit CSV"** by janisdd
+   - Click **Install**
+
+2. Open your CSV file and edit it:
+   - Right-click the CSV file → **Edit CSV**
+   - Or press `Ctrl+Shift+P` → type "Edit csv" → select **"Edit csv"**
+   - Edit in table view with proper columns and rows
+   - Changes save automatically back to CSV format
+
+**Alternative**: Install **Rainbow CSV** extension for color-coded columns and SQL-like queries on CSV data.
+
+**Note**: CSV files use UTF-8 encoding. Avoid opening with Excel via double-click as it misreads Unicode characters. Instead, use VS Code or Excel's **Data → From Text/CSV** import feature and select UTF-8 encoding.
+
 ### Generating HTML Pages
 
 Create interactive HTML pages from your CSV data for publishing via GitHub Pages:
@@ -144,9 +258,10 @@ Create interactive HTML pages from your CSV data for publishing via GitHub Pages
 
 ```powershell
 # Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
-python generate_html.py --festival down-the-rabbit-hole --year 2026
-python generate_html.py --festival pinkpop --year 2026
-python generate_html.py --festival rock-werchter --year 2026
+python scripts/generate_html.py --festival down-the-rabbit-hole --year 2026
+python scripts/generate_html.py --festival pinkpop --year 2026
+python scripts/generate_html.py --festival rock-werchter --year 2026
+python scripts/generate_html.py --festival footprints --year 2026
 ```
 
 This will:
@@ -164,9 +279,10 @@ This will:
 
 ```powershell
 # Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
-python generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
-python generate_artist_pages.py --festival pinkpop --year 2026
-python generate_artist_pages.py --festival rock-werchter --year 2026
+python scripts/generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
+python scripts/generate_artist_pages.py --festival pinkpop --year 2026
+python scripts/generate_artist_pages.py --festival rock-werchter --year 2026
+python scripts/generate_artist_pages.py --festival footprints --year 2026
 ```
 
 This will:
@@ -209,15 +325,15 @@ Use the provided scripts to regenerate all HTML pages for all festivals at once:
 .venv\Scripts\Activate.ps1
 
 # Run the regeneration script
-.\regenerate_all.ps1
+.\scripts\regenerate_all.ps1
 ```
 
 **Batch file (Windows double-click):**
 
 ```batch
-# Simply double-click regenerate_all.bat in Windows Explorer
+# Simply double-click scripts\regenerate_all.bat in Windows Explorer
 # Or run from command prompt:
-regenerate_all.bat
+scripts\regenerate_all.bat
 ```
 
 **Manual generation (individual festivals):**
@@ -227,13 +343,15 @@ regenerate_all.bat
 .venv\Scripts\Activate.ps1
 
 # Generate for all festivals
-python generate_html.py --festival down-the-rabbit-hole --year 2026
-python generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
-python generate_html.py --festival pinkpop --year 2026
-python generate_artist_pages.py --festival pinkpop --year 2026
-python generate_html.py --festival rock-werchter --year 2026
-python generate_artist_pages.py --festival rock-werchter --year 2026
-python generate_archive_index.py docs
+python scripts/generate_html.py --festival down-the-rabbit-hole --year 2026
+python scripts/generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
+python scripts/generate_html.py --festival pinkpop --year 2026
+python scripts/generate_artist_pages.py --festival pinkpop --year 2026
+python scripts/generate_html.py --festival rock-werchter --year 2026
+python scripts/generate_artist_pages.py --festival rock-werchter --year 2026
+python scripts/generate_html.py --festival footprints --year 2026
+python scripts/generate_artist_pages.py --festival footprints --year 2026
+python scripts/generate_archive_index.py docs
 ```
 
 All pages share common files for consistency:
@@ -256,6 +374,7 @@ The generated pages are mobile-responsive, include dark mode, and are ready to p
 - **Down The Rabbit Hole**: <https://downtherabbithole.nl/programma> (Dutch)
 - **Pinkpop**: <https://www.pinkpop.nl/en/programme/> (English)
 - **Rock Werchter**: <https://www.rockwerchter.be/en/line-up/a-z> (English)
+- **Footprints Festival**: Spotify playlist + <https://www.tivolivredenburg.nl/agenda/footprints-festival-2026/> (Dutch)
 - **AI Enrichment**: Azure OpenAI GPT-4o for artist metadata and analysis
 - **Images**: Festival websites and Spotify API fallback
 

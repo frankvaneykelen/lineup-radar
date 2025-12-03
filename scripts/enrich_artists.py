@@ -6,11 +6,16 @@ Uses AI to automatically fill in artist details (genre, country, bio, etc.)
 when new artists are added to the CSV.
 """
 
-import csv
 import sys
 from pathlib import Path
+
+# Add parent directory to sys.path to import festival_helpers
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import csv
 from typing import Dict, List
 import json
+from festival_helpers.config import get_festival_config
 
 
 def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
@@ -40,15 +45,23 @@ def needs_enrichment(row: Dict) -> bool:
     return any(not row.get(field, "").strip() for field in essential_fields)
 
 
-def create_enrichment_prompt(artist_name: str) -> str:
+def create_enrichment_prompt(artist_name: str, existing_bio: str = "") -> str:
     """Create a prompt for AI to enrich artist data."""
-    return f"""Provide comprehensive information about the musical artist "{artist_name}" in JSON format with these exact fields:
+    bio_instruction = ""
+    context_note = ""
+    
+    if existing_bio:
+        bio_instruction = f'\n    "Bio": "{existing_bio}" (PRESERVE THIS EXACT BIO - do not change or rewrite it),'
+        context_note = f"\n\nCONTEXT: The artist's bio is: \"{existing_bio}\"\nUse this bio as the primary source of truth. Base your critical assessment on the information in this bio, not on speculation or generic statements."
+    else:
+        bio_instruction = '\n    "Bio": "concise 1-2 sentence biography focusing on their music style and achievements",'
+    
+    return f"""Provide comprehensive information about the musical artist "{artist_name}" in JSON format with these exact fields:{context_note}
 
 {{
     "Genre": "primary genre(s), separated by /",
-    "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",
-    "Bio": "concise 1-2 sentence biography focusing on their music style and achievements",
-    "My take": "brief critical assessment of their artistry and live performance potential, informed by reviews and consensus (or empty string if insufficient info)",
+    "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",{bio_instruction}
+    "My take": "brief critical assessment based on the bio provided or from reviews/consensus - BE SPECIFIC about their sound/style, avoid generic phrases like 'emerging artist' or 'shows promise' (or empty string if no bio and insufficient public info)",
     "My rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance (or empty string if insufficient info)",
     "Spotify link": "full Spotify artist URL (https://open.spotify.com/artist/...)",
     "Number of People in Act": "number as integer, or empty if solo/varies",
@@ -57,12 +70,15 @@ def create_enrichment_prompt(artist_name: str) -> str:
 }}
 
 CRITICAL GUIDELINES:
+- If a bio is provided in the context, use it as your PRIMARY source - extract genre, country, and style details from it
+- For "My take": If bio is provided, write a specific assessment based on the bio's content (their sound, influences, achievements mentioned)
+- AVOID generic phrases like "emerging artist with growing following" or "shows promise" - be specific about their musical style
+- Example good "My take": "Their blend of Anatolian psychedelia with modern electronic beats creates a hypnotic sound; strong stage presence"
+- Example bad "My take": "Emerging artist with a growing following, performances show promise"
 - Provide information for ALL artists unless they are completely unknown (no online presence whatsoever)
-- For emerging/indie artists: provide genre, country, basic bio, and reasonable estimates for rating (4-6 range is fine for developing artists)
-- DO NOT say "no verifiable information" - if the artist has ANY online presence, social media, or streaming presence, provide what you can
-- Bio should always contain SOMETHING - even if it's "emerging [genre] artist from [country] known for [style]"
-- My take can acknowledge limited data but should still provide a brief assessment (e.g., "Emerging artist with growing following, performances show promise")
-- My rating should use 4-6 for emerging artists, 7-8 for established acts, 9-10 only for legends
+- For artists with bio: extract concrete details about their sound, not vague assessments
+- For artists without bio: provide genre, country, basic info, but be honest if you lack details (leave My take/rating empty)
+- My rating should use 4-6 for developing artists, 7-8 for established acts, 9-10 only for legends
 - Only leave fields COMPLETELY empty if the artist has zero online presence (very rare for festival acts)
 
 RATING SCALE (USE THE FULL RANGE - be critical and realistic):
@@ -83,9 +99,14 @@ RATING SCALE (USE THE FULL RANGE - be critical and realistic):
 Return ONLY valid JSON, no additional text."""
 
 
-def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
+def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost: float = 0.0) -> Dict[str, str]:
     """
     Use Azure OpenAI or GitHub Models API to enrich artist data.
+    
+    Args:
+        artist_name: Name of the artist to enrich
+        existing_bio: Existing bio to preserve (if any)
+        rating_boost: Rating adjustment for discovery/curated festivals (default 0.0)
     
     Priority order:
     1. Azure OpenAI (if AZURE_OPENAI_KEY and AZURE_OPENAI_ENDPOINT are set)
@@ -149,7 +170,7 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
         model_name = "openai/gpt-4o"
         use_azure = False
     
-    prompt = create_enrichment_prompt(artist_name)
+    prompt = create_enrichment_prompt(artist_name, existing_bio)
     
     payload = {
         "messages": [
@@ -195,6 +216,20 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
         elif not str(rating).strip():
             print(f"  ⚠️  {artist_name}: AI returned empty rating (not enough publicly available critical reviews or performance data)")
             artist_data["My rating"] = ""
+        else:
+            # Apply rating boost for discovery/curated festivals
+            if rating_boost != 0.0:
+                try:
+                    original_rating = float(rating)
+                    boosted_rating = original_rating + rating_boost
+                    # Clamp to 1-10 range and round to nearest integer
+                    boosted_rating = max(1, min(10, round(boosted_rating)))
+                    artist_data["My rating"] = str(boosted_rating)
+                    if boosted_rating != original_rating:
+                        print(f"  📊 {artist_name}: Rating adjusted {original_rating:.1f} → {boosted_rating} (boost: +{rating_boost})")
+                except (ValueError, TypeError):
+                    # Keep original rating if conversion fails
+                    pass
         
         if not my_take.strip():
             print(f"  ⚠️  {artist_name}: AI returned empty 'My take' (not enough publicly available critical reviews or performance data)")
@@ -237,7 +272,107 @@ def enrich_artist_with_ai(artist_name: str) -> Dict[str, str]:
         return {}
 
 
-def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
+def extract_metadata_from_bio(artist_name: str, festival_bio: str) -> Dict[str, str]:
+    """
+    Extract metadata from festival bio using AI.
+    Only extracts factual information that is explicitly stated in the bio.
+    
+    Args:
+        artist_name: Name of the artist
+        festival_bio: Festival bio text (English or Dutch)
+        
+    Returns:
+        Dictionary with extracted metadata (only fields with high confidence)
+    """
+    prompt = f"""Extract ONLY explicitly stated factual information from this festival bio for artist "{artist_name}". 
+Be extremely conservative - only include information that is clearly stated. If not explicitly mentioned, return empty string.
+
+Festival Bio:
+{festival_bio}
+
+Extract the following if explicitly stated:
+1. Genre: Musical style/genre explicitly mentioned (e.g., "jazz", "indie rock", "psychedelia")
+2. Country: Country explicitly mentioned (look for country names or city names that clearly indicate country)
+3. Number of People in Act: Group size if stated (e.g., "trio" = 3, "quartet" = 4, "duo" = 2, "solo" = 1)
+4. Gender of Front Person: If pronouns (he/his, she/her, they/them) clearly indicate gender, or if explicitly stated
+5. Person of Color: ONLY if bio explicitly mentions ethnicity, heritage, or cultural background that clearly indicates (e.g., "Turkish-German", "Nigerian", "Brazilian"). Leave empty if uncertain.
+
+IMPORTANT RULES:
+- Country: Accept city names only if they clearly indicate the country (e.g., "Amsterdam" → Netherlands, "Berlin" → Germany, "Istanbul" → Turkey)
+- Gender: Only extract if pronouns are used consistently OR if explicitly stated. "Mixed" if multiple genders mentioned.
+- Person of Color: Be very cautious. Only mark "Yes" if ethnicity/heritage is explicitly mentioned. Default to empty if unsure.
+- If information is ambiguous or not stated, return empty string for that field
+
+Return valid JSON with these exact keys (use empty string if not found):
+{{
+  "Genre": "...",
+  "Country": "...",
+  "Number of People in Act": "...",
+  "Gender of Front Person": "...",
+  "Front Person of Color?": ""
+}}"""
+
+    import os
+    import requests
+    import json
+    
+    # Check for Azure OpenAI credentials
+    azure_key = os.getenv("AZURE_OPENAI_KEY")
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o")
+    
+    if azure_key and azure_endpoint:
+        endpoint = f"{azure_endpoint.rstrip('/')}/openai/deployments/{azure_deployment}/chat/completions?api-version=2024-02-15-preview"
+        headers = {
+            "Content-Type": "application/json",
+            "api-key": azure_key
+        }
+        model_name = azure_deployment
+    else:
+        print(f"  ℹ️  Skipping bio extraction (requires Azure OpenAI credentials)")
+        return {}
+    
+    payload = {
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are a precise data extraction assistant. Extract only explicitly stated facts. Return valid JSON."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        "model": model_name,
+        "temperature": 0.1,  # Very low temperature for conservative extraction
+        "max_tokens": 300
+    }
+    
+    try:
+        response = requests.post(endpoint, headers=headers, json=payload, timeout=30)
+        response.raise_for_status()
+        
+        result = response.json()
+        content = result["choices"][0]["message"]["content"]
+        
+        # Extract JSON from response
+        content = content.strip()
+        if content.startswith("```json"):
+            content = content.split("```json")[1].split("```")[0].strip()
+        elif content.startswith("```"):
+            content = content.split("```")[1].split("```")[0].strip()
+        
+        extracted_data = json.loads(content)
+        
+        # Filter out empty values
+        return {k: v for k, v in extracted_data.items() if v and str(v).strip()}
+        
+    except Exception as e:
+        print(f"  ⚠️  {artist_name}: Bio extraction failed - {e}")
+        return {}
+
+
+def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rating_boost: float = 0.0):
     """
     Enrich CSV with artist data.
     
@@ -245,16 +380,18 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
         csv_path: Path to CSV file
         use_ai: If True, use AI to automatically fill data (requires API setup)
         parallel: If True, process multiple artists concurrently (faster with Azure)
+        rating_boost: Rating adjustment for discovery/curated festivals (default 0.0)
     """
     print(f"\n=== Enriching Artist Data ===\n")
+    
+    if rating_boost != 0.0:
+        print(f"ℹ️  Rating boost enabled: +{rating_boost}\n")
     
     headers, rows = load_csv(csv_path)
     enriched_count = 0
     
-    # Track metadata to preserve user edits
-    from festival_tracker import FestivalTracker
-    tracker = FestivalTracker(2026)  # TODO: make year dynamic
-    metadata = tracker._load_metadata()
+    # Note: User edits are preserved by not overwriting non-empty fields
+    # Fields are only enriched if they are currently empty
     
     if use_ai and parallel:
         # Parallel processing for faster completion
@@ -272,7 +409,7 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
             
             with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
                 future_to_artist = {
-                    executor.submit(enrich_artist_with_ai, row.get("Artist", "").strip()): (i, row)
+                    executor.submit(enrich_artist_with_ai, row.get("Artist", "").strip(), row.get("Bio", "").strip(), rating_boost): (i, row)
                     for i, row in artists_to_enrich
                 }
                 
@@ -283,44 +420,33 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
                         enriched_data = future.result()
                         if enriched_data:
                             enriched_count += 1
-                            # Update row with enriched data
+                            # Update row with enriched data (only if field is currently empty)
                             for key, value in enriched_data.items():
                                 if key in row and not row.get(key, "").strip():
-                                    # Check if user has edited this field
-                                    if artist_name in metadata.get("edited_artists", {}):
-                                        user_edits = metadata["edited_artists"][artist_name].get("fields", [])
-                                        if key not in user_edits:
-                                            # Use festival bio as fallback for Bio when AI has no data
-                                            if key == "Bio" and not str(value).strip():
-                                                festival_bio_en = row.get("Festival Bio (EN)", "").strip()
-                                                festival_bio_nl = row.get("Festival Bio (NL)", "").strip()
-                                                festival_bio = festival_bio_en or festival_bio_nl
-                                                if festival_bio:
-                                                    row[key] = f"[using festival bio due to a lack of publicly available data] {festival_bio}"
-                                                    print(f"    ℹ️  {artist_name}.{key}: Using festival bio as fallback")
-                                                else:
-                                                    print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data, no festival bio)")
-                                            # Log if we're filling with empty value
-                                            elif key in ["My rating", "My take"] and not str(value).strip():
-                                                print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
-                                            else:
-                                                row[key] = value
-                                    else:
-                                        # Use festival bio as fallback for Bio when AI has no data
-                                        if key == "Bio" and not str(value).strip():
-                                            festival_bio_en = row.get("Festival Bio (EN)", "").strip()
-                                            festival_bio_nl = row.get("Festival Bio (NL)", "").strip()
-                                            festival_bio = festival_bio_en or festival_bio_nl
-                                            if festival_bio:
-                                                row[key] = f"[using festival bio due to a lack of publicly available data] {festival_bio}"
-                                                print(f"    ℹ️  {artist_name}.{key}: Using festival bio as fallback")
-                                            else:
-                                                print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data, no festival bio)")
-                                        # Log if we're filling with empty value
-                                        elif key in ["My rating", "My take"] and not str(value).strip():
-                                            print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
+                                    # Use festival bio as fallback for Bio when AI has no data
+                                    if key == "Bio" and not str(value).strip():
+                                        festival_bio_en = row.get("Festival Bio (EN)", "").strip()
+                                        festival_bio_nl = row.get("Festival Bio (NL)", "").strip()
+                                        festival_bio = festival_bio_en or festival_bio_nl
+                                        if festival_bio:
+                                            row[key] = f"[using festival bio due to a lack of publicly available data] {festival_bio}"
+                                            print(f"    ℹ️  {artist_name}.{key}: Using festival bio as fallback")
+                                            
+                                            # Try to extract metadata from festival bio
+                                            print(f"    → Attempting to extract metadata from festival bio...")
+                                            bio_metadata = extract_metadata_from_bio(artist_name, festival_bio)
+                                            if bio_metadata:
+                                                for meta_key, meta_value in bio_metadata.items():
+                                                    if meta_key in row and not row.get(meta_key, "").strip():
+                                                        row[meta_key] = meta_value
+                                                        print(f"    ✓ Extracted {meta_key}: {meta_value}")
                                         else:
-                                            row[key] = value
+                                            print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data, no festival bio)")
+                                    # Log if we're filling with empty value
+                                    elif key in ["My rating", "My take"] and not str(value).strip():
+                                        print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
+                                    else:
+                                        row[key] = value
                     except Exception as e:
                         print(f"  ✗ {artist_name}: Unexpected error - {e}")
         
@@ -342,19 +468,14 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
             
             if use_ai:
                 # AI enrichment (requires API integration)
-                enriched_data = enrich_artist_with_ai(artist_name)
+                existing_bio = row.get("Bio", "").strip()
+                enriched_data = enrich_artist_with_ai(artist_name, existing_bio, rating_boost)
                 
-                # Update row with enriched data (don't overwrite existing data OR user edits)
+                # Update row with enriched data (don't overwrite existing data)
                 for field, value in enriched_data.items():
                     if field in row:
-                        # Check if user has edited this field
-                        user_edited = (
-                            artist_name in metadata.get("user_edits", {}) and
-                            field in metadata["user_edits"][artist_name]
-                        )
-                        
-                        # Only fill if empty AND not user-edited
-                        if not row[field].strip() and not user_edited:
+                        # Only fill if empty (preserves any existing data including user edits)
+                        if not row[field].strip():
                             # Use festival bio as fallback for Bio when AI has no data
                             if field == "Bio" and not str(value).strip():
                                 festival_bio_en = row.get("Festival Bio (EN)", "").strip()
@@ -363,6 +484,15 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False):
                                 if festival_bio:
                                     row[field] = f"[using festival bio due to a lack of publicly available data] {festival_bio}"
                                     print(f"    ℹ️  {artist_name}.{field}: Using festival bio as fallback")
+                                    
+                                    # Try to extract metadata from festival bio
+                                    print(f"    → Attempting to extract metadata from festival bio...")
+                                    bio_metadata = extract_metadata_from_bio(artist_name, festival_bio)
+                                    if bio_metadata:
+                                        for meta_key, meta_value in bio_metadata.items():
+                                            if meta_key in row and not row.get(meta_key, "").strip():
+                                                row[meta_key] = meta_value
+                                                print(f"    ✓ Extracted {meta_key}: {meta_value}")
                                 else:
                                     print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data, no festival bio)")
                             # Log if we're filling with empty value (AI had insufficient data)
@@ -495,7 +625,11 @@ def main():
         print(f"Error: CSV file not found for {args.festival} {args.year}")
         sys.exit(1)
     
-    enrich_csv(csv_path, use_ai=args.ai, parallel=args.parallel)
+    # Get festival config for rating boost
+    festival_config = get_festival_config(args.festival)
+    rating_boost = festival_config.rating_boost if festival_config else 0.0
+    
+    enrich_csv(csv_path, use_ai=args.ai, parallel=args.parallel, rating_boost=rating_boost)
 
 
 if __name__ == "__main__":
