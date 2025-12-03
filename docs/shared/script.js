@@ -94,23 +94,34 @@ function initSwipeNavigation() {
     if (!prevLink && !nextLink) return; // Exit if no navigation links
     
     let touchStartX = 0;
+    let touchStartY = 0;
     let touchEndX = 0;
-    const minSwipeDistance = 50; // Minimum distance for a swipe
+    let touchEndY = 0;
+    const minSwipeDistance = 100; // Minimum horizontal distance for a swipe (increased from 50)
+    const maxVerticalDistance = 80; // Maximum vertical movement allowed
     
     document.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
     }, { passive: true });
     
     document.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
         handleSwipe();
     }, { passive: true });
     
     function handleSwipe() {
-        const swipeDistance = touchEndX - touchStartX;
+        const horizontalDistance = touchEndX - touchStartX;
+        const verticalDistance = Math.abs(touchEndY - touchStartY);
+        
+        // Ignore if too much vertical movement (likely scrolling)
+        if (verticalDistance > maxVerticalDistance) {
+            return;
+        }
         
         // Swipe right (prev artist)
-        if (swipeDistance > minSwipeDistance && prevLink) {
+        if (horizontalDistance > minSwipeDistance && prevLink) {
             const url = prevLink.getAttribute('data-nav-prev');
             if (url) {
                 window.location.href = url;
@@ -118,7 +129,7 @@ function initSwipeNavigation() {
         }
         
         // Swipe left (next artist)
-        if (swipeDistance < -minSwipeDistance && nextLink) {
+        if (horizontalDistance < -minSwipeDistance && nextLink) {
             const url = nextLink.getAttribute('data-nav-next');
             if (url) {
                 window.location.href = url;
