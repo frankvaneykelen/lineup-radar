@@ -401,6 +401,21 @@ python scripts/generate_artist_pages.py --festival footprints --year 2026
 python scripts/generate_archive_index.py docs
 ```
 
+#### Generating Charts (comparison page)
+
+You can generate the charts/summary comparison page independently. This is useful when you've updated CSV data and only want the charts refreshed (the charts script is also invoked by `scripts/regenerate_all.ps1`).
+
+```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
+# Generate the charts comparison page
+python scripts/helpers/generate_charts.py
+```
+
+This will produce `docs/charts.html` with aggregated statistics and visual comparisons across festivals/years.
+
+
 All pages share common files for consistency:
 
 - **CSS**: `docs/shared/styles.css` - Styling with dark mode support
