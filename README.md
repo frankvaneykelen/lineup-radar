@@ -49,6 +49,53 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
 
 ## Usage
 
+### Setting Up on a New Device
+
+After cloning the repository on a new machine, follow these steps to get the project running:
+
+1. **Clone the repository** (if you haven't already):
+
+   ```powershell
+   git clone https://github.com/frankvaneykelen/lineup-radar.git
+   cd lineup-radar
+   ```
+
+2. **Configure Python environment**:
+
+   The repository includes a pre-configured `.venv` virtual environment. If it doesn't exist or is corrupted, create a new one:
+
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\Activate.ps1
+   ```
+
+3. **Install dependencies**:
+
+   With the virtual environment activated, install all required packages:
+
+   ```powershell
+   pip install -r requirements.txt
+   ```
+
+   This installs:
+   - **beautifulsoup4** - Web scraping library
+   - **requests** - HTTP requests library
+   - **openai** - Azure OpenAI client for AI enrichment
+
+4. **Verify installation**:
+
+   ```powershell
+   python -c "import bs4, requests, openai; print('All dependencies installed!')"
+   ```
+
+5. **Run tests to ensure everything works**:
+
+   ```powershell
+   pytest tests/ -v
+   ```
+
+You're now ready to use the project! Follow the sections below for specific tasks.
+
 ### Initial Setup
 
 For adding a new festival:
