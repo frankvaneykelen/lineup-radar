@@ -21,6 +21,7 @@ class FestivalConfig:
     bio_language: str = 'Dutch'  # Language of the bio on festival website
     rating_boost: float = 0.0  # Rating adjustment for discovery/underground festivals (e.g., +1.5 for emerging artists)
     description: str = ''  # Short description of the festival
+    spotify_playlist_id: str = ''  # Spotify playlist ID for LineupRadar curated playlist
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -53,6 +54,7 @@ FESTIVALS = {
         'lineup_url': 'https://downtherabbithole.nl/programma',
         'artist_path': '/programma/',
         'description': 'A boutique music and arts festival in Beuningen, Netherlands, known for its eclectic lineup and intimate atmosphere.',
+        "lineup_radar_spotify_playlist": "https://open.spotify.com/playlist/3ERLeyNAEgIpUSh1ll3BLM",
     },
     'pinkpop': {
         'name': 'Pinkpop',
@@ -61,6 +63,8 @@ FESTIVALS = {
         'artist_path': '/en/line-up/',
         'bio_language': 'English',
         'description': 'The longest-running annual music festival in the Netherlands, held in Landgraaf since 1970.',
+        'spotify_playlist': 'https://open.spotify.com/playlist/2lVlLvH6VA3Fsb2NLSN1Ib',
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/2MMOziv3RBxvz93DQ3i9bT',
     },
     'rock-werchter': {
         'name': 'Rock Werchter',
@@ -69,6 +73,7 @@ FESTIVALS = {
         'artist_path': '/en/acts/',
         'bio_language': 'English',
         'description': "Belgium's largest annual rock music festival, held in Werchter since 1974, featuring major international artists.",
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/3brJf9tiSKtvbg7jQ1MO0d',
     },
     'footprints': {
         'name': 'Footprints Festival',
@@ -80,6 +85,7 @@ FESTIVALS = {
         'description': 'A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.',
         'custom_scraper': True,  # Requires custom scraping logic
         'spotify_playlist': 'https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS',
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX',
         # Artists from the description and lineup section
         'manual_artists': [
             'Gizmo Varillas',
@@ -138,7 +144,8 @@ def get_festival_config(
         slug=festival,
         bio_language=fest_data.get('bio_language', 'Dutch'),
         rating_boost=fest_data.get('rating_boost', 0.0),
-        description=fest_data.get('description', '')
+        description=fest_data.get('description', ''),
+        spotify_playlist_id=fest_data.get('lineup_radar_spotify_playlist', '')
     )
 
 

@@ -47,9 +47,35 @@ $festivals = @(
     }
 )
 
+# Load Spotify credentials from .keys.txt
+Write-Host "Loading Spotify credentials..." -ForegroundColor Gray
+$spotifyClientId = ""
+$spotifyClientSecret = ""
+
+if (Test-Path ".keys.txt") {
+    Get-Content ".keys.txt" | ForEach-Object {
+        if ($_ -match "^SPOTIFY_CLIENT_ID=(.+)$") {
+            $spotifyClientId = $matches[1]
+        }
+        if ($_ -match "^SPOTIFY_CLIENT_SECRET=(.+)$") {
+            $spotifyClientSecret = $matches[1]
+        }
+    }
+    
+    if ($spotifyClientId -and $spotifyClientSecret) {
+        Write-Host "✓ Spotify credentials loaded" -ForegroundColor Green
+    } else {
+        Write-Host "⚠ Spotify credentials not found in .keys.txt - playlist generation will be skipped" -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "⚠ .keys.txt not found - playlist generation will be skipped" -ForegroundColor Yellow
+}
+
+Write-Host ""
+
 # Track success/failure
 $totalFestivals = $festivals.Count
-$totalOperations = ($totalFestivals * 2) + 3  # Each festival: lineup + artist pages, plus homepage + charts + FAQ
+$totalOperations = ($totalFestivals * 3) + 3  # Each festival: lineup + artist pages + playlist, plus homepage + charts + FAQ
 $currentOperation = 0
 $successCount = 0
 $failureCount = 0
@@ -105,13 +131,46 @@ for ($i = 0; $i -lt $festivals.Count; $i++) {
         # Check if command succeeded
         if ($LASTEXITCODE -eq 0) {
             Write-Host "✓ Generated artist pages" -ForegroundColor Green
-            Write-Host "✓ Successfully generated all pages for $festivalName $year" -ForegroundColor Green
             $successCount++
         } else {
             Write-Host "✗ Failed to generate artist pages for $festivalName $year" -ForegroundColor Red
             Write-Host "Error output:" -ForegroundColor Red
             Write-Host $output2 -ForegroundColor Red
             $failureCount++
+        }
+        
+        # Update progress for Spotify playlist
+        $currentOperation++
+        $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+        Write-Progress -Activity "Regenerating Festival Pages" -Status "Updating Spotify playlist for $festivalName ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+        
+        # Generate/update Spotify playlist if credentials are available
+        if ($spotifyClientId -and $spotifyClientSecret) {
+            $env:SPOTIFY_CLIENT_ID = $spotifyClientId
+            $env:SPOTIFY_CLIENT_SECRET = $spotifyClientSecret
+            
+            $command3 = "python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year"
+            Write-Host "Running: $command3" -ForegroundColor Gray
+            
+            # Execute and capture output
+            $output3 = & python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year 2>&1
+            
+            # Check if command succeeded
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "✓ Updated Spotify playlist" -ForegroundColor Green
+                Write-Host "✓ Successfully processed all content for $festivalName $year" -ForegroundColor Green
+                $successCount++
+            } else {
+                Write-Host "⚠ Failed to update Spotify playlist for $festivalName $year" -ForegroundColor Yellow
+                Write-Host "Error output:" -ForegroundColor Yellow
+                Write-Host $output3 -ForegroundColor Yellow
+                Write-Host "⚠ Continuing with other festivals..." -ForegroundColor Yellow
+                $failureCount++
+            }
+        } else {
+            Write-Host "⊘ Skipping Spotify playlist (no credentials)" -ForegroundColor DarkGray
+            # Still count as successful since it's optional
+            $successCount++
         }
     }
     catch {
@@ -251,9 +310,9 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  Regeneration Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Festivals processed: $totalFestivals (lineup + artist pages each)" -ForegroundColor White
+Write-Host "Festivals processed: $totalFestivals (lineup + artist pages + playlist each)" -ForegroundColor White
 Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
-Write-Host "Total operations: $(($totalFestivals * 2) + 3)" -ForegroundColor White
+Write-Host "Total operations: $(($totalFestivals * 3) + 3)" -ForegroundColor White
 Write-Host "Successful: $successCount" -ForegroundColor Green
 Write-Host "Failed: $failureCount" -ForegroundColor $(if ($failureCount -eq 0) { "Green" } else { "Red" })
 Write-Host "Duration: $durationSeconds seconds" -ForegroundColor Gray
