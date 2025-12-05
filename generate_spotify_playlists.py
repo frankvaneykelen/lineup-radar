@@ -431,7 +431,7 @@ def generate_playlist_for_festival(sp: spotipy.Spotify, festival: str, year: int
     print(f"\n✅ Collected {len(all_track_uris)} total tracks for {len(artists)} artists")
     
     # Create/find playlist
-    playlist_name = f"{festival_display_name} {year}"
+    playlist_name = f"LineupRadar - {festival_display_name} {year}"
     description = f"Lineup playlist for {festival_display_name} {year} - Generated with 5 tracks per artist (top 3 tracks + most recent singles)"
     
     playlist_id = find_or_create_playlist(sp, playlist_name, description)

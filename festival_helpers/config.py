@@ -21,6 +21,7 @@ class FestivalConfig:
     bio_language: str = 'Dutch'  # Language of the bio on festival website
     rating_boost: float = 0.0  # Rating adjustment for discovery/underground festivals (e.g., +1.5 for emerging artists)
     description: str = ''  # Short description of the festival
+    spotify_playlist_id: str = ''  # Spotify playlist ID for LineupRadar curated playlist
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -143,7 +144,8 @@ def get_festival_config(
         slug=festival,
         bio_language=fest_data.get('bio_language', 'Dutch'),
         rating_boost=fest_data.get('rating_boost', 0.0),
-        description=fest_data.get('description', '')
+        description=fest_data.get('description', ''),
+        spotify_playlist_id=fest_data.get('lineup_radar_spotify_playlist', '')
     )
 
 
