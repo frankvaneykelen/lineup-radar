@@ -62,3 +62,5 @@ scrape_*_lineup.py
 .keys.txt
 
 design/*.psd
+
+design/*.psd
