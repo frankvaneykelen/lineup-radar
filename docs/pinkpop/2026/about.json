@@ -1,0 +1,88 @@
+{
+  "festival": "pinkpop",
+  "name": "Pinkpop",
+  "year": 2026,
+  "generated_at": "2025-12-06T16:44:11.488890+00:00",
+  "config_properties": {
+    "name": "Pinkpop",
+    "year": 2026,
+    "base_url": "https://www.pinkpop.nl",
+    "lineup_url": "https://www.pinkpop.nl/en/programme/",
+    "artist_path": "/en/line-up/",
+    "slug": "pinkpop",
+    "bio_language": "English",
+    "rating_boost": 0.0,
+    "description": "The longest-running annual music festival in the Netherlands, held in Landgraaf since 1970.",
+    "spotify_playlist_id": "https://open.spotify.com/playlist/2MMOziv3RBxvz93DQ3i9bT"
+  },
+  "stats": {
+    "total_artists": 32,
+    "genre_counts": {
+      "Alternative Rock": 8,
+      "Pop": 7,
+      "Indie Rock": 6,
+      "Indie Pop": 4,
+      "Indie": 3,
+      "Electropop": 3,
+      "Rock": 3,
+      "Post-Punk Revival": 3,
+      "Post-Punk": 3,
+      "Punk Rock": 2,
+      "Singer-Songwriter": 2,
+      "Hip-Hop": 2,
+      "Dance-Pop": 2,
+      "Alternative Pop": 1,
+      "Dutch Pop": 1,
+      "Grunge": 1,
+      "Electropunk": 1,
+      "Rave Rock": 1,
+      "Symphonic Pop": 1,
+      "Alternative": 1,
+      "Rap": 1,
+      "Post-Grunge": 1,
+      "Electronic": 1,
+      "House": 1,
+      "Soul": 1,
+      "R&B": 1,
+      "Gothic Rock": 1,
+      "New Wave": 1,
+      "Synth-pop": 1,
+      "Metalcore": 1,
+      "Post-Hardcore": 1,
+      "Hard Rock": 1,
+      "Pop Punk": 1
+    },
+    "dj_count": 0,
+    "country_counts": {
+      "United Kingdom": 9,
+      "United States": 9,
+      "Netherlands": 7,
+      "Germany": 2,
+      "Canada": 2,
+      "Australia": 1,
+      "Belgium": 1,
+      "Sweden": 1
+    },
+    "gender_counts": {
+      "Female": 8,
+      "Mixed": 4,
+      "Male": 20
+    },
+    "poc_counts": {
+      "No": 31,
+      "Yes": 1
+    },
+    "average_rating": 6.88,
+    "rating_distribution": {
+      "9": 2,
+      "8": 5,
+      "7": 15,
+      "6": 7,
+      "5": 3
+    },
+    "has_spotify_links": 32,
+    "year": 2026
+  },
+  "previous_year_comparison": {},
+  "ai_profile": "**Pinkpop 2026: A Celebration of Alternative Sounds and Global Talent**\n\nPinkpop 2026 promises a rich and diverse lineup of 32 artists, with a strong emphasis on alternative genres. The festival leans heavily into Alternative Rock (8 acts), Pop (7 acts), and Indie Rock (6 acts), creating a dynamic blend of guitar-driven anthems and catchy melodies. Emerging genres like Electropop, Post-Punk Revival, and Indie Pop also make their mark, ensuring a fresh and modern vibe alongside familiar festival favorites. With an average artist rating of 6.88 and 22 acts rated 7 or above, the quality of performances is set to be a highlight.\n\nThis year’s lineup showcases global representation, with artists hailing from eight countries. The United Kingdom and the United States lead the charge with nine acts each, while the Netherlands proudly contributes seven performers, reinforcing Pinkpop’s Dutch roots. Other countries like Germany, Canada, and Australia also bring their unique flavors to the mix, creating a truly international experience. Despite this global reach, there remains room for improvement in diversity, as only one act includes a person of color.\n\nGender representation is another notable aspect of Pinkpop 2026, with 8 female-fronted acts and 4 mixed-gender groups joining 20 male-led performances. While male artists dominate the lineup, the inclusion of female and mixed-gender acts highlights a step toward greater inclusivity. With every artist featured on Spotify, fans can easily explore the eclectic sounds of this year’s roster before the festival kicks off, making Pinkpop 2026 a must-attend event for music lovers seeking both variety and quality."
+}

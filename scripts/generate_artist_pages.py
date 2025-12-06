@@ -332,9 +332,6 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <a href="../../../index.html" class="home-link">
                         <i class="bi bi-house-door-fill"></i> Home
                     </a>
-                    <a href="../../../faq.html">
-                        <i class="bi bi-question-circle"></i> FAQ
-                    </a>
                     <a href="../index.html">
                         <i class="bi bi-arrow-left"></i> Back to Lineup
                     </a>
@@ -346,6 +343,16 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <a href="../../../rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
                     <div class="festival-section">Footprints</div>
                     <a href="../../../footprints/2026/index.html" class="festival-year">2026 Lineup</a>
+                        <div class="festival-section">About</div>
+                        <a href="..\/about.html" class="festival-year">
+                            <i class="bi bi-info-circle-fill"></i> About
+                        </a>
+                        <a href="../../../charts.html" class="festival-year">
+                            <i class="bi bi-bar-chart-fill"></i> Charts
+                        </a>
+                        <a href="../../../faq.html" class="festival-year">
+                            <i class="bi bi-question-circle"></i> FAQ
+                        </a>
                 </div>
             </div>
             <div class="artist-header-content">

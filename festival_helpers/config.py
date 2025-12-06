@@ -6,6 +6,8 @@ Supports multiple festivals and years with different URL patterns and settings.
 
 from dataclasses import dataclass
 from typing import Optional
+import json
+from pathlib import Path
 
 
 @dataclass
@@ -129,12 +131,46 @@ def get_festival_config(
         >>> config.get_artist_url('radiohead')
         'https://downtherabbithole.nl/programma/radiohead'
     """
+    # First try to load a generated about.json for this festival/year if present.
+    about_path = Path(f"docs/{festival}/{year}/about.json")
+    if about_path.exists():
+        try:
+            with about_path.open('r', encoding='utf-8') as fh:
+                about = json.load(fh)
+            # The about.json may contain a `config_properties` object with overrides.
+            cfg = about.get('config_properties', {})
+            # Map keys from about.json (or fall back to FESTIVALS data)
+            base = FESTIVALS.get(festival, {})
+            name = cfg.get('name') or base.get('name') or festival
+            base_url = cfg.get('base_url') or base.get('base_url', '')
+            lineup_url = cfg.get('lineup_url') or base.get('lineup_url', '')
+            artist_path = cfg.get('artist_path') or base.get('artist_path', '')
+            bio_language = cfg.get('bio_language') or base.get('bio_language', 'Dutch')
+            rating_boost = cfg.get('rating_boost', base.get('rating_boost', 0.0))
+            description = cfg.get('description') or base.get('description', '')
+            spotify_playlist_id = cfg.get('lineup_radar_spotify_playlist') or base.get('lineup_radar_spotify_playlist', '')
+            return FestivalConfig(
+                name=name,
+                year=year,
+                base_url=base_url,
+                lineup_url=lineup_url,
+                artist_path=artist_path,
+                slug=festival,
+                bio_language=bio_language,
+                rating_boost=rating_boost,
+                description=description,
+                spotify_playlist_id=spotify_playlist_id,
+            )
+        except Exception:
+            # If about.json is malformed, fall back to in-code FESTIVALS below
+            pass
+
     if festival not in FESTIVALS:
         available = ', '.join(FESTIVALS.keys())
         raise ValueError(f"Unknown festival '{festival}'. Available: {available}")
-    
+
     fest_data = FESTIVALS[festival]
-    
+
     return FestivalConfig(
         name=fest_data['name'],
         year=year,

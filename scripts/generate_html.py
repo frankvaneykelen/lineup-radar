@@ -100,6 +100,9 @@ def generate_html(csv_file, output_dir, config):
                     <div class="festival-section">Footprints</div>
                     <a href="../../footprints/2026/index.html" class="festival-year">2026 Lineup</a>
                     <div class="festival-section">About</div>
+                    <a href="about.html" class="festival-year">
+                        <i class="bi bi-info-circle-fill"></i> About
+                    </a>
                     <a href="../../charts.html" class="festival-year">
                         <i class="bi bi-bar-chart-fill"></i> Charts
                     </a>
@@ -108,15 +111,17 @@ def generate_html(csv_file, output_dir, config):
                     </a>
                 </div>
             </div>
-            <div class="artist-header-content">
-                <h1><a href="{config.lineup_url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">{config.name} {year}</a></h1>
+            <div class="page-header-content">
+                <h1>{config.name} {year}</h1>
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
                     Last updated: {last_updated_str}
-                    {' | <a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> LineupRadar Spotify Playlist</a>' if config.spotify_playlist_id else ''}
+                    {' | <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
+                    {' | <a href="about.html" style="color: inherit; text-decoration: none;">About</a>'}
+                    {' | <a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> Official Playlist</a>' if config.spotify_playlist_id else ''}
+                    {' | <a href="https://open.spotify.com/playlist/7xvlZmNjKnhpvDv11BoRmL" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>' if config.spotify_playlist_id else ''}
                 </p>
             </div>
-            <div style="width: 120px;"></div>
         </header>
         
         <div class="controls">
