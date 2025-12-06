@@ -7,15 +7,21 @@ and a simple `about.html` page summarising the findings.
 """
 
 from __future__ import annotations
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import festival_helpers
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import csv
 import json
 import os
-from pathlib import Path
 from datetime import datetime, timezone
 import argparse
 
-from festival_helpers import get_festival_config
+from festival_helpers import get_festival_config, generate_hamburger_menu
 from festival_helpers.ai_client import enrich_with_ai
+from festival_helpers.text_utils import markdown_to_html
 
 
 def load_artists(csv_file: Path) -> list[dict]:
@@ -76,18 +82,37 @@ def compute_stats(artists: list[dict]) -> dict:
 
     # Ratings
     ratings = [safe_float(a.get('My rating')) for a in artists]
-    ratings = [r for r in ratings if r is not None]
-    if ratings:
-        stats['average_rating'] = round(sum(ratings) / len(ratings), 2)
-        # distribution
-        dist = {}
-        for r in ratings:
-            key = str(int(r))
-            dist[key] = dist.get(key, 0) + 1
-        stats['rating_distribution'] = dict(sorted(dist.items(), key=lambda kv: -int(kv[0])))
+    rated = [r for r in ratings if r is not None]
+    if rated:
+        stats['average_rating'] = round(sum(rated) / len(rated), 2)
+        # Distribution by ranges
+        dist = {
+            '9-10': 0,
+            '8-9': 0,
+            '7-8': 0,
+            '6-7': 0,
+            '5-6': 0
+        }
+        for r in rated:
+            if r >= 9:
+                dist['9-10'] += 1
+            elif r >= 8:
+                dist['8-9'] += 1
+            elif r >= 7:
+                dist['7-8'] += 1
+            elif r >= 6:
+                dist['6-7'] += 1
+            elif r >= 5:
+                dist['5-6'] += 1
+        # Add unrated count
+        unrated_count = len(artists) - len(rated)
+        if unrated_count > 0:
+            dist['Unrated'] = unrated_count
+        # Remove zero entries
+        stats['rating_counts'] = {k: v for k, v in dist.items() if v > 0}
     else:
         stats['average_rating'] = None
-        stats['rating_distribution'] = {}
+        stats['rating_counts'] = {'Unrated': len(artists)}
 
     # Other counts
     stats['has_spotify_links'] = sum(1 for a in artists if (a.get('Spotify link') or '').strip())
@@ -133,7 +158,32 @@ def generate_profile_text(config, stats: dict, prev: dict, use_ai: bool = False)
 
     # Fallback to a simple template (used when --ai isn't provided or AI fails)
     top_genres = ', '.join(list(stats.get('genre_counts', {}).keys())[:3])
-    return f"{config.name} {stats.get('year','')} features {stats.get('total_artists')} artists. Top genres include {top_genres}. Average user rating: {stats.get('average_rating')}. Diversity measures: genders={stats.get('gender_counts')}, POC={stats.get('poc_counts')}."
+    
+    # Format gender distribution
+    gender_counts = stats.get('gender_counts', {})
+    gender_parts = []
+    if gender_counts.get('Male'):
+        gender_parts.append(f"{gender_counts['Male']} male")
+    if gender_counts.get('Female'):
+        gender_parts.append(f"{gender_counts['Female']} female")
+    if gender_counts.get('Mixed'):
+        gender_parts.append(f"{gender_counts['Mixed']} mixed/group")
+    if gender_counts.get('Non-binary'):
+        gender_parts.append(f"{gender_counts['Non-binary']} non-binary")
+    gender_text = ', '.join(gender_parts) if gender_parts else 'no gender data'
+    
+    # Format POC distribution
+    poc_counts = stats.get('poc_counts', {})
+    poc_yes = poc_counts.get('Yes', 0)
+    poc_total = sum(poc_counts.values()) - poc_counts.get('Unknown', 0)
+    poc_text = f"{poc_yes} artists of color" if poc_total > 0 else "no diversity data"
+    
+    return (
+        f"{config.name} {stats.get('year','')} features {stats.get('total_artists')} artists. "
+        f"Top genres include {top_genres}. Average user rating: {stats.get('average_rating')}. "
+        f"The lineup includes {gender_text}, with {poc_text}."
+    )
+
 
 
 def write_outputs(output_dir: Path, about: dict, html_profile: str):
@@ -148,31 +198,318 @@ def write_outputs(output_dir: Path, about: dict, html_profile: str):
 
 
 def render_html(config, stats, profile_text):
-    # Simple HTML output
-    title = f"About {config.name} {stats.get('year','')}"
-    html = f"""<!doctype html>
-<html lang=\"en\"> 
+    # Generate menu HTML (use escaped=False since we'll manually escape in the f-string)
+    menu_html = generate_hamburger_menu(path_prefix="../../", escaped=False)
+    
+    # Build formatted statistics tables
+    genre_rows = ''.join([f'<tr><td>{genre}</td><td>{count}</td></tr>' 
+                          for genre, count in list(stats.get('genre_counts', {}).items())[:10]])
+    country_rows = ''.join([f'<tr><td>{country}</td><td>{count}</td></tr>' 
+                            for country, count in list(stats.get('country_counts', {}).items())[:10]])
+    gender_rows = ''.join([f'<tr><td>{gender}</td><td>{count}</td></tr>' 
+                           for gender, count in stats.get('gender_counts', {}).items()])
+    poc_rows = ''.join([f'<tr><td>{poc}</td><td>{count}</td></tr>' 
+                        for poc, count in stats.get('poc_counts', {}).items()])
+    rating_rows = ''.join([f'<tr><td>{rating}</td><td>{count}</td></tr>' 
+                           for rating, count in sorted(stats.get('rating_distribution', {}).items(), key=lambda x: -int(x[0]))])
+    
+    title = f"{config.name} {stats.get('year','')} About - Frank's LineupRadar"
+    html = f"""<!DOCTYPE html>
+<html lang=\"en\">
 <head>
-  <meta charset=\"utf-8\"> 
-  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">
-  <title>{title}</title>
-  <link href=\"../../shared/styles.css\" rel=\"stylesheet\">
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>{title}</title>
+    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"../../shared/styles.css\">
+    <style>
+        .stats-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }}
+        .stat-card {{
+            background: var(--card-bg, #ffffff);
+            border: 1px solid var(--border-color, #dee2e6);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }}
+        .stat-card h3 {{
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--heading-color, #212529);
+            border-bottom: 2px solid var(--primary-color, #0d6efd);
+            padding-bottom: 0.5rem;
+        }}
+        .stat-table {{
+            width: 100%;
+            border-collapse: collapse;
+        }}
+        .stat-table td {{
+            padding: 0.6rem 0.5rem;
+            border-bottom: 1px solid var(--border-color, #e9ecef);
+            font-size: 0.95rem;
+        }}
+        .stat-table tr:last-child td {{
+            border-bottom: none;
+        }}
+        .stat-table td:first-child {{
+            color: var(--text-color, #495057);
+        }}
+        .stat-table td:last-child {{
+            text-align: right;
+            font-weight: 600;
+            color: var(--primary-color, #0d6efd);
+        }}
+        .stat-number {{
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color, #0d6efd);
+            line-height: 1;
+            display: block;
+        }}
+        .stat-label {{
+            font-size: 0.9rem;
+            color: var(--text-muted, #6c757d);
+            margin-top: 0.25rem;
+        }}
+        .overview-stat {{
+            margin-bottom: 1.5rem;
+        }}
+        .overview-stat:last-child {{
+            margin-bottom: 0;
+        }}
+        .profile-text {{
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-color, #212529);
+            margin-bottom: 2rem;
+        }}
+        body[data-theme=\"dark\"] .stat-card {{
+            background: #2d2d2d;
+            border-color: #444;
+        }}
+        body[data-theme=\"dark\"] .stat-table td {{
+            border-bottom-color: #444;
+        }}
+        body[data-theme=\"dark\"] .stat-table td:first-child {{
+            color: #adb5bd;
+        }}
+    </style>
 </head>
 <body>
-  <div class=\"container-fluid\">
-    <header class=\"page-header lineup-header\"> 
-      <div class=\"page-header-content\">
-        <h1>{config.name} {stats.get('year','')}</h1>
-        <p class=\"subtitle\">Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</p>
-      </div>
-    </header>
-    <div class=\"section\">
-      <h2>Profile</h2>
-      <p>{profile_text.replace('\n','<br/>')}</p>
-      <h2>Statistics</h2>
-      <pre>{json.dumps(stats, indent=2)}</pre>
+    <div class=\"container-fluid\">
+        <header class=\"artist-header lineup-header\">
+            <div class=\"hamburger-menu\">
+                <button id=\"hamburgerBtn\" class=\"btn btn-outline-light hamburger-btn\" title=\"Menu\">
+                    <i class=\"bi bi-list\"></i>
+                </button>
+                <div id=\"dropdownMenu\" class=\"dropdown-menu-custom\">
+                    <a href=\"../../index.html\" class=\"home-link\">
+                        <i class=\"bi bi-house-door-fill\"></i> Home
+                    </a>
+{menu_html}
+                </div>
+            </div>
+            <div class="page-header-content">
+                <h1>About {config.name} {stats.get('year','')}</h1>
+                {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
+                    About page generated: {datetime.now(timezone.utc).strftime('%B %d, %Y %H:%M UTC')}
+                    {' | <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
+                </p>
+            </div>
+        </header>
+        
+        <div class="container-fluid" style="max-width: 1400px; padding: 2rem 1rem;">
+            <section class="mb-5">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 600;">Festival Profile</h2>
+                <div class="profile-text">{markdown_to_html(profile_text)}</div>
+            </section>
+            
+            <section>
+                <h2 style=\"margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600;\">Festival Statistics</h2>
+                <div class=\"stats-grid\">
+                    <div class=\"stat-card\">
+                        <h3>Overview</h3>
+                        <div class=\"overview-stat\">
+                            <span class=\"stat-number\">{stats.get('total_artists', 0)}</span>
+                            <div class=\"stat-label\">Total Artists</div>
+                        </div>
+                        <div class=\"overview-stat\">
+                            <span class=\"stat-number\">{stats.get('average_rating', 'N/A')}</span>
+                            <div class=\"stat-label\">Average Rating</div>
+                        </div>
+                        <div class=\"overview-stat\">
+                            <span class=\"stat-number\">{stats.get('dj_count', 0)}</span>
+                            <div class=\"stat-label\">DJs/Electronic Acts</div>
+                        </div>
+                        <div class=\"overview-stat\">
+                            <span class=\"stat-number\">{stats.get('has_spotify_links', 0)}</span>
+                            <div class=\"stat-label\">Artists with Spotify Links</div>
+                        </div>
+                    </div>
+                    
+                    <div class=\"stat-card\">
+                        <h3>Top Genres</h3>
+                        <table class=\"stat-table\">
+                            {genre_rows if genre_rows else '<tr><td colspan=\"2\" style=\"text-align: center; color: #6c757d;\">No data</td></tr>'}
+                        </table>
+                    </div>
+                    
+                    <div class=\"stat-card\">
+                        <h3>Top Countries</h3>
+                        <table class=\"stat-table\">
+                            {country_rows if country_rows else '<tr><td colspan=\"2\" style=\"text-align: center; color: #6c757d;\">No data</td></tr>'}
+                        </table>
+                    </div>
+                </div>
+                
+                <div class=\"stats-grid\" style=\"margin-top: 1.5rem;\">
+                    <div class=\"stat-card\">
+                        <h3>Gender Distribution</h3>
+                        <canvas id=\"genderChart\" width=\"300\" height=\"300\"></canvas>
+                    </div>
+                    
+                    <div class=\"stat-card\">
+                        <h3>Artists of Color</h3>
+                        <canvas id=\"pocChart\" width=\"300\" height=\"300\"></canvas>
+                    </div>
+                    
+                    <div class=\"stat-card\">
+                        <h3>Rating Distribution</h3>
+                        <canvas id=\"ratingChart\" width=\"300\" height=\"300\"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-  </div>
+    
+    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"></script>
+    
+    <footer style=\"background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;\">
+        <button class=\"dark-mode-toggle\" id=\"darkModeToggle\" title=\"Toggle dark mode\">
+            <i class=\"bi bi-moon-fill\"></i>
+        </button>
+        <div>
+            <p style=\"margin-bottom: 15px;\">
+                <strong>Content Notice:</strong> These pages combine content scraped from the 
+                <a href=\"{config.lineup_url or '#'}\" target=\"_blank\" style=\"color: #00d9ff; text-decoration: none;\">{config.name} festival website</a>
+                with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
+            </p>
+            <p style=\"margin-bottom: 15px;\">
+                <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
+                Please verify critical details on official sources.
+            </p>
+            <p style=\"margin-bottom: 0;\">
+                Generated with ❤️ • 
+                <a href=\"https://github.com/frankvaneykelen/lineup-radar\" target=\"_blank\" style=\"color: #00d9ff; text-decoration: none;\">
+                    <i class=\"bi bi-github\"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="../../shared/script.js"></script>
+    <script>
+        // Prepare data for charts
+        const genderData = {json.dumps(dict(stats.get('gender_counts', {})))};
+        const pocData = {json.dumps(dict(stats.get('poc_counts', {})))};
+        const ratingData = {json.dumps(dict(stats.get('rating_counts', {})))};
+        
+        // Color schemes
+        const genderColors = {{
+            'Male': '#3b82f6',
+            'Female': '#ec4899',
+            'Non-binary': '#8b5cf6',
+            'Mixed': '#10b981',
+            'Unknown': '#6b7280'
+        }};
+        
+        const pocColors = {{
+            'Yes': '#f59e0b',
+            'No': '#6b7280',
+            'Unknown': '#d1d5db'
+        }};
+        
+        const ratingColors = {{
+            '9-10': '#10b981',
+            '8-9': '#3b82f6',
+            '7-8': '#8b5cf6',
+            '6-7': '#f59e0b',
+            '5-6': '#ef4444',
+            'Unrated': '#6b7280'
+        }};
+        
+        // Helper function to create pie chart
+        function createPieChart(canvasId, data, colorMap) {{
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+            const colors = labels.map(label => colorMap[label] || '#6b7280');
+            
+            new Chart(ctx, {{
+                type: 'pie',
+                data: {{
+                    labels: labels,
+                    datasets: [{{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: document.body.getAttribute('data-theme') === 'dark' ? '#1a1a2e' : '#ffffff'
+                    }}]
+                }},
+                options: {{
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {{
+                        legend: {{
+                            position: 'bottom',
+                            labels: {{
+                                color: document.body.getAttribute('data-theme') === 'dark' ? '#e0e0e0' : '#212529',
+                                padding: 10,
+                                font: {{
+                                    size: 12
+                                }}
+                            }}
+                        }},
+                        tooltip: {{
+                            callbacks: {{
+                                label: function(context) {{
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${{label}}: ${{value}} (${{percentage}}%)`;
+                                }}
+                            }}
+                        }}
+                    }}
+                }}
+            }});
+        }}
+        
+        // Create charts
+        createPieChart('genderChart', genderData, genderColors);
+        createPieChart('pocChart', pocData, pocColors);
+        createPieChart('ratingChart', ratingData, ratingColors);
+        
+        // Update chart colors when dark mode toggles
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {{
+            darkModeToggle.addEventListener('click', function() {{
+                setTimeout(() => {{
+                    location.reload();
+                }}, 100);
+            }});
+        }}
+    </script>
 </body>
 </html>
 """

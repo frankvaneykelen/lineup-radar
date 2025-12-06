@@ -1,81 +1,315 @@
-<!doctype html>
-<html lang="en"> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8"> 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>About Footprints Festival 2026</title>
-  <link href="../../shared/styles.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footprints Festival 2026 About - Frank's LineupRadar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            background: var(--card-bg, #ffffff);
+            border: 1px solid var(--border-color, #dee2e6);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--heading-color, #212529);
+            border-bottom: 2px solid var(--primary-color, #0d6efd);
+            padding-bottom: 0.5rem;
+        }
+        .stat-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .stat-table td {
+            padding: 0.6rem 0.5rem;
+            border-bottom: 1px solid var(--border-color, #e9ecef);
+            font-size: 0.95rem;
+        }
+        .stat-table tr:last-child td {
+            border-bottom: none;
+        }
+        .stat-table td:first-child {
+            color: var(--text-color, #495057);
+        }
+        .stat-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: var(--primary-color, #0d6efd);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color, #0d6efd);
+            line-height: 1;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted, #6c757d);
+            margin-top: 0.25rem;
+        }
+        .overview-stat {
+            margin-bottom: 1.5rem;
+        }
+        .overview-stat:last-child {
+            margin-bottom: 0;
+        }
+        .profile-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-color, #212529);
+            margin-bottom: 2rem;
+        }
+        body[data-theme="dark"] .stat-card {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body[data-theme="dark"] .stat-table td {
+            border-bottom-color: #444;
+        }
+        body[data-theme="dark"] .stat-table td:first-child {
+            color: #adb5bd;
+        }
+    </style>
 </head>
 <body>
-  <div class="container-fluid">
-    <header class="page-header lineup-header"> 
-      <div class="page-header-content">
-        <h1>Footprints Festival 2026</h1>
-        <p class="subtitle">Generated: 2025-12-06 16:44 UTC</p>
-      </div>
-    </header>
-    <div class="section">
-      <h2>Profile</h2>
-      <p>**Footprints Festival 2026: A Celebration of Diversity and Innovation**<br/><br/>Footprints Festival 2026 brings together an eclectic lineup of 11 artists, showcasing a rich tapestry of genres and cultures. From electronic beats to Malian desert blues, psychedelic folk, and Anatolian rock, the festival highlights a global and genre-defying musical experience. With no dominant genre, the lineup embodies a spirit of exploration, blending traditional sounds like Armenian folk and traditional Iranian music with modern styles like minimalist electropop and 80s-inspired grooves. This year's average artist rating of 7.73 reflects the festival's commitment to quality and innovation, with 9 out of 11 acts rated 8 or higher.<br/><br/>The festival’s international roster spans 10 countries, with a strong European presence from Germany, the Netherlands, Spain, and France, alongside artists from Iran, Turkey, Nigeria, and Brazil. Footprints 2026 also places a spotlight on diversity, with 7 out of 11 artists identifying as people of color and a mix of male, female, and mixed-gender acts represented. This commitment to inclusivity ensures a vibrant and varied musical experience for all attendees.<br/><br/>By bridging cultural and musical divides, Footprints Festival 2026 creates a platform for connection, collaboration, and discovery. With all artists featured on Spotify, attendees can explore the lineup ahead of time and immerse themselves in a harmonious celebration of global sounds and creative expression.</p>
-      <h2>Statistics</h2>
-      <pre>{
-  "total_artists": 11,
-  "genre_counts": {
-    "Electronic": 3,
-    "Psychedelic": 2,
-    "Indie Pop": 2,
-    "Jazz": 2,
-    "Anatolian rock": 1,
-    "psychedelic folk": 1,
-    "80s-inspired": 1,
-    "minimalist electropop": 1,
-    "Malian desert blues": 1,
-    "Indie": 1,
-    "World Music": 1,
-    "Traditional Iranian": 1,
-    "Armenian Folk": 1,
-    "Gospel": 1,
-    "Hip-Hop": 1,
-    "Grime": 1,
-    "Afrobeat": 1,
-    "Classical": 1,
-    "MPB": 1,
-    "Psychedelic Folk": 1,
-    "R&B": 1,
-    "Experimental": 1
-  },
-  "dj_count": 0,
-  "country_counts": {
-    "Germany": 4,
-    "Netherlands": 1,
-    "Spain": 1,
-    "France": 1,
-    "Iran": 1,
-    "Turkey": 1,
-    "UK": 1,
-    "Nigeria": 1,
-    "Brazil": 1,
-    "Belgium": 1
-  },
-  "gender_counts": {
-    "Female": 2,
-    "Male": 8,
-    "Mixed": 1
-  },
-  "poc_counts": {
-    "Yes": 7,
-    "No": 4
-  },
-  "average_rating": 7.73,
-  "rating_distribution": {
-    "9": 1,
-    "8": 8,
-    "6": 2
-  },
-  "has_spotify_links": 11,
-  "year": 2026
-}</pre>
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="../../index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+<div class="festival-section">Down The Rabbit Hole 2026</div>
+<div class="festival-links"><a href="../../down-the-rabbit-hole/2026/index.html">Lineup</a> | <a href="../../down-the-rabbit-hole/2026/about.html">About</a></div>
+<div class="festival-section">Pinkpop 2026</div>
+<div class="festival-links"><a href="../../pinkpop/2026/index.html">Lineup</a> | <a href="../../pinkpop/2026/about.html">About</a></div>
+<div class="festival-section">Rock Werchter 2026</div>
+<div class="festival-links"><a href="../../rock-werchter/2026/index.html">Lineup</a> | <a href="../../rock-werchter/2026/about.html">About</a></div>
+<div class="festival-section">Footprints 2026</div>
+<div class="festival-links"><a href="../../footprints/2026/index.html">Lineup</a> | <a href="../../footprints/2026/about.html">About</a></div>
+<div class="festival-section">General</div>
+<a href="../../charts.html" class="festival-year">
+<i class="bi bi-bar-chart-fill"></i> Charts
+</a>
+<a href="../../faq.html" class="festival-year">
+<i class="bi bi-question-circle"></i> FAQ
+</a>
+                </div>
+            </div>
+            <div class="page-header-content">
+                <h1>About Footprints Festival 2026</h1>
+                <p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.</p>
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
+                    About page generated: December 06, 2025 21:39 UTC
+                     | <a href="https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>
+                </p>
+            </div>
+        </header>
+        
+        <div class="container-fluid" style="max-width: 1400px; padding: 2rem 1rem;">
+            <section class="mb-5">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 600;">Festival Profile</h2>
+                <div class="profile-text"><p><strong>Footprints Festival 2026: A Celebration of Diversity and Fusion</strong></p>
+<p>The 2026 edition of Footprints Festival brings together an eclectic lineup of 11 artists from 10 countries, showcasing a vibrant tapestry of sounds that span the globe. With genres ranging from Electronic and Psychedelic to Malian Desert Blues, Armenian Folk, and Gospel, the festival is a melting pot of musical traditions and contemporary experimentation. The average artist rating of 7.73 highlights the high-quality performances attendees can expect, with most artists scoring in the 8-9 range.</p>
+<p>Diversity takes center stage at this year’s festival, with seven out of the 11 artists identifying as people of color, reflecting a commitment to amplifying underrepresented voices. The lineup also includes a mix of male (8), female (2), and mixed-gender (1) acts, further emphasizing the festival’s inclusive ethos. Notably, Germany leads with four artists, while other performers hail from countries as varied as Iran, Nigeria, Turkey, and Brazil, creating a truly global experience.</p>
+<p>Footprints Festival 2026 is a celebration of common ground through music, uniting audiences with its rich blend of cultures, genres, and stories. With every artist offering something unique—be it minimalist electropop, traditional Iranian melodies, or Afrobeat rhythms—this year’s event promises to be a journey across borders and sounds, leaving a lasting impression on all who attend.</p></div>
+            </section>
+            
+            <section>
+                <h2 style="margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600;">Festival Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Overview</h3>
+                        <div class="overview-stat">
+                            <span class="stat-number">11</span>
+                            <div class="stat-label">Total Artists</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">7.73</span>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">0</span>
+                            <div class="stat-label">DJs/Electronic Acts</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">11</span>
+                            <div class="stat-label">Artists with Spotify Links</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Top Genres</h3>
+                        <table class="stat-table">
+                            <tr><td>Electronic</td><td>3</td></tr><tr><td>Psychedelic</td><td>2</td></tr><tr><td>Indie Pop</td><td>2</td></tr><tr><td>Jazz</td><td>2</td></tr><tr><td>Anatolian rock</td><td>1</td></tr><tr><td>psychedelic folk</td><td>1</td></tr><tr><td>80s-inspired</td><td>1</td></tr><tr><td>minimalist electropop</td><td>1</td></tr><tr><td>Malian desert blues</td><td>1</td></tr><tr><td>Indie</td><td>1</td></tr>
+                        </table>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Top Countries</h3>
+                        <table class="stat-table">
+                            <tr><td>Germany</td><td>4</td></tr><tr><td>Netherlands</td><td>1</td></tr><tr><td>Spain</td><td>1</td></tr><tr><td>France</td><td>1</td></tr><tr><td>Iran</td><td>1</td></tr><tr><td>Turkey</td><td>1</td></tr><tr><td>UK</td><td>1</td></tr><tr><td>Nigeria</td><td>1</td></tr><tr><td>Brazil</td><td>1</td></tr><tr><td>Belgium</td><td>1</td></tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="stats-grid" style="margin-top: 1.5rem;">
+                    <div class="stat-card">
+                        <h3>Gender Distribution</h3>
+                        <canvas id="genderChart" width="300" height="300"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Artists of Color</h3>
+                        <canvas id="pocChart" width="300" height="300"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Rating Distribution</h3>
+                        <canvas id="ratingChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-  </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
+        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+        <div>
+            <p style="margin-bottom: 15px;">
+                <strong>Content Notice:</strong> These pages combine content scraped from the 
+                <a href="https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026" target="_blank" style="color: #00d9ff; text-decoration: none;">Footprints Festival festival website</a>
+                with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
+            </p>
+            <p style="margin-bottom: 15px;">
+                <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
+                Please verify critical details on official sources.
+            </p>
+            <p style="margin-bottom: 0;">
+                Generated with ❤️ • 
+                <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <i class="bi bi-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="../../shared/script.js"></script>
+    <script>
+        // Prepare data for charts
+        const genderData = {"Female": 2, "Male": 8, "Mixed": 1};
+        const pocData = {"Yes": 7, "No": 4};
+        const ratingData = {"9-10": 1, "8-9": 8, "6-7": 2};
+        
+        // Color schemes
+        const genderColors = {
+            'Male': '#3b82f6',
+            'Female': '#ec4899',
+            'Non-binary': '#8b5cf6',
+            'Mixed': '#10b981',
+            'Unknown': '#6b7280'
+        };
+        
+        const pocColors = {
+            'Yes': '#f59e0b',
+            'No': '#6b7280',
+            'Unknown': '#d1d5db'
+        };
+        
+        const ratingColors = {
+            '9-10': '#10b981',
+            '8-9': '#3b82f6',
+            '7-8': '#8b5cf6',
+            '6-7': '#f59e0b',
+            '5-6': '#ef4444',
+            'Unrated': '#6b7280'
+        };
+        
+        // Helper function to create pie chart
+        function createPieChart(canvasId, data, colorMap) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+            const colors = labels.map(label => colorMap[label] || '#6b7280');
+            
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: document.body.getAttribute('data-theme') === 'dark' ? '#1a1a2e' : '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: document.body.getAttribute('data-theme') === 'dark' ? '#e0e0e0' : '#212529',
+                                padding: 10,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Create charts
+        createPieChart('genderChart', genderData, genderColors);
+        createPieChart('pocChart', pocData, pocColors);
+        createPieChart('ratingChart', ratingData, ratingColors);
+        
+        // Update chart colors when dark mode toggles
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', function() {
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
+            });
+        }
+    </script>
 </body>
 </html>

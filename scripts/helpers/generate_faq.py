@@ -1,4 +1,70 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""
+Generate FAQ page dynamically from festival configuration and CSV data.
+"""
+
+import csv
+import os
+from datetime import datetime
+from pathlib import Path
+
+# Add parent directory to path for imports
+import sys
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from festival_helpers.menu import FESTIVALS, YEAR, generate_hamburger_menu
+
+
+def count_artists_in_csv(csv_path: str) -> int:
+    """Count the number of artists in a CSV file."""
+    try:
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            return sum(1 for _ in reader)
+    except FileNotFoundError:
+        return 0
+
+
+def get_csv_last_modified(csv_path: str) -> str:
+    """Get the last modified date of a CSV file."""
+    try:
+        timestamp = os.path.getmtime(csv_path)
+        return datetime.fromtimestamp(timestamp).strftime('%B %d, %Y at %I:%M %p')
+    except FileNotFoundError:
+        return 'Unknown'
+
+
+def generate_festival_list_html() -> str:
+    """Generate the dynamic festival list with artist counts and timestamps."""
+    festival_items = []
+    
+    for festival in FESTIVALS:
+        # Construct CSV path
+        festival_slug = festival['name'].lower().replace(' ', '-')
+        csv_path = f'docs/{festival_slug}/{YEAR}/{YEAR}.csv'
+        
+        # Get artist count and last modified date
+        artist_count = count_artists_in_csv(csv_path)
+        last_modified = get_csv_last_modified(csv_path)
+        
+        # Generate HTML for this festival
+        festival_items.append(
+            f'<li><strong>{festival["name"]} {YEAR}:</strong> {artist_count} artists (last updated: {last_modified})</li>'
+        )
+    
+    return '\n                        '.join(festival_items)
+
+
+def generate_faq_html() -> str:
+    """Generate the complete FAQ HTML page."""
+    
+    # Get dynamic content
+    menu_html = generate_hamburger_menu(path_prefix="", escaped=False)
+    festival_list_html = generate_festival_list_html()
+    festival_count = len(FESTIVALS)
+    
+    # Generate HTML
+    html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,21 +85,7 @@
                     <a href="index.html" class="home-link">
                         <i class="bi bi-house-door-fill"></i> Home
                     </a>
-                    <div class="festival-section">Down The Rabbit Hole 2026</div>
-<div class="festival-links"><a href="down-the-rabbit-hole/2026/index.html">Lineup</a> | <a href="down-the-rabbit-hole/2026/about.html">About</a></div>
-<div class="festival-section">Pinkpop 2026</div>
-<div class="festival-links"><a href="pinkpop/2026/index.html">Lineup</a> | <a href="pinkpop/2026/about.html">About</a></div>
-<div class="festival-section">Rock Werchter 2026</div>
-<div class="festival-links"><a href="rock-werchter/2026/index.html">Lineup</a> | <a href="rock-werchter/2026/about.html">About</a></div>
-<div class="festival-section">Footprints 2026</div>
-<div class="festival-links"><a href="footprints/2026/index.html">Lineup</a> | <a href="footprints/2026/about.html">About</a></div>
-<div class="festival-section">General</div>
-<a href="charts.html" class="festival-year">
-<i class="bi bi-bar-chart-fill"></i> Charts
-</a>
-<a href="faq.html" class="festival-year">
-<i class="bi bi-question-circle"></i> FAQ
-</a>
+                    {menu_html}
                 </div>
             </div>
             <div class="artist-header-content">
@@ -90,12 +142,9 @@
                         
                         <div class="faq-item" style="margin-bottom: 2rem;">
                             <h3 style="color: #00a8cc; font-size: 1.2em; margin-bottom: 0.5rem;">Which festivals are currently tracked?</h3>
-                            <p>We currently track 4 major European festivals:</p>
+                            <p>We currently track {festival_count} major European festivals:</p>
                             <ul>
-                                <li><strong>Down The Rabbit Hole 2026:</strong> 39 artists (last updated: December 05, 2025 at 05:51 PM)</li>
-                        <li><strong>Pinkpop 2026:</strong> 32 artists (last updated: December 05, 2025 at 05:51 PM)</li>
-                        <li><strong>Rock Werchter 2026:</strong> 29 artists (last updated: December 05, 2025 at 05:51 PM)</li>
-                        <li><strong>Footprints 2026:</strong> 11 artists (last updated: December 05, 2025 at 05:55 PM)</li>
+                                {festival_list_html}
                             </ul>
                             <p>New festivals are added regularly based on data availability and community requests.</p>
                         </div>
@@ -252,4 +301,25 @@
     <script src="shared/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html>'''
+    
+    return html
+
+
+def main():
+    """Main function to generate FAQ page."""
+    print("Generating FAQ page...")
+    
+    # Generate HTML
+    html_content = generate_faq_html()
+    
+    # Write to file
+    output_path = Path(__file__).parent.parent.parent / 'docs' / 'faq.html'
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print(f"✓ FAQ page generated: {output_path}")
+
+
+if __name__ == '__main__':
+    main()

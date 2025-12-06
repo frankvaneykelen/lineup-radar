@@ -75,7 +75,7 @@ Write-Host ""
 
 # Track success/failure
 $totalFestivals = $festivals.Count
-$totalOperations = ($totalFestivals * 3) + 3  # Each festival: lineup + artist pages + playlist, plus homepage + charts + FAQ
+$totalOperations = ($totalFestivals * 4) + 3  # Each festival: lineup + artist pages + about page + playlist, plus homepage + charts + FAQ
 $currentOperation = 0
 $successCount = 0
 $failureCount = 0
@@ -115,6 +115,29 @@ for ($i = 0; $i -lt $festivals.Count; $i++) {
         
         Write-Host "✓ Generated lineup index page" -ForegroundColor Green
         $successCount++
+        
+        # Update progress for about page
+        $currentOperation++
+        $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+        Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName about page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+        
+        # Run the about page generation script
+        $commandAbout = "python scripts/generate_about.py --festival $festivalSlug --year $year --ai"
+        Write-Host "Running: $commandAbout" -ForegroundColor Gray
+        
+        # Execute and capture output
+        $outputAbout = & python scripts/generate_about.py --festival $festivalSlug --year $year --ai 2>&1
+        
+        # Check if command succeeded
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "✓ Generated about page" -ForegroundColor Green
+            $successCount++
+        } else {
+            Write-Host "✗ Failed to generate about page for $festivalName $year" -ForegroundColor Red
+            Write-Host "Error output:" -ForegroundColor Red
+            Write-Host $outputAbout -ForegroundColor Red
+            $failureCount++
+        }
         
         # Update progress for artist pages
         $currentOperation++
@@ -259,35 +282,36 @@ Write-Host ""
 Write-Host "----------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 
-# Update FAQ timestamps
+# Generate FAQ page
 $currentOperation++
 $percentComplete = [int](($currentOperation / $totalOperations) * 100)
-Write-Progress -Activity "Regenerating Festival Pages" -Status "Updating FAQ timestamps ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating FAQ page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
 
 Write-Host ""
-Write-Host "Updating FAQ timestamps..." -ForegroundColor Yellow
+Write-Host "Generating FAQ page..." -ForegroundColor Yellow
 Write-Host ""
 
 try {
-    $command = "python scripts/helpers/update_faq_timestamps.py"
+    $command = "python scripts/helpers/generate_faq.py"
     Write-Host "Running: $command" -ForegroundColor Gray
     
     # Execute and capture output
-    $output = & python scripts/helpers/update_faq_timestamps.py 2>&1
+    $output = & python scripts/helpers/generate_faq.py 2>&1
     
     # Check if command succeeded
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✓ Successfully updated FAQ timestamps" -ForegroundColor Green
+        Write-Host "✓ FAQ page generated successfully" -ForegroundColor Green
+        Write-Host $output
         $successCount++
     } else {
-        Write-Host "✗ Failed to update FAQ timestamps" -ForegroundColor Red
+        Write-Host "✗ Failed to generate FAQ page" -ForegroundColor Red
         Write-Host "Error output:" -ForegroundColor Red
         Write-Host $output -ForegroundColor Red
         $failureCount++
     }
 }
 catch {
-    Write-Host "✗ Exception while updating FAQ timestamps" -ForegroundColor Red
+    Write-Host "✗ Exception while generating FAQ page" -ForegroundColor Red
     Write-Host $_.Exception.Message -ForegroundColor Red
     $failureCount++
 }
@@ -310,9 +334,9 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  Regeneration Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Festivals processed: $totalFestivals (lineup + artist pages + playlist each)" -ForegroundColor White
+Write-Host "Festivals processed: $totalFestivals (lineup + about + artist pages + playlist each)" -ForegroundColor White
 Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
-Write-Host "Total operations: $(($totalFestivals * 3) + 3)" -ForegroundColor White
+Write-Host "Total operations: $(($totalFestivals * 4) + 3)" -ForegroundColor White
 Write-Host "Successful: $successCount" -ForegroundColor Green
 Write-Host "Failed: $failureCount" -ForegroundColor $(if ($failureCount -eq 0) { "Green" } else { "Red" })
 Write-Host "Duration: $durationSeconds seconds" -ForegroundColor Gray

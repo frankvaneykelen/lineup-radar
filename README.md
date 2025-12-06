@@ -415,6 +415,32 @@ python scripts/helpers/generate_charts.py
 
 This will produce `docs/charts.html` with aggregated statistics and visual comparisons across festivals/years.
 
+### About pages
+
+- **Purpose**: Generate a short festival-year profile and structured metadata for each festival year. The generator computes simple festival statistics (genre counts, country counts, diversity breakdowns) and writes a human-readable HTML summary alongside a machine-readable `about.json` used by the site.
+- **Files written**: `docs/<festival-slug>/<year>/about.json` and `docs/<festival-slug>/<year>/about.html`.
+
+- **Basic usage (no network calls)**:
+
+```powershell
+.venv\Scripts\Activate.ps1
+python scripts/generate_about.py --festival down-the-rabbit-hole --year 2026
+```
+
+- **AI-backed narrative**: To ask the AI to generate a contextual festival-year narrative, add `--ai`. This will call the configured Azure OpenAI deployment and append an AI-written summary to `about.json` and `about.html`.
+
+```powershell
+# Requires Azure OpenAI environment variables described in the repo
+python scripts/generate_about.py --festival down-the-rabbit-hole --year 2026 --ai
+```
+
+- **Notes**:
+   - `about.json` includes a `config_properties` object; `festival_helpers/config.py` prefers those values when present, enabling per-year overrides without editing `config.py`.
+   - `--ai` will make network requests to Azure OpenAI and may incur costs. Set these env vars before running AI calls:
+      - `AZURE_OPENAI_KEY`
+      - `AZURE_OPENAI_ENDPOINT`
+      - `AZURE_OPENAI_DEPLOYMENT`
+
 
 All pages share common files for consistency:
 

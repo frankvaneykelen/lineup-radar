@@ -25,7 +25,8 @@ from festival_helpers import (
     artist_name_to_slug,
     translate_text,
     FestivalScraper,
-    get_festival_config
+    get_festival_config,
+    generate_hamburger_menu
 )
 from festival_helpers.slug import get_sort_name
 
@@ -335,24 +336,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <a href="../index.html">
                         <i class="bi bi-arrow-left"></i> Back to Lineup
                     </a>
-                    <div class="festival-section">Down The Rabbit Hole</div>
-                    <a href="../../../down-the-rabbit-hole/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Pinkpop</div>
-                    <a href="../../../pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Rock Werchter</div>
-                    <a href="../../../rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Footprints</div>
-                    <a href="../../../footprints/2026/index.html" class="festival-year">2026 Lineup</a>
-                        <div class="festival-section">About</div>
-                        <a href="..\/about.html" class="festival-year">
-                            <i class="bi bi-info-circle-fill"></i> About
-                        </a>
-                        <a href="../../../charts.html" class="festival-year">
-                            <i class="bi bi-bar-chart-fill"></i> Charts
-                        </a>
-                        <a href="../../../faq.html" class="festival-year">
-                            <i class="bi bi-question-circle"></i> FAQ
-                        </a>
+{generate_hamburger_menu(path_prefix="../../../")}
                 </div>
             </div>
             <div class="artist-header-content">

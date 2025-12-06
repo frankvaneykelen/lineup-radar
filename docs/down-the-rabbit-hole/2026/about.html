@@ -1,119 +1,315 @@
-<!doctype html>
-<html lang="en"> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8"> 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>About Down The Rabbit Hole 2026</title>
-  <link href="../../shared/styles.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Down The Rabbit Hole 2026 About - Frank's LineupRadar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            background: var(--card-bg, #ffffff);
+            border: 1px solid var(--border-color, #dee2e6);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--heading-color, #212529);
+            border-bottom: 2px solid var(--primary-color, #0d6efd);
+            padding-bottom: 0.5rem;
+        }
+        .stat-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .stat-table td {
+            padding: 0.6rem 0.5rem;
+            border-bottom: 1px solid var(--border-color, #e9ecef);
+            font-size: 0.95rem;
+        }
+        .stat-table tr:last-child td {
+            border-bottom: none;
+        }
+        .stat-table td:first-child {
+            color: var(--text-color, #495057);
+        }
+        .stat-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: var(--primary-color, #0d6efd);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color, #0d6efd);
+            line-height: 1;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted, #6c757d);
+            margin-top: 0.25rem;
+        }
+        .overview-stat {
+            margin-bottom: 1.5rem;
+        }
+        .overview-stat:last-child {
+            margin-bottom: 0;
+        }
+        .profile-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-color, #212529);
+            margin-bottom: 2rem;
+        }
+        body[data-theme="dark"] .stat-card {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body[data-theme="dark"] .stat-table td {
+            border-bottom-color: #444;
+        }
+        body[data-theme="dark"] .stat-table td:first-child {
+            color: #adb5bd;
+        }
+    </style>
 </head>
 <body>
-  <div class="container-fluid">
-    <header class="page-header lineup-header"> 
-      <div class="page-header-content">
-        <h1>Down The Rabbit Hole 2026</h1>
-        <p class="subtitle">Generated: 2025-12-06 16:44 UTC</p>
-      </div>
-    </header>
-    <div class="section">
-      <h2>Profile</h2>
-      <p>**Down The Rabbit Hole 2026: A Diverse Sonic Wonderland**<br/><br/>Down The Rabbit Hole 2026 promises an eclectic lineup of 39 artists spanning a wide array of genres, from Electronic and Indie Rock to Folk, Hip-Hop, and Pop, each represented by at least four acts. The festival’s genre diversity is a testament to its commitment to delivering something for every music lover, with an adventurous mix that includes everything from Baroque Pop and Anatolian Rock to Jazz Rap and Psychedelic Folk. With an average artist rating of 7.63 and a strong distribution of highly rated acts, festival-goers can expect a weekend packed with quality performances.<br/><br/>The event showcases an impressive global reach, featuring artists from 15 countries. The United Kingdom and the United States lead the charge, contributing eight acts each, while the Netherlands, Ireland, and France also bring strong representation. More unique additions from Thailand, Turkey, and the Democratic Republic of Congo highlight the festival’s commitment to global sounds, ensuring a cross-cultural experience for attendees.<br/><br/>Diversity is further reflected in the festival’s gender and representation dynamics. With 11 female acts, 4 mixed-gender ensembles, and 9 artists of color, Down The Rabbit Hole 2026 continues to champion inclusivity. The lineup balances fresh talent with seasoned performers, offering a rich tapestry of sounds and perspectives that celebrate the universal language of music. Whether you're into soulful R&B, hypnotic techno, or rootsy folk, this year’s festival is set to be a vibrant celebration of artistry and diversity.</p>
-      <h2>Statistics</h2>
-      <pre>{
-  "total_artists": 39,
-  "genre_counts": {
-    "Electronic": 8,
-    "Indie Rock": 5,
-    "Folk": 5,
-    "Hip-Hop": 4,
-    "Rap": 4,
-    "Pop": 4,
-    "Techno": 4,
-    "Indie rock": 2,
-    "World Music": 2,
-    "Indie Pop": 2,
-    "Funk": 2,
-    "Disco": 2,
-    "Alternative": 2,
-    "House": 2,
-    "Baroque Pop": 1,
-    "Indie pop": 1,
-    "New Wave": 1,
-    "Art Rock": 1,
-    "Synth-pop": 1,
-    "Jazz Rap": 1,
-    "Psychedelic Rock": 1,
-    "Blues Rock": 1,
-    "Stoner Rock": 1,
-    "Ambient": 1,
-    "Indie Folk": 1,
-    "Country Pop": 1,
-    "Molam": 1,
-    "Psychedelic": 1,
-    "Roots Rock": 1,
-    "Soul": 1,
-    "R&B": 1,
-    "Alternative Rock": 1,
-    "Americana": 1,
-    "Country": 1,
-    "Rock": 1,
-    "Experimental": 1,
-    "Hip-hop": 1,
-    "Heavy Metal": 1,
-    "Bass Music": 1,
-    "World": 1,
-    "Jazz": 1,
-    "Electropop": 1,
-    "Anatolian Rock": 1,
-    "Psychedelic Folk": 1,
-    "Grunge-pop": 1,
-    "Acoustic": 1,
-    "Folk Rock": 1,
-    "Punk": 1,
-    "Afropop": 1,
-    "Traditional Irish": 1,
-    "Italo Disco": 1,
-    "NL indiepop": 1,
-    "softrock": 1
-  },
-  "dj_count": 3,
-  "country_counts": {
-    "United Kingdom": 8,
-    "United States": 8,
-    "Netherlands": 6,
-    "Ireland": 3,
-    "France": 3,
-    "Australia": 2,
-    "Germany": 1,
-    "Thailand": 1,
-    "Japan": 1,
-    "Belgium": 1,
-    "Canada": 1,
-    "Turkey": 1,
-    "DR Congo": 1,
-    "Italy": 1,
-    "Norway": 1
-  },
-  "gender_counts": {
-    "Female": 11,
-    "Mixed": 4,
-    "Male": 20,
-    "Unknown": 4
-  },
-  "poc_counts": {
-    "No": 24,
-    "Yes": 9,
-    "Unknown": 6
-  },
-  "average_rating": 7.63,
-  "rating_distribution": {
-    "9": 4,
-    "8": 9,
-    "7": 14
-  },
-  "has_spotify_links": 39,
-  "year": 2026
-}</pre>
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="../../index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+<div class="festival-section">Down The Rabbit Hole 2026</div>
+<div class="festival-links"><a href="../../down-the-rabbit-hole/2026/index.html">Lineup</a> | <a href="../../down-the-rabbit-hole/2026/about.html">About</a></div>
+<div class="festival-section">Pinkpop 2026</div>
+<div class="festival-links"><a href="../../pinkpop/2026/index.html">Lineup</a> | <a href="../../pinkpop/2026/about.html">About</a></div>
+<div class="festival-section">Rock Werchter 2026</div>
+<div class="festival-links"><a href="../../rock-werchter/2026/index.html">Lineup</a> | <a href="../../rock-werchter/2026/about.html">About</a></div>
+<div class="festival-section">Footprints 2026</div>
+<div class="festival-links"><a href="../../footprints/2026/index.html">Lineup</a> | <a href="../../footprints/2026/about.html">About</a></div>
+<div class="festival-section">General</div>
+<a href="../../charts.html" class="festival-year">
+<i class="bi bi-bar-chart-fill"></i> Charts
+</a>
+<a href="../../faq.html" class="festival-year">
+<i class="bi bi-question-circle"></i> FAQ
+</a>
+                </div>
+            </div>
+            <div class="page-header-content">
+                <h1>About Down The Rabbit Hole 2026</h1>
+                <p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">A boutique music and arts festival in Beuningen, Netherlands, known for its eclectic lineup and intimate atmosphere.</p>
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
+                    About page generated: December 06, 2025 21:38 UTC
+                     | <a href="https://downtherabbithole.nl/programma" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>
+                </p>
+            </div>
+        </header>
+        
+        <div class="container-fluid" style="max-width: 1400px; padding: 2rem 1rem;">
+            <section class="mb-5">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 600;">Festival Profile</h2>
+                <div class="profile-text"><p><strong>Down The Rabbit Hole 2026: A Celebration of Diversity and Discovery</strong></p>
+<p>The 2026 edition of <em>Down The Rabbit Hole</em> brings together an eclectic lineup of 39 artists, showcasing a vibrant tapestry of genres and cultures. From the pulsating beats of Electronic and Techno to the soulful strains of Folk and Indie Rock, the festival offers something for every music lover. With standout acts in Hip-Hop, Rap, and Pop, and rarer gems like Anatolian Rock, Molam, and Traditional Irish, this year’s curation promises an unparalleled musical journey that transcends boundaries.</p>
+<p>This year’s lineup highlights a global perspective, with artists hailing from 15 countries, including the United Kingdom, the United States, the Netherlands, and as far afield as Thailand, Japan, and DR Congo. Gender representation sees a noteworthy mix, with 11 female-led acts, four mixed-gender groups, and diverse voices from nine artists of color contributing to the festival's inclusive ethos. Audiences will also be treated to a mix of live performances and DJ sets, with three DJs adding an extra layer of energy to the event.</p>
+<p>With an average artist rating of 7.63 and a variety of critically acclaimed acts, <em>Down The Rabbit Hole 2026</em> promises to be both a high-quality and immersive experience. The festival’s commitment to diversity and discovery is reflected not only in its genre-spanning lineup but also in its celebration of voices and sounds from across the globe. Whether you’re seeking fresh sounds or established favorites, this year’s festival is set to be an unforgettable adventure.</p></div>
+            </section>
+            
+            <section>
+                <h2 style="margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600;">Festival Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Overview</h3>
+                        <div class="overview-stat">
+                            <span class="stat-number">39</span>
+                            <div class="stat-label">Total Artists</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">7.63</span>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">3</span>
+                            <div class="stat-label">DJs/Electronic Acts</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">39</span>
+                            <div class="stat-label">Artists with Spotify Links</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Top Genres</h3>
+                        <table class="stat-table">
+                            <tr><td>Electronic</td><td>8</td></tr><tr><td>Indie Rock</td><td>5</td></tr><tr><td>Folk</td><td>5</td></tr><tr><td>Hip-Hop</td><td>4</td></tr><tr><td>Rap</td><td>4</td></tr><tr><td>Pop</td><td>4</td></tr><tr><td>Techno</td><td>4</td></tr><tr><td>Indie rock</td><td>2</td></tr><tr><td>World Music</td><td>2</td></tr><tr><td>Indie Pop</td><td>2</td></tr>
+                        </table>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Top Countries</h3>
+                        <table class="stat-table">
+                            <tr><td>United Kingdom</td><td>8</td></tr><tr><td>United States</td><td>8</td></tr><tr><td>Netherlands</td><td>6</td></tr><tr><td>Ireland</td><td>3</td></tr><tr><td>France</td><td>3</td></tr><tr><td>Australia</td><td>2</td></tr><tr><td>Germany</td><td>1</td></tr><tr><td>Thailand</td><td>1</td></tr><tr><td>Japan</td><td>1</td></tr><tr><td>Belgium</td><td>1</td></tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="stats-grid" style="margin-top: 1.5rem;">
+                    <div class="stat-card">
+                        <h3>Gender Distribution</h3>
+                        <canvas id="genderChart" width="300" height="300"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Artists of Color</h3>
+                        <canvas id="pocChart" width="300" height="300"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Rating Distribution</h3>
+                        <canvas id="ratingChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-  </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
+        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+        <div>
+            <p style="margin-bottom: 15px;">
+                <strong>Content Notice:</strong> These pages combine content scraped from the 
+                <a href="https://downtherabbithole.nl/programma" target="_blank" style="color: #00d9ff; text-decoration: none;">Down The Rabbit Hole festival website</a>
+                with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
+            </p>
+            <p style="margin-bottom: 15px;">
+                <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
+                Please verify critical details on official sources.
+            </p>
+            <p style="margin-bottom: 0;">
+                Generated with ❤️ • 
+                <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <i class="bi bi-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="../../shared/script.js"></script>
+    <script>
+        // Prepare data for charts
+        const genderData = {"Female": 11, "Mixed": 4, "Male": 20, "Unknown": 4};
+        const pocData = {"No": 24, "Yes": 9, "Unknown": 6};
+        const ratingData = {"9-10": 4, "8-9": 9, "7-8": 14, "Unrated": 12};
+        
+        // Color schemes
+        const genderColors = {
+            'Male': '#3b82f6',
+            'Female': '#ec4899',
+            'Non-binary': '#8b5cf6',
+            'Mixed': '#10b981',
+            'Unknown': '#6b7280'
+        };
+        
+        const pocColors = {
+            'Yes': '#f59e0b',
+            'No': '#6b7280',
+            'Unknown': '#d1d5db'
+        };
+        
+        const ratingColors = {
+            '9-10': '#10b981',
+            '8-9': '#3b82f6',
+            '7-8': '#8b5cf6',
+            '6-7': '#f59e0b',
+            '5-6': '#ef4444',
+            'Unrated': '#6b7280'
+        };
+        
+        // Helper function to create pie chart
+        function createPieChart(canvasId, data, colorMap) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+            const colors = labels.map(label => colorMap[label] || '#6b7280');
+            
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: document.body.getAttribute('data-theme') === 'dark' ? '#1a1a2e' : '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: document.body.getAttribute('data-theme') === 'dark' ? '#e0e0e0' : '#212529',
+                                padding: 10,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Create charts
+        createPieChart('genderChart', genderData, genderColors);
+        createPieChart('pocChart', pocData, pocColors);
+        createPieChart('ratingChart', ratingData, ratingColors);
+        
+        // Update chart colors when dark mode toggles
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', function() {
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -1,99 +1,315 @@
-<!doctype html>
-<html lang="en"> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8"> 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>About Rock Werchter 2026</title>
-  <link href="../../shared/styles.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Werchter 2026 About - Frank's LineupRadar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            background: var(--card-bg, #ffffff);
+            border: 1px solid var(--border-color, #dee2e6);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--heading-color, #212529);
+            border-bottom: 2px solid var(--primary-color, #0d6efd);
+            padding-bottom: 0.5rem;
+        }
+        .stat-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .stat-table td {
+            padding: 0.6rem 0.5rem;
+            border-bottom: 1px solid var(--border-color, #e9ecef);
+            font-size: 0.95rem;
+        }
+        .stat-table tr:last-child td {
+            border-bottom: none;
+        }
+        .stat-table td:first-child {
+            color: var(--text-color, #495057);
+        }
+        .stat-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: var(--primary-color, #0d6efd);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color, #0d6efd);
+            line-height: 1;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted, #6c757d);
+            margin-top: 0.25rem;
+        }
+        .overview-stat {
+            margin-bottom: 1.5rem;
+        }
+        .overview-stat:last-child {
+            margin-bottom: 0;
+        }
+        .profile-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-color, #212529);
+            margin-bottom: 2rem;
+        }
+        body[data-theme="dark"] .stat-card {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+        body[data-theme="dark"] .stat-table td {
+            border-bottom-color: #444;
+        }
+        body[data-theme="dark"] .stat-table td:first-child {
+            color: #adb5bd;
+        }
+    </style>
 </head>
 <body>
-  <div class="container-fluid">
-    <header class="page-header lineup-header"> 
-      <div class="page-header-content">
-        <h1>Rock Werchter 2026</h1>
-        <p class="subtitle">Generated: 2025-12-06 16:44 UTC</p>
-      </div>
-    </header>
-    <div class="section">
-      <h2>Profile</h2>
-      <p>**Rock Werchter 2026: A Celebration of Diversity in Sound and Style**<br/><br/>Rock Werchter 2026 brings together an eclectic lineup of 29 artists, showcasing a vibrant mix of genres that highlight the festival's commitment to musical diversity. Indie Rock dominates with six acts, while Alternative Rock, Pop, and Electronic each contribute strong representation, ensuring a dynamic blend of crowd-pleasing music. From soulful melodies to hard-hitting rock, the lineup also includes unique flavors like Dream Pop, Jazz Rap, and Ambient, appealing to a wide spectrum of music lovers. With an impressive average artist rating of 7.62, fans can expect high-quality performances, with nearly 60% of acts rated 8 or higher.<br/><br/>The festival celebrates global talent, with artists hailing from six countries. The USA and UK lead the roster, contributing 12 and 11 acts, respectively, while Belgium, Canada, Germany, and Australia add a layer of international flair. This global mix reflects Rock Werchter’s status as a truly international event, bringing together sounds and styles from different corners of the world. Notably, two DJs will also join the stage, adding a fresh electronic energy to the festival.<br/><br/>While the lineup skews heavily male (22 male acts compared to 3 female and 1 non-binary), Rock Werchter 2026 takes steps toward inclusion with a mixed-gender act and two artists of color. The festival’s continued push for diverse representation shows promise, and with all artists connected via Spotify, fans can easily explore and celebrate the wide range of talent before the event. Rock Werchter 2026 is set to be a melting pot of genres, cultures, and creativity, reaffirming its place as one of Europe’s premier music festivals.</p>
-      <h2>Statistics</h2>
-      <pre>{
-  "total_artists": 29,
-  "genre_counts": {
-    "Indie Rock": 6,
-    "Alternative Rock": 5,
-    "Alternative": 4,
-    "Electronic": 4,
-    "Pop": 4,
-    "Indie Pop": 2,
-    "Dream Pop": 2,
-    "Hip-hop": 2,
-    "Rap": 2,
-    "Soul": 2,
-    "Folk rock": 2,
-    "Indie folk": 2,
-    "Indie rock": 2,
-    "Hard Rock": 1,
-    "Psychedelic Rock": 1,
-    "Blues Rock": 1,
-    "Stoner Rock": 1,
-    "Post-punk": 1,
-    "New Wave": 1,
-    "Gothic Rock": 1,
-    "Virtual Band": 1,
-    "Alternative Pop": 1,
-    "Electropop": 1,
-    "Psych Pop": 1,
-    "Electronic Rock": 1,
-    "Art Pop": 1,
-    "Jazz Rap": 1,
-    "Downtempo": 1,
-    "Ambient": 1,
-    "Glam Rock": 1,
-    "Techno": 1,
-    "Big Beat": 1,
-    "Rave": 1,
-    "R&B": 1,
-    "Garage rock": 1,
-    "Pop Rock": 1,
-    "Heartland Rock": 1,
-    "Indie pop": 1,
-    "Hip-Hop": 1
-  },
-  "dj_count": 2,
-  "country_counts": {
-    "USA": 12,
-    "UK": 11,
-    "Belgium": 2,
-    "Canada": 2,
-    "Germany": 1,
-    "Australia": 1
-  },
-  "gender_counts": {
-    "Male": 22,
-    "Female": 3,
-    "Non-binary": 1,
-    "Unknown": 1,
-    "Mixed": 2
-  },
-  "poc_counts": {
-    "No": 26,
-    "Yes": 2,
-    "Unknown": 1
-  },
-  "average_rating": 7.62,
-  "rating_distribution": {
-    "9": 5,
-    "8": 12,
-    "7": 9,
-    "6": 2,
-    "5": 1
-  },
-  "has_spotify_links": 29,
-  "year": 2026
-}</pre>
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="../../index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+<div class="festival-section">Down The Rabbit Hole 2026</div>
+<div class="festival-links"><a href="../../down-the-rabbit-hole/2026/index.html">Lineup</a> | <a href="../../down-the-rabbit-hole/2026/about.html">About</a></div>
+<div class="festival-section">Pinkpop 2026</div>
+<div class="festival-links"><a href="../../pinkpop/2026/index.html">Lineup</a> | <a href="../../pinkpop/2026/about.html">About</a></div>
+<div class="festival-section">Rock Werchter 2026</div>
+<div class="festival-links"><a href="../../rock-werchter/2026/index.html">Lineup</a> | <a href="../../rock-werchter/2026/about.html">About</a></div>
+<div class="festival-section">Footprints 2026</div>
+<div class="festival-links"><a href="../../footprints/2026/index.html">Lineup</a> | <a href="../../footprints/2026/about.html">About</a></div>
+<div class="festival-section">General</div>
+<a href="../../charts.html" class="festival-year">
+<i class="bi bi-bar-chart-fill"></i> Charts
+</a>
+<a href="../../faq.html" class="festival-year">
+<i class="bi bi-question-circle"></i> FAQ
+</a>
+                </div>
+            </div>
+            <div class="page-header-content">
+                <h1>About Rock Werchter 2026</h1>
+                <p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">Belgium's largest annual rock music festival, held in Werchter since 1974, featuring major international artists.</p>
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
+                    About page generated: December 06, 2025 21:39 UTC
+                     | <a href="https://www.rockwerchter.be/en/line-up/a-z" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>
+                </p>
+            </div>
+        </header>
+        
+        <div class="container-fluid" style="max-width: 1400px; padding: 2rem 1rem;">
+            <section class="mb-5">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 600;">Festival Profile</h2>
+                <div class="profile-text"><p><strong>Rock Werchter 2026: A Fusion of Genres and Global Talent</strong></p>
+<p>Rock Werchter 2026 promises an eclectic lineup of 29 artists, showcasing a diverse blend of musical styles and genres. With Indie Rock (6 acts), Alternative Rock (5 acts), and Electronic, Pop, and Alternative genres each contributing 4 acts, the festival highlights its commitment to balancing mainstream appeal with niche subgenres. From Dream Pop and Jazz Rap to Gothic Rock and Stoner Rock, the lineup offers something for every music enthusiast, underscoring the festival's reputation as a melting pot of musical innovation.</p>
+<p>The 2026 edition features a strong international presence, with 12 acts hailing from the USA and 11 from the UK, alongside talents from Belgium, Canada, Germany, and Australia. While the lineup skews predominantly male (22 out of 29 acts), there is representation from female (3), non-binary (1), and mixed-gender groups (2). However, the festival still has room to grow in terms of racial diversity, with only 2 acts featuring people of color, a notable area for future focus.</p>
+<p>With an average rating of 7.62 and five acts earning top-tier reviews (9-10), Rock Werchter 2026 is set to deliver a high-quality musical experience. All 29 acts feature Spotify links, ensuring fans can discover and connect with their music ahead of the festival. As always, Rock Werchter continues to provide a platform for both well-loved icons and emerging artists, celebrating music’s ability to transcend borders and bring people together.</p></div>
+            </section>
+            
+            <section>
+                <h2 style="margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600;">Festival Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Overview</h3>
+                        <div class="overview-stat">
+                            <span class="stat-number">29</span>
+                            <div class="stat-label">Total Artists</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">7.62</span>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">2</span>
+                            <div class="stat-label">DJs/Electronic Acts</div>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="stat-number">29</span>
+                            <div class="stat-label">Artists with Spotify Links</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Top Genres</h3>
+                        <table class="stat-table">
+                            <tr><td>Indie Rock</td><td>6</td></tr><tr><td>Alternative Rock</td><td>5</td></tr><tr><td>Alternative</td><td>4</td></tr><tr><td>Electronic</td><td>4</td></tr><tr><td>Pop</td><td>4</td></tr><tr><td>Indie Pop</td><td>2</td></tr><tr><td>Dream Pop</td><td>2</td></tr><tr><td>Hip-hop</td><td>2</td></tr><tr><td>Rap</td><td>2</td></tr><tr><td>Soul</td><td>2</td></tr>
+                        </table>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Top Countries</h3>
+                        <table class="stat-table">
+                            <tr><td>USA</td><td>12</td></tr><tr><td>UK</td><td>11</td></tr><tr><td>Belgium</td><td>2</td></tr><tr><td>Canada</td><td>2</td></tr><tr><td>Germany</td><td>1</td></tr><tr><td>Australia</td><td>1</td></tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="stats-grid" style="margin-top: 1.5rem;">
+                    <div class="stat-card">
+                        <h3>Gender Distribution</h3>
+                        <canvas id="genderChart" width="300" height="300"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Artists of Color</h3>
+                        <canvas id="pocChart" width="300" height="300"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Rating Distribution</h3>
+                        <canvas id="ratingChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-  </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
+        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+        <div>
+            <p style="margin-bottom: 15px;">
+                <strong>Content Notice:</strong> These pages combine content scraped from the 
+                <a href="https://www.rockwerchter.be/en/line-up/a-z" target="_blank" style="color: #00d9ff; text-decoration: none;">Rock Werchter festival website</a>
+                with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
+            </p>
+            <p style="margin-bottom: 15px;">
+                <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
+                Please verify critical details on official sources.
+            </p>
+            <p style="margin-bottom: 0;">
+                Generated with ❤️ • 
+                <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <i class="bi bi-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="../../shared/script.js"></script>
+    <script>
+        // Prepare data for charts
+        const genderData = {"Male": 22, "Female": 3, "Non-binary": 1, "Unknown": 1, "Mixed": 2};
+        const pocData = {"No": 26, "Yes": 2, "Unknown": 1};
+        const ratingData = {"9-10": 5, "8-9": 12, "7-8": 9, "6-7": 2, "5-6": 1};
+        
+        // Color schemes
+        const genderColors = {
+            'Male': '#3b82f6',
+            'Female': '#ec4899',
+            'Non-binary': '#8b5cf6',
+            'Mixed': '#10b981',
+            'Unknown': '#6b7280'
+        };
+        
+        const pocColors = {
+            'Yes': '#f59e0b',
+            'No': '#6b7280',
+            'Unknown': '#d1d5db'
+        };
+        
+        const ratingColors = {
+            '9-10': '#10b981',
+            '8-9': '#3b82f6',
+            '7-8': '#8b5cf6',
+            '6-7': '#f59e0b',
+            '5-6': '#ef4444',
+            'Unrated': '#6b7280'
+        };
+        
+        // Helper function to create pie chart
+        function createPieChart(canvasId, data, colorMap) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+            const colors = labels.map(label => colorMap[label] || '#6b7280');
+            
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: document.body.getAttribute('data-theme') === 'dark' ? '#1a1a2e' : '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: document.body.getAttribute('data-theme') === 'dark' ? '#e0e0e0' : '#212529',
+                                padding: 10,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Create charts
+        createPieChart('genderChart', genderData, genderColors);
+        createPieChart('pocChart', pocData, pocColors);
+        createPieChart('ratingChart', ratingData, ratingColors);
+        
+        // Update chart colors when dark mode toggles
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', function() {
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
+            });
+        }
+    </script>
 </body>
 </html>
