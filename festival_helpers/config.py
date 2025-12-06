@@ -23,7 +23,8 @@ class FestivalConfig:
     bio_language: str = 'Dutch'  # Language of the bio on festival website
     rating_boost: float = 0.0  # Rating adjustment for discovery/underground festivals (e.g., +1.5 for emerging artists)
     description: str = ''  # Short description of the festival
-    spotify_playlist_id: str = ''  # Spotify playlist ID for LineupRadar curated playlist
+    official_spotify_playlist: str = ''  # Official festival Spotify playlist URL
+    spotify_playlist_id: str = ''  # LineupRadar curated Spotify playlist URL
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -148,6 +149,7 @@ def get_festival_config(
             bio_language = cfg.get('bio_language') or base.get('bio_language', 'Dutch')
             rating_boost = cfg.get('rating_boost', base.get('rating_boost', 0.0))
             description = cfg.get('description') or base.get('description', '')
+            official_spotify_playlist = cfg.get('spotify_playlist') or base.get('spotify_playlist', '')
             spotify_playlist_id = cfg.get('lineup_radar_spotify_playlist') or base.get('lineup_radar_spotify_playlist', '')
             return FestivalConfig(
                 name=name,
@@ -159,6 +161,7 @@ def get_festival_config(
                 bio_language=bio_language,
                 rating_boost=rating_boost,
                 description=description,
+                official_spotify_playlist=official_spotify_playlist,
                 spotify_playlist_id=spotify_playlist_id,
             )
         except Exception:
@@ -181,6 +184,7 @@ def get_festival_config(
         bio_language=fest_data.get('bio_language', 'Dutch'),
         rating_boost=fest_data.get('rating_boost', 0.0),
         description=fest_data.get('description', ''),
+        official_spotify_playlist=fest_data.get('spotify_playlist', ''),
         spotify_playlist_id=fest_data.get('lineup_radar_spotify_playlist', '')
     )
 

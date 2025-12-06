@@ -2,7 +2,7 @@
   "festival": "footprints",
   "name": "Footprints Festival",
   "year": 2026,
-  "generated_at": "2025-12-06T21:39:41.975084+00:00",
+  "generated_at": "2025-12-06T22:19:04.385474+00:00",
   "config_properties": {
     "name": "Footprints Festival",
     "year": 2026,
@@ -13,6 +13,7 @@
     "bio_language": "Dutch",
     "rating_boost": 1.5,
     "description": "A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.",
+    "official_spotify_playlist": "https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS",
     "spotify_playlist_id": "https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX"
   },
   "stats": {
@@ -73,5 +74,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Footprints Festival 2026: A Celebration of Diversity and Fusion**\n\nThe 2026 edition of Footprints Festival brings together an eclectic lineup of 11 artists from 10 countries, showcasing a vibrant tapestry of sounds that span the globe. With genres ranging from Electronic and Psychedelic to Malian Desert Blues, Armenian Folk, and Gospel, the festival is a melting pot of musical traditions and contemporary experimentation. The average artist rating of 7.73 highlights the high-quality performances attendees can expect, with most artists scoring in the 8-9 range.\n\nDiversity takes center stage at this year’s festival, with seven out of the 11 artists identifying as people of color, reflecting a commitment to amplifying underrepresented voices. The lineup also includes a mix of male (8), female (2), and mixed-gender (1) acts, further emphasizing the festival’s inclusive ethos. Notably, Germany leads with four artists, while other performers hail from countries as varied as Iran, Nigeria, Turkey, and Brazil, creating a truly global experience.\n\nFootprints Festival 2026 is a celebration of common ground through music, uniting audiences with its rich blend of cultures, genres, and stories. With every artist offering something unique—be it minimalist electropop, traditional Iranian melodies, or Afrobeat rhythms—this year’s event promises to be a journey across borders and sounds, leaving a lasting impression on all who attend."
+  "ai_profile": "**Footprints Festival 2026: A Celebration of Diversity and Innovation**\n\nFootprints Festival 2026 brings together an eclectic lineup of 11 artists from 10 countries, showcasing a rich tapestry of global sounds. With genres ranging from Electronic and Psychedelic to Malian Desert Blues and Traditional Iranian music, the festival offers a unique convergence of musical traditions and contemporary innovation. The festival's average rating of 7.73 reflects its high-quality curation, with the majority of acts receiving praise in the 8-9 range.\n\nThe festival’s commitment to diversity is evident in its representation of artists from different cultural and musical backgrounds. Seven of the 11 artists identify as people of color, and the lineup includes a balanced mix of male, female, and mixed-gender acts. Germany leads the roster with four artists, while countries like Nigeria, Turkey, Brazil, and Iran add to the cross-cultural richness of the event.\n\nFootprints Festival 2026 stands out as a platform for both genre-defying experimentation and the celebration of heritage. From the hypnotic rhythms of Afrobeat and Anatolian Rock to the introspective tones of minimalist electropop and Armenian Folk, the festival invites audiences to explore the intersections of tradition and modernity. With all artists featured on Spotify, attendees can dive into the music beforehand, ensuring an immersive and unforgettable festival experience."
 }
