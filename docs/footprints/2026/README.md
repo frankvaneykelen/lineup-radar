@@ -45,6 +45,9 @@ python scripts/generate_about.py --festival footprints --year 2026 --ai
 ```powershell
 # Regenerate all HTML files (lineup, about, artist pages)
 .\scripts\regenerate_all.ps1
+
+# Regenerate only this festival
+.\scripts\regenerate_festival.ps1 -Festival footprints
 ```
 
 ## Files in This Directory

@@ -39,8 +39,10 @@ def save_csv(csv_path: Path, headers: List[str], rows: List[Dict]):
         writer.writerows(rows)
 
 
-def needs_enrichment(row: Dict) -> bool:
+def needs_enrichment(row: Dict, force: bool = False) -> bool:
     """Check if artist row needs data enrichment."""
+    if force:
+        return True  # Enrich all fields regardless of current values
     essential_fields = ["Genre", "Country", "Bio", "My take", "My rating"]
     return any(not row.get(field, "").strip() for field in essential_fields)
 
@@ -372,7 +374,7 @@ Return valid JSON with these exact keys (use empty string if not found):
         return {}
 
 
-def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rating_boost: float = 0.0):
+def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rating_boost: float = 0.0, artist_name_filter: str = None, force: bool = False):
     """
     Enrich CSV with artist data.
     
@@ -381,8 +383,16 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
         use_ai: If True, use AI to automatically fill data (requires API setup)
         parallel: If True, process multiple artists concurrently (faster with Azure)
         rating_boost: Rating adjustment for discovery/curated festivals (default 0.0)
+        artist_name_filter: If provided, only enrich this specific artist
+        force: If True, overwrite existing non-empty fields
     """
     print(f"\n=== Enriching Artist Data ===\n")
+    
+    if artist_name_filter:
+        print(f"ℹ️  Filtering for artist: {artist_name_filter}\n")
+    
+    if force:
+        print(f"⚠️  Force mode enabled: Will overwrite existing fields\n")
     
     if rating_boost != 0.0:
         print(f"ℹ️  Rating boost enabled: +{rating_boost}\n")
@@ -390,8 +400,8 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
     headers, rows = load_csv(csv_path)
     enriched_count = 0
     
-    # Note: User edits are preserved by not overwriting non-empty fields
-    # Fields are only enriched if they are currently empty
+    # Note: User edits are preserved by not overwriting non-empty fields (unless --force is used)
+    # Fields are only enriched if they are currently empty (or if --force is used)
     
     if use_ai and parallel:
         # Parallel processing for faster completion
@@ -402,14 +412,23 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
         use_azure = bool(os.getenv("AZURE_OPENAI_KEY") and os.getenv("AZURE_OPENAI_ENDPOINT"))
         max_workers = 5 if use_azure else 2  # More parallelism with Azure
         
-        artists_to_enrich = [(i, row) for i, row in enumerate(rows) if needs_enrichment(row)]
+        artists_to_enrich = [
+            (i, row) for i, row in enumerate(rows)
+            if (not artist_name_filter or row.get("Artist", "").strip().lower() == artist_name_filter.lower())
+            and needs_enrichment(row, force)
+        ]
         
         if artists_to_enrich:
-            print(f"Processing {len(artists_to_enrich)} artists in parallel (max {max_workers} workers)...\n")
+            print(f"Processing {len(artists_to_enrich)} artists in parallel (max {max_workers} workers)...)\n")
             
             with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
                 future_to_artist = {
-                    executor.submit(enrich_artist_with_ai, row.get("Artist", "").strip(), row.get("Bio", "").strip(), rating_boost): (i, row)
+                    executor.submit(
+                        enrich_artist_with_ai, 
+                        row.get("Artist", "").strip(), 
+                        "" if force else row.get("Bio", "").strip(),  # Don't pass existing bio in force mode
+                        rating_boost
+                    ): (i, row)
                     for i, row in artists_to_enrich
                 }
                 
@@ -420,9 +439,9 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
                         enriched_data = future.result()
                         if enriched_data:
                             enriched_count += 1
-                            # Update row with enriched data (only if field is currently empty)
+                            # Update row with enriched data (only if field is currently empty or force mode)
                             for key, value in enriched_data.items():
-                                if key in row and not row.get(key, "").strip():
+                                if key in row and (force or not row.get(key, "").strip()):
                                     # Use festival bio as fallback for Bio when AI has no data
                                     if key == "Bio" and not str(value).strip():
                                         festival_bio_en = row.get("Festival Bio (EN)", "").strip()
@@ -463,19 +482,24 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
         if not artist_name:
             continue
         
-        if needs_enrichment(row):
+        # Skip if filtering for specific artist
+        if artist_name_filter and artist_name.lower() != artist_name_filter.lower():
+            continue
+        
+        if needs_enrichment(row, force):
             enriched_count += 1
             
             if use_ai:
                 # AI enrichment (requires API integration)
-                existing_bio = row.get("Bio", "").strip()
+                # In force mode, don't pass existing bio so AI generates a fresh one
+                existing_bio = "" if force else row.get("Bio", "").strip()
                 enriched_data = enrich_artist_with_ai(artist_name, existing_bio, rating_boost)
                 
-                # Update row with enriched data (don't overwrite existing data)
+                # Update row with enriched data (don't overwrite existing data unless force mode)
                 for field, value in enriched_data.items():
                     if field in row:
-                        # Only fill if empty (preserves any existing data including user edits)
-                        if not row[field].strip():
+                        # Only fill if empty or force mode (preserves user edits unless --force)
+                        if force or not row[field].strip():
                             # Use festival bio as fallback for Bio when AI has no data
                             if field == "Bio" and not str(value).strip():
                                 festival_bio_en = row.get("Festival Bio (EN)", "").strip()
@@ -603,6 +627,16 @@ def main():
         action="store_true",
         help="Show AI setup instructions"
     )
+    parser.add_argument(
+        "--artist",
+        type=str,
+        help="Enrich only this specific artist (case-insensitive)"
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Overwrite existing non-empty fields (use with caution)"
+    )
     
     args = parser.parse_args()
     
@@ -629,7 +663,7 @@ def main():
     festival_config = get_festival_config(args.festival)
     rating_boost = festival_config.rating_boost if festival_config else 0.0
     
-    enrich_csv(csv_path, use_ai=args.ai, parallel=args.parallel, rating_boost=rating_boost)
+    enrich_csv(csv_path, use_ai=args.ai, parallel=args.parallel, rating_boost=rating_boost, artist_name_filter=args.artist, force=args.force)
 
 
 if __name__ == "__main__":
