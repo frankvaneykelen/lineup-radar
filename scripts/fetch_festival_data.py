@@ -62,15 +62,25 @@ def needs_festival_data(row: Dict) -> bool:
     return any(not row.get(field, '').strip() for field in festival_fields)
 
 
-def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, config) -> Dict[str, str]:
+def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, config, existing_url: str = '') -> Dict[str, str]:
     """
     Fetch festival data for an artist.
+    
+    Args:
+        artist_name: Name of the artist
+        scraper: FestivalScraper instance
+        config: Festival configuration
+        existing_url: Existing Festival URL from CSV (if available)
     
     Returns:
         Dict with festival bio (NL/EN), URL, and social links
     """
-    slug = artist_name_to_slug(artist_name)
-    festival_url = config.get_artist_url(slug)
+    # Use existing URL if available, otherwise generate from slug
+    if existing_url:
+        festival_url = existing_url
+    else:
+        slug = artist_name_to_slug(artist_name)
+        festival_url = config.get_artist_url(slug)
     
     print(f"  → Fetching from {festival_url}")
     
@@ -83,8 +93,14 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
     }
     
     try:
-        # Fetch bio
-        bio = scraper.fetch_artist_bio(artist_name)
+        # Fetch HTML directly from the festival URL
+        html = scraper.fetch_page(festival_url)
+        if not html:
+            print(f"  ⚠ Could not fetch page")
+            return result
+        
+        # Extract bio from HTML
+        bio = scraper.extract_bio(html, artist_name)
         if bio:
             print(f"  ✓ Fetched bio ({len(bio)} chars)")
             
@@ -109,8 +125,7 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
         else:
             print(f"  ⚠ No bio found on festival website")
         
-        # Fetch social links
-        html = scraper.fetch_artist_page(artist_name)
+        # Extract social links from the same HTML
         if html:
             social_links = extract_social_links(html)
             if social_links:
@@ -193,6 +208,11 @@ def main():
         action="store_true",
         help="Re-fetch data even if already present"
     )
+    parser.add_argument(
+        "--artist",
+        type=str,
+        help="Fetch data for a single artist only"
+    )
     
     args = parser.parse_args()
     
@@ -272,17 +292,29 @@ def main():
                 row[col] = ''
     
     print(f"\n=== Fetching Festival Data for {config.name} {args.year} ===\n")
-    print(f"Processing {len(rows)} artists...\n")
+    
+    # Filter to single artist if specified
+    all_rows = rows  # Keep reference to all rows for saving
+    if args.artist:
+        filtered_rows = [row for row in rows if row.get('Artist', '').strip().lower() == args.artist.lower()]
+        if not filtered_rows:
+            print(f"✗ Artist '{args.artist}' not found in CSV")
+            sys.exit(1)
+        print(f"Processing 1 artist: {filtered_rows[0].get('Artist')}\n")
+        rows_to_process = filtered_rows
+    else:
+        print(f"Processing {len(rows)} artists...\n")
+        rows_to_process = rows
     
     updated_count = 0
     skipped_count = 0
     
-    for idx, row in enumerate(rows):
+    for idx, row in enumerate(rows_to_process):
         artist_name = row.get('Artist', '').strip()
         if not artist_name:
             continue
         
-        print(f"[{idx+1}/{len(rows)}] {artist_name}")
+        print(f"[{idx+1}/{len(rows_to_process)}] {artist_name}")
         
         # Check if needs data
         if not args.force and not needs_festival_data(row):
@@ -291,7 +323,8 @@ def main():
             continue
         
         # Fetch festival data
-        festival_data = fetch_artist_festival_data(artist_name, scraper, config)
+        existing_url = row.get('Festival URL', '').strip()
+        festival_data = fetch_artist_festival_data(artist_name, scraper, config, existing_url)
         
         # Update row
         for key, value in festival_data.items():
@@ -304,8 +337,8 @@ def main():
         scraper.rate_limit_delay(1.0)
         print()
     
-    # Save updated CSV
-    save_csv(csv_path, headers, rows)
+    # Save updated CSV (save all rows, not just filtered)
+    save_csv(csv_path, headers, all_rows)
     
     print(f"\n✓ Festival data fetching complete!")
     print(f"  Updated: {updated_count} artist(s)")

@@ -6,6 +6,8 @@ Supports multiple festivals and years with different URL patterns and settings.
 
 from dataclasses import dataclass
 from typing import Optional
+import json
+from pathlib import Path
 
 
 @dataclass
@@ -21,7 +23,8 @@ class FestivalConfig:
     bio_language: str = 'Dutch'  # Language of the bio on festival website
     rating_boost: float = 0.0  # Rating adjustment for discovery/underground festivals (e.g., +1.5 for emerging artists)
     description: str = ''  # Short description of the festival
-    spotify_playlist_id: str = ''  # Spotify playlist ID for LineupRadar curated playlist
+    official_spotify_playlist: str = ''  # Official festival Spotify playlist URL
+    spotify_playlist_id: str = ''  # LineupRadar curated Spotify playlist URL
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -84,6 +87,7 @@ FESTIVALS = {
         'rating_boost': 1.5,  # Discovery festival: boost emerging artist ratings into 7-9 range
         'description': 'A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.',
         'custom_scraper': True,  # Requires custom scraping logic
+        'scraper_type': 'tivoli-venue',  # Use TivoliVredenburg venue scraper
         'spotify_playlist': 'https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS',
         'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX',
         # Artists from the description and lineup section
@@ -94,6 +98,17 @@ FESTIVALS = {
             'Keshavara',
             'Derya Yıldırım & Grup Şimşek',
         ],
+    },
+    'best-kept-secret': {
+        'name': 'Best Kept Secret',
+        'base_url': 'https://www.bestkeptsecret.nl',
+        'lineup_url': 'https://www.bestkeptsecret.nl/program/list',
+        'artist_path': '/bands/',
+        'bio_language': 'English',
+        'description': 'An indie music festival in Hilvarenbeek, Netherlands, featuring alternative, indie rock, and electronic music.',
+        'scraper_type': 'best-kept-secret',  # Use Best Kept Secret specific scraper
+        'spotify_playlist': 'https://open.spotify.com/playlist/2ClqlT8FIHuwI0oxUKHqTl?si=ECVe6VbETtqi-V4v3lDniQ',
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/3aKy6IEpXtiyZzqaBQ0j16?si=e17fc38a617e4741',
     },
     # Add more festivals here as needed
     # 'lowlands': {
@@ -129,12 +144,48 @@ def get_festival_config(
         >>> config.get_artist_url('radiohead')
         'https://downtherabbithole.nl/programma/radiohead'
     """
+    # First try to load a generated about.json for this festival/year if present.
+    about_path = Path(f"docs/{festival}/{year}/about.json")
+    if about_path.exists():
+        try:
+            with about_path.open('r', encoding='utf-8') as fh:
+                about = json.load(fh)
+            # The about.json may contain a `config_properties` object with overrides.
+            cfg = about.get('config_properties', {})
+            # Map keys from about.json (or fall back to FESTIVALS data)
+            base = FESTIVALS.get(festival, {})
+            name = cfg.get('name') or base.get('name') or festival
+            base_url = cfg.get('base_url') or base.get('base_url', '')
+            lineup_url = cfg.get('lineup_url') or base.get('lineup_url', '')
+            artist_path = cfg.get('artist_path') or base.get('artist_path', '')
+            bio_language = cfg.get('bio_language') or base.get('bio_language', 'Dutch')
+            rating_boost = cfg.get('rating_boost', base.get('rating_boost', 0.0))
+            description = cfg.get('description') or base.get('description', '')
+            official_spotify_playlist = cfg.get('spotify_playlist') or base.get('spotify_playlist', '')
+            spotify_playlist_id = cfg.get('lineup_radar_spotify_playlist') or base.get('lineup_radar_spotify_playlist', '')
+            return FestivalConfig(
+                name=name,
+                year=year,
+                base_url=base_url,
+                lineup_url=lineup_url,
+                artist_path=artist_path,
+                slug=festival,
+                bio_language=bio_language,
+                rating_boost=rating_boost,
+                description=description,
+                official_spotify_playlist=official_spotify_playlist,
+                spotify_playlist_id=spotify_playlist_id,
+            )
+        except Exception:
+            # If about.json is malformed, fall back to in-code FESTIVALS below
+            pass
+
     if festival not in FESTIVALS:
         available = ', '.join(FESTIVALS.keys())
         raise ValueError(f"Unknown festival '{festival}'. Available: {available}")
-    
+
     fest_data = FESTIVALS[festival]
-    
+
     return FestivalConfig(
         name=fest_data['name'],
         year=year,
@@ -145,6 +196,7 @@ def get_festival_config(
         bio_language=fest_data.get('bio_language', 'Dutch'),
         rating_boost=fest_data.get('rating_boost', 0.0),
         description=fest_data.get('description', ''),
+        official_spotify_playlist=fest_data.get('spotify_playlist', ''),
         spotify_playlist_id=fest_data.get('lineup_radar_spotify_playlist', '')
     )
 

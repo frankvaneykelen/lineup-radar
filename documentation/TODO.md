@@ -25,6 +25,13 @@
 - [ ] make the badges for Genre and Country links to the filtered view for the festival
 - [ ] add a FAQ section to the README.md
 - [ ] add charts showing the diversity statistics for each year
+- [ ] consolidate to a single list of festivals in festival_helpers/config.py and use that everywhere instead of `FESTIVALS = [...]`, `$festivals = @(...)``in multiple places, `## Supported Festivals` in README.md, and elsewhere
+- [ ] add missing overrides.css/js files for festivals that don't have them yet
+- [ ] add Tagline column to all other festival CSVs (currently only in Best Kept Secret)
+- [ ] add Day, Start Time, End Time, Stage columns to all other festival CSVs (currently only in Best Kept Secret)
+- [x] consolidate festival-specific scraper scripts into single universal scraper (scrape_festival.py)
+- [ ] add Day, Start Time, End Time, Stage columns to all other festival CSVs (currently only in Best Kept Secret)
+- [ ] many artists have no Links, maybe the scraping logic can be improved to find more links?
 
 # Not To Do
 

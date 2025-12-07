@@ -27,7 +27,8 @@ def update_faq_timestamps():
     festivals = {
         'Down The Rabbit Hole 2026': 'docs/down-the-rabbit-hole/2026/2026.csv',
         'Pinkpop 2026': 'docs/pinkpop/2026/2026.csv',
-        'Rock Werchter 2026': 'docs/rock-werchter/2026/2026.csv'
+        'Rock Werchter 2026': 'docs/rock-werchter/2026/2026.csv',
+        'Footprints 2026': 'docs/footprints/2026/2026.csv'
     }
     
     # Get timestamps for each festival
@@ -62,7 +63,7 @@ def update_faq_timestamps():
     
     # Find and replace the timestamp section in the FAQ
     # Look for the pattern between <ul> tags in the "How often is the data updated?" section
-    pattern = r'(<ul>\s*)<li><strong>Down The Rabbit Hole 2026:</strong>.*?</li>\s*<li><strong>Pinkpop 2026:</strong>.*?</li>\s*<li><strong>Rock Werchter 2026:</strong>.*?</li>'
+    pattern = r'(<ul>\s*)<li><strong>Down The Rabbit Hole 2026:</strong>.*?</li>\s*<li><strong>Pinkpop 2026:</strong>.*?</li>\s*<li><strong>Rock Werchter 2026:</strong>.*?</li>\s*<li><strong>Footprints 2026:</strong>.*?</li>'
     
     replacement = rf'\1\n{new_timestamp_section}'
     

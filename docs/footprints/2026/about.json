@@ -1,0 +1,80 @@
+{
+  "festival": "footprints",
+  "name": "Footprints Festival",
+  "year": 2026,
+  "generated_at": "2025-12-07T14:58:42.667970+00:00",
+  "config_properties": {
+    "name": "Footprints Festival",
+    "year": 2026,
+    "base_url": "https://www.tivolivredenburg.nl",
+    "lineup_url": "https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026",
+    "artist_path": "",
+    "slug": "footprints",
+    "bio_language": "Dutch",
+    "rating_boost": 1.5,
+    "description": "A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.",
+    "official_spotify_playlist": "https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS",
+    "spotify_playlist_id": "https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX"
+  },
+  "stats": {
+    "total_artists": 11,
+    "genre_counts": {
+      "Electronic": 3,
+      "Psychedelic": 2,
+      "Indie Pop": 2,
+      "Jazz": 2,
+      "Anatolian rock": 1,
+      "psychedelic folk": 1,
+      "80s-inspired": 1,
+      "minimalist electropop": 1,
+      "Malian desert blues": 1,
+      "Indie": 1,
+      "World Music": 1,
+      "Traditional Iranian": 1,
+      "Armenian Folk": 1,
+      "Gospel": 1,
+      "Hip-Hop": 1,
+      "Grime": 1,
+      "Afrobeat": 1,
+      "Classical": 1,
+      "MPB": 1,
+      "Psychedelic Folk": 1,
+      "R&B": 1,
+      "Experimental": 1
+    },
+    "dj_count": 0,
+    "country_counts": {
+      "Germany": 4,
+      "Netherlands": 1,
+      "Spain": 1,
+      "France": 1,
+      "Iran": 1,
+      "Turkey": 1,
+      "UK": 1,
+      "Nigeria": 1,
+      "Brazil": 1,
+      "Belgium": 1
+    },
+    "gender_counts": {
+      "Female": 2,
+      "Male": 8,
+      "Mixed": 1
+    },
+    "poc_counts": {
+      "Yes": 7,
+      "No": 4
+    },
+    "average_rating": 7.73,
+    "rating_counts": {
+      "9-10": 1,
+      "8-9": 8,
+      "6-7": 2
+    },
+    "has_spotify_links": 0,
+    "year": 2026
+  },
+  "previous_year_comparison": {},
+  "ai_profile": "**Footprints Festival 2026: A Vibrant Tapestry of Global Sounds**  \n\nThe 2026 edition of Footprints Festival promises a dynamic celebration of musical diversity, bringing together 11 artists from 10 countries. With a lineup spanning genres as varied as Electronic, Psychedelic, Jazz, Indie Pop, and Anatolian Rock, the festival offers a rich blend of sounds, from Malian desert blues to 80s-inspired minimalist electropop. The shared thread across these acts is an experimental and boundary-pushing approach to music, making Footprints a haven for adventurous listeners.  \n\nDiversity lies at the heart of this year’s festival. With artists hailing from Germany, Iran, Brazil, Nigeria, and beyond, the lineup showcases a truly global perspective. Seven of the featured artists are people of color, and the gender representation includes female, male, and mixed-gender acts, reflecting an effort to prioritize inclusivity. While electronic artists lead the charge, the festival also highlights unique traditional influences, such as Armenian folk and Afrobeat, weaving a multicultural narrative.  \n\nCritics and fans alike have embraced the festival's curation, with an overall average artist rating of 7.73 and the majority of acts scoring between 8 and 9. This year’s Footprints Festival is a testament to the power of music to connect cultures, genres, and perspectives, making it an unmissable event for those seeking both innovation and unity in sound.",
+  "start_date": "2026-02-21",
+  "end_date": "2026-02-21"
+}

@@ -185,10 +185,20 @@ header {
     background: linear-gradient(135deg, #00d9ff 0%, #00a8cc 100%);
     color: #1a1a2e;
     padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
 }
 
 .lineup-header .artist-header-content {
     text-align: left;
+    flex: 1;
+}
+
+.lineup-header .page-header-content {
+    text-align: left;
+    flex: 1;
 }
 
 .header {
@@ -514,6 +524,16 @@ td[title*="Gender"], td[title*="Person of Color"] {
 }
 
 /* Artist Page Specific Styles */
+.page-header {
+    background: linear-gradient(135deg, #00d9ff 0%, #00a8cc 100%);
+    color: #1a1a2e;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
 .artist-header {
     background: linear-gradient(135deg, #00d9ff 0%, #00a8cc 100%);
     color: #1a1a2e;
@@ -522,6 +542,22 @@ td[title*="Gender"], td[title*="Person of Color"] {
     align-items: center;
     gap: 20px;
     position: relative;
+}
+
+.page-header-content {
+    flex: 1;
+    text-align: left;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 2em;
+    margin-bottom: 0.5rem;
+}
+
+.page-header .subtitle {
+    margin: 0;
+    font-size: 0.8em;
 }
 
 /* Hamburger Menu Styles */
@@ -606,6 +642,25 @@ td[title*="Gender"], td[title*="Person of Color"] {
     border-bottom: 1px solid #e0e0e0;
 }
 
+.dropdown-menu-custom .festival-links {
+    padding: 10px 16px 10px 28px;
+    font-size: 0.95em;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-menu-custom .festival-links a {
+    display: inline;
+    padding: 0;
+    border: none;
+    color: #00a8cc;
+    text-decoration: none;
+}
+
+.dropdown-menu-custom .festival-links a:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
 .dropdown-menu-custom a.festival-year {
     padding-left: 28px;
     font-size: 0.95em;
@@ -615,6 +670,10 @@ td[title*="Gender"], td[title*="Person of Color"] {
 body.dark-mode .dropdown-menu-custom {
     background: #16213e;
     border-color: #2a3f5f;
+}
+
+body.dark-mode .dropdown-menu-custom .festival-links a {
+    color: #00d9ff;
 }
 
 body.dark-mode .dropdown-menu-custom a {

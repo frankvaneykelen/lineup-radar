@@ -13,6 +13,7 @@ from datetime import datetime
 # Add parent directory to sys.path to import festival_helpers
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from festival_helpers.config import get_festival_config
+from festival_helpers import generate_hamburger_menu
 
 
 def find_festival_lineups(docs_dir: Path) -> List[dict]:
@@ -59,7 +60,17 @@ def generate_archive_index(docs_dir: Path):
 <body>
     <div class="container-fluid">
         <header class="artist-header lineup-header">
-            <div style="width: 60px;"></div>
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+{generate_hamburger_menu(path_prefix="")}
+                </div>
+            </div>
             <div class="artist-header-content">
                 <h1>Frank's LineupRadar</h1>
                 <p class="subtitle">Your Artist Lineup Archive & Discovery Tool</p>

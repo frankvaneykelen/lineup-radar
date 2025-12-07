@@ -14,7 +14,7 @@ import csv
 import os
 import json
 import re
-from festival_helpers import artist_name_to_slug, get_festival_config
+from festival_helpers import artist_name_to_slug, get_festival_config, generate_hamburger_menu
 from festival_helpers.slug import get_sort_name
 
 def escape_html(text):
@@ -64,7 +64,7 @@ def generate_html(csv_file, output_dir, config):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{config.name} {year} - Frank's LineupRadar</title>
+    <title>{config.name} {year} Lineup - Frank's LineupRadar</title>
     <meta name="description" content="Browse the complete {config.name} {year} lineup with artist ratings, genres, and bios. Discover hidden gems and plan your perfect festival schedule.">
     <meta name="keywords" content="{config.name}, {year} lineup, festival artists, music discovery, artist ratings, {config.name} {year}">
     <meta name="author" content="Frank van Eykelen">
@@ -91,32 +91,19 @@ def generate_html(csv_file, output_dir, config):
                     <a href="../../index.html" class="home-link">
                         <i class="bi bi-house-door-fill"></i> Home
                     </a>
-                    <div class="festival-section">Down The Rabbit Hole</div>
-                    <a href="../../down-the-rabbit-hole/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Pinkpop</div>
-                    <a href="../../pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Rock Werchter</div>
-                    <a href="../../rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Footprints</div>
-                    <a href="../../footprints/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">About</div>
-                    <a href="../../charts.html" class="festival-year">
-                        <i class="bi bi-bar-chart-fill"></i> Charts
-                    </a>
-                    <a href="../../faq.html" class="festival-year">
-                        <i class="bi bi-question-circle"></i> FAQ
-                    </a>
+{generate_hamburger_menu(path_prefix="../../")}
                 </div>
             </div>
-            <div class="artist-header-content">
-                <h1><a href="{config.lineup_url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">{config.name} {year}</a></h1>
+            <div class="page-header-content">
+                <h1>{config.name} {year} Lineup</h1>
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
                     Last updated: {last_updated_str}
-                    {' | <a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> LineupRadar Spotify Playlist</a>' if config.spotify_playlist_id else ''}
+                    {' | <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
+                    {' | <a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> Official Playlist</a>' if config.official_spotify_playlist else ''}
+                    {' | <a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>' if config.spotify_playlist_id else ''}
                 </p>
             </div>
-            <div style="width: 120px;"></div>
         </header>
         
         <div class="controls">
