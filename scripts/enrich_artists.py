@@ -461,9 +461,10 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
                                                         print(f"    ✓ Extracted {meta_key}: {meta_value}")
                                         else:
                                             print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data, no festival bio)")
-                                    # Log if we're filling with empty value
+                                    # Log if we're filling with empty value and always update the field
                                     elif key in ["My rating", "My take"] and not str(value).strip():
                                         print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
+                                        row[key] = value
                                     else:
                                         row[key] = value
                     except Exception as e:
@@ -519,9 +520,10 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
                                                 print(f"    ✓ Extracted {meta_key}: {meta_value}")
                                 else:
                                     print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data, no festival bio)")
-                            # Log if we're filling with empty value (AI had insufficient data)
+                            # Log if we're filling with empty value and always update the field
                             elif field in ["My rating", "My take"] and not str(value).strip():
                                 print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data)")
+                                row[field] = value
                             else:
                                 row[field] = value
             else:

@@ -18,7 +18,7 @@ python scripts/fetch_spotify_links.py --festival down-the-rabbit-hole --year 202
 python scripts/fetch_festival_data.py --festival down-the-rabbit-hole --year 2026
 
 # Fetch bio for a single artist (useful for testing or updates)
-python scripts/fetch_festival_data.py --festival down-the-rabbit-hole --year 2026 --artist "Artist Name"
+python scripts/fetch_festival_data.py --festival down-the-rabbit-hole --year 2026 --artist "Artist Name" --force
 
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival down-the-rabbit-hole --year 2026
