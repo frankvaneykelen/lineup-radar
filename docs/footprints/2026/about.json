@@ -2,7 +2,7 @@
   "festival": "footprints",
   "name": "Footprints Festival",
   "year": 2026,
-  "generated_at": "2025-12-06T22:19:04.385474+00:00",
+  "generated_at": "2025-12-07T14:58:42.667970+00:00",
   "config_properties": {
     "name": "Footprints Festival",
     "year": 2026,
@@ -70,9 +70,11 @@
       "8-9": 8,
       "6-7": 2
     },
-    "has_spotify_links": 11,
+    "has_spotify_links": 0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Footprints Festival 2026: A Celebration of Diversity and Innovation**\n\nFootprints Festival 2026 brings together an eclectic lineup of 11 artists from 10 countries, showcasing a rich tapestry of global sounds. With genres ranging from Electronic and Psychedelic to Malian Desert Blues and Traditional Iranian music, the festival offers a unique convergence of musical traditions and contemporary innovation. The festival's average rating of 7.73 reflects its high-quality curation, with the majority of acts receiving praise in the 8-9 range.\n\nThe festival’s commitment to diversity is evident in its representation of artists from different cultural and musical backgrounds. Seven of the 11 artists identify as people of color, and the lineup includes a balanced mix of male, female, and mixed-gender acts. Germany leads the roster with four artists, while countries like Nigeria, Turkey, Brazil, and Iran add to the cross-cultural richness of the event.\n\nFootprints Festival 2026 stands out as a platform for both genre-defying experimentation and the celebration of heritage. From the hypnotic rhythms of Afrobeat and Anatolian Rock to the introspective tones of minimalist electropop and Armenian Folk, the festival invites audiences to explore the intersections of tradition and modernity. With all artists featured on Spotify, attendees can dive into the music beforehand, ensuring an immersive and unforgettable festival experience."
+  "ai_profile": "**Footprints Festival 2026: A Vibrant Tapestry of Global Sounds**  \n\nThe 2026 edition of Footprints Festival promises a dynamic celebration of musical diversity, bringing together 11 artists from 10 countries. With a lineup spanning genres as varied as Electronic, Psychedelic, Jazz, Indie Pop, and Anatolian Rock, the festival offers a rich blend of sounds, from Malian desert blues to 80s-inspired minimalist electropop. The shared thread across these acts is an experimental and boundary-pushing approach to music, making Footprints a haven for adventurous listeners.  \n\nDiversity lies at the heart of this year’s festival. With artists hailing from Germany, Iran, Brazil, Nigeria, and beyond, the lineup showcases a truly global perspective. Seven of the featured artists are people of color, and the gender representation includes female, male, and mixed-gender acts, reflecting an effort to prioritize inclusivity. While electronic artists lead the charge, the festival also highlights unique traditional influences, such as Armenian folk and Afrobeat, weaving a multicultural narrative.  \n\nCritics and fans alike have embraced the festival's curation, with an overall average artist rating of 7.73 and the majority of acts scoring between 8 and 9. This year’s Footprints Festival is a testament to the power of music to connect cultures, genres, and perspectives, making it an unmissable event for those seeking both innovation and unity in sound.",
+  "start_date": "2026-02-21",
+  "end_date": "2026-02-21"
 }

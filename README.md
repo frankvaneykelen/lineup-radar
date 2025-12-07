@@ -12,6 +12,7 @@ This project helps track and rate artists performing at different festivals. Eac
 - **Pinkpop** (English, Landgraaf)
 - **Rock Werchter** (English, Werchter)
 - **Footprints Festival** (Dutch, Utrecht - custom scraper with Spotify integration)
+- **Best Kept Secret** (Dutch, Hilvarenbeek)
 
 Each festival can have its own configuration (language, scraping patterns, etc.).
 
@@ -126,13 +127,19 @@ When new artists are announced on the festival website, follow these steps:
 # Activate virtual environment first
 .venv\Scripts\Activate.ps1
 
-# Then run fetch commands
+# Then run scrape commands for each festival
+python scripts/scrape_festival.py down-the-rabbit-hole --year 2026
+python scripts/scrape_festival.py pinkpop --year 2026
+python scripts/scrape_festival.py rock-werchter --year 2026
+python scripts/scrape_festival.py footprints --year 2026
+python scripts/scrape_festival.py best-kept-secret --year 2026
+
+# Then fetch festival-specific data (bios, social links)
 python scripts/fetch_festival_data.py --festival down-the-rabbit-hole --year 2026
 python scripts/fetch_festival_data.py --festival pinkpop --year 2026
 python scripts/fetch_festival_data.py --festival rock-werchter --year 2026
-
-# For Footprints Festival (custom scraper with Spotify + venue page):
-python scripts/scrape_footprints.py --year 2026
+python scripts/fetch_festival_data.py --festival footprints --year 2026
+python scripts/fetch_festival_data.py --festival best-kept-secret --year 2026
 ```
 
 This will:
@@ -157,6 +164,7 @@ python scripts/enrich_artists.py --festival down-the-rabbit-hole --year 2026 --a
 python scripts/enrich_artists.py --festival pinkpop --year 2026 --ai --parallel
 python scripts/enrich_artists.py --festival rock-werchter --year 2026 --ai --parallel
 python scripts/enrich_artists.py --festival footprints --year 2026 --ai --parallel
+python scripts/enrich_artists.py --festival best-kept-secret --year 2026 --ai --parallel
 ```
 
 This requires API setup. Run `python scripts/enrich_artists.py --setup` for instructions.
@@ -190,6 +198,7 @@ After enriching artist data, you can fetch official Spotify links from the festi
 python scripts/fetch_spotify_links.py --festival down-the-rabbit-hole --year 2026
 python scripts/fetch_spotify_links.py --festival pinkpop --year 2026
 python scripts/fetch_spotify_links.py --festival rock-werchter --year 2026
+python scripts/fetch_spotify_links.py --festival best-kept-secret --year 2026
 ```
 
 ##### Option 2: Use Spotify API (Footprints and others)
@@ -269,15 +278,6 @@ This will:
 
 **Note:** This is particularly useful for Dutch festivals like Down The Rabbit Hole and Footprints that provide bios only in Dutch.
 
-### Personal Editing
-
-Feel free to modify these columns at any time:
-
-- My take
-- My rating
-
-These changes will be preserved during updates.
-
 #### Editing CSV Files in VS Code
 
 For easier manual editing of CSV files with a spreadsheet-like interface:
@@ -309,6 +309,7 @@ python scripts/generate_html.py --festival down-the-rabbit-hole --year 2026
 python scripts/generate_html.py --festival pinkpop --year 2026
 python scripts/generate_html.py --festival rock-werchter --year 2026
 python scripts/generate_html.py --festival footprints --year 2026
+python scripts/generate_html.py --festival best-kept-secret --year 2026
 ```
 
 This will:
@@ -330,6 +331,7 @@ python scripts/generate_artist_pages.py --festival down-the-rabbit-hole --year 2
 python scripts/generate_artist_pages.py --festival pinkpop --year 2026
 python scripts/generate_artist_pages.py --festival rock-werchter --year 2026
 python scripts/generate_artist_pages.py --festival footprints --year 2026
+python scripts/generate_artist_pages.py --festival best-kept-secret --year 2026
 ```
 
 This will:
@@ -398,6 +400,8 @@ python scripts/generate_html.py --festival rock-werchter --year 2026
 python scripts/generate_artist_pages.py --festival rock-werchter --year 2026
 python scripts/generate_html.py --festival footprints --year 2026
 python scripts/generate_artist_pages.py --festival footprints --year 2026
+python scripts/generate_html.py --festival best-kept-secret --year 2026
+python scripts/generate_artist_pages.py --festival best-kept-secret --year 2026
 python scripts/generate_archive_index.py docs
 ```
 
@@ -463,6 +467,7 @@ The generated pages are mobile-responsive, include dark mode, and are ready to p
 - **Pinkpop**: <https://www.pinkpop.nl/en/programme/> (English)
 - **Rock Werchter**: <https://www.rockwerchter.be/en/line-up/a-z> (English)
 - **Footprints Festival**: Spotify playlist + <https://www.tivolivredenburg.nl/agenda/footprints-festival-2026/> (Dutch)
+- **Best Kept Secret**: <https://www.bestkeptsecret.nl/program/list> (Dutch)
 - **AI Enrichment**: Azure OpenAI GPT-4o for artist metadata and analysis
 - **Images**: Festival websites and Spotify API fallback
 

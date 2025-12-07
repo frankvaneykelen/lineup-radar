@@ -6,9 +6,31 @@
     This script regenerates both lineup index pages and individual artist pages 
     for all configured festivals and years. It runs generate_html.py followed by 
     generate_artist_pages.py for each festival/year combination.
+    
+.PARAMETER Festival
+    Optional festival slug. If specified, only regenerates pages for that festival.
+    Valid values: best-kept-secret, down-the-rabbit-hole, pinkpop, rock-werchter, footprints
+
+.PARAMETER GeneralPagesOnly
+    If specified, only regenerates general pages (homepage, charts, FAQ) and skips all festival-specific pages.
+
 .EXAMPLE
     .\regenerate_all.ps1
+    Regenerates all pages for all festivals.
+
+.EXAMPLE
+    .\regenerate_all.ps1 -Festival best-kept-secret
+    Regenerates pages only for Best Kept Secret 2026.
+
+.EXAMPLE
+    .\regenerate_all.ps1 -GeneralPagesOnly
+    Regenerates only homepage, charts, and FAQ pages.
 #>
+
+param(
+    [string]$Festival,
+    [switch]$GeneralPagesOnly
+)
 
 # Set error action preference
 $ErrorActionPreference = "Stop"
@@ -24,28 +46,62 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Define festival configurations
-$festivals = @(
-    @{
+$allFestivals = @(
+    [PSCustomObject]@{
         Name = "Down The Rabbit Hole"
         Slug = "down-the-rabbit-hole"
         Year = 2026
     },
-    @{
+    [PSCustomObject]@{
         Name = "Pinkpop"
         Slug = "pinkpop"
         Year = 2026
     },
-    @{
+    [PSCustomObject]@{
         Name = "Rock Werchter"
         Slug = "rock-werchter"
         Year = 2026
     },
-    @{
+    [PSCustomObject]@{
         Name = "Footprints"
         Slug = "footprints"
         Year = 2026
+    },
+    [PSCustomObject]@{
+        Name = "Best Kept Secret"
+        Slug = "best-kept-secret"
+        Year = 2026
     }
 )
+
+# Validate festival parameter if provided
+$singleFestival = $null
+if ($Festival) {
+    $validSlugs = $allFestivals | ForEach-Object { $_.Slug }
+    if ($Festival -notin $validSlugs) {
+        Write-Host "✗ Invalid festival slug: $Festival" -ForegroundColor Red
+        Write-Host "Valid values: $($validSlugs -join ', ')" -ForegroundColor Yellow
+        exit 1
+    }
+    
+    # Filter to only the requested festival
+    foreach ($f in $allFestivals) {
+        if ($f.Slug -eq $Festival) {
+            $singleFestival = $f
+            break
+        }
+    }
+    Write-Host "Filtering to festival: $($singleFestival.Name)" -ForegroundColor Cyan
+    Write-Host ""
+} elseif ($GeneralPagesOnly) {
+    # No festival processing needed  
+    Write-Host "Skipping festival-specific pages (--GeneralPagesOnly mode)" -ForegroundColor Cyan
+    Write-Host ""
+} else {
+    # Process all festivals - use the original array
+    $festivalsToProcess = $allFestivals
+}
+
 
 # Load Spotify credentials from .keys.txt
 Write-Host "Loading Spotify credentials..." -ForegroundColor Gray
@@ -54,10 +110,18 @@ $spotifyClientSecret = ""
 
 if (Test-Path ".keys.txt") {
     Get-Content ".keys.txt" | ForEach-Object {
+        # Support KEY=value format
         if ($_ -match "^SPOTIFY_CLIENT_ID=(.+)$") {
             $spotifyClientId = $matches[1]
         }
         if ($_ -match "^SPOTIFY_CLIENT_SECRET=(.+)$") {
+            $spotifyClientSecret = $matches[1]
+        }
+        # Support PowerShell variable assignment format
+        if ($_ -match '\$env:SPOTIFY_CLIENT_ID\s*=\s*"([^"]+)"') {
+            $spotifyClientId = $matches[1]
+        }
+        if ($_ -match '\$env:SPOTIFY_CLIENT_SECRET\s*=\s*"([^"]+)"') {
             $spotifyClientSecret = $matches[1]
         }
     }
@@ -74,7 +138,18 @@ if (Test-Path ".keys.txt") {
 Write-Host ""
 
 # Track success/failure
-$totalFestivals = $festivals.Count
+# Determine which festivals to process
+if ($singleFestival) {
+    $festivalsToProcess = @($singleFestival)
+    $totalFestivals = 1
+} elseif ($GeneralPagesOnly) {
+    $festivalsToProcess = @()
+    $totalFestivals = 0
+} else {
+    # $festivalsToProcess already set to $allFestivals above
+    $totalFestivals = $festivalsToProcess.Count
+}
+
 $totalOperations = ($totalFestivals * 4) + 3  # Each festival: lineup + artist pages + about page + playlist, plus homepage + charts + FAQ
 $currentOperation = 0
 $successCount = 0
@@ -82,8 +157,15 @@ $failureCount = 0
 $startTime = Get-Date
 
 # Process each festival
-for ($i = 0; $i -lt $festivals.Count; $i++) {
-    $festival = $festivals[$i]
+$festivalIndex = 0
+foreach ($fest in $festivalsToProcess) {
+    # Workaround: Re-fetch from original source to avoid PowerShell type conversion bug
+    if ($singleFestival) {
+        $festival = $singleFestival
+    } else {
+        $festival = $allFestivals[$festivalIndex]
+    }
+    
     $festivalName = $festival.Name
     $festivalSlug = $festival.Slug
     $year = $festival.Year
@@ -92,6 +174,7 @@ for ($i = 0; $i -lt $festivals.Count; $i++) {
     $percentComplete = [int](($currentOperation / $totalOperations) * 100)
     Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName $year ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
     
+    $festivalIndex++
     Write-Host "Processing: $festivalName $year..." -ForegroundColor Yellow
     Write-Host "Festival slug: $festivalSlug" -ForegroundColor Gray
     Write-Host ""
@@ -174,19 +257,20 @@ for ($i = 0; $i -lt $festivals.Count; $i++) {
             
             $command3 = "python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year"
             Write-Host "Running: $command3" -ForegroundColor Gray
+            Write-Host ""
             
-            # Execute and capture output
-            $output3 = & python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year 2>&1
+            # Execute interactively (allows user input for missing Spotify links)
+            & python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year
             
             # Check if command succeeded
             if ($LASTEXITCODE -eq 0) {
+                Write-Host ""
                 Write-Host "✓ Updated Spotify playlist" -ForegroundColor Green
                 Write-Host "✓ Successfully processed all content for $festivalName $year" -ForegroundColor Green
                 $successCount++
             } else {
+                Write-Host ""
                 Write-Host "⚠ Failed to update Spotify playlist for $festivalName $year" -ForegroundColor Yellow
-                Write-Host "Error output:" -ForegroundColor Yellow
-                Write-Host $output3 -ForegroundColor Yellow
                 Write-Host "⚠ Continuing with other festivals..." -ForegroundColor Yellow
                 $failureCount++
             }
@@ -334,9 +418,23 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  Regeneration Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Festivals processed: $totalFestivals (lineup + about + artist pages + playlist each)" -ForegroundColor White
-Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
-Write-Host "Total operations: $(($totalFestivals * 4) + 3)" -ForegroundColor White
+
+if ($GeneralPagesOnly) {
+    Write-Host "Mode: General pages only" -ForegroundColor White
+    Write-Host "Pages regenerated: Homepage, Charts, FAQ" -ForegroundColor White
+    Write-Host "Total operations: 3" -ForegroundColor White
+} elseif ($Festival) {
+    Write-Host "Mode: Single festival ($($allFestivals | Where-Object { $_.Slug -eq $Festival } | ForEach-Object { $_.Name }))" -ForegroundColor White
+    Write-Host "Festival operations: 1 festival × 4 operations (lineup + about + artist pages + playlist)" -ForegroundColor White
+    Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
+    Write-Host "Total operations: 7" -ForegroundColor White
+} else {
+    Write-Host "Mode: All festivals" -ForegroundColor White
+    Write-Host "Festivals processed: $totalFestivals (lineup + about + artist pages + playlist each)" -ForegroundColor White
+    Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
+    Write-Host "Total operations: $(($totalFestivals * 4) + 3)" -ForegroundColor White
+}
+
 Write-Host "Successful: $successCount" -ForegroundColor Green
 Write-Host "Failed: $failureCount" -ForegroundColor $(if ($failureCount -eq 0) { "Green" } else { "Red" })
 Write-Host "Duration: $durationSeconds seconds" -ForegroundColor Gray

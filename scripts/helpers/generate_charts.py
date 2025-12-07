@@ -104,6 +104,11 @@ def generate_charts_page():
             'csv': Path('docs/footprints/2026/2026.csv'),
             'slug': 'footprints',
             'color': '#FFA07A'
+        },
+        'Best Kept Secret': {
+            'csv': Path('docs/best-kept-secret/2026/2026.csv'),
+            'slug': 'best-kept-secret',
+            'color': '#FFD700'
         }
     }
     

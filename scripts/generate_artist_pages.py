@@ -96,6 +96,7 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
     festival_bio_nl = artist.get('Festival Bio (NL)', '').strip()
     festival_bio_en = artist.get('Festival Bio (EN)', '').strip()
     social_links_json = artist.get('Social Links', '').strip()
+    photo_url = artist.get('Photo URL', '').strip()
     
     # Parse social links from JSON
     social_links = []
@@ -110,84 +111,91 @@ def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
     # If data is not in CSV (from fetch_festival_data.py), leave it empty
     # This avoids redundant scraping when data truly isn't available on the website
     
-    # Extract image URLs from website (always fetch, as these aren't in CSV yet)
+    # Extract image URLs from CSV or website
     artist_images = []
-    try:
-        scraper = FestivalScraper(config)
-        html = scraper.fetch_artist_page(artist_name)
-        
-        if html:
-            import re
-            
-            # Try srcset first (DTRH, Pinkpop)
-            srcset_pattern = r'srcset=["\']([^"\']+)["\']'
-            all_srcsets = re.findall(srcset_pattern, html)
-            
-            # Also try regular img src (Rock Werchter)
-            img_pattern = r'<img[^>]+src=["\']([^"\']+)["\'][^>]*>'
-            all_imgs = re.findall(img_pattern, html)
-            
-            for srcset in all_srcsets:
-                # Parse srcset - it contains multiple URLs separated by commas
-                # Take the largest image (last URL in the srcset)
-                urls = [url.strip().split()[0] for url in srcset.split(',') if url.strip()]
-                if not urls:
-                    continue
-                    
-                img_url = urls[-1]  # Use the largest size
-                img_lower = img_url.lower()
-                
-                # Check for Down The Rabbit Hole images
-                is_dtrh_image = 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower)
-                
-                # Check for Pinkpop images (WordPress uploads with acts-header pattern)
-                is_pinkpop_image = 'wp-content/uploads' in img_lower and 'acts-header' in img_lower
-                
-                # Check for Rock Werchter images (cache/default_band or media/cache)
-                is_rock_werchter_image = 'cache/default_band' in img_lower or ('media/cache' in img_lower and 'rockwerchter' in img_lower)
-                
-                if is_dtrh_image or is_pinkpop_image or is_rock_werchter_image:
-                    # Skip sponsor/logo images
-                    if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo', 'brand']):
-                        continue
-                    
-                    if img_url.startswith('//'):
-                        img_url = 'https:' + img_url
-                    elif img_url.startswith('/'):
-                        img_url = config.base_url.rstrip('/') + img_url
-                    
-                    if img_url not in artist_images:
-                        artist_images.append(img_url)
-            
-            # Also check regular img tags for Rock Werchter
-            for img_url in all_imgs:
-                img_lower = img_url.lower()
-                
-                # Check for Rock Werchter images - must have the specific upload path pattern
-                is_rock_werchter_image = ('/media/cache/default_band/upload/' in img_lower or 
-                                         'cache/default_band/upload/' in img_lower)
-                
-                if is_rock_werchter_image:
-                    # Skip logos and other non-artist images
-                    if any(skip in img_lower for skip in ['logo', 'icon', 'brand', 'sponsor']):
-                        continue
-                    
-                    if img_url.startswith('//'):
-                        img_url = 'https:' + img_url
-                    elif img_url.startswith('/'):
-                        img_url = config.base_url.rstrip('/') + img_url
-                    
-                    if img_url not in artist_images:
-                        artist_images.append(img_url)
-            
-            # Use second image if available
-            if len(artist_images) >= 2:
-                artist_images = [artist_images[1]]
-            elif artist_images:
-                artist_images = [artist_images[0]]
     
-    except Exception as e:
-        print(f"  ✗ Error fetching images: {e}")
+    # First, check if Photo URL is in CSV (for festivals like Best Kept Secret)
+    if photo_url:
+        artist_images = [photo_url]
+    
+    # If no Photo URL in CSV, try scraping from website (DTRH, Pinkpop, Rock Werchter)
+    if not artist_images:
+        try:
+            scraper = FestivalScraper(config)
+            html = scraper.fetch_artist_page(artist_name)
+            
+            if html:
+                import re
+                
+                # Try srcset first (DTRH, Pinkpop)
+                srcset_pattern = r'srcset=["\']([^"\']+)["\']'
+                all_srcsets = re.findall(srcset_pattern, html)
+                
+                # Also try regular img src (Rock Werchter)
+                img_pattern = r'<img[^>]+src=["\']([^"\']+)["\'][^>]*>'
+                all_imgs = re.findall(img_pattern, html)
+                
+                for srcset in all_srcsets:
+                    # Parse srcset - it contains multiple URLs separated by commas
+                    # Take the largest image (last URL in the srcset)
+                    urls = [url.strip().split()[0] for url in srcset.split(',') if url.strip()]
+                    if not urls:
+                        continue
+                        
+                    img_url = urls[-1]  # Use the largest size
+                    img_lower = img_url.lower()
+                    
+                    # Check for Down The Rabbit Hole images
+                    is_dtrh_image = 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower)
+                    
+                    # Check for Pinkpop images (WordPress uploads with acts-header pattern)
+                    is_pinkpop_image = 'wp-content/uploads' in img_lower and 'acts-header' in img_lower
+                    
+                    # Check for Rock Werchter images (cache/default_band or media/cache)
+                    is_rock_werchter_image = 'cache/default_band' in img_lower or ('media/cache' in img_lower and 'rockwerchter' in img_lower)
+                    
+                    if is_dtrh_image or is_pinkpop_image or is_rock_werchter_image:
+                        # Skip sponsor/logo images
+                        if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo', 'brand']):
+                            continue
+                        
+                        if img_url.startswith('//'):
+                            img_url = 'https:' + img_url
+                        elif img_url.startswith('/'):
+                            img_url = config.base_url.rstrip('/') + img_url
+                        
+                        if img_url not in artist_images:
+                            artist_images.append(img_url)
+                
+                # Also check regular img tags for Rock Werchter
+                for img_url in all_imgs:
+                    img_lower = img_url.lower()
+                    
+                    # Check for Rock Werchter images - must have the specific upload path pattern
+                    is_rock_werchter_image = ('/media/cache/default_band/upload/' in img_lower or 
+                                             'cache/default_band/upload/' in img_lower)
+                    
+                    if is_rock_werchter_image:
+                        # Skip logos and other non-artist images
+                        if any(skip in img_lower for skip in ['logo', 'icon', 'brand', 'sponsor']):
+                            continue
+                        
+                        if img_url.startswith('//'):
+                            img_url = 'https:' + img_url
+                        elif img_url.startswith('/'):
+                            img_url = config.base_url.rstrip('/') + img_url
+                        
+                        if img_url not in artist_images:
+                            artist_images.append(img_url)
+                
+                # Use second image if available
+                if len(artist_images) >= 2:
+                    artist_images = [artist_images[1]]
+                elif artist_images:
+                    artist_images = [artist_images[0]]
+        
+        except Exception as e:
+            print(f"  ✗ Error fetching images: {e}")
     
     # Fallback: Try to get image from Spotify if no festival images found
     if not artist_images:

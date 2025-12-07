@@ -10,6 +10,7 @@ FESTIVALS = [
     {"slug": "pinkpop", "name": "Pinkpop"},
     {"slug": "rock-werchter", "name": "Rock Werchter"},
     {"slug": "footprints", "name": "Footprints"},
+    {"slug": "best-kept-secret", "name": "Best Kept Secret"},
 ]
 
 YEAR = "2026"

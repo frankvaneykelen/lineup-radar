@@ -87,6 +87,7 @@ FESTIVALS = {
         'rating_boost': 1.5,  # Discovery festival: boost emerging artist ratings into 7-9 range
         'description': 'A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.',
         'custom_scraper': True,  # Requires custom scraping logic
+        'scraper_type': 'tivoli-venue',  # Use TivoliVredenburg venue scraper
         'spotify_playlist': 'https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS',
         'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX',
         # Artists from the description and lineup section
@@ -97,6 +98,17 @@ FESTIVALS = {
             'Keshavara',
             'Derya Yıldırım & Grup Şimşek',
         ],
+    },
+    'best-kept-secret': {
+        'name': 'Best Kept Secret',
+        'base_url': 'https://www.bestkeptsecret.nl',
+        'lineup_url': 'https://www.bestkeptsecret.nl/program/list',
+        'artist_path': '/bands/',
+        'bio_language': 'English',
+        'description': 'An indie music festival in Hilvarenbeek, Netherlands, featuring alternative, indie rock, and electronic music.',
+        'scraper_type': 'best-kept-secret',  # Use Best Kept Secret specific scraper
+        'spotify_playlist': 'https://open.spotify.com/playlist/2ClqlT8FIHuwI0oxUKHqTl?si=ECVe6VbETtqi-V4v3lDniQ',
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/3aKy6IEpXtiyZzqaBQ0j16?si=e17fc38a617e4741',
     },
     # Add more festivals here as needed
     # 'lowlands': {

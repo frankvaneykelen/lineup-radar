@@ -15,6 +15,10 @@ import csv
 import time
 from pathlib import Path
 from typing import List, Dict, Optional, Set
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -74,7 +78,7 @@ def update_artist_spotify_link(festival: str, year: int, artist_name: str, new_u
         
         for row in reader:
             if row.get('Artist', '').strip() == artist_name:
-                row['Spotify link'] = new_url
+                row['Spotify'] = new_url
             rows.append(row)
     
     # Write back
@@ -318,28 +322,37 @@ def load_festival_artists(festival: str, year: int) -> List[Dict]:
         
         for row in reader:
             artist_name = row.get('Artist', '').strip()
-            spotify_link = row.get('Spotify link', '').strip()
+            spotify_link = row.get('Spotify', '').strip()
             
             if not spotify_link:
                 print(f"\n⚠️  No Spotify link found for '{artist_name}'")
                 print(f"  🔍 Search: https://open.spotify.com/search/{artist_name.replace(' ', '%20')}")
+                print(f"  📝 Enter Spotify artist URL (or 'NOT ON SPOTIFY' if not available, or press Enter to skip): ", end='', flush=True)
                 
-                new_url = input(f"  📝 Enter Spotify artist URL (or press Enter to skip): ").strip()
+                new_url = input().strip()
                 
                 if new_url:
-                    artist_id = extract_artist_id(new_url)
-                    if artist_id:
-                        update_artist_spotify_link(festival, year, artist_name, new_url)
-                        artists.append({
-                            'name': artist_name,
-                            'spotify_id': artist_id,
-                            'spotify_url': new_url
-                        })
-                        print(f"  ✅ Added {artist_name} to playlist")
+                    if new_url.upper() == "NOT ON SPOTIFY":
+                        update_artist_spotify_link(festival, year, artist_name, "NOT ON SPOTIFY")
+                        print(f"  ℹ️  Marked {artist_name} as not on Spotify")
                     else:
-                        print(f"  ❌ Invalid Spotify URL format, skipping {artist_name}")
+                        artist_id = extract_artist_id(new_url)
+                        if artist_id:
+                            update_artist_spotify_link(festival, year, artist_name, new_url)
+                            artists.append({
+                                'name': artist_name,
+                                'spotify_id': artist_id,
+                                'spotify_url': new_url
+                            })
+                            print(f"  ✅ Added {artist_name} to playlist")
+                        else:
+                            print(f"  ❌ Invalid Spotify URL format, skipping {artist_name}")
                 else:
                     print(f"  ⏭️  Skipping {artist_name}")
+                continue
+            
+            # Skip artists marked as not on Spotify
+            if spotify_link.upper() == "NOT ON SPOTIFY":
                 continue
             
             artist_id = extract_artist_id(spotify_link)

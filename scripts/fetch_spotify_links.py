@@ -148,7 +148,8 @@ def update_spotify_links(csv_path: Path, festival: str = 'down-the-rabbit-hole',
     
     for row in rows:
         artist_name = row.get('Artist', '').strip()
-        current_link = row.get('Spotify link', '').strip()
+        current_link = row.get('Spotify', '').strip()
+        festival_url = row.get('Festival URL', '').strip()
         
         if not artist_name:
             continue
@@ -161,8 +162,15 @@ def update_spotify_links(csv_path: Path, festival: str = 'down-the-rabbit-hole',
             # Use Spotify API
             new_link = search_spotify_artist(artist_name, spotify_token)
         else:
-            # Scrape from festival page
-            new_link = scraper.fetch_spotify_link(artist_name)
+            # Scrape from festival page using the Festival URL from CSV if available
+            if festival_url:
+                # Fetch directly from the Festival URL in CSV
+                html = scraper.fetch_page(festival_url)
+                if html:
+                    new_link = scraper.extract_spotify_link(html)
+            else:
+                # Fall back to constructing URL from artist name
+                new_link = scraper.fetch_spotify_link(artist_name)
             
             # If scraping failed and we have Spotify token, try API as fallback
             if not new_link and spotify_token:
@@ -181,7 +189,7 @@ def update_spotify_links(csv_path: Path, festival: str = 'down-the-rabbit-hole',
             else:
                 print(f"  ✓ Verified: {artist_name}")
             
-            row['Spotify link'] = new_link
+            row['Spotify'] = new_link
         else:
             print(f"  ⚠️  Not found: {artist_name}")
             skipped_count += 1
@@ -231,7 +239,7 @@ def main():
     args = parser.parse_args()
     
     # Use the docs/{festival}/{year}/{year}.csv file
-    csv_path = Path(__file__).parent / "docs" / args.festival / str(args.year) / f"{args.year}.csv"
+    csv_path = Path(__file__).parent.parent / "docs" / args.festival / str(args.year) / f"{args.year}.csv"
     
     if not csv_path.exists():
         print(f"✗ CSV file not found: {csv_path}")

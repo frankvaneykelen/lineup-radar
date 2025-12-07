@@ -197,9 +197,34 @@ def write_outputs(output_dir: Path, about: dict, html_profile: str):
     print(f"✓ Wrote {json_path} and {html_path}")
 
 
-def render_html(config, stats, profile_text):
+def render_html(config, stats, profile_text, start_date=None, end_date=None):
     # Generate menu HTML (use escaped=False since we'll manually escape in the f-string)
     menu_html = generate_hamburger_menu(path_prefix="../../", escaped=False)
+    
+    # Format festival dates if available
+    date_display = ''
+    if start_date and end_date:
+        # Convert from YYYY-MM-DD to human-readable format
+        from datetime import datetime as dt
+        try:
+            start_dt = dt.strptime(start_date, '%Y-%m-%d')
+            end_dt = dt.strptime(end_date, '%Y-%m-%d')
+            if start_date == end_date:
+                # Single day festival
+                date_display = start_dt.strftime('%B %d, %Y')
+            else:
+                # Multi-day festival
+                if start_dt.month == end_dt.month and start_dt.year == end_dt.year:
+                    # Same month and year
+                    date_display = f"{start_dt.strftime('%B %d')} - {end_dt.strftime('%d, %Y')}"
+                elif start_dt.year == end_dt.year:
+                    # Same year, different months
+                    date_display = f"{start_dt.strftime('%B %d')} - {end_dt.strftime('%B %d, %Y')}"
+                else:
+                    # Different years
+                    date_display = f"{start_dt.strftime('%B %d, %Y')} - {end_dt.strftime('%B %d, %Y')}"
+        except ValueError:
+            pass
     
     # Build formatted statistics tables
     genre_rows = ''.join([f'<tr><td>{genre}</td><td>{count}</td></tr>' 
@@ -318,6 +343,7 @@ def render_html(config, stats, profile_text):
             <div class="page-header-content">
                 <h1>About {config.name} {stats.get('year','')}</h1>
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
+                {'<p class="festival-dates" style="font-size: 1.1em; font-weight: 600; margin-top: 0.75rem; color: var(--primary-color, #0d6efd);">' + date_display + '</p>' if date_display else ''}
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
                     About page generated: {datetime.now(timezone.utc).strftime('%B %d, %Y %H:%M UTC')}
                     {' | <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
@@ -535,6 +561,20 @@ def main():
     stats['year'] = args.year
     prev = compare_with_previous(csv_file, artists)
 
+    # Try to read existing about.json to get start_date and end_date if they exist
+    out_dir = Path(args.output) / config.slug / str(args.year)
+    existing_about_file = out_dir / 'about.json'
+    start_date = None
+    end_date = None
+    if existing_about_file.exists():
+        try:
+            with existing_about_file.open('r', encoding='utf-8') as f:
+                existing_about = json.load(f)
+                start_date = existing_about.get('start_date')
+                end_date = existing_about.get('end_date')
+        except Exception:
+            pass
+
     profile_text = ''
     # Only call the networked AI when --ai is explicitly provided. Otherwise use fallback text.
     profile_text = generate_profile_text(config, stats, prev, use_ai=args.ai)
@@ -549,10 +589,22 @@ def main():
         'previous_year_comparison': prev,
         'ai_profile': profile_text
     }
+    
+    # Preserve start_date and end_date if they exist
+    if start_date:
+        about['start_date'] = start_date
+    if end_date:
+        about['end_date'] = end_date
 
-    out_dir = Path(args.output) / config.slug / str(args.year)
-    html = render_html(config, stats, profile_text)
+    html = render_html(config, stats, profile_text, start_date, end_date)
     write_outputs(out_dir, about, html)
+    
+    # Generate/update README for this festival edition
+    try:
+        from generate_festival_readme import generate_readme
+        generate_readme(args.festival, args.year)
+    except Exception:
+        pass  # Silent fail - README is nice to have but not critical
 
 
 if __name__ == '__main__':
