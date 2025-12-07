@@ -5,6 +5,10 @@ Generate a charts page comparing festival lineups.
 import csv
 from pathlib import Path
 import json
+import sys
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from festival_helpers.menu import generate_hamburger_menu
 
 def load_festival_data(csv_path):
     """Load and analyze festival data from CSV."""
@@ -196,21 +200,7 @@ def generate_charts_page():
                     <a href="index.html" class="home-link">
                         <i class="bi bi-house-door-fill"></i> Home
                     </a>
-                    <div class="festival-section">Down The Rabbit Hole</div>
-                    <a href="down-the-rabbit-hole/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Pinkpop</div>
-                    <a href="pinkpop/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Rock Werchter</div>
-                    <a href="rock-werchter/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">Footprints</div>
-                    <a href="footprints/2026/index.html" class="festival-year">2026 Lineup</a>
-                    <div class="festival-section">About</div>
-                    <a href="charts.html" class="festival-year">
-                        <i class="bi bi-bar-chart-fill"></i> Charts
-                    </a>
-                    <a href="faq.html" class="festival-year">
-                        <i class="bi bi-question-circle"></i> FAQ
-                    </a>
+                    {generate_hamburger_menu(path_prefix="", escaped=False)}
                 </div>
             </div>
             <div class="artist-header-content">
