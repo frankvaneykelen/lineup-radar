@@ -1,7 +1,7 @@
 |Artist|Rating|Notes|
 |---|---|---|
 |Islandman|8|Instrumental with vocal samples, more Exotica than Anatolian Psychedelica|
-|Keshavara|8||
+|Keshavara|8|Downtempo, dubby, male vocals|
 ||||
 ||||
 ||||
