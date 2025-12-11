@@ -41,7 +41,7 @@ def generate_festival_list_html() -> str:
     for festival in FESTIVALS:
         # Construct CSV path
         festival_slug = festival['name'].lower().replace(' ', '-')
-        csv_path = f'festivals/{festival_slug}/{YEAR}/{YEAR}.csv'
+        csv_path = f'docs/{festival_slug}/{YEAR}/{YEAR}.csv'
         
         # Get artist count and last modified date
         artist_count = count_artists_in_csv(csv_path)

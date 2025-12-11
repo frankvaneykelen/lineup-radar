@@ -6,7 +6,7 @@ Clear ratings for Down The Rabbit Hole 2026 so they can be re-enriched with the 
 import csv
 from pathlib import Path
 
-csv_path = Path("festivals/down-the-rabbit-hole/2026/2026.csv")
+csv_path = Path("docs/down-the-rabbit-hole/2026/2026.csv")
 
 # Read CSV
 with open(csv_path, 'r', encoding='utf-8') as f:

@@ -135,7 +135,7 @@ Write-Host ""
 Write-TestHeader "TEST 1: Verify CSV Files"
 
 foreach ($festival in $festivals) {
-    $csvPath = "festivals/$festival/$year/$year.csv"
+    $csvPath = "docs/$festival/$year/$year.csv"
     if (-not (Test-Path $csvPath)) {
         $csvPath = "$festival/$year.csv"
     }
@@ -145,8 +145,8 @@ foreach ($festival in $festivals) {
 # Test 2: Verify CSV data integrity
 Write-TestHeader "TEST 2: Verify CSV Data Integrity"
 
-Test-CSVRowCount -Path "festivals/down-the-rabbit-hole/$year/$year.csv" -ExpectedCount 39 -Description "Down The Rabbit Hole has 39 artists"
-Test-CSVRowCount -Path "festivals/pinkpop/$year/$year.csv" -ExpectedCount 32 -Description "Pinkpop has 32 artists"
+Test-CSVRowCount -Path "docs/down-the-rabbit-hole/$year/$year.csv" -ExpectedCount 39 -Description "Down The Rabbit Hole has 39 artists"
+Test-CSVRowCount -Path "docs/pinkpop/$year/$year.csv" -ExpectedCount 32 -Description "Pinkpop has 32 artists"
 
 # Test 3: Run fetch_festival_data.py (optional)
 if (-not $SkipFetch) {
@@ -180,7 +180,7 @@ foreach ($festival in $festivals) {
         python scripts/generate_html.py --festival $festival --year $year 2>&1 | Out-Null
         
         if ($LASTEXITCODE -eq 0) {
-            $outputPath = "festivals/$festival/$year/index.html"
+            $outputPath = "docs/$festival/$year/index.html"
             if (Test-Path $outputPath) {
                 Write-TestResult -TestName "generate_html.py --festival $festival" -Success $true -Details "Generated: $outputPath"
             } else {
@@ -204,7 +204,7 @@ foreach ($festival in $festivals) {
         python scripts/generate_artist_pages.py --festival $festival --year $year 2>&1 | Out-Null
         
         if ($LASTEXITCODE -eq 0) {
-            $artistDir = "festivals/$festival/$year/artists"
+            $artistDir = "docs/$festival/$year/artists"
             if (Test-Path $artistDir) {
                 $artistCount = (Get-ChildItem $artistDir -Filter "*.html").Count
                 $expectedCount = if ($festival -eq "down-the-rabbit-hole") { 39 } else { 32 }
@@ -234,7 +234,7 @@ try {
     python scripts/generate_archive_index.py 2>&1 | Out-Null
     
     if ($LASTEXITCODE -eq 0) {
-        $indexPath = "festivals/index.html"
+        $indexPath = "docs/index.html"
         if (Test-Path $indexPath) {
             $content = Get-Content $indexPath -Raw
             $hasDTRH = $content -match "Down The Rabbit Hole"
@@ -263,7 +263,7 @@ Write-TestHeader "TEST 7: Verify HTML Structure"
 
 foreach ($festival in $festivals) {
     $festivalName = if ($festival -eq "down-the-rabbit-hole") { "Down The Rabbit Hole" } else { "Pinkpop" }
-    $indexPath = "festivals/$festival/$year/index.html"
+    $indexPath = "docs/$festival/$year/index.html"
     
     if (Test-Path $indexPath) {
         $content = Get-Content $indexPath -Raw
@@ -289,7 +289,7 @@ Write-TestHeader "TEST 8: Verify Artist Page Format"
 
 foreach ($festival in $festivals) {
     $festivalName = if ($festival -eq "down-the-rabbit-hole") { "Down The Rabbit Hole" } else { "Pinkpop" }
-    $artistDir = "festivals/$festival/$year/artists"
+    $artistDir = "docs/$festival/$year/artists"
     
     if (Test-Path $artistDir) {
         $samplePage = Get-ChildItem $artistDir -Filter "*.html" | Select-Object -First 1

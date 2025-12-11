@@ -25,10 +25,10 @@ def update_faq_timestamps():
     
     # Define festival CSV paths
     festivals = {
-        'Down The Rabbit Hole 2026': 'festivals/down-the-rabbit-hole/2026/2026.csv',
-        'Pinkpop 2026': 'festivals/pinkpop/2026/2026.csv',
-        'Rock Werchter 2026': 'festivals/rock-werchter/2026/2026.csv',
-        'Footprints 2026': 'festivals/footprints/2026/2026.csv'
+        'Down The Rabbit Hole 2026': 'docs/down-the-rabbit-hole/2026/2026.csv',
+        'Pinkpop 2026': 'docs/pinkpop/2026/2026.csv',
+        'Rock Werchter 2026': 'docs/rock-werchter/2026/2026.csv',
+        'Footprints 2026': 'docs/footprints/2026/2026.csv'
     }
     
     # Get timestamps for each festival
@@ -46,7 +46,7 @@ def update_faq_timestamps():
         return False
     
     # Read current FAQ content
-    faq_path = Path('festivals/faq.html')
+    faq_path = Path('docs/faq.html')
     if not faq_path.exists():
         print(f"\n✗ FAQ file not found at {faq_path}")
         return False

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate the main archive index page (festivals/index.html).
+Generate the main archive index page (docs/index.html).
 This page serves as the landing page linking to all yearly lineups.
 """
 
@@ -208,7 +208,7 @@ def generate_archive_index(docs_dir: Path):
 
 def main():
     """Main entry point."""
-    docs_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("festivals")
+    docs_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("docs")
     
     if not docs_dir.exists():
         print(f"✗ Docs directory not found: {docs_dir}")

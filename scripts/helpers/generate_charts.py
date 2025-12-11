@@ -86,27 +86,27 @@ def generate_charts_page():
     # Paths to CSV files
     festivals = {
         'Down The Rabbit Hole': {
-            'csv': Path('festivals/down-the-rabbit-hole/2026/2026.csv'),
+            'csv': Path('docs/down-the-rabbit-hole/2026/2026.csv'),
             'slug': 'down-the-rabbit-hole',
             'color': '#FF6B6B'
         },
         'Pinkpop': {
-            'csv': Path('festivals/pinkpop/2026/2026.csv'),
+            'csv': Path('docs/pinkpop/2026/2026.csv'),
             'slug': 'pinkpop',
             'color': '#4ECDC4'
         },
         'Rock Werchter': {
-            'csv': Path('festivals/rock-werchter/2026/2026.csv'),
+            'csv': Path('docs/rock-werchter/2026/2026.csv'),
             'slug': 'rock-werchter',
             'color': '#95E1D3'
         },
         'Footprints': {
-            'csv': Path('festivals/footprints/2026/2026.csv'),
+            'csv': Path('docs/footprints/2026/2026.csv'),
             'slug': 'footprints',
             'color': '#FFA07A'
         },
         'Best Kept Secret': {
-            'csv': Path('festivals/best-kept-secret/2026/2026.csv'),
+            'csv': Path('docs/best-kept-secret/2026/2026.csv'),
             'slug': 'best-kept-secret',
             'color': '#FFD700'
         }
@@ -771,7 +771,7 @@ def generate_charts_page():
 """
     
     # Write the HTML file
-    output_path = Path('festivals/charts.html')
+    output_path = Path('docs/charts.html')
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
     

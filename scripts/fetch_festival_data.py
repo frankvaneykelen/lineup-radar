@@ -223,7 +223,7 @@ def main():
     # CSV file path - use festival-specific path
     # Try multiple locations
     csv_locations = [
-        Path(f"festivals/{config.slug}/{args.year}/{args.year}.csv"),
+        Path(f"docs/{config.slug}/{args.year}/{args.year}.csv"),
         Path(f"{config.slug}/{args.year}.csv")
     ]
     csv_path = None
@@ -234,7 +234,7 @@ def main():
     
     # If CSV doesn't exist, create it with scraped lineup
     if not csv_path:
-        csv_path = Path(f"festivals/{config.slug}/{args.year}/{args.year}.csv")
+        csv_path = Path(f"docs/{config.slug}/{args.year}/{args.year}.csv")
         print(f"CSV not found. Creating new CSV at: {csv_path}")
         
         # Create directory structure

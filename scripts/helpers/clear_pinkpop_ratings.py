@@ -6,7 +6,7 @@ Clear ratings for Pinkpop 2026 so they can be re-enriched with the new 1-10 scal
 import csv
 from pathlib import Path
 
-csv_path = Path("festivals/pinkpop/2026/2026.csv")
+csv_path = Path("docs/pinkpop/2026/2026.csv")
 
 # Read CSV
 with open(csv_path, 'r', encoding='utf-8') as f:

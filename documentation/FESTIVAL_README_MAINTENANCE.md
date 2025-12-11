@@ -2,7 +2,7 @@
 
 ## Overview
 
-Each festival edition folder (e.g., `festivals/best-kept-secret/2026/`) contains a `README.md` file with:
+Each festival edition folder (e.g., `docs/best-kept-secret/2026/`) contains a `README.md` file with:
 - Festival information (dates, location)
 - Quick command examples for all scripts
 - CSV structure documentation
