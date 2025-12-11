@@ -365,7 +365,10 @@ Write-Progress -Activity "Regenerating Festival Pages" -Status "Complete" -Compl
 # Calculate duration
 $endTime = Get-Date
 $duration = $endTime - $startTime
-$durationSeconds = [math]::Round($duration.TotalSeconds, 2)
+$hours = [math]::Floor($duration.TotalHours)
+$minutes = $duration.Minutes
+$seconds = $duration.Seconds
+$durationFormatted = "{0:D2}:{1:D2}:{2:D2}" -f $hours, $minutes, $seconds
 
 # Print summary
 Write-Host ""
@@ -381,7 +384,7 @@ Write-Host "Total operations: $(($totalFestivals * $operationsPerFestival) + 3)"
 
 Write-Host "Successful: $successCount" -ForegroundColor Green
 Write-Host "Failed: $failureCount" -ForegroundColor $(if ($failureCount -eq 0) { "Green" } else { "Red" })
-Write-Host "Duration: $durationSeconds seconds" -ForegroundColor Gray
+Write-Host "Duration: $durationFormatted" -ForegroundColor Gray
 Write-Host ""
 
 # Exit with appropriate code

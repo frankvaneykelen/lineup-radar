@@ -328,12 +328,14 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
     
     # Start with top 3 tracks (prefer main artist, but include features if needed)
     selected_track_ids: Set[str] = set()
+    selected_track_names: Set[str] = set()  # Track names for duplicate detection
     selected_uris: List[str] = []
     
     # First add main artist tracks
     main_tracks = [t for t in top_tracks if t.get('is_main_artist', True)]
     for track in main_tracks[:3]:
         selected_track_ids.add(track['id'])
+        selected_track_names.add(track['name'].lower())  # Normalize for comparison
         selected_uris.append(track['uri'])
         print(f"  ✓ Top track: {track['name']}")
     
@@ -342,6 +344,7 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
         featured_tracks = [t for t in top_tracks if not t.get('is_main_artist', True)]
         for track in featured_tracks[:3 - len(selected_uris)]:
             selected_track_ids.add(track['id'])
+            selected_track_names.add(track['name'].lower())
             selected_uris.append(track['uri'])
             print(f"  ✓ Top track (feat): {track['name']}")
     
@@ -353,14 +356,21 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
         single = singles[single_idx]
         track = get_first_track_from_single(sp, single['id'])
         
-        # Skip remix tracks to avoid duplicates with regular versions
-        if track and track['id'] not in selected_track_ids and 'remix' not in track['name'].lower():
+        # Skip if duplicate by ID or name, or if it's a remix
+        is_duplicate_id = track and track['id'] in selected_track_ids
+        is_duplicate_name = track and track['name'].lower() in selected_track_names
+        is_remix = track and 'remix' in track['name'].lower()
+        
+        if track and not is_duplicate_id and not is_duplicate_name and not is_remix:
             selected_track_ids.add(track['id'])
+            selected_track_names.add(track['name'].lower())
             selected_uris.append(track['uri'])
             singles_added += 1
             print(f"  ✓ Added single track: {track['name']}")
-        elif track and 'remix' in track['name'].lower():
+        elif track and is_remix:
             print(f"  ⊗ Skipped remix: {track['name']}")
+        elif track and (is_duplicate_id or is_duplicate_name):
+            print(f"  ⊗ Skipped duplicate: {track['name']}")
         
         single_idx += 1
         time.sleep(0.5)  # Rate limiting - prevent API throttling
@@ -368,8 +378,9 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
     # Fill remaining slots with any available tracks from top tracks
     if len(selected_uris) < 5:
         for track in top_tracks:
-            if track['id'] not in selected_track_ids:
+            if track['id'] not in selected_track_ids and track['name'].lower() not in selected_track_names:
                 selected_track_ids.add(track['id'])
+                selected_track_names.add(track['name'].lower())
                 selected_uris.append(track['uri'])
                 track_type = "main" if track.get('is_main_artist', True) else "feat"
                 print(f"  ✓ Filler track ({track_type}): {track['name']}")

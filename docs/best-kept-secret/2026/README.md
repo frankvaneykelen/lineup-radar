@@ -40,16 +40,6 @@ python scripts/generate_about.py --festival best-kept-secret --year 2026
 python scripts/generate_about.py --festival best-kept-secret --year 2026 --ai
 ```
 
-### Spotify Playlist Generation
-
-```powershell
-# Generate or update Spotify playlist for this festival
-python scripts/generate_spotify_playlists.py --festival best-kept-secret --year 2026
-
-# Note: Requires Spotify credentials in .keys.txt
-# See setup_spotify.md for configuration instructions
-```
-
 ### Full Regeneration
 
 ```powershell
