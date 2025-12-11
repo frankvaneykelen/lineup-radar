@@ -112,5 +112,4 @@ No additional flags or configuration needed. The change is embedded in the AI pr
 ## Credits
 
 Issue reported by: @frankvaneykelen
-Implementation: GitHub Copilot Agent
 Date: 2025-12-11
