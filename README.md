@@ -385,13 +385,44 @@ Use the provided scripts to regenerate all HTML pages for all festivals at once:
 scripts\regenerate_all.bat
 ```
 
-**Manual generation (individual festivals):**
+**Regenerate individual festival:**
 
 ```powershell
 # Activate virtual environment first
 .venv\Scripts\Activate.ps1
 
-# Generate for all festivals
+# Regenerate pages for a single festival (lineup, about, artist pages, Spotify playlist)
+.\scripts\regenerate_festival.ps1 -Festival down-the-rabbit-hole
+.\scripts\regenerate_festival.ps1 -Festival pinkpop
+.\scripts\regenerate_festival.ps1 -Festival rock-werchter
+.\scripts\regenerate_festival.ps1 -Festival footprints
+.\scripts\regenerate_festival.ps1 -Festival best-kept-secret
+
+# Optionally specify a different year
+.\scripts\regenerate_festival.ps1 -Festival pinkpop -Year 2025
+```
+
+**Regenerate individual Spotify playlist only:**
+
+```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
+# Update only the Spotify playlist for a festival (requires credentials in .keys.txt)
+python scripts/generate_spotify_playlists.py --festival down-the-rabbit-hole --year 2026
+python scripts/generate_spotify_playlists.py --festival pinkpop --year 2026
+python scripts/generate_spotify_playlists.py --festival rock-werchter --year 2026
+python scripts/generate_spotify_playlists.py --festival footprints --year 2026
+python scripts/generate_spotify_playlists.py --festival best-kept-secret --year 2026
+```
+
+**Manual generation (individual components):**
+
+```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
+# Generate individual components for festivals
 python scripts/generate_html.py --festival down-the-rabbit-hole --year 2026
 python scripts/generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
 python scripts/generate_html.py --festival pinkpop --year 2026
