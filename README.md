@@ -184,7 +184,9 @@ python scripts/enrich_artists.py --ai --parallel
 The AI will automatically populate all empty fields including:
 
 - **Objective data**: Genre, Country, Bio, Spotify links, group size, demographics
-- **Subjective analysis**: "AI Summary" (critical assessment based on reviews) and "AI Rating" (1-10 based on critical consensus)
+- **Subjective analysis**: "AI Summary" (critical assessment based on reviews) and "AI Rating" (1-10 with discovery-focused weighting)
+
+**AI Rating System**: The rating scale (1-10) is weighted for discovery, meaning emerging artists with innovative sounds, strong buzz, or unique vision can rate 7-9 alongside established acts. This ensures new talent is valued fairly for discovery purposes. See `documentation/RATING_SYSTEM_CHANGES.md` for details.
 
 **Important**: Once "AI Summary" or "AI Rating" are set by AI enrichment, those fields will never be overwritten by future AI enrichments unless cleared. Your edits are always preserved.
 
