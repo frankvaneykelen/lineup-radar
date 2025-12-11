@@ -649,7 +649,7 @@ def main():
     # Use festival-specific CSV path
     # Try multiple locations
     csv_locations = [
-        Path(f"docs/{args.festival}/{args.year}/{args.year}.csv"),
+        Path(f"festivals/{args.festival}/{args.year}/{args.year}.csv"),
         Path(f"{args.festival}/{args.year}.csv")
     ]
     csv_path = None

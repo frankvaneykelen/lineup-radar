@@ -20,15 +20,15 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
 
 ### Festival Organization
 
-- Festivals are organized within the `docs/` directory structure
-- Each festival has: `docs/festival-slug/year/year.csv` (e.g., `docs/pinkpop/2026/2026.csv`)
+- Festivals are organized within the `festivals/` directory structure
+- Each festival has: `festivals/festival-slug/year/year.csv` (e.g., `festivals/pinkpop/2026/2026.csv`)
 - Festival configuration is stored in `festival_helpers/config.py`
 - This structure keeps all published content (CSV + HTML) together
 
 ### CSV Files
 
-- One CSV file per festival year stored in `docs/festival-slug/year/year.csv`
-- Examples: `docs/down-the-rabbit-hole/2026/2026.csv`, `docs/pinkpop/2026/2026.csv`
+- One CSV file per festival year stored in `festivals/festival-slug/year/year.csv`
+- Examples: `festivals/down-the-rabbit-hole/2026/2026.csv`, `festivals/pinkpop/2026/2026.csv`
 - Each file contains the following columns:
   - **Artist**: Name of the artist/band
   - **Genre**: Musical genre
@@ -42,11 +42,12 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
   - **Front Person of Color?**: Yes/No indicator
   - **Cancelled**: Yes/No indicator if the artist has cancelled their performance
 
-### Metadata Tracking
+### Data Preservation
 
-- The system maintains a separate metadata file to track user edits
-- This ensures that AI-generated notes (AI Summary, AI Rating) are never overwritten when updating artist information
+- The system checks existing CSV values before updating
+- AI-generated notes (AI Summary, AI Rating) are never overwritten once set
 - When new artists are announced, only those new entries are added
+- User edits to any field are automatically preserved during updates
 
 ## Usage
 
@@ -247,7 +248,7 @@ Fetching: Loyle Carner...
 ✓ Complete!
   - 15 link(s) added
   - 3 link(s) updated
-  - CSV updated: docs/down-the-rabbit-hole/2026/2026.csv
+  - CSV updated: festivals/down-the-rabbit-hole/2026/2026.csv
 ```
 
 **Note:** This script extracts Spotify links from the festival's official artist pages, which are often more reliable than AI-generated links. Run this after `scripts/fetch_festival_data.py` to ensure you have the latest links.
@@ -314,7 +315,7 @@ python scripts/generate_html.py --festival best-kept-secret --year 2026
 
 This will:
 
-1. Generate a beautiful, interactive HTML table in `docs/festival-slug/2026/index.html`
+1. Generate a beautiful, interactive HTML table in `festivals/festival-slug/2026/index.html`
 2. Include sorting functionality (click column headers)
 3. Add filtering by Genre, Country, Rating, Gender, and Person of Color (with counts shown for each option)
 4. Include real-time search across all fields
@@ -336,7 +337,7 @@ python scripts/generate_artist_pages.py --festival best-kept-secret --year 2026
 
 This will:
 
-1. Generate individual HTML pages for each artist in `docs/festival-slug/2026/artists/`
+1. Generate individual HTML pages for each artist in `festivals/festival-slug/2026/artists/`
 2. Download and display artist photos from the festival website (images only)
 3. Include festival bio and social links from CSV (populated by `fetch_festival_data.py`)
 4. Include AI-generated background, your personal take and rating
@@ -347,7 +348,7 @@ This will:
 
 #### Step 3: Startup/Landing page
 
-The main landing page at `docs/index.html` serves as the entry point and festival selector. It includes:
+The main landing page at `festivals/index.html` serves as the entry point and festival selector. It includes:
 
 - Welcome message and project description
 - Overview of features (filtering, discovery, diversity tracking)
@@ -357,7 +358,7 @@ The main landing page at `docs/index.html` serves as the entry point and festiva
 
 **Manual Updates Required:**
 
-When adding a new festival or year, manually update `docs/index.html`:
+When adding a new festival or year, manually update `festivals/index.html`:
 
 1. Add new festival/year buttons in the year list section
 2. Ensure links point to correct paths: `festival-slug/year/index.html`
@@ -448,7 +449,7 @@ You can generate the charts/summary comparison page independently. This is usefu
 python scripts/helpers/generate_charts.py
 ```
 
-This will produce `docs/charts.html` with aggregated statistics and visual comparisons across festivals/years.
+This will produce `festivals/charts.html` with aggregated statistics and visual comparisons across festivals/years.
 
 #### Generating Spotify Playlists
 
@@ -496,7 +497,7 @@ This will:
 ### About pages
 
 - **Purpose**: Generate a short festival-year profile and structured metadata for each festival year. The generator computes simple festival statistics (genre counts, country counts, diversity breakdowns) and writes a human-readable HTML summary alongside a machine-readable `about.json` used by the site.
-- **Files written**: `docs/<festival-slug>/<year>/about.json` and `docs/<festival-slug>/<year>/about.html`.
+- **Files written**: `festivals/<festival-slug>/<year>/about.json` and `festivals/<festival-slug>/<year>/about.html`.
 
 - **Basic usage (no network calls)**:
 
@@ -522,15 +523,15 @@ python scripts/generate_about.py --festival down-the-rabbit-hole --year 2026 --a
 
 All pages share common files for consistency:
 
-- **CSS**: `docs/shared/styles.css` - Styling with dark mode support
-- **JavaScript**: `docs/shared/script.js` - Dark mode toggle functionality
-- **Images**: `docs/festival-slug/year/artists/<slug>/` - Artist photos and additional images
+- **CSS**: `festivals/shared/styles.css` - Styling with dark mode support
+- **JavaScript**: `festivals/shared/script.js` - Dark mode toggle functionality
+- **Images**: `festivals/festival-slug/year/artists/<slug>/` - Artist photos and additional images
 
 The generated pages are mobile-responsive, include dark mode, and are ready to publish via GitHub Pages.
 
 **Publishing to GitHub Pages:**
 
-1. Commit the generated `docs/` folder to your repository
+1. Commit the generated `festivals/` folder to your repository
 2. Go to repository Settings → Pages
 3. Set source to "main" branch, "/docs" folder
 4. Your festival data will be published at <https://frankvaneykelen.github.io/lineup-radar/>

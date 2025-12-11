@@ -7,7 +7,7 @@ This guide will help you publish your festival tracker as a website using GitHub
 1. **Commit the generated files:**
 
    ```powershell
-   git add docs/
+   git add festivals/
    git commit -m "Add HTML pages for festival tracker"
    git push
    ```
@@ -33,10 +33,10 @@ Whenever you make changes to your CSV data and want to update the website:
 
 ```powershell
 # Generate new HTML from updated CSV
-python generate_html.py 2026.csv docs
+python generate_html.py 2026.csv festivals
 
 # Commit and push changes
-git add docs/
+git add festivals/
 git commit -m "Update festival data"
 git push
 ```
@@ -49,7 +49,7 @@ When a new festival year is announced:
 
 1. Create the CSV file (e.g., `2027.csv`)
 2. Generate HTML: `python generate_html.py 2027.csv docs`
-3. Update `docs/index.html` to add a link to the new year
+3. Update `festivals/index.html` to add a link to the new year
 4. Commit and push
 
 ## Customization
@@ -65,7 +65,7 @@ You can customize the generated HTML by editing `generate_html.py`:
 
 **Site not showing up?**
 
-- Make sure you've pushed the `docs/` folder to GitHub
+- Make sure you've pushed the `festivals/` folder to GitHub
 - Check that GitHub Pages is enabled in Settings → Pages
 - Wait 5-10 minutes after enabling for initial build
 - Check the Actions tab for any build errors
@@ -79,12 +79,12 @@ You can customize the generated HTML by editing `generate_html.py`:
 **404 error?**
 
 - Make sure the source is set to `/docs` folder (not root `/`)
-- Verify that `docs/index.html` exists in your repository
+- Verify that `festivals/index.html` exists in your repository
 
 ## Custom Domain (Optional)
 
 To use a custom domain like `festival.yourdomain.com`:
 
-1. Add a `CNAME` file in the `docs/` folder with your domain name
+1. Add a `CNAME` file in the `festivals/` folder with your domain name
 2. Configure DNS settings at your domain provider
 3. Follow GitHub's custom domain guide: <https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site>

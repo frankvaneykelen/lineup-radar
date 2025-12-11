@@ -38,7 +38,7 @@ down-the-rabbit-hole/
 │   ├── config.py
 │   ├── scraper.py
 │   └── slug.py
-├── docs/                          # Generated HTML output
+├── festivals/                     # Generated HTML output
 ├── tests/                         # Unit tests
 └── [other project files]
 ```
@@ -125,8 +125,8 @@ python scripts/generate_html.py --help
 ## Migration Notes
 
 - The `festival_helpers/` library remains at the repository root (unchanged)
-- All CSV data files remain in `docs/festival-name/year/` (unchanged)
-- Generated HTML output remains in `docs/` (unchanged)
+- All CSV data files remain in `festivals/festival-name/year/` (unchanged)
+- Generated HTML output remains in `festivals/` (unchanged)
 - Tests remain in `tests/` (unchanged)
 - Only Python scripts (.py), PowerShell scripts (.ps1), and batch files (.bat) were moved
 

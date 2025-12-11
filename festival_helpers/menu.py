@@ -25,9 +25,9 @@ def generate_hamburger_menu(
     
     Args:
         path_prefix: Path prefix for links. Options:
-            - "" for homepage (docs/index.html)
-            - "../../" for festival pages (docs/festival/year/*.html)
-            - "../../../" for artist pages (docs/festival/year/artists/*.html)
+            - "" for homepage (festivals/index.html)
+            - "../../" for festival pages (festivals/festival/year/*.html)
+            - "../../../" for artist pages (festivals/festival/year/artists/*.html)
         escaped: Whether to escape quotes for use in Python f-strings
     
     Returns:

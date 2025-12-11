@@ -105,7 +105,7 @@ def extract_artist_id(spotify_url: str) -> Optional[str]:
 
 def update_artist_spotify_link(festival: str, year: int, artist_name: str, new_url: str):
     """Update the Spotify link for an artist in the CSV file."""
-    csv_path = Path(f"docs/{festival}/{year}/{year}.csv")
+    csv_path = Path(f"festivals/{festival}/{year}/{year}.csv")
     
     if not csv_path.exists():
         print(f"❌ CSV file not found: {csv_path}")
@@ -394,7 +394,7 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
 
 def load_festival_artists(festival: str, year: int) -> List[Dict]:
     """Load artists from festival CSV who have Spotify links."""
-    csv_path = Path(f"docs/{festival}/{year}/{year}.csv")
+    csv_path = Path(f"festivals/{festival}/{year}/{year}.csv")
     
     if not csv_path.exists():
         print(f"❌ CSV file not found: {csv_path}")

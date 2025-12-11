@@ -82,7 +82,7 @@ def main():
     
     args = parser.parse_args()
     
-    csv_file = f"docs/{args.festival}/{args.year}/{args.year}.csv"
+    csv_file = f"festivals/{args.festival}/{args.year}/{args.year}.csv"
     
     if not Path(csv_file).exists():
         print(f"Error: CSV file not found: {csv_file}")

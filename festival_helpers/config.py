@@ -46,7 +46,7 @@ class FestivalConfig:
     @property
     def output_dir(self) -> str:
         """Get output directory for generated files."""
-        return f"docs/{self.slug}/{self.year}"
+        return f"festivals/{self.slug}/{self.year}"
 
 
 # Festival configurations
@@ -145,7 +145,7 @@ def get_festival_config(
         'https://downtherabbithole.nl/programma/radiohead'
     """
     # First try to load a generated about.json for this festival/year if present.
-    about_path = Path(f"docs/{festival}/{year}/about.json")
+    about_path = Path(f"festivals/{festival}/{year}/about.json")
     if about_path.exists():
         try:
             with about_path.open('r', encoding='utf-8') as fh:

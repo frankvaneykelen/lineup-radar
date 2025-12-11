@@ -272,7 +272,7 @@ def process_artist(artist: Dict, festival_dir: Path, config) -> bool:
     
     Args:
         artist: Artist dict from CSV
-        festival_dir: Festival directory (e.g., docs/footprints/2026)
+        festival_dir: Festival directory (e.g., festivals/footprints/2026)
         config: Festival config
         
     Returns:
@@ -376,7 +376,7 @@ def main():
     config = get_festival_config(args.festival, args.year)
     
     # Load CSV
-    csv_path = Path(f"docs/{config.slug}/{args.year}/{args.year}.csv")
+    csv_path = Path(f"festivals/{config.slug}/{args.year}/{args.year}.csv")
     if not csv_path.exists():
         print(f"✗ CSV not found: {csv_path}")
         sys.exit(1)
@@ -397,7 +397,7 @@ def main():
     print(f"{'='*60}")
     print(f"\nProcessing {len(artists)} artist(s)")
     
-    festival_dir = Path(f"docs/{config.slug}/{args.year}")
+    festival_dir = Path(f"festivals/{config.slug}/{args.year}")
     downloaded_count = 0
     
     for artist in artists:

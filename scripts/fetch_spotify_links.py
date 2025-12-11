@@ -238,7 +238,7 @@ def main():
     
     args = parser.parse_args()
     
-    # Use the docs/{festival}/{year}/{year}.csv file
+    # Use the festivals/{festival}/{year}/{year}.csv file
     csv_path = Path(__file__).parent.parent / "docs" / args.festival / str(args.year) / f"{args.year}.csv"
     
     if not csv_path.exists():

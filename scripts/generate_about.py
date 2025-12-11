@@ -551,7 +551,7 @@ def main():
     args = parser.parse_args()
 
     config = get_festival_config(args.festival, args.year)
-    csv_file = Path(f"docs/{config.slug}/{args.year}/{args.year}.csv")
+    csv_file = Path(f"festivals/{config.slug}/{args.year}/{args.year}.csv")
     if not csv_file.exists():
         print(f"✗ CSV not found: {csv_file}")
         return

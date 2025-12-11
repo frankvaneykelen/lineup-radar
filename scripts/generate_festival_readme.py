@@ -89,7 +89,7 @@ The `{year}.csv` file contains these columns:
 
 def get_festival_dates(festival_slug, year):
     """Get formatted festival dates from about.json if it exists."""
-    about_file = Path(f"docs/{festival_slug}/{year}/about.json")
+    about_file = Path(f"festivals/{festival_slug}/{year}/about.json")
     if about_file.exists():
         try:
             with about_file.open('r', encoding='utf-8') as f:
@@ -177,7 +177,7 @@ def get_additional_notes(config, csv_file):
                 notes.append("- **Date Format**: Dates are in YYYY-MM-DD format for precise scheduling")
     
     # Check number of days
-    about_file = Path(f"docs/{config.slug}/{config.year}/about.json")
+    about_file = Path(f"festivals/{config.slug}/{config.year}/about.json")
     if about_file.exists():
         try:
             with about_file.open('r', encoding='utf-8') as f:
@@ -214,7 +214,7 @@ def get_additional_notes(config, csv_file):
 def generate_readme(festival_slug, year):
     """Generate README.md for a specific festival year."""
     config = get_festival_config(festival_slug, year)
-    csv_file = Path(f"docs/{config.slug}/{year}/{year}.csv")
+    csv_file = Path(f"festivals/{config.slug}/{year}/{year}.csv")
     
     # Get location from config description or default
     location = getattr(config, 'location', 'TBD')
@@ -245,7 +245,7 @@ def generate_readme(festival_slug, year):
     )
     
     # Write README
-    readme_path = Path(f"docs/{config.slug}/{year}/README.md")
+    readme_path = Path(f"festivals/{config.slug}/{year}/README.md")
     readme_path.parent.mkdir(parents=True, exist_ok=True)
     
     with readme_path.open('w', encoding='utf-8') as f:
@@ -265,7 +265,7 @@ def main():
     
     if args.all:
         # Find all festival edition folders
-        docs_path = Path('docs')
+        docs_path = Path('festivals')
         count = 0
         for festival_dir in docs_path.iterdir():
             if festival_dir.is_dir() and festival_dir.name not in ['shared', '.git']:
