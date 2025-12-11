@@ -170,8 +170,8 @@ def generate_html(csv_file, output_dir, config):
                         <th class="sortable" data-column="Genre">Genre</th>
                         <th class="sortable" data-column="Country">Country</th>
                         <th data-column="Bio">Bio</th>
-                        <th data-column="My take">My Take</th>
-                        <th class="sortable" data-column="My rating">Rating</th>
+                        <th data-column="AI Summary">AI Summary</th>
+                        <th class="sortable" data-column="AI Rating">Rating</th>
                         <th class="sortable" data-column="Number of People in Act">Size</th>
                         <th class="sortable" data-column="Gender of Front Person" title="Gender of Front Person">⚧️</th>
                         <th class="sortable" data-column="Front Person of Color?" title="Front Person of Color?">🌍</th>
@@ -185,12 +185,12 @@ def generate_html(csv_file, output_dir, config):
         spotify_link = artist.get('Spotify link', '').strip()
         spotify_html = f'<a href="{escape_html(spotify_link)}" target="_blank" class="spotify-link">Spotify<span class="link-icon">🔗</span></a>' if spotify_link else ''
         
-        rating = artist.get('My rating', '').strip()
+        rating = artist.get('AI Rating', '').strip()
         rating_html = f'<span class="rating">{escape_html(rating)}</span>' if rating else ''
         
         bio_text = artist.get('Bio', '').strip()
         bio = escape_html(bio_text)
-        take = escape_html(artist.get('My take', ''))
+        take = escape_html(artist.get('AI Summary', ''))
         
         # Add Spotify link to bio if available
         if spotify_link:
@@ -348,7 +348,7 @@ def generate_html(csv_file, output_dir, config):
         // Count ratings
         const ratingCounts = {{ '10': 0, '9': 0, '8': 0, '7': 0, '6': 0, '5': 0, '4': 0, '3': 0, '2': 0, '1': 0 }};
         artistsData.forEach(a => {{
-            const rating = parseFloat(a['My rating']);
+            const rating = parseFloat(a['AI Rating']);
             if (rating === 10) ratingCounts['10']++;
             if (rating >= 9) ratingCounts['9']++;
             if (rating >= 8) ratingCounts['8']++;
@@ -427,7 +427,7 @@ def generate_html(csv_file, output_dir, config):
                 const matchesSearch = !searchTerm || searchText.includes(searchTerm);
                 const matchesGenre = !genreFilter || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).includes(genreFilter));
                 const matchesCountry = !countryFilter || (artist.Country && artist.Country.split('/').map(c => c.trim()).includes(countryFilter));
-                const matchesRating = !ratingFilter || (artist['My rating'] && parseFloat(artist['My rating']) >= parseFloat(ratingFilter));
+                const matchesRating = !ratingFilter || (artist['AI Rating'] && parseFloat(artist['AI Rating']) >= parseFloat(ratingFilter));
                 const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person'] || 'Unknown');
                 const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?'] || 'Unknown');
                 
@@ -476,7 +476,7 @@ def generate_html(csv_file, output_dir, config):
                 const bValue = b.data[column] || '';
                 
                 // Handle numeric sorting for rating
-                if (column === 'My rating' || column === 'Number of People in Act') {{
+                if (column === 'AI Rating' || column === 'Number of People in Act') {{
                     const aNum = parseFloat(aValue) || 0;
                     const bNum = parseFloat(bValue) || 0;
                     return currentSort.direction === 'asc' ? aNum - bNum : bNum - aNum;

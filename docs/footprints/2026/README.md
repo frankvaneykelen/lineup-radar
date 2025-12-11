@@ -40,6 +40,16 @@ python scripts/generate_about.py --festival footprints --year 2026
 python scripts/generate_about.py --festival footprints --year 2026 --ai
 ```
 
+### Spotify Playlist Generation
+
+```powershell
+# Generate or update Spotify playlist for this festival
+python scripts/generate_spotify_playlists.py --festival footprints --year 2026
+
+# Note: Requires Spotify credentials in .keys.txt
+# See setup_spotify.md for configuration instructions
+```
+
 ### Full Regeneration
 
 ```powershell
@@ -65,8 +75,8 @@ The `2026.csv` file contains these columns:
 - **Genre** - Musical genre(s)
 - **Country** - Country of origin
 - **Bio** - AI-generated or general biography
-- **My take** - Personal notes (preserved on updates)
-- **My rating** - Personal rating 1-10 (preserved on updates)
+- **AI Summary** - AI-generated critical assessment (preserved on updates)
+- **AI Rating** - AI-generated rating 1-10 (preserved on updates)
 - **Spotify** - Spotify artist link
 - **Number of People in Act** - Band size
 - **Gender of Front Person** - Gender identification
@@ -80,7 +90,7 @@ The `2026.csv` file contains these columns:
 
 ## Notes
 
-- **Personal Data Preserved**: The "My take" and "My rating" columns are never overwritten when running update scripts
+- **Personal Data Preserved**: The "AI Summary" and "AI Rating" columns are never overwritten when running update scripts
 - **Single-Day Festival**: This is a one-day event
 - **Dutch Bios**: Festival provides Dutch biographies
 - **Image Downloads**: Artist images are automatically downloaded when generating artist pages

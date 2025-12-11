@@ -17,8 +17,8 @@ with open(csv_path, 'r', encoding='utf-8') as f:
 # Clear ratings
 cleared_count = 0
 for row in rows:
-    if row.get('My rating', '').strip():
-        row['My rating'] = ''
+    if row.get('AI Rating', '').strip():
+        row['AI Rating'] = ''
         cleared_count += 1
 
 # Write back

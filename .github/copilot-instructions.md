@@ -11,7 +11,7 @@
 ## CSV Files
 
 - Use UTF-8 encoding
-- Preserve user-edited fields (My take, My rating) during updates
+- Preserve user-edited fields (AI Summary, AI Rating) during updates
 - Only add new artists when updating, never remove or modify existing entries
 - When an artist cancels, update the "Cancelled" column to "Yes" instead of removing the entry. - When an artist cancels, update the "Cancelled" column to "Yes" instead of removing the entry.
 

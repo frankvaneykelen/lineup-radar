@@ -259,8 +259,8 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     genre = artist.get('Genre', '').strip()
     country = artist.get('Country', '').strip()
     bio = artist.get('Bio', '').strip()
-    my_take = artist.get('My take', '').strip()
-    my_rating = artist.get('My rating', '').strip()
+    my_take = artist.get('AI Summary', '').strip()
+    my_rating = artist.get('AI Rating', '').strip()
     spotify_link = artist.get('Spotify link', '').strip()
     num_people = artist.get('Number of People in Act', '').strip()
     gender = artist.get('Gender of Front Person', '').strip()
@@ -373,7 +373,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 <div class="col-auto left-column" style="width: 670px;">
 """
     
-    # LEFT COLUMN: Hero Image/Carousel, Background, My Take
+    # LEFT COLUMN: Hero Image/Carousel, Background, AI Summary
     
     # Hero Image Section or Carousel
     if images:
@@ -433,10 +433,10 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 </div>
 """
     
-    # My Take Section
+    # AI Summary Section
     if my_take:
         html += f"""                <div class="section">
-                    <h2>My Take</h2>
+                    <h2>AI Summary</h2>
                     <div class="my-take">
                         <p>{escape_html(my_take)}</p>
                     </div>
@@ -444,7 +444,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
 """
     else:
         html += """                <div class="section">
-                    <h2>My Take</h2>
+                    <h2>AI Summary</h2>
                     <div class="my-take" style="color: #999; font-style: italic;">
                         <p>No information about this artist was found to generate an appraisal.</p>
                     </div>
@@ -497,7 +497,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     # Rating Section
     if my_rating:
         html += f"""                <div class="section">
-                    <h2>My Rating</h2>
+                    <h2>AI Rating</h2>
                     <span class="badge bg-gradient fs-4 px-4 py-2 my-rating">{escape_html(my_rating)}</span>
                 </div>
 """
