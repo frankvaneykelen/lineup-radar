@@ -51,7 +51,7 @@ def analyze_ratings(artists):
     rating_counts = {}
     
     for artist in artists:
-        rating = artist.get('My rating', '').strip()
+        rating = artist.get('AI Rating', '').strip()
         if rating:
             try:
                 rating_int = int(float(rating))

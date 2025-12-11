@@ -38,8 +38,8 @@ Standard CSV template with all columns used across festival lineup files.
 - `Social Links` - JSON object with all social media links
 
 **Personal Notes:**
-- `My take` - Personal notes/review
-- `My rating` - Personal rating
+- `AI Summary` - AI-generated critical assessment
+- `AI Rating` - AI-generated rating
 
 **Demographics (for diversity statistics):**
 - `Number of People in Act` - Band size
@@ -58,7 +58,7 @@ fieldnames = [
     'Artist', 'Tagline', 'Day', 'Start Time', 'End Time', 'Stage',
     'Genre', 'Country', 'Bio', 'Website', 
     'Spotify', 'YouTube', 'Instagram', 'Photo URL',
-    'My take', 'My rating', 
+    'AI Summary', 'AI Rating', 
     'Number of People in Act', 'Gender of Front Person', 'Front Person of Color?',
     'Cancelled', 'Festival URL', 'Festival Bio (NL)', 'Festival Bio (EN)', 
     'Social Links', 'Images Scraped'

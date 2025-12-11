@@ -7,10 +7,21 @@
     for all configured festivals and years. It runs generate_html.py followed by 
     generate_artist_pages.py for each festival/year combination.
 
+.PARAMETER SkipPlaylists
+    Skip Spotify playlist generation
+
 .EXAMPLE
     .\regenerate_all.ps1
     Regenerates all pages for all festivals.
+
+.EXAMPLE
+    .\regenerate_all.ps1 -SkipPlaylists
+    Regenerates all pages but skips Spotify playlist generation.
 #>
+
+param(
+    [switch]$SkipPlaylists
+)
 
 # Set error action preference
 $ErrorActionPreference = "Stop"
@@ -56,43 +67,49 @@ $allFestivals = @(
 
 $festivalsToProcess = $allFestivals
 
-# Load Spotify credentials from .keys.txt
-Write-Host "Loading Spotify credentials..." -ForegroundColor Gray
+# Load Spotify credentials from .keys.txt (unless skipping playlists)
 $spotifyClientId = ""
 $spotifyClientSecret = ""
 
-if (Test-Path ".keys.txt") {
-    Get-Content ".keys.txt" | ForEach-Object {
-        # Support KEY=value format
-        if ($_ -match "^SPOTIFY_CLIENT_ID=(.+)$") {
-            $spotifyClientId = $matches[1]
+if (-not $SkipPlaylists) {
+    Write-Host "Loading Spotify credentials..." -ForegroundColor Gray
+
+    if (Test-Path ".keys.txt") {
+        Get-Content ".keys.txt" | ForEach-Object {
+            # Support KEY=value format
+            if ($_ -match "^SPOTIFY_CLIENT_ID=(.+)$") {
+                $spotifyClientId = $matches[1]
+            }
+            if ($_ -match "^SPOTIFY_CLIENT_SECRET=(.+)$") {
+                $spotifyClientSecret = $matches[1]
+            }
+            # Support PowerShell variable assignment format
+            if ($_ -match '\$env:SPOTIFY_CLIENT_ID\s*=\s*"([^"]+)"') {
+                $spotifyClientId = $matches[1]
+            }
+            if ($_ -match '\$env:SPOTIFY_CLIENT_SECRET\s*=\s*"([^"]+)"') {
+                $spotifyClientSecret = $matches[1]
+            }
         }
-        if ($_ -match "^SPOTIFY_CLIENT_SECRET=(.+)$") {
-            $spotifyClientSecret = $matches[1]
+        
+        if ($spotifyClientId -and $spotifyClientSecret) {
+            Write-Host "✓ Spotify credentials loaded" -ForegroundColor Green
+        } else {
+            Write-Host "⚠ Spotify credentials not found in .keys.txt - playlist generation will be skipped" -ForegroundColor Yellow
         }
-        # Support PowerShell variable assignment format
-        if ($_ -match '\$env:SPOTIFY_CLIENT_ID\s*=\s*"([^"]+)"') {
-            $spotifyClientId = $matches[1]
-        }
-        if ($_ -match '\$env:SPOTIFY_CLIENT_SECRET\s*=\s*"([^"]+)"') {
-            $spotifyClientSecret = $matches[1]
-        }
-    }
-    
-    if ($spotifyClientId -and $spotifyClientSecret) {
-        Write-Host "✓ Spotify credentials loaded" -ForegroundColor Green
     } else {
-        Write-Host "⚠ Spotify credentials not found in .keys.txt - playlist generation will be skipped" -ForegroundColor Yellow
+        Write-Host "⚠ .keys.txt not found - playlist generation will be skipped" -ForegroundColor Yellow
     }
 } else {
-    Write-Host "⚠ .keys.txt not found - playlist generation will be skipped" -ForegroundColor Yellow
+    Write-Host "⊘ Skipping Spotify playlist generation (--SkipPlaylists flag)" -ForegroundColor DarkGray
 }
 
 Write-Host ""
 
 # Track success/failure and calculate operations
 $totalFestivals = $festivalsToProcess.Count
-$totalOperations = ($totalFestivals * 4) + 3  # Each festival: lineup + artist pages + about page + playlist, plus homepage + charts + FAQ
+$operationsPerFestival = if ($SkipPlaylists) { 3 } else { 4 }  # Each festival: lineup + about + artist pages (+ playlist if not skipping)
+$totalOperations = ($totalFestivals * $operationsPerFestival) + 3  # Plus homepage + charts + FAQ
 $currentOperation = 0
 $successCount = 0
 $failureCount = 0
@@ -178,39 +195,44 @@ foreach ($festival in $festivalsToProcess) {
             $failureCount++
         }
         
-        # Update progress for Spotify playlist
-        $currentOperation++
-        $percentComplete = [int](($currentOperation / $totalOperations) * 100)
-        Write-Progress -Activity "Regenerating Festival Pages" -Status "Updating Spotify playlist for $festivalName ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
-        
-        # Generate/update Spotify playlist if credentials are available
-        if ($spotifyClientId -and $spotifyClientSecret) {
-            $env:SPOTIFY_CLIENT_ID = $spotifyClientId
-            $env:SPOTIFY_CLIENT_SECRET = $spotifyClientSecret
+        # Generate/update Spotify playlist if not skipped and credentials are available
+        if (-not $SkipPlaylists) {
+            # Update progress for Spotify playlist
+            $currentOperation++
+            $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+            Write-Progress -Activity "Regenerating Festival Pages" -Status "Updating Spotify playlist for $festivalName ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
             
-            $command3 = "python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year"
-            Write-Host "Running: $command3" -ForegroundColor Gray
-            Write-Host ""
-            
-            # Execute interactively (allows user input for missing Spotify links)
-            & python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year
-            
-            # Check if command succeeded
-            if ($LASTEXITCODE -eq 0) {
+            if ($spotifyClientId -and $spotifyClientSecret) {
+                $env:SPOTIFY_CLIENT_ID = $spotifyClientId
+                $env:SPOTIFY_CLIENT_SECRET = $spotifyClientSecret
+                
+                $command3 = "python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year"
+                Write-Host "Running: $command3" -ForegroundColor Gray
                 Write-Host ""
-                Write-Host "✓ Updated Spotify playlist" -ForegroundColor Green
-                Write-Host "✓ Successfully processed all content for $festivalName $year" -ForegroundColor Green
-                $successCount++
+                
+                # Execute interactively (allows user input for missing Spotify links)
+                & python scripts/generate_spotify_playlists.py --festival $festivalSlug --year $year
+                
+                # Check if command succeeded
+                if ($LASTEXITCODE -eq 0) {
+                    Write-Host ""
+                    Write-Host "✓ Updated Spotify playlist" -ForegroundColor Green
+                    Write-Host "✓ Successfully processed all content for $festivalName $year" -ForegroundColor Green
+                    $successCount++
+                } else {
+                    Write-Host ""
+                    Write-Host "⚠ Failed to update Spotify playlist for $festivalName $year" -ForegroundColor Yellow
+                    Write-Host "⚠ Continuing with other festivals..." -ForegroundColor Yellow
+                    $failureCount++
+                }
             } else {
-                Write-Host ""
-                Write-Host "⚠ Failed to update Spotify playlist for $festivalName $year" -ForegroundColor Yellow
-                Write-Host "⚠ Continuing with other festivals..." -ForegroundColor Yellow
-                $failureCount++
+                Write-Host "⊘ Skipping Spotify playlist (no credentials)" -ForegroundColor DarkGray
+                # Still count as successful since it's optional
+                $successCount++
             }
         } else {
-            Write-Host "⊘ Skipping Spotify playlist (no credentials)" -ForegroundColor DarkGray
-            # Still count as successful since it's optional
-            $successCount++
+            Write-Host "⊘ Skipping Spotify playlist (--SkipPlaylists flag)" -ForegroundColor DarkGray
+            Write-Host "✓ Successfully processed all content for $festivalName $year" -ForegroundColor Green
         }
     }
     catch {
@@ -352,9 +374,10 @@ Write-Host "  Regeneration Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "Festivals processed: $totalFestivals (lineup + about + artist pages + playlist each)" -ForegroundColor White
+$operationsLabel = if ($SkipPlaylists) { "lineup + about + artist pages each" } else { "lineup + about + artist pages + playlist each" }
+Write-Host "Festivals processed: $totalFestivals ($operationsLabel)" -ForegroundColor White
 Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
-Write-Host "Total operations: $(($totalFestivals * 4) + 3)" -ForegroundColor White
+Write-Host "Total operations: $(($totalFestivals * $operationsPerFestival) + 3)" -ForegroundColor White
 
 Write-Host "Successful: $successCount" -ForegroundColor Green
 Write-Host "Failed: $failureCount" -ForegroundColor $(if ($failureCount -eq 0) { "Green" } else { "Red" })

@@ -82,7 +82,7 @@ The `{year}.csv` file contains these columns:
 
 ## Notes
 
-- **Personal Data Preserved**: The "My take" and "My rating" columns are never overwritten when running update scripts
+- **Personal Data Preserved**: The "AI Summary" and "AI Rating" columns are never overwritten when running update scripts
 {additional_notes}
 """
 
@@ -142,8 +142,8 @@ def get_csv_columns(csv_file):
         'YouTube': 'YouTube channel',
         'Instagram': 'Instagram profile',
         'Photo URL': 'Artist photo URL from festival',
-        'My take': 'Personal notes (preserved on updates)',
-        'My rating': 'Personal rating 1-10 (preserved on updates)',
+        'AI Summary': 'AI-generated critical assessment (preserved on updates)',
+        'AI Rating': 'AI-generated rating 1-10 (preserved on updates)',
         'Number of People in Act': 'Band size',
         'Gender of Front Person': 'Gender identification',
         'Front Person of Color?': 'Yes/No',

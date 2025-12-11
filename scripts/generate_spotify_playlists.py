@@ -25,6 +25,47 @@ from spotipy.oauth2 import SpotifyOAuth
 from festival_helpers.config import get_festival_config
 
 
+def format_retry_time(error_message: str) -> str:
+    """
+    Format retry time in error messages from seconds to hours and minutes.
+    
+    Args:
+        error_message: The error message that may contain "Retry will occur after: X s"
+    
+    Returns:
+        The error message with formatted retry time, or original message if no match
+    """
+    import re
+    
+    # Look for pattern "Retry will occur after: X s"
+    match = re.search(r'Retry will occur after:\s*(\d+)\s*s', error_message)
+    
+    if match:
+        seconds = int(match.group(1))
+        hours = seconds // 3600
+        minutes = (seconds % 3600) // 60
+        remaining_seconds = seconds % 60
+        
+        # Format time string
+        time_parts = []
+        if hours > 0:
+            time_parts.append(f"{hours} hour{'s' if hours != 1 else ''}")
+        if minutes > 0:
+            time_parts.append(f"{minutes} minute{'s' if minutes != 1 else ''}")
+        if remaining_seconds > 0 or not time_parts:
+            time_parts.append(f"{remaining_seconds} second{'s' if remaining_seconds != 1 else ''}")
+        
+        formatted_time = ", ".join(time_parts)
+        
+        # Replace in the original message
+        return error_message.replace(
+            f"Retry will occur after: {seconds} s",
+            f"Retry will occur after: {formatted_time} ({seconds}s)"
+        )
+    
+    return error_message
+
+
 def setup_spotify_client() -> spotipy.Spotify:
     """Initialize Spotify client with user authentication."""
     client_id = os.getenv('SPOTIFY_CLIENT_ID')
@@ -109,7 +150,14 @@ def get_artist_top_tracks(sp: spotipy.Spotify, artist_id: str, artist_name: str,
     """
     try:
         # Get artist info first to log the actual Spotify name
-        artist_info = sp.artist(artist_id)
+        try:
+            artist_info = sp.artist(artist_id)
+            time.sleep(0.2)  # Rate limiting after API call
+        except Exception as e:
+            # Catch and format rate limit errors early
+            formatted_error = format_retry_time(str(e))
+            raise Exception(formatted_error)
+        
         spotify_artist_name = artist_info.get('name', artist_name)
         
         # Log if names don't match
@@ -117,7 +165,14 @@ def get_artist_top_tracks(sp: spotipy.Spotify, artist_id: str, artist_name: str,
             print(f"  ℹ️  Spotify name: '{spotify_artist_name}' (CSV: '{artist_name}')")
         
         # Get top tracks (up to 10)
-        results = sp.artist_top_tracks(artist_id, country='US')
+        try:
+            results = sp.artist_top_tracks(artist_id, country='US')
+            time.sleep(0.2)  # Rate limiting after API call
+        except Exception as e:
+            # Catch and format rate limit errors early
+            formatted_error = format_retry_time(str(e))
+            raise Exception(formatted_error)
+        
         tracks = results.get('tracks', [])
         
         if not tracks:
@@ -169,7 +224,9 @@ def get_artist_top_tracks(sp: spotipy.Spotify, artist_id: str, artist_name: str,
             
             return []
         else:
-            print(f"  ❌ Error getting top tracks for {artist_name}: {e}")
+            # Format retry time if present in error message
+            formatted_error = format_retry_time(error_str)
+            print(f"  ❌ Error getting top tracks for {artist_name}: {formatted_error}")
             return []
 
 
@@ -183,7 +240,13 @@ def get_artist_singles(sp: spotipy.Spotify, artist_id: str, artist_name: str) ->
         singles = []
         
         # Get singles (limit 50)
-        results = sp.artist_albums(artist_id, album_type='single', limit=50)
+        try:
+            results = sp.artist_albums(artist_id, album_type='single', limit=50)
+            time.sleep(0.2)  # Rate limiting after API call
+        except Exception as e:
+            # Catch and format rate limit errors early
+            formatted_error = format_retry_time(str(e))
+            raise Exception(formatted_error)
         
         for album in results.get('items', []):
             # Only include if artist is the main artist
@@ -201,14 +264,21 @@ def get_artist_singles(sp: spotipy.Spotify, artist_id: str, artist_name: str) ->
         return singles
     
     except Exception as e:
-        print(f"  ❌ Error getting singles for {artist_name}: {e}")
+        formatted_error = format_retry_time(str(e))
+        print(f"  ❌ Error getting singles for {artist_name}: {formatted_error}")
         return []
 
 
 def get_first_track_from_single(sp: spotipy.Spotify, single_id: str) -> Optional[Dict]:
     """Get the first track from a single/album."""
     try:
-        album = sp.album(single_id)
+        try:
+            album = sp.album(single_id)
+            time.sleep(0.2)  # Rate limiting after API call
+        except Exception as e:
+            # Catch and format rate limit errors early
+            formatted_error = format_retry_time(str(e))
+            raise Exception(formatted_error)
         tracks = album.get('tracks', {}).get('items', [])
         
         if tracks:
@@ -222,7 +292,8 @@ def get_first_track_from_single(sp: spotipy.Spotify, single_id: str) -> Optional
         return None
     
     except Exception as e:
-        print(f"  ⚠️  Error getting track from single: {e}")
+        formatted_error = format_retry_time(str(e))
+        print(f"  ⚠️  Error getting track from single: {formatted_error}")
         return None
 
 
@@ -282,14 +353,17 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
         single = singles[single_idx]
         track = get_first_track_from_single(sp, single['id'])
         
-        if track and track['id'] not in selected_track_ids:
+        # Skip remix tracks to avoid duplicates with regular versions
+        if track and track['id'] not in selected_track_ids and 'remix' not in track['name'].lower():
             selected_track_ids.add(track['id'])
             selected_uris.append(track['uri'])
             singles_added += 1
             print(f"  ✓ Added single track: {track['name']}")
+        elif track and 'remix' in track['name'].lower():
+            print(f"  ⊗ Skipped remix: {track['name']}")
         
         single_idx += 1
-        time.sleep(0.1)  # Rate limiting
+        time.sleep(0.5)  # Rate limiting - prevent API throttling
     
     # Fill remaining slots with any available tracks from top tracks
     if len(selected_uris) < 5:
@@ -433,9 +507,10 @@ def generate_playlist_for_festival(sp: spotipy.Spotify, festival: str, year: int
             # Check if we need to reload artist info from CSV (in case it was updated)
             track_uris = select_tracks_for_artist(sp, artist['spotify_id'], artist['name'], festival, year, artists, artist)
             all_track_uris.extend(track_uris)
-            time.sleep(0.2)  # Rate limiting
+            time.sleep(1.0)  # Rate limiting - prevent API throttling
         except Exception as e:
-            print(f"  ❌ Error processing {artist['name']}: {e}")
+            formatted_error = format_retry_time(str(e))
+            print(f"  ❌ Error processing {artist['name']}: {formatted_error}")
     
     if not all_track_uris:
         print(f"\n❌ No tracks collected for {festival} {year}")

@@ -43,7 +43,7 @@ def needs_enrichment(row: Dict, force: bool = False) -> bool:
     """Check if artist row needs data enrichment."""
     if force:
         return True  # Enrich all fields regardless of current values
-    essential_fields = ["Genre", "Country", "Bio", "My take", "My rating"]
+    essential_fields = ["Genre", "Country", "Bio", "AI Summary", "AI Rating"]
     return any(not row.get(field, "").strip() for field in essential_fields)
 
 
@@ -63,8 +63,8 @@ def create_enrichment_prompt(artist_name: str, existing_bio: str = "") -> str:
 {{
     "Genre": "primary genre(s), separated by /",
     "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",{bio_instruction}
-    "My take": "brief critical assessment based on the bio provided or from reviews/consensus - BE SPECIFIC about their sound/style, avoid generic phrases like 'emerging artist' or 'shows promise' (or empty string if no bio and insufficient public info)",
-    "My rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance (or empty string if insufficient info)",
+    "AI Summary": "brief critical assessment based on the bio provided or from reviews/consensus - BE SPECIFIC about their sound/style, avoid generic phrases like 'emerging artist' or 'shows promise' (or empty string if no bio and insufficient public info)",
+    "AI Rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance (or empty string if insufficient info)",
     "Spotify link": "full Spotify artist URL (https://open.spotify.com/artist/...)",
     "Number of People in Act": "number as integer, or empty if solo/varies",
     "Gender of Front Person": "Male/Female/Mixed/Non-binary",
@@ -73,14 +73,14 @@ def create_enrichment_prompt(artist_name: str, existing_bio: str = "") -> str:
 
 CRITICAL GUIDELINES:
 - If a bio is provided in the context, use it as your PRIMARY source - extract genre, country, and style details from it
-- For "My take": If bio is provided, write a specific assessment based on the bio's content (their sound, influences, achievements mentioned)
+- For "AI Summary": If bio is provided, write a specific assessment based on the bio's content (their sound, influences, achievements mentioned)
 - AVOID generic phrases like "emerging artist with growing following" or "shows promise" - be specific about their musical style
-- Example good "My take": "Their blend of Anatolian psychedelia with modern electronic beats creates a hypnotic sound; strong stage presence"
-- Example bad "My take": "Emerging artist with a growing following, performances show promise"
+- Example good "AI Summary": "Their blend of Anatolian psychedelia with modern electronic beats creates a hypnotic sound; strong stage presence"
+- Example bad "AI Summary": "Emerging artist with a growing following, performances show promise"
 - Provide information for ALL artists unless they are completely unknown (no online presence whatsoever)
 - For artists with bio: extract concrete details about their sound, not vague assessments
-- For artists without bio: provide genre, country, basic info, but be honest if you lack details (leave My take/rating empty)
-- My rating should use 4-6 for developing artists, 7-8 for established acts, 9-10 only for legends
+- For artists without bio: provide genre, country, basic info, but be honest if you lack details (leave AI Summary/rating empty)
+- AI Rating should use 4-6 for developing artists, 7-8 for established acts, 9-10 only for legends
 - Only leave fields COMPLETELY empty if the artist has zero online presence (very rare for festival acts)
 
 RATING SCALE (USE THE FULL RANGE - be critical and realistic):
@@ -208,16 +208,16 @@ def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost
         provider = "Azure OpenAI" if use_azure else "GitHub Models"
         
         # Validate and log rating issues
-        rating = artist_data.get("My rating", "")
-        my_take = artist_data.get("My take", "")
+        rating = artist_data.get("AI Rating", "")
+        my_take = artist_data.get("AI Summary", "")
         
         # Convert rating to string and handle edge cases
         if rating == 0 or rating == "0":
             print(f"  ⚠️  {artist_name}: AI returned rating 0 (not enough publicly available critical reviews or performance data) - setting to empty")
-            artist_data["My rating"] = ""
+            artist_data["AI Rating"] = ""
         elif not str(rating).strip():
             print(f"  ⚠️  {artist_name}: AI returned empty rating (not enough publicly available critical reviews or performance data)")
-            artist_data["My rating"] = ""
+            artist_data["AI Rating"] = ""
         else:
             # Apply rating boost for discovery/curated festivals
             if rating_boost != 0.0:
@@ -226,7 +226,7 @@ def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost
                     boosted_rating = original_rating + rating_boost
                     # Clamp to 1-10 range and round to nearest integer
                     boosted_rating = max(1, min(10, round(boosted_rating)))
-                    artist_data["My rating"] = str(boosted_rating)
+                    artist_data["AI Rating"] = str(boosted_rating)
                     if boosted_rating != original_rating:
                         print(f"  📊 {artist_name}: Rating adjusted {original_rating:.1f} → {boosted_rating} (boost: +{rating_boost})")
                 except (ValueError, TypeError):
@@ -234,7 +234,7 @@ def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost
                     pass
         
         if not my_take.strip():
-            print(f"  ⚠️  {artist_name}: AI returned empty 'My take' (not enough publicly available critical reviews or performance data)")
+            print(f"  ⚠️  {artist_name}: AI returned empty 'AI Summary' (not enough publicly available critical reviews or performance data)")
         
         print(f"  ✓ {artist_name}: Enriched with AI ({provider})")
         
@@ -462,7 +462,7 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
                                         else:
                                             print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data, no festival bio)")
                                     # Log if we're filling with empty value and always update the field
-                                    elif key in ["My rating", "My take"] and not str(value).strip():
+                                    elif key in ["AI Rating", "AI Summary"] and not str(value).strip():
                                         print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
                                         row[key] = value
                                     else:
@@ -521,7 +521,7 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
                                 else:
                                     print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data, no festival bio)")
                             # Log if we're filling with empty value and always update the field
-                            elif field in ["My rating", "My take"] and not str(value).strip():
+                            elif field in ["AI Rating", "AI Summary"] and not str(value).strip():
                                 print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data)")
                                 row[field] = value
                             else:

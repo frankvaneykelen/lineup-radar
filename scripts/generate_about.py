@@ -81,7 +81,7 @@ def compute_stats(artists: list[dict]) -> dict:
     stats['poc_counts'] = poc_counts
 
     # Ratings
-    ratings = [safe_float(a.get('My rating')) for a in artists]
+    ratings = [safe_float(a.get('AI Rating')) for a in artists]
     rated = [r for r in ratings if r is not None]
     if rated:
         stats['average_rating'] = round(sum(rated) / len(rated), 2)

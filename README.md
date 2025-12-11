@@ -34,8 +34,8 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
   - **Genre**: Musical genre
   - **Country**: Country of origin
   - **Bio**: Brief artist biography
-  - **My take**: Personal notes and impressions
-  - **My rating**: Personal rating (scale: 1-10)
+  - **AI Summary**: AI-generated critical assessment and notes
+  - **AI Rating**: AI-generated rating (scale: 1-10)
   - **Spotify link**: Link to artist's Spotify profile
   - **Number of People in Act**: Band size
   - **Gender of Front Person**: Gender identification of lead performer
@@ -45,7 +45,7 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
 ### Metadata Tracking
 
 - The system maintains a separate metadata file to track user edits
-- This ensures that personal notes (My take, My rating) are never overwritten when updating artist information
+- This ensures that AI-generated notes (AI Summary, AI Rating) are never overwritten when updating artist information
 - When new artists are announced, only those new entries are added
 
 ## Usage
@@ -147,10 +147,10 @@ This will:
 1. Fetch the lineup from the festival's program page
 2. Scrape artist bios in the festival's language (Dutch/English)
 3. Extract social media links and images
-4. Track your existing edits to "My take" and "My rating"
+4. Track your existing edits to "AI Summary" and "AI Rating"
 5. Add only new artists (preserving all existing user edits)
 
-Your personal notes (My take, My rating) are never overwritten during updates.
+Your AI-generated notes (AI Summary, AI Rating) are never overwritten during updates.
 
 #### Step 2: Enriching Artist Data
 
@@ -181,9 +181,9 @@ python scripts/enrich_artists.py --ai --parallel
 The AI will automatically populate all empty fields including:
 
 - **Objective data**: Genre, Country, Bio, Spotify links, group size, demographics
-- **Subjective analysis**: "My take" (critical assessment based on reviews) and "My rating" (1-10 based on critical consensus)
+- **Subjective analysis**: "AI Summary" (critical assessment based on reviews) and "AI Rating" (1-10 based on critical consensus)
 
-**Important**: Once you edit "My take" or "My rating" manually, those fields will never be overwritten by future AI enrichments. Your personal edits are always preserved.
+**Important**: Once "AI Summary" or "AI Rating" are set by AI enrichment, those fields will never be overwritten by future AI enrichments unless cleared. Your edits are always preserved.
 
 **Note:** When AI lacks data for an artist, the system automatically uses the festival bio as a fallback, prefixed with "[using festival bio due to a lack of publicly available data]".
 
@@ -418,6 +418,49 @@ python scripts/helpers/generate_charts.py
 ```
 
 This will produce `docs/charts.html` with aggregated statistics and visual comparisons across festivals/years.
+
+#### Generating Spotify Playlists
+
+You can generate or update Spotify playlists for each festival. This creates curated playlists with top tracks from lineup artists.
+
+**Setup (one-time):**
+
+1. Create a Spotify Developer App at <https://developer.spotify.com/dashboard>
+2. Save credentials to `.keys.txt` in the project root:
+
+   ```text
+   SPOTIFY_CLIENT_ID=your_client_id_here
+   SPOTIFY_CLIENT_SECRET=your_client_secret_here
+   ```
+
+**Generate playlists for individual festivals:**
+
+```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
+python scripts/generate_spotify_playlists.py --festival down-the-rabbit-hole --year 2026
+python scripts/generate_spotify_playlists.py --festival pinkpop --year 2026
+python scripts/generate_spotify_playlists.py --festival rock-werchter --year 2026
+python scripts/generate_spotify_playlists.py --festival footprints --year 2026
+python scripts/generate_spotify_playlists.py --festival best-kept-secret --year 2026
+```
+
+This will:
+
+- Create a public Spotify playlist (or update existing one)
+- Add top tracks from each artist in the lineup
+- Skip remix versions to avoid duplicates
+- Include rate limiting to respect Spotify API limits
+- Prompt you to add missing Spotify links interactively
+- Update the CSV with playlist URL and track count
+
+**Note:** The playlist generation is also included in `.\scripts\regenerate_all.ps1` unless you use the `-SkipPlaylists` flag.
+
+**Example with skip flag:**
+
+```powershell
+# Regenerate all HTML but skip playlist generation
+.\scripts\regenerate_all.ps1 -SkipPlaylists
+```
 
 ### About pages
 

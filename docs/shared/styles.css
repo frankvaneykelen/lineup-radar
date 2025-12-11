@@ -977,12 +977,12 @@ body.dark-mode .carousel-control-next-icon {
         min-width: 110px;
     }
     
-    table th:nth-child(5), /* My Take */
+    table th:nth-child(5), /* AI Summary */
     table td:nth-child(5) {
         min-width: 110px;
     }
     
-    table th:nth-child(6), /* My Rating */
+    table th:nth-child(6), /* AI Rating */
     table td:nth-child(6) {
         width: 60px;
     }

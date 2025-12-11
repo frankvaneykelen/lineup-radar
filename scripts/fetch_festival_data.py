@@ -252,7 +252,7 @@ def main():
         import csv as csv_module
         with open(csv_path, 'w', encoding='utf-8', newline='') as f:
             writer = csv_module.DictWriter(f, fieldnames=[
-                'Artist', 'Genre', 'Country', 'Bio', 'My take', 'My rating',
+                'Artist', 'Genre', 'Country', 'Bio', 'AI Summary', 'AI Rating',
                 'Spotify link', 'Number of People in Act', 'Gender of Front Person',
                 'Front Person of Color?', 'Festival URL', 'Festival Bio (NL)',
                 'Festival Bio (EN)', 'Social Links', 'Images Scraped'
@@ -262,7 +262,7 @@ def main():
                 writer.writerow({
                     'Artist': artist['name'],
                     'Festival URL': artist.get('url', ''),
-                    'Genre': '', 'Country': '', 'Bio': '', 'My take': '', 'My rating': '',
+                    'Genre': '', 'Country': '', 'Bio': '', 'AI Summary': '', 'AI Rating': '',
                     'Spotify link': '', 'Number of People in Act': '',
                     'Gender of Front Person': '', 'Front Person of Color?': '',
                     'Festival Bio (NL)': '', 'Festival Bio (EN)': '',

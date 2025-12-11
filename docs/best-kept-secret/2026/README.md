@@ -40,6 +40,16 @@ python scripts/generate_about.py --festival best-kept-secret --year 2026
 python scripts/generate_about.py --festival best-kept-secret --year 2026 --ai
 ```
 
+### Spotify Playlist Generation
+
+```powershell
+# Generate or update Spotify playlist for this festival
+python scripts/generate_spotify_playlists.py --festival best-kept-secret --year 2026
+
+# Note: Requires Spotify credentials in .keys.txt
+# See setup_spotify.md for configuration instructions
+```
+
 ### Full Regeneration
 
 ```powershell
@@ -75,8 +85,8 @@ The `2026.csv` file contains these columns:
 - **YouTube** - YouTube channel
 - **Instagram** - Instagram profile
 - **Photo URL** - Artist photo URL from festival
-- **My take** - Personal notes (preserved on updates)
-- **My rating** - Personal rating 1-10 (preserved on updates)
+- **AI Summary** - AI-generated critical assessment (preserved on updates)
+- **AI Rating** - AI-generated rating 1-10 (preserved on updates)
 - **Number of People in Act** - Band size
 - **Gender of Front Person** - Gender identification
 - **Front Person of Color?** - Yes/No
@@ -89,7 +99,7 @@ The `2026.csv` file contains these columns:
 
 ## Notes
 
-- **Personal Data Preserved**: The "My take" and "My rating" columns are never overwritten when running update scripts
+- **Personal Data Preserved**: The "AI Summary" and "AI Rating" columns are never overwritten when running update scripts
 - **Date Format**: Dates are in YYYY-MM-DD format for precise scheduling
 - **English Bios**: Festival provides English biographies
 - **Image Downloads**: Artist images are automatically downloaded when generating artist pages

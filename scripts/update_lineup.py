@@ -3,7 +3,7 @@
 Update script for Down The Rabbit Hole Festival Program
 
 Fetches current lineup from the website and updates CSV with new artists
-while preserving user edits to "My take" and "My rating" fields.
+while preserving user edits to "AI Summary" and "AI Rating" fields.
 """
 
 import sys
@@ -39,8 +39,8 @@ def create_artist_dict(name: str) -> Dict:
         "Genre": "",
         "Country": "",
         "Bio": "",
-        "My take": "",
-        "My rating": "",
+        "AI Summary": "",
+        "AI Rating": "",
         "Spotify link": "",
         "Number of People in Act": "",
         "Gender of Front Person": "",
