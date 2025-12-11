@@ -597,7 +597,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     html += f'            {next_link_footer}\n'
     
-    html += """        </div>
+    html += f"""        </div>
         
         <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em;">
             <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
