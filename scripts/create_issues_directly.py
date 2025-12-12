@@ -30,23 +30,18 @@ def parse_todo_file(todo_path: str) -> List[Tuple[str, int]]:
     
     unchecked_items = []
     in_todo_section = False
-    in_not_todo_section = False
     
     for line_num, line in enumerate(lines, start=1):
-        if line.strip() == "# To Do List":
-            in_todo_section = True
-            in_not_todo_section = False
-            continue
-        elif line.strip() == "# Not To Do":
-            in_todo_section = False
-            in_not_todo_section = True
+        # Check for section headers (any level 1 heading)
+        if line.strip().startswith('# '):
+            in_todo_section = (line.strip() == "# To Do List")
             continue
         
-        if in_todo_section and not in_not_todo_section:
-            if line.strip().startswith('- [ ]'):
-                todo_text = line.strip()[6:].strip()
-                if todo_text:
-                    unchecked_items.append((todo_text, line_num))
+        # Only process unchecked items in the "To Do List" section
+        if in_todo_section and line.strip().startswith('- [ ]'):
+            todo_text = line.strip()[6:].strip()
+            if todo_text:
+                unchecked_items.append((todo_text, line_num))
     
     return unchecked_items
 
