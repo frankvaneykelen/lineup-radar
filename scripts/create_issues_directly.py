@@ -106,15 +106,17 @@ def main():
         if result.returncode == 0:
             remote_url = result.stdout.strip()
             # Extract owner/repo from git URL using urlparse
-            if 'github.com' in remote_url:
-                # Handle both HTTPS and SSH URLs
-                if remote_url.startswith('git@'):
-                    # SSH format: git@github.com:owner/repo.git
-                    repo_name = remote_url.split('github.com:')[1].replace('.git', '')
-                else:
-                    # HTTPS format: https://github.com/owner/repo.git
-                    parsed = urlparse(remote_url)
+            # Handle both HTTPS and SSH URLs
+            if remote_url.startswith('git@github.com:'):
+                # SSH format: git@github.com:owner/repo.git
+                repo_name = remote_url.split('github.com:')[1].replace('.git', '')
+            elif remote_url.startswith('https://github.com/') or remote_url.startswith('http://github.com/'):
+                # HTTPS format: https://github.com/owner/repo.git
+                parsed = urlparse(remote_url)
+                if parsed.netloc == 'github.com':
                     repo_name = parsed.path.strip('/').replace('.git', '')
+                else:
+                    repo_name = DEFAULT_REPO
             else:
                 repo_name = DEFAULT_REPO
         else:
