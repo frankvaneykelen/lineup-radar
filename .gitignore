@@ -33,6 +33,7 @@ desktop.ini
 *.log
 .cache
 debug.log
+tmp/
 
 # Excel temporary files
 ~$*.xlsx

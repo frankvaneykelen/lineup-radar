@@ -563,6 +563,53 @@ The generated pages are mobile-responsive, include dark mode, and are ready to p
 3. Set source to "main" branch, "/docs" folder
 4. Your festival data will be published at <https://frankvaneykelen.github.io/lineup-radar/>
 
+### Managing TODO Items as GitHub Issues
+
+The project maintains a TODO list in `documentation/TODO.md` with planned improvements and features. You can convert unchecked TODO items into GitHub issues using the provided scripts:
+
+#### Option 1: Using the GitHub Actions Workflow (Recommended)
+
+1. Go to the repository's **Actions** tab on GitHub
+2. Select the **"Create Issues from TODO"** workflow
+3. Click **"Run workflow"** button
+4. The workflow will automatically create GitHub issues for all unchecked TODO items
+
+#### Option 2: Using the Shell Script Locally
+
+```powershell
+# Activate virtual environment first
+.venv\Scripts\Activate.ps1
+
+# Generate the shell script and other export formats
+python scripts/export_todo_as_issues.py
+
+# Run the generated shell script to create issues
+# (requires gh CLI authenticated)
+bash tmp/create_issues.sh
+```
+
+#### Option 3: Manual Issue Creation
+
+```powershell
+# Generate export files (shell script, markdown, CSV)
+python scripts/export_todo_as_issues.py
+
+# Review the generated files in tmp/ directory:
+# - tmp/create_issues.sh - Bash script with gh CLI commands
+# - tmp/issues_to_create.md - Formatted issue descriptions for copy-paste
+# - tmp/issues.csv - CSV format for bulk import tools
+```
+
+**What these scripts do:**
+
+- Parse `documentation/TODO.md` and extract all unchecked items (only from the "To Do List" section)
+- Create GitHub issues with the TODO text as the title
+- Include the original TODO text and source location in the issue body
+- Automatically label issues with `enhancement` and `from-todo` labels
+- Skip items in the "Not To Do" section
+
+**Note:** All generated files are created in the `tmp/` directory which is excluded from version control via `.gitignore`.
+
 ## Data Sources
 
 - **Down The Rabbit Hole**: <https://downtherabbithole.nl/programma> (Dutch)
