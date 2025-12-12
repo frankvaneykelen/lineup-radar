@@ -110,6 +110,17 @@ FESTIVALS = {
         'spotify_playlist': 'https://open.spotify.com/playlist/2ClqlT8FIHuwI0oxUKHqTl?si=ECVe6VbETtqi-V4v3lDniQ',
         'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/3aKy6IEpXtiyZzqaBQ0j16?si=e17fc38a617e4741',
     },
+    'alkmaarse-eigenste': {
+        'name': 'Alkmaarse Eigenste',
+        'base_url': 'https://alkmaarseigenste.nl',
+        'lineup_url': 'https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/',
+        'artist_path': '',  # No individual artist pages
+        'bio_language': 'Dutch',
+        'rating_boost': 1.0,  # Local discovery festival
+        'description': 'A single-day discovery festival in Alkmaar showcasing local and emerging artists.',
+        'custom_scraper': True,  # Requires custom scraping logic
+        'scraper_type': 'podium-victorie-venue',  # Use Podium Victorie venue scraper
+    },
     # Add more festivals here as needed
     # 'lowlands': {
     #     'name': 'Lowlands',

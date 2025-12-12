@@ -39,6 +39,11 @@ Write-Host ""
 # Define festival configurations
 $allFestivals = @(
     [PSCustomObject]@{
+        Name = "Alkmaarse Eigenste"
+        Slug = "alkmaarse-eigenste"
+        Year = 2026
+    },
+    [PSCustomObject]@{
         Name = "Down The Rabbit Hole"
         Slug = "down-the-rabbit-hole"
         Year = 2026

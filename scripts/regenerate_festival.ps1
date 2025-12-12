@@ -24,7 +24,7 @@
 
 param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet('best-kept-secret', 'down-the-rabbit-hole', 'pinkpop', 'rock-werchter', 'footprints')]
+    [ValidateSet('alkmaarse-eigenste', 'best-kept-secret', 'down-the-rabbit-hole', 'pinkpop', 'rock-werchter', 'footprints')]
     [string]$Festival,
     
     [int]$Year = 2026
@@ -39,6 +39,7 @@ $env:PYTHONIOENCODING = "utf-8"
 
 # Festival name mapping
 $festivalNames = @{
+    'alkmaarse-eigenste' = 'Alkmaarse Eigenste'
     'best-kept-secret' = 'Best Kept Secret'
     'down-the-rabbit-hole' = 'Down The Rabbit Hole'
     'pinkpop' = 'Pinkpop'

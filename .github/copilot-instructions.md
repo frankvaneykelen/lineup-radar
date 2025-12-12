@@ -20,3 +20,10 @@
 - Follow consistent formatting
 - Use descriptive variable and function names
 - Add comments for complex logic
+
+## New Scripts
+
+- Always document new scripts in README.md
+- Include usage examples with command-line arguments
+- Explain when to use each script and what it does
+- Add to the appropriate section (Setup, Workflow, or Helpers)

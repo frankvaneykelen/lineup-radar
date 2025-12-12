@@ -622,6 +622,14 @@ def main():
     
     print(f"\n=== Generating HTML for {config.name} {args.year} ===\n")
     generate_html(csv_file, args.output, config)
+    
+    # Generate README for the festival
+    try:
+        from generate_festival_readme import generate_readme
+        generate_readme(config.slug, args.year)
+    except Exception as e:
+        print(f"⚠️  Could not generate README: {e}")
+    
     print("\n✓ HTML generation complete!")
     print(f"\nTo preview locally, open: {args.output}/{config.slug}/{args.year}/index.html")
     print("To publish via GitHub Pages:")

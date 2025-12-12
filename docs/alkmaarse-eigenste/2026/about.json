@@ -1,0 +1,47 @@
+{
+  "festival": "alkmaarse-eigenste",
+  "name": "Alkmaarse Eigenste",
+  "year": 2026,
+  "generated_at": "2025-12-12T01:26:36.716585+00:00",
+  "config_properties": {
+    "name": "Alkmaarse Eigenste",
+    "year": 2026,
+    "base_url": "https://alkmaarseigenste.nl",
+    "lineup_url": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/",
+    "artist_path": "",
+    "slug": "alkmaarse-eigenste",
+    "bio_language": "Dutch",
+    "rating_boost": 1.0,
+    "description": "A single-day discovery festival in Alkmaar showcasing local and emerging artists.",
+    "official_spotify_playlist": "",
+    "spotify_playlist_id": ""
+  },
+  "stats": {
+    "total_artists": 25,
+    "genre_counts": {
+      "blues rock, garage rock, swampy roots influences": 1
+    },
+    "dj_count": 0,
+    "country_counts": {
+      "Netherlands": 2,
+      "The Netherlands": 1
+    },
+    "gender_counts": {
+      "Female": 2,
+      "male": 1,
+      "Unknown": 22
+    },
+    "poc_counts": {
+      "No": 3,
+      "Unknown": 22
+    },
+    "average_rating": null,
+    "rating_counts": {
+      "Unrated": 25
+    },
+    "has_spotify_links": 0,
+    "year": 2026
+  },
+  "previous_year_comparison": {},
+  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Local Talent and Eclectic Sounds**\n\nAlkmaarse Eigenste 2026 brings together 25 artists for a unique showcase of musical creativity, with a focus on niche genres like blues rock, garage rock, and swampy roots influences. While the festival features a smaller lineup, this highlights its dedication to quality over quantity, offering a platform for artists to connect with an intimate audience. Notably, the event has no DJs, emphasizing live performances and raw, unfiltered talent.\n\nThe festival demonstrates a strong connection to its roots, with three artists hailing from the Netherlands. However, the overall diversity in terms of gender and representation remains limited, with only two female artists and three confirmed performers of non-POC background. These statistics underscore an opportunity for the festival to broaden its inclusivity in future editions, while still showcasing its existing talent pool.\n\nThough none of the artists have Spotify links or ratings available, the lack of mainstream metrics suggests that Alkmaarse Eigenste 2026 is designed to celebrate under-the-radar acts and emerging talent. This creates a space for discovery, where audiences can embrace fresh sounds and authentic performances in a welcoming and intimate setting."
+}

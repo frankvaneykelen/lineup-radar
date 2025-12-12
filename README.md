@@ -36,6 +36,7 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
   - **Genre**: Musical genre
   - **Country**: Country of origin
   - **Bio**: Brief artist biography
+  - **Website**: Official artist/band website
   - **AI Summary**: AI-generated critical assessment and notes
   - **AI Rating**: AI-generated rating (scale: 1-10)
   - **Spotify link**: Link to artist's Spotify profile
@@ -157,7 +158,29 @@ Your AI-generated notes (AI Summary, AI Rating) are never overwritten during upd
 
 #### Step 2: Enriching Artist Data
 
-After scraping new artists, you can enrich their data with AI:
+After scraping new artists, you can enrich their data either manually or with AI:
+
+**Manual enrichment (for local/emerging acts or when you have specific info):**
+
+```powershell
+# Interactive prompt-based enrichment
+python scripts/manual_enrich_artists.py --festival alkmaarse-eigenste --year 2026
+
+# Or enrich a specific artist
+python scripts/manual_enrich_artists.py --festival alkmaarse-eigenste --year 2026 --artist "Marigold"
+```
+
+The script will interactively prompt you for:
+
+- Genre
+- Country (defaults to Netherlands on Enter)
+- Bio (single or multi-line)
+- Spotify link
+- Gender of Front Person (1=Male, 2=Female, 3=Non-Binary, 4=Band)
+- Front Person of Color (y/n)
+- Image (URL to download or local file path to copy)
+
+Press Enter to skip any field. Progress is saved after each artist, so you can stop and resume anytime.
 
 **AI-powered enrichment:**
 

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alkmaarse Eigenste 2026 Lineup - Frank's LineupRadar</title>
+    <meta name="description" content="Browse the complete Alkmaarse Eigenste 2026 lineup with artist ratings, genres, and bios. Discover hidden gems and plan your perfect festival schedule.">
+    <meta name="keywords" content="Alkmaarse Eigenste, 2026 lineup, festival artists, music discovery, artist ratings, Alkmaarse Eigenste 2026">
+    <meta name="author" content="Frank van Eykelen">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <link rel="stylesheet" href="overrides.css">
+</head>
+<body>
+    <!-- Rotate device message for mobile portrait -->
+    <div class="rotate-message">
+        <div class="rotate-content">
+            <i class="bi bi-phone-landscape" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <p>For the best experience, please rotate your device to landscape mode</p>
+        </div>
+    </div>
+    
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="../../index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+<div class="festival-section">Down The Rabbit Hole 2026</div>
+<div class="festival-links"><a href="../../down-the-rabbit-hole/2026/index.html">Lineup</a> | <a href="../../down-the-rabbit-hole/2026/about.html">About</a></div>
+<div class="festival-section">Pinkpop 2026</div>
+<div class="festival-links"><a href="../../pinkpop/2026/index.html">Lineup</a> | <a href="../../pinkpop/2026/about.html">About</a></div>
+<div class="festival-section">Rock Werchter 2026</div>
+<div class="festival-links"><a href="../../rock-werchter/2026/index.html">Lineup</a> | <a href="../../rock-werchter/2026/about.html">About</a></div>
+<div class="festival-section">Footprints 2026</div>
+<div class="festival-links"><a href="../../footprints/2026/index.html">Lineup</a> | <a href="../../footprints/2026/about.html">About</a></div>
+<div class="festival-section">Best Kept Secret 2026</div>
+<div class="festival-links"><a href="../../best-kept-secret/2026/index.html">Lineup</a> | <a href="../../best-kept-secret/2026/about.html">About</a></div>
+<div class="festival-section">General</div>
+<a href="../../charts.html" class="festival-year">
+<i class="bi bi-bar-chart-fill"></i> Charts
+</a>
+<a href="../../faq.html" class="festival-year">
+<i class="bi bi-question-circle"></i> FAQ
+</a>
+                </div>
+            </div>
+            <div class="page-header-content">
+                <h1>Alkmaarse Eigenste 2026 Lineup</h1>
+                <p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">A single-day discovery festival in Alkmaar showcasing local and emerging artists.</p>
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
+                    Last updated: December 12, 2025 01:25 UTC
+                     | <a href="https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>
+                    
+                    
+                </p>
+            </div>
+        </header>
+        
+        <div class="controls">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <input type="text" id="searchBox" class="search-box" placeholder="Search artists, genres, countries..." style="flex: 1; margin: 0;">
+                <div style="margin-left: 15px; color: #666; font-size: 14px; white-space: nowrap;">
+                    Showing <strong><span id="visibleCountTop">25</span></strong> of <strong>25</strong> artists
+                </div>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="genreFilter">Filter by Genre</label>
+                    <select id="genreFilter">
+                        <option value="">All Genres</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="countryFilter">Filter by Country</label>
+                    <select id="countryFilter">
+                        <option value="">All Countries</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="ratingFilter">Filter by Rating</label>
+                    <select id="ratingFilter">
+                        <option value="">All Ratings</option>
+                        <option value="9">9+ (Excellent)</option>
+                        <option value="8">8+ (Very Good)</option>
+                        <option value="7">7+ (Good)</option>
+                        <option value="6">6+ (Above Average)</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label style="margin-bottom: 8px; display: block;">Gender of Front Person</label>
+                    <div class="checkbox-group" id="genderFilters">
+                        <label><input type="checkbox" value="Male" checked> ♂️ Male</label>
+                        <label><input type="checkbox" value="Female" checked> ♀️ Female</label>
+                        <label><input type="checkbox" value="Mixed" checked> ⚤ Mixed</label>
+                        <label><input type="checkbox" value="Non-binary" checked> ⚧️ Non-binary</label>
+                        <label><input type="checkbox" value="Unknown" checked> ❓ Unknown</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label style="margin-bottom: 8px; display: block;">Front Person of Color?</label>
+                    <div class="checkbox-group" id="pocFilters">
+                        <label><input type="checkbox" value="Yes" checked> Yes</label>
+                        <label><input type="checkbox" value="No" checked> No</label>
+                        <label><input type="checkbox" value="Unknown" checked> ❓ Unknown</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="artistTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="Artist">Artist</th>
+                        <th class="sortable" data-column="Genre">Genre</th>
+                        <th class="sortable" data-column="Country">Country</th>
+                        <th data-column="Bio">Bio</th>
+                        <th data-column="AI Summary">AI Summary</th>
+                        <th class="sortable" data-column="AI Rating">Rating</th>
+                        <th class="sortable" data-column="Number of People in Act">Size</th>
+                        <th class="sortable" data-column="Gender of Front Person" title="Gender of Front Person">⚧️</th>
+                        <th class="sortable" data-column="Front Person of Color?" title="Front Person of Color?">🌍</th>
+                    </tr>
+                </thead>
+                <tbody id="artistTableBody">
+                    <tr data-index="0">
+                        <td class="artist-cell-clickable artist-cell-with-bg" onclick="window.location.href='artists/3-point-landing.html'" style="background-image: url('artists/3-point-landing/3PL_2024_ChrisDekker_ZW_03_lowres.jpg');">
+                            <strong>3 Point Landing</strong>
+                        </td>
+                        <td></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">The Netherlands</span></td>
+                        <td class="bio" title="3 Point Landing is a band from Alkmaar, The Netherlands, known for their energetic performances and engaging music. They have achieved recognition through contests like the Rob Acda Award and Popmania band contest, and have performed alongside notable acts such as YUNGBLUD.">3 Point Landing is a band from Alkmaar, The Netherlands, known for their energetic performances and engaging music. They have achieved recognition through contests like the Rob Acda Award and Popmania band contest, and have performed alongside notable acts such as YUNGBLUD.</td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td>3</td>
+                        <td title="Female">♀️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="1">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/black-operator.html'">
+                            <strong>Black Operator</strong>
+                        </td>
+                        <td><span class="badge rounded-pill bg-info text-dark me-1">blues rock, garage rock, swampy roots influences</span></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Netherlands</span></td>
+                        <td class="bio" title="Black Operator is a music act known for their energetic single 'Revolution' and their debut album, both available on streaming platforms. They actively engage with fans through their music videos and social media presence.">Black Operator is a music act known for their energetic single &#39;Revolution&#39; and their debut album, both available on streaming platforms. They actively engage with fans through their music videos and social media presence.</td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td>5</td>
+                        <td title="male">male</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="2">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/carmen-de-kooning.html'">
+                            <strong>Carmen de Kooning</strong>
+                        </td>
+                        <td></td>
+                        <td><span class="badge rounded-pill bg-primary me-1">Netherlands</span></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td>1</td>
+                        <td title="Female">♀️</td>
+                        <td title="Front Person of Color: No"></td>
+                    </tr>
+                    <tr data-index="3">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/carousel.html'">
+                            <strong>Carousel</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="4">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/days-of-sway.html'">
+                            <strong>Days of Sway</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="5">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/dear-john.html'">
+                            <strong>Dear John</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="6">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/dentro.html'">
+                            <strong>Dentro</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="7">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/dressup-dolls.html'">
+                            <strong>Dressup Dolls</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="8">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/efvy.html'">
+                            <strong>Efvy</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="9">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/emily-wareing-band.html'">
+                            <strong>Emily Wareing &amp; Band</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="10">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/eurydice.html'">
+                            <strong>Eurydice</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="11">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/grey-van-leeuwen.html'">
+                            <strong>Grey van Leeuwen</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="12">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/jill-van-der-meer.html'">
+                            <strong>Jill van der Meer</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="13">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/julia.html'">
+                            <strong>JULIA</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="14">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/krappe-sokken.html'">
+                            <strong>Krappe Sokken</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="15">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/liquid-desert.html'">
+                            <strong>Liquid Desert</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="16">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/loud-wednesdays.html'">
+                            <strong>Loud Wednesdays</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="17">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/magnoliac.html'">
+                            <strong>Magnoliac</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="18">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/marigold.html'">
+                            <strong>Marigold</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="19">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/mia-chauvin.html'">
+                            <strong>Mia Chauvin</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="20">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/orchestre-partout.html'">
+                            <strong>Orchestre Partout</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="21">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/selma-peelen.html'">
+                            <strong>Selma Peelen</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="22">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/strak-plan.html'">
+                            <strong>Strak Plan</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="23">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/tease.html'">
+                            <strong>TEASE</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                    <tr data-index="24">
+                        <td class="artist-cell-clickable" onclick="window.location.href='artists/wildfires.html'">
+                            <strong>Wildfires</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="bio" title=""></td>
+                        <td class="take"></td>
+                        <td></td>
+                        <td></td>
+                        <td title=""></td>
+                        <td title="Front Person of Color: "></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="stats">
+            <p>Showing <strong><span id="visibleCount">25</span></strong> of <strong>25</strong> artists</p>
+        </div>
+    </div>
+    
+    <script>
+        const artistsData = [{"Artist": "3 Point Landing", "Genre": "", "Country": "The Netherlands", "Bio": "3 Point Landing is a band from Alkmaar, The Netherlands, known for their energetic performances and engaging music. They have achieved recognition through contests like the Rob Acda Award and Popmania band contest, and have performed alongside notable acts such as YUNGBLUD.", "Website": "https://www.3pointlanding.com/", "AI Summary": "", "AI Rating": "", "Spotify": "https://open.spotify.com/artist/2w200YDG354RK2rOxMXnw2", "Number of People in Act": "3", "Gender of Front Person": "Female", "Front Person of Color?": "No", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Black Operator", "Genre": "blues rock, garage rock, swampy roots influences", "Country": "Netherlands", "Bio": "Black Operator is a music act known for their energetic single 'Revolution' and their debut album, both available on streaming platforms. They actively engage with fans through their music videos and social media presence.", "Website": "https://www.blackoperator.nl/", "AI Summary": "", "AI Rating": "", "Spotify": "https://open.spotify.com/artist/4xSTSubyxwrIM7yCGi0n4R", "Number of People in Act": "5", "Gender of Front Person": "male", "Front Person of Color?": "No", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": "Yes"}, {"Artist": "Carmen de Kooning", "Genre": "", "Country": "Netherlands", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "1", "Gender of Front Person": "Female", "Front Person of Color?": "No", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Carousel", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Days of Sway", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Dear John", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Dentro", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Dressup Dolls", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Efvy", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Emily Wareing & Band", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Eurydice", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Grey van Leeuwen", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Jill van der Meer", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "JULIA", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Krappe Sokken", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Liquid Desert", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Loud Wednesdays", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Magnoliac", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Marigold", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Mia Chauvin", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Orchestre Partout", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Selma Peelen", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Strak Plan", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "TEASE", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}, {"Artist": "Wildfires", "Genre": "", "Country": "", "Bio": "", "Website": "", "AI Summary": "", "AI Rating": "", "Spotify": "", "Number of People in Act": "", "Gender of Front Person": "", "Front Person of Color?": "", "Cancelled": "", "Festival URL": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/", "Festival Bio (NL)": "", "Festival Bio (EN)": "", "Social Links": "", "Images Scraped": ""}];
+        let currentSort = { column: null, direction: 'asc' };
+        
+        // Populate filter dropdowns with counts
+        // Count genres (split by / to handle multiple genres per artist)
+        const genreCounts = {};
+        artistsData.forEach(a => {
+            if (a.Genre) {
+                a.Genre.split('/').forEach(g => {
+                    const genre = g.trim();
+                    genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+                });
+            }
+        });
+        const genres = Object.keys(genreCounts).sort();
+        
+        // Count countries (split by / to handle multiple countries per artist)
+        const countryCounts = {};
+        artistsData.forEach(a => {
+            if (a.Country) {
+                a.Country.split('/').forEach(c => {
+                    const country = c.trim();
+                    countryCounts[country] = (countryCounts[country] || 0) + 1;
+                });
+            }
+        });
+        const countries = Object.keys(countryCounts).sort();
+        
+        const genreSelect = document.getElementById('genreFilter');
+        genres.forEach(genre => {
+            const option = document.createElement('option');
+            option.value = genre;
+            option.textContent = `${genre} (${genreCounts[genre]})`;
+            genreSelect.appendChild(option);
+        });
+        
+        const countrySelect = document.getElementById('countryFilter');
+        countries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = `${country} (${countryCounts[country]})`;
+            countrySelect.appendChild(option);
+        });
+        
+        // Count ratings
+        const ratingCounts = { '10': 0, '9': 0, '8': 0, '7': 0, '6': 0, '5': 0, '4': 0, '3': 0, '2': 0, '1': 0 };
+        artistsData.forEach(a => {
+            const rating = parseFloat(a['AI Rating']);
+            if (rating === 10) ratingCounts['10']++;
+            if (rating >= 9) ratingCounts['9']++;
+            if (rating >= 8) ratingCounts['8']++;
+            if (rating >= 7) ratingCounts['7']++;
+            if (rating >= 6) ratingCounts['6']++;
+            if (rating >= 5) ratingCounts['5']++;
+            if (rating >= 4) ratingCounts['4']++;
+            if (rating >= 3) ratingCounts['3']++;
+            if (rating >= 2) ratingCounts['2']++;
+            if (rating >= 1) ratingCounts['1']++;
+        });
+        
+        // Update rating filter options with counts
+        const ratingSelect = document.getElementById('ratingFilter');
+        ratingSelect.innerHTML = `
+            <option value="">All Ratings</option>
+            <option value="10">10 (Legendary) (${ratingCounts['10']})</option>
+            <option value="9">9+ (Must-See) (${ratingCounts['9']})</option>
+            <option value="8">8+ (Excellent) (${ratingCounts['8']})</option>
+            <option value="7">7+ (Very Good) (${ratingCounts['7']})</option>
+            <option value="6">6+ (Good) (${ratingCounts['6']})</option>
+            <option value="5">5+ (Average) (${ratingCounts['5']})</option>
+            <option value="4">4+ (Developing) (${ratingCounts['4']})</option>
+            <option value="3">3+ (Below Average) (${ratingCounts['3']})</option>
+            <option value="2">2+ (Poor) (${ratingCounts['2']})</option>
+            <option value="1">1+ (All) (${ratingCounts['1']})</option>
+        `;
+        
+        // Count genders and POC (treat empty as Unknown)
+        const genderCounts = {};
+        const pocCounts = {};
+        artistsData.forEach(a => {
+            const gender = a['Gender of Front Person'] || 'Unknown';
+            const poc = a['Front Person of Color?'] || 'Unknown';
+            genderCounts[gender] = (genderCounts[gender] || 0) + 1;
+            pocCounts[poc] = (pocCounts[poc] || 0) + 1;
+        });
+        
+        // Update gender checkboxes with counts
+        document.querySelectorAll('#genderFilters label').forEach(label => {
+            const input = label.querySelector('input');
+            const value = input.value;
+            const count = genderCounts[value] || 0;
+            const icon = label.textContent.split(' ')[0]; // Get emoji
+            label.innerHTML = `${input.outerHTML} ${icon} ${value} (${count})`;
+        });
+        
+        // Update POC checkboxes with counts
+        document.querySelectorAll('#pocFilters label').forEach(label => {
+            const input = label.querySelector('input');
+            const value = input.value;
+            const count = pocCounts[value] || 0;
+            const icon = label.textContent.split(' ')[0]; // Get emoji
+            label.innerHTML = `${input.outerHTML} ${icon} ${value} (${count})`;
+        });
+        
+        // Search and filter functionality
+        function filterTable() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const genreFilter = document.getElementById('genreFilter').value;
+            const countryFilter = document.getElementById('countryFilter').value;
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            
+            // Get checked genders and POC values
+            const checkedGenders = Array.from(document.querySelectorAll('#genderFilters input:checked')).map(cb => cb.value);
+            const checkedPOC = Array.from(document.querySelectorAll('#pocFilters input:checked')).map(cb => cb.value);
+            
+            const rows = document.querySelectorAll('#artistTableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const dataIndex = parseInt(row.getAttribute('data-index'));
+                const artist = artistsData[dataIndex];
+                const searchText = Object.values(artist).join(' ').toLowerCase();
+                
+                const matchesSearch = !searchTerm || searchText.includes(searchTerm);
+                const matchesGenre = !genreFilter || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).includes(genreFilter));
+                const matchesCountry = !countryFilter || (artist.Country && artist.Country.split('/').map(c => c.trim()).includes(countryFilter));
+                const matchesRating = !ratingFilter || (artist['AI Rating'] && parseFloat(artist['AI Rating']) >= parseFloat(ratingFilter));
+                const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person'] || 'Unknown');
+                const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?'] || 'Unknown');
+                
+                if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesGender && matchesPOC) {
+                    row.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+            
+            document.getElementById('visibleCount').textContent = visibleCount;
+            document.getElementById('visibleCountTop').textContent = visibleCount;
+        }
+        
+        // Sorting functionality
+        function sortTable(column) {
+            const tbody = document.getElementById('artistTableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // Create array of row-data pairs using data-index attribute
+            const rowData = rows.map(row => ({
+                row: row,
+                data: artistsData[parseInt(row.getAttribute('data-index'))]
+            }));
+            
+            // Toggle sort direction
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+            
+            // Update header styling
+            document.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            const header = document.querySelector(`th[data-column="${column}"]`);
+            header.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            
+            // Sort row-data pairs
+            rowData.sort((a, b) => {
+                const aValue = a.data[column] || '';
+                const bValue = b.data[column] || '';
+                
+                // Handle numeric sorting for rating
+                if (column === 'AI Rating' || column === 'Number of People in Act') {
+                    const aNum = parseFloat(aValue) || 0;
+                    const bNum = parseFloat(bValue) || 0;
+                    return currentSort.direction === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+                
+                // String sorting with normalization for special characters
+                const normalizeForSort = (str) => {
+                    let normalized = str.toString()
+                        .replace(/¥/g, 'Y')
+                        .replace(/Ø/g, 'O')
+                        .replace(/\$/g, 'S')
+                        .replace(/€/g, 'E')
+                        .replace(/1/g, 'I')
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, ''); // Remove diacritics
+                    
+                    // Remove leading articles for sorting (The, De, etc.)
+                    normalized = normalized.replace(/^(The|De|Le|La|Les|Los|Las|El|Il|Die|Der|Das)\s+/i, '');
+                    
+                    return normalized;
+                };
+                
+                const aNormalized = normalizeForSort(aValue);
+                const bNormalized = normalizeForSort(bValue);
+                const comparison = aNormalized.localeCompare(bNormalized);
+                return currentSort.direction === 'asc' ? comparison : -comparison;
+            });
+            
+            // Reorder DOM
+            rowData.forEach(item => tbody.appendChild(item.row));
+        }
+        
+        // Event listeners
+        document.getElementById('searchBox').addEventListener('input', filterTable);
+        document.getElementById('genreFilter').addEventListener('change', filterTable);
+        document.getElementById('countryFilter').addEventListener('change', filterTable);
+        document.getElementById('ratingFilter').addEventListener('change', filterTable);
+        
+        // Add listeners for gender and POC checkboxes
+        document.querySelectorAll('#genderFilters input, #pocFilters input').forEach(checkbox => {
+            checkbox.addEventListener('change', filterTable);
+        });
+        
+        document.querySelectorAll('th.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                sortTable(th.dataset.column);
+            });
+        });
+        
+        // Sort by Artist name on page load
+        sortTable('Artist');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
+        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+        <div>
+            <p style="margin-bottom: 15px;">
+                <strong>Content Notice:</strong> These pages combine content scraped from the 
+                <a href="https://alkmaarseigenste.nl" target="_blank" style="color: #00d9ff; text-decoration: none;">Alkmaarse Eigenste festival website</a>
+                with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
+            </p>
+            <p style="margin-bottom: 15px;">
+                <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
+                Please verify critical details on official sources.
+            </p>
+            <p style="margin-bottom: 0;">
+                Generated with ❤️ • 
+                <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <i class="bi bi-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="../../shared/script.js"></script>
+    <script src="overrides.js"></script>
+</body>
+</html>
