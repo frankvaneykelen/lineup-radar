@@ -11,6 +11,7 @@ This script parses the TODO.md file and exports unchecked items in various forma
 import os
 import csv
 import sys
+import shlex
 from typing import List, Tuple
 
 
@@ -63,14 +64,14 @@ def export_as_shell_script(items: List[Tuple[str, int]], output_path: str):
         
         for todo_text, line_num in items:
             title = todo_text if len(todo_text) <= 100 else todo_text[:97] + "..."
-            body = f"This task was imported from the TODO list.\\n\\n**Original TODO item:**\\n{todo_text}\\n\\n**Source:** `documentation/TODO.md` (line {line_num})"
+            body = f"This task was imported from the TODO list.\n\n**Original TODO item:**\n{todo_text}\n\n**Source:** `documentation/TODO.md` (line {line_num})"
             
-            # Escape single quotes for shell
-            title_escaped = title.replace("'", "'\"'\"'")
-            body_escaped = body.replace("'", "'\"'\"'")
+            # Use shlex.quote for safe shell escaping
+            title_escaped = shlex.quote(title)
+            body_escaped = shlex.quote(body)
             
             f.write(f"echo 'Creating: {title[:50]}...'\n")
-            f.write(f"gh issue create --title '{title_escaped}' --body '{body_escaped}' --label 'enhancement,from-todo'\n\n")
+            f.write(f"gh issue create --title {title_escaped} --body {body_escaped} --label 'enhancement,from-todo'\n\n")
     
     print(f"✓ Shell script created: {output_path}")
     print(f"  Run with: bash {output_path}")

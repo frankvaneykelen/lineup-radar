@@ -10,6 +10,7 @@ import os
 import sys
 import subprocess
 from typing import List, Tuple, Optional
+from urllib.parse import urlparse
 
 # Configuration
 DEFAULT_REPO = "frankvaneykelen/lineup-radar"
@@ -109,9 +110,16 @@ def main():
         )
         if result.returncode == 0:
             remote_url = result.stdout.strip()
-            # Extract owner/repo from git URL (works with both HTTPS and SSH)
+            # Extract owner/repo from git URL using urlparse
             if 'github.com' in remote_url:
-                repo_name = remote_url.split('github.com')[1].strip('/:').replace('.git', '')
+                # Handle both HTTPS and SSH URLs
+                if remote_url.startswith('git@'):
+                    # SSH format: git@github.com:owner/repo.git
+                    repo_name = remote_url.split('github.com:')[1].replace('.git', '')
+                else:
+                    # HTTPS format: https://github.com/owner/repo.git
+                    parsed = urlparse(remote_url)
+                    repo_name = parsed.path.strip('/').replace('.git', '')
             else:
                 repo_name = DEFAULT_REPO
         else:
