@@ -6,7 +6,7 @@
 | Gizmo Varillas |  | Yacht-Rocky, boring or just super slick?  |
 | Hamraaz | 7 | Mournful lute and duduk. Instrumental. Seriously folk / classical |
 | Islandman | 8 | Instrumental with vocal samples, more Exotica than Anatolian Psychedelica |
-| Keshavara | 8 | Downtempo, dubby, male vocals |
+| Keshavara | 8 | Downtempo, dubby, male vocals, K&D Sessions |
 | NIJI | 7 | Instrumental, jazzy, combo with busy drummer, brass and lead piano, downtempo acid-jazz |
 | Sessa  | 7 | Laidback brazilian music with male vocals |
 | SO SORRY |  |  |
