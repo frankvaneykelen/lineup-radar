@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 from typing import List
 from itertools import groupby
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Add parent directory to sys.path to import festival_helpers
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -28,7 +28,13 @@ def find_festival_lineups(docs_dir: Path) -> List[dict]:
                     if (year_dir / "index.html").exists():
                         # Try to find the corresponding CSV file
                         csv_file = year_dir / f"{year_dir.name}.csv"
-                        csv_mtime = csv_file.stat().st_mtime if csv_file.exists() else None
+                        csv_mtime = None
+                        try:
+                            if csv_file.exists():
+                                csv_mtime = csv_file.stat().st_mtime
+                        except OSError:
+                            # Handle permission issues or file access errors
+                            pass
                         
                         lineups.append({
                             'festival': festival_dir.name,
@@ -119,7 +125,6 @@ def generate_archive_index(docs_dir: Path):
     # Get the most recent CSV modification time from all lineups
     csv_mtimes = [l['csv_mtime'] for l in lineups if l.get('csv_mtime') is not None]
     if csv_mtimes:
-        from datetime import timezone
         most_recent_csv_mtime = max(csv_mtimes)
         most_recent_csv_datetime = datetime.fromtimestamp(most_recent_csv_mtime, tz=timezone.utc)
         timestamp = most_recent_csv_datetime.strftime("%B %d, %Y %H:%M UTC")
