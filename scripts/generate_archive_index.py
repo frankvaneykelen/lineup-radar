@@ -26,10 +26,15 @@ def find_festival_lineups(docs_dir: Path) -> List[dict]:
             for year_dir in festival_dir.iterdir():
                 if year_dir.is_dir() and year_dir.name.isdigit():
                     if (year_dir / "index.html").exists():
+                        # Try to find the corresponding CSV file
+                        csv_file = year_dir / f"{year_dir.name}.csv"
+                        csv_mtime = csv_file.stat().st_mtime if csv_file.exists() else None
+                        
                         lineups.append({
                             'festival': festival_dir.name,
                             'year': year_dir.name,
-                            'path': f"{festival_dir.name}/{year_dir.name}/index.html"
+                            'path': f"{festival_dir.name}/{year_dir.name}/index.html",
+                            'csv_mtime': csv_mtime
                         })
     
     # Sort by year (most recent first), then by festival name
@@ -111,9 +116,17 @@ def generate_archive_index(docs_dir: Path):
                         <div class="year-list">
 """
     
-    # Get current timestamp
-    now = datetime.now()
-    timestamp = now.strftime("%B %d, %Y at %I:%M %p")
+    # Get the most recent CSV modification time from all lineups
+    csv_mtimes = [l['csv_mtime'] for l in lineups if l.get('csv_mtime') is not None]
+    if csv_mtimes:
+        from datetime import timezone
+        most_recent_csv_mtime = max(csv_mtimes)
+        most_recent_csv_datetime = datetime.fromtimestamp(most_recent_csv_mtime, tz=timezone.utc)
+        timestamp = most_recent_csv_datetime.strftime("%B %d, %Y %H:%M UTC")
+    else:
+        # Fallback to current time if no CSV files found
+        now = datetime.now()
+        timestamp = now.strftime("%B %d, %Y at %I:%M %p")
     
     # Group lineups by year for better organization
     from itertools import groupby
