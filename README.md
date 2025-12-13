@@ -435,6 +435,7 @@ scripts\regenerate_all.bat
 .venv\Scripts\Activate.ps1
 
 # Update only the Spotify playlist for a festival (requires credentials in .keys.txt)
+python scripts/generate_spotify_playlists.py --festival alkmaarse-eigenste --year 2026
 python scripts/generate_spotify_playlists.py --festival down-the-rabbit-hole --year 2026
 python scripts/generate_spotify_playlists.py --festival pinkpop --year 2026
 python scripts/generate_spotify_playlists.py --festival rock-werchter --year 2026
@@ -494,6 +495,7 @@ You can generate or update Spotify playlists for each festival. This creates cur
 
 ```powershell
 # Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
+python scripts/generate_spotify_playlists.py --festival alkmaarse-eigenste --year 2026
 python scripts/generate_spotify_playlists.py --festival down-the-rabbit-hole --year 2026
 python scripts/generate_spotify_playlists.py --festival pinkpop --year 2026
 python scripts/generate_spotify_playlists.py --festival rock-werchter --year 2026

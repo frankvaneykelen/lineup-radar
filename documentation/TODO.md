@@ -34,12 +34,12 @@
 - [ ] reorder artist page: maybe 3 columns: Image | AI columns | Festival columns 
 - [ ] add Day, Start Time, End Time, Stage columns to all other festival CSVs (currently only in Best Kept Secret)
 - [x] consolidate festival-specific scraper scripts into single universal scraper (scrape_festival.py)
-- [ ] add Day, Start Time, End Time, Stage columns to all other festival CSVs (currently only in Best Kept Secret)
 - [ ] many artists have no Links, maybe the scraping logic can be improved to find more links?
 - [ ] the spotify link is also in the "Social Links", so that's redundant, maybe remove it from there?
 - [ ] it looks like the Spotify artist links are missing from the festival index pages.
 - [ ] add a link to download the CSV file on each festival's index.html page, maybe in the footer?
-
+- [ ] change the updated timestamp on the festival index page to show when the CSV was last updated, not when the HTML was generated
+- [ ] put festival_helpers in scripts/ as well, and adjust sys.path accordingly. maybe rename it too?
 # Not To Do
 
 - [ ] add pagination to the main lineup page if there are many artists

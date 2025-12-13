@@ -370,10 +370,7 @@ Write-Progress -Activity "Regenerating Festival Pages" -Status "Complete" -Compl
 # Calculate duration
 $endTime = Get-Date
 $duration = $endTime - $startTime
-$hours = [math]::Floor($duration.TotalHours)
-$minutes = $duration.Minutes
-$seconds = $duration.Seconds
-$durationFormatted = "{0:D2}:{1:D2}:{2:D2}" -f $hours, $minutes, $seconds
+$durationFormatted = "{0:00}:{1:00}:{2:00}" -f [int]$duration.TotalHours, $duration.Minutes, $duration.Seconds
 
 # Print summary
 Write-Host ""

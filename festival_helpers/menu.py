@@ -3,15 +3,7 @@ Shared menu generation functions for consistent navigation across all pages.
 """
 
 from typing import Literal
-
-# Festival configurations
-FESTIVALS = [
-    {"slug": "down-the-rabbit-hole", "name": "Down The Rabbit Hole"},
-    {"slug": "pinkpop", "name": "Pinkpop"},
-    {"slug": "rock-werchter", "name": "Rock Werchter"},
-    {"slug": "footprints", "name": "Footprints"},
-    {"slug": "best-kept-secret", "name": "Best Kept Secret"},
-]
+from .config import FESTIVALS
 
 YEAR = "2026"
 
@@ -38,10 +30,15 @@ def generate_hamburger_menu(
     lines = []
     
     # Festival sections
-    for festival in FESTIVALS:
-        lines.append(f'<div class={quote}festival-section{quote}>{festival["name"]} {YEAR}</div>')
-        lineup_url = f'{path_prefix}{festival["slug"]}/{YEAR}/index.html'
-        about_url = f'{path_prefix}{festival["slug"]}/{YEAR}/about.html'
+    for slug, config in FESTIVALS.items():
+        # Skip festivals marked as hidden from navigation
+        if config.get('hide_from_navigation', False):
+            continue
+            
+        name = config.get('name', slug)
+        lines.append(f'<div class={quote}festival-section{quote}>{name} {YEAR}</div>')
+        lineup_url = f'{path_prefix}{slug}/{YEAR}/index.html'
+        about_url = f'{path_prefix}{slug}/{YEAR}/about.html'
         lines.append(
             f'<div class={quote}festival-links{quote}>'
             f'<a href={quote}{lineup_url}{quote}>Lineup</a> | '

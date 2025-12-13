@@ -65,6 +65,7 @@ The `2026.csv` file contains these columns:
 - **Genre** - Musical genre(s)
 - **Country** - Country of origin
 - **Bio** - AI-generated or general biography
+- **Website** - Official website
 - **AI Summary** - AI-generated critical assessment (preserved on updates)
 - **AI Rating** - AI-generated rating 1-10 (preserved on updates)
 - **Spotify** - Spotify artist link

@@ -38,18 +38,24 @@ def generate_festival_list_html() -> str:
     """Generate the dynamic festival list with artist counts and timestamps."""
     festival_items = []
     
-    for festival in FESTIVALS:
+    for festival_slug, festival_config in FESTIVALS.items():
+        # Skip festivals hidden from navigation
+        if festival_config.get('hide_from_navigation', False):
+            continue
+            
         # Construct CSV path
-        festival_slug = festival['name'].lower().replace(' ', '-')
         csv_path = f'docs/{festival_slug}/{YEAR}/{YEAR}.csv'
         
         # Get artist count and last modified date
         artist_count = count_artists_in_csv(csv_path)
         last_modified = get_csv_last_modified(csv_path)
         
+        # Get festival name from config
+        festival_name = festival_config.get('name', festival_slug)
+        
         # Generate HTML for this festival
         festival_items.append(
-            f'<li><strong>{festival["name"]} {YEAR}:</strong> {artist_count} artists (last updated: {last_modified})</li>'
+            f'<li><strong>{festival_name} {YEAR}:</strong> {artist_count} artists (last updated: {last_modified})</li>'
         )
     
     return '\n                        '.join(festival_items)
@@ -61,7 +67,8 @@ def generate_faq_html() -> str:
     # Get dynamic content
     menu_html = generate_hamburger_menu(path_prefix="", escaped=False)
     festival_list_html = generate_festival_list_html()
-    festival_count = len(FESTIVALS)
+    # Count only festivals not hidden from navigation
+    festival_count = sum(1 for config in FESTIVALS.values() if not config.get('hide_from_navigation', False))
     
     # Generate HTML
     html = f'''<!DOCTYPE html>
@@ -95,14 +102,14 @@ def generate_faq_html() -> str:
             <div style="width: 120px;"></div>
         </header>
 
-        <div class="container" style="padding-top: 20px;">
-            <div class="row">
-                <div class="col-12">
-                    <div style="max-width: 900px; margin: 0 auto;">
+        <div class="artist-content container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="section">
                         
                         <!-- Table of Contents -->
-                        <div style="background: #1a1a2e; border: 1px solid #00a8cc; border-radius: 8px; padding: 2rem; margin-bottom: 3rem;">
-                            <h2 style="color: #00d9ff; margin-top: 0; margin-bottom: 1.5rem; text-align: center;">Table of Contents</h2>
+                        <div style="margin-bottom: 3rem;">
+                            <h2 style="color: #00d9ff; margin-top: 0; margin-bottom: 1.5rem;">Table of Contents</h2>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                                 <div>
                                     <a href="#general" style="color: #00d9ff; text-decoration: none; font-weight: bold;">
@@ -265,7 +272,7 @@ def generate_faq_html() -> str:
                         </div>
                         
                         <!-- Back to Home -->
-                        <div style="margin-top: 3rem; margin-bottom: 3rem; text-align: center;">
+                        <div style="margin-top: 3rem; margin-bottom: 2rem; text-align: center;">
                             <a href="index.html" class="btn btn-primary btn-lg" style="font-size: 1.2em; padding: 15px 30px;">
                                 <i class="bi bi-arrow-left"></i> Back to Home
                             </a>

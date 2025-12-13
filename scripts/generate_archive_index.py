@@ -12,7 +12,7 @@ from datetime import datetime
 
 # Add parent directory to sys.path to import festival_helpers
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from festival_helpers.config import get_festival_config
+from festival_helpers.config import get_festival_config, FESTIVALS
 from festival_helpers import generate_hamburger_menu
 
 
@@ -125,6 +125,10 @@ def generate_archive_index(docs_dir: Path):
 """
         # Two-column layout for festival buttons
         for lineup in year_lineups:
+            # Skip festivals marked as hidden from navigation
+            if FESTIVALS.get(lineup['festival'], {}).get('hide_from_navigation', False):
+                continue
+                
             # Get festival config for proper name and description
             try:
                 config = get_festival_config(lineup['festival'], int(year))
