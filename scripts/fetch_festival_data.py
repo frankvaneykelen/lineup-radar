@@ -23,7 +23,7 @@ import csv
 import json
 import argparse
 from typing import Dict, List
-from helpers import (
+from festival_helpers import (
     FestivalScraper,
     get_festival_config,
     artist_name_to_slug,
@@ -133,11 +133,198 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
                 result['Social Links'] = json.dumps(social_links)
                 print(f"  ✓ Found {len(social_links)} social link(s)")
         
+        # Extract and download images
+        if html:
+            image_urls = extract_images_from_html(html, config, artist_name)
+            if image_urls:
+                print(f"  → Found {len(image_urls)} image URL(s)")
+                for url in image_urls:
+                    print(f"     {url}")
+                    
+                slug = artist_name_to_slug(artist_name)
+                # Create artist-specific image directory
+                artist_images_dir = Path(f"docs/{config.slug}/{config.year}/artists/{slug}")
+                artist_images_dir.mkdir(parents=True, exist_ok=True)
+                
+                downloaded_count = 0
+                for img_url in image_urls:
+                    filename = download_image(img_url, artist_images_dir, slug)
+                    if filename:
+                        downloaded_count += 1
+                
+                if downloaded_count > 0:
+                    result['Images Scraped'] = 'Yes'
+                    print(f"  ✓ Downloaded {downloaded_count} image(s)")
+            else:
+                print(f"  ⚠ No artist-specific images found")
+        
         return result
         
     except Exception as e:
         print(f"  ✗ Error fetching data: {e}")
         return result
+
+
+def download_image(img_url: str, output_dir: Path, artist_slug: str) -> Optional[str]:
+    """Download an image and save it locally. Returns the local filename or None if failed."""
+    try:
+        # Create a hash of the URL to generate a unique filename
+        url_hash = hashlib.md5(img_url.encode()).hexdigest()[:8]
+        
+        # Get file extension from URL
+        ext = '.png'
+        if '.jpg' in img_url.lower() or '.jpeg' in img_url.lower():
+            ext = '.jpg'
+        elif '.webp' in img_url.lower():
+            ext = '.webp'
+        
+        # Create filename: artist-slug_hash.ext
+        filename = f"{artist_slug}_{url_hash}{ext}"
+        local_path = output_dir / filename
+        
+        # Download if not already cached
+        if not local_path.exists():
+            req = urllib.request.Request(img_url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=15) as response:
+                img_data = response.read()
+            
+            with open(local_path, 'wb') as f:
+                f.write(img_data)
+        
+        # Return filename
+        return filename
+        
+    except Exception as e:
+        print(f"    ⚠️  Failed to download image: {e}")
+        return None
+
+
+def extract_images_from_html(html: str, config, artist_name: str = '') -> List[str]:
+    """Extract artist image URLs from festival page HTML."""
+    import re
+    
+    artist_images = []
+    og_image_found = False
+    
+    try:
+        # Try og:image meta tag first (Bospop, many WordPress sites) - HIGHEST PRIORITY
+        og_image_pattern = r'<meta\s+property=["\']og:image["\']\s+content=["\']([^"\']+)["\']'
+        og_images = re.findall(og_image_pattern, html)
+        
+        # Process og:image first (highest priority for Bospop)
+        for img_url in og_images:
+            img_lower = img_url.lower()
+            
+            # Check for Bospop images (WordPress uploads from bospopfestival.nl)
+            is_bospop_image = 'wp-content/uploads' in img_lower and 'bospopfestival.nl' in config.base_url.lower()
+            
+            if is_bospop_image:
+                # Skip logos, default images, and other non-artist images
+                if any(skip in img_lower for skip in ['logo', 'icon', 'brand', 'sponsor', 'default', 'placeholder']):
+                    continue
+                
+                # Skip thumbnails
+                if '/thumbs/' in img_lower or '/thumb/' in img_lower:
+                    continue
+                
+                # Skip images with generic year-only paths (likely defaults)
+                if re.search(r'/20\d{2}/[^/]*\.(jpg|png|webp)$', img_lower):
+                    continue
+                
+                if img_url not in artist_images:
+                    artist_images.append(img_url)
+                    og_image_found = True
+        
+        # If we found a good og:image, use ONLY that and skip other sources
+        if og_image_found:
+            return artist_images
+        
+        # Only continue to other sources if og:image wasn't found
+        # Try srcset (DTRH, Pinkpop)
+        srcset_pattern = r'srcset=["\']([^"\']+)["\']'
+        all_srcsets = re.findall(srcset_pattern, html)
+        
+        # Also try regular img src (Rock Werchter, Bospop)
+        img_pattern = r'<img[^>]+src=["\']([^"\']+)["\'][^>]*>'
+        all_imgs = re.findall(img_pattern, html)
+        
+        # Process srcset
+        for srcset in all_srcsets:
+            # Parse srcset - it contains multiple URLs separated by commas
+            urls = [url.strip().split()[0] for url in srcset.split(',') if url.strip()]
+            if not urls:
+                continue
+                
+            img_url = urls[-1]  # Use the largest size
+            img_lower = img_url.lower()
+            
+            # Skip thumbnails
+            if '/thumbs/' in img_lower or '/thumb/' in img_lower or 'thumbnail' in img_lower:
+                continue
+            
+            # Check for Down The Rabbit Hole images
+            is_dtrh_image = 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower)
+            
+            # Check for Pinkpop images (WordPress uploads with acts-header pattern)
+            is_pinkpop_image = 'wp-content/uploads' in img_lower and 'acts-header' in img_lower
+            
+            # Check for Bospop images (WordPress uploads from bospopfestival.nl)
+            is_bospop_image = 'wp-content/uploads' in img_lower and 'bospopfestival.nl' in config.base_url.lower()
+            
+            # Check for Rock Werchter images (cache/default_band or media/cache)
+            is_rock_werchter_image = 'cache/default_band' in img_lower or ('media/cache' in img_lower and 'rockwerchter' in img_lower)
+            
+            if is_dtrh_image or is_pinkpop_image or is_bospop_image or is_rock_werchter_image:
+                # Skip sponsor/logo images
+                if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo', 'brand', 'default', 'placeholder']):
+                    continue
+                
+                if img_url.startswith('//'):
+                    img_url = 'https:' + img_url
+                elif img_url.startswith('/'):
+                    img_url = config.base_url.rstrip('/') + img_url
+                
+                if img_url not in artist_images:
+                    artist_images.append(img_url)
+        
+        # Process regular img tags for Rock Werchter and Bospop
+        for img_url in all_imgs:
+            img_lower = img_url.lower()
+            
+            # Skip thumbnails
+            if '/thumbs/' in img_lower or '/thumb/' in img_lower or 'thumbnail' in img_lower:
+                continue
+            
+            # Check for Rock Werchter images
+            is_rock_werchter_image = ('/media/cache/default_band/upload/' in img_lower or 
+                                     'cache/default_band/upload/' in img_lower)
+            
+            # Check for Bospop images in regular img tags (WordPress uploads)
+            is_bospop_image = ('wp-content/uploads' in img_lower and 'bospopfestival.nl' in config.base_url.lower())
+            
+            if is_rock_werchter_image or is_bospop_image:
+                # Skip logos and other non-artist images
+                if any(skip in img_lower for skip in ['logo', 'icon', 'brand', 'sponsor', 'default', 'placeholder']):
+                    continue
+                
+                if img_url.startswith('//'):
+                    img_url = 'https:' + img_url
+                elif img_url.startswith('/'):
+                    img_url = config.base_url.rstrip('/') + img_url
+                
+                if img_url not in artist_images:
+                    artist_images.append(img_url)
+        
+        # Use second image if available (first is often festival logo)
+        if len(artist_images) >= 2:
+            artist_images = [artist_images[1]]
+        elif artist_images:
+            artist_images = [artist_images[0]]
+            
+    except Exception as e:
+        print(f"  ✗ Error extracting images: {e}")
+    
+    return artist_images
 
 
 def extract_social_links(html: str) -> Dict[str, str]:

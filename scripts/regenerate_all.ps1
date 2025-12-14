@@ -44,8 +44,23 @@ $allFestivals = @(
         Year = 2026
     },
     [PSCustomObject]@{
+        Name = "Best Kept Secret"
+        Slug = "best-kept-secret"
+        Year = 2026
+    },
+    [PSCustomObject]@{
+        Name = "Bospop"
+        Slug = "bospop"
+        Year = 2026
+    },
+    [PSCustomObject]@{
         Name = "Down The Rabbit Hole"
         Slug = "down-the-rabbit-hole"
+        Year = 2026
+    },
+    [PSCustomObject]@{
+        Name = "Footprints"
+        Slug = "footprints"
         Year = 2026
     },
     [PSCustomObject]@{
@@ -56,16 +71,6 @@ $allFestivals = @(
     [PSCustomObject]@{
         Name = "Rock Werchter"
         Slug = "rock-werchter"
-        Year = 2026
-    },
-    [PSCustomObject]@{
-        Name = "Footprints"
-        Slug = "footprints"
-        Year = 2026
-    },
-    [PSCustomObject]@{
-        Name = "Best Kept Secret"
-        Slug = "best-kept-secret"
         Year = 2026
     }
 )
