@@ -68,10 +68,10 @@ def generate_html(csv_file, output_dir, config):
     <meta name="description" content="Browse the complete {config.name} {year} lineup with artist ratings, genres, and bios. Discover hidden gems and plan your perfect festival schedule.">
     <meta name="keywords" content="{config.name}, {year} lineup, festival artists, music discovery, artist ratings, {config.name} {year}">
     <meta name="author" content="Frank van Eykelen">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../../images/favicon_16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon_32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="../../../images/favicon_48x48.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../../../images/favicon_180x180.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../shared/favicon_16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../shared/favicon_32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../../shared/favicon_48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../shared/favicon_180x180.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../shared/styles.css">
     <link rel="stylesheet" href="overrides.css">
@@ -279,11 +279,11 @@ def generate_html(csv_file, output_dir, config):
             else:
                 # No artist photos, use default logo
                 artist_cell_class = 'artist-cell-clickable artist-cell-with-bg'
-                artist_cell_style = f' style="background-image: url(\'../../../images/lineup-radar-logo.png\');"'
+                artist_cell_style = f' style="background-image: url(\'../../shared/lineup-radar-logo.png\');"'
         else:
             # Artist directory doesn't exist, use default logo
             artist_cell_class = 'artist-cell-clickable artist-cell-with-bg'
-            artist_cell_style = f' style="background-image: url(\'../../../images/lineup-radar-logo.png\');"'
+            artist_cell_style = f' style="background-image: url(\'../../shared/lineup-radar-logo.png\');"'
         
         html_content += f"""                    <tr data-index="{idx}">
                         <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'"{artist_cell_style}>

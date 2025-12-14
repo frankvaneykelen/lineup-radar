@@ -77,10 +77,10 @@ def generate_faq_html() -> str:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - Frank's LineupRadar</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon_16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="images/favicon_48x48.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_180x180.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="shared/favicon_16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="shared/favicon_32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="shared/favicon_48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="shared/favicon_180x180.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="shared/styles.css">
@@ -153,7 +153,7 @@ def generate_faq_html() -> str:
                         
                         <div class="faq-item" style="margin-bottom: 2rem;">
                             <h3 style="color: #00a8cc; font-size: 1.2em; margin-bottom: 0.5rem;">Which festivals are currently tracked?</h3>
-                            <p>We currently track {festival_count} major European festivals:</p>
+                            <p>We currently track {festival_count} festivals, both major and local:</p>
                             <ul>
                                 {festival_list_html}
                             </ul>
