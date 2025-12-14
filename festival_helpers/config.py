@@ -121,6 +121,7 @@ FESTIVALS = {
         'custom_scraper': True,  # Requires custom scraping logic
         'scraper_type': 'podium-victorie-venue',  # Use Podium Victorie venue scraper
         'hide_from_navigation': False,  # Hide from main navigation, for example because it's data is not complete yet
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/7CJ68OA5DWvF2p1Q0HrBOl',
     },
     # Add more festivals here as needed
     # 'lowlands': {
