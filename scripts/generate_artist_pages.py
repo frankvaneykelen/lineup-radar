@@ -259,8 +259,8 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     genre = artist.get('Genre', '').strip()
     country = artist.get('Country', '').strip()
     bio = artist.get('Bio', '').strip()
-    my_take = artist.get('AI Summary', '').strip()
-    my_rating = artist.get('AI Rating', '').strip()
+    ai_summary = artist.get('AI Summary', '').strip()
+    ai_rating = artist.get('AI Rating', '').strip()
     spotify_link = artist.get('Spotify link', '').strip()
     num_people = artist.get('Number of People in Act', '').strip()
     gender = artist.get('Gender of Front Person', '').strip()
@@ -284,7 +284,8 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         'Mixed': '⚤',
         'Non-binary': '⚧️'
     }
-    gender_display = gender_emoji_map.get(gender, gender)
+    gender_emoji = gender_emoji_map.get(gender, '')
+    gender_display = f"{gender_emoji} {gender}" if gender_emoji else gender
     
     # Generate previous/next links for header (with data attributes for keyboard navigation)
     if prev_artist:
@@ -326,6 +327,10 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     <meta name="description" content="{escape_html(meta_description)}">
     <meta name="keywords" content="{escape_html(meta_keywords)}">
     <meta name="author" content="Frank van Eykelen">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../images/favicon_16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../images/favicon_32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../../../../images/favicon_48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/favicon_180x180.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../shared/styles.css">
     <link rel="stylesheet" href="../overrides.css">
@@ -370,10 +375,10 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         
         <div class="artist-content container-fluid">
             <div class="row g-4">
-                <div class="col-auto left-column" style="width: 670px;">
+                <div class="col-auto image-column" style="width: 450px;">
 """
     
-    # LEFT COLUMN: Hero Image/Carousel, Background, AI Summary
+    # IMAGE COLUMN: Hero Image/Carousel only
     
     # Hero Image Section or Carousel
     if images:
@@ -414,49 +419,63 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     </button>
                 </div>
 """
-    
-    # AI-generated Bio Section
-    if bio:
-        html += f"""                <div class="section">
-                    <h2>Background</h2>
-                    <div class="background-text">
-                        <p>{escape_html(bio)}</p>
-                    </div>
-                </div>
-"""
     else:
-        html += """                <div class="section">
-                    <h2>Background</h2>
-                    <div class="background-text" style="color: #999; font-style: italic;">
-                        <p>No information about this artist was found to generate a background.</p>
-                    </div>
-                </div>
-"""
-    
-    # AI Summary Section
-    if my_take:
-        html += f"""                <div class="section">
-                    <h2>AI Summary</h2>
-                    <div class="my-take">
-                        <p>{escape_html(my_take)}</p>
-                    </div>
-                </div>
-"""
-    else:
-        html += """                <div class="section">
-                    <h2>AI Summary</h2>
-                    <div class="my-take" style="color: #999; font-style: italic;">
-                        <p>No information about this artist was found to generate an appraisal.</p>
-                    </div>
+        # No images - show default logo
+        html += f"""                <div class="hero-image">
+                    <img src="../../../../images/lineup-radar-logo.png" alt="LineupRadar Logo" loading="lazy">
                 </div>
 """
     
     html += """                </div>
                 
-                <div class="col right-column">
+                <div class="col ai-column">
 """
     
-    # RIGHT COLUMN: Festival Bio, Rating, Details, Links
+    # AI COLUMN: Bio, AI Summary, AI Rating
+    
+    # AI-generated Bio Section
+    if bio:
+        html += f"""                <div class="section">
+                    <h2>Bio</h2>
+                    <p>{escape_html(bio)}</p>
+                </div>
+"""
+    else:
+        html += f"""                <div class="section">
+                    <h2>Bio</h2>
+                    <p>There is no information about this artist yet. If you can supply this information, please 
+                        <a href="https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Info:%20{urllib.parse.quote(artist_name)}" target="_blank" style="color: #00a8cc;">create an issue on the repo</a> with the following information:</p>
+                    <ul>
+                        <li>Bio/background information</li>
+                        <li>Official website</li>
+                        <li>Spotify artist link</li>
+                        <li>Genre(s)</li>
+                    </ul>
+                </div>
+"""
+    
+    # AI Rating Section
+    if ai_rating:
+        html += f"""                <div class="section">
+                    <h2>AI Rating</h2>
+                    <span class="badge bg-gradient fs-4 px-4 py-2 my-rating">{escape_html(ai_rating)}</span>
+                </div>
+"""
+    
+    # AI Summary Section
+    if ai_summary:
+        html += f"""                <div class="section">
+                    <h2>AI Summary</h2>
+                    <p>{escape_html(ai_summary)}</p>
+                </div>
+"""
+    
+    html += """                </div>
+                
+                <div class="col festival-column">
+"""
+    
+    # FESTIVAL COLUMN: Festival Bio, Details, Links
     
     # English Translation of Festival Bio (primary)
     if festival_bio_en:
@@ -487,23 +506,10 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <p>{escape_html(festival_bio)}</p>
                 </div>
 """
-    else:
+    
+    # Info Grid - only show if there's data to display
+    if num_people or gender or poc:
         html += """                <div class="section">
-                    <h2>About (from Festival)</h2>
-                    <p style="color: #999; font-style: italic;">No information on this artist was found on the festival website.</p>
-                </div>
-"""
-    
-    # Rating Section
-    if my_rating:
-        html += f"""                <div class="section">
-                    <h2>AI Rating</h2>
-                    <span class="badge bg-gradient fs-4 px-4 py-2 my-rating">{escape_html(my_rating)}</span>
-                </div>
-"""
-    
-    # Info Grid
-    html += """                <div class="section">
                     <h2>Details</h2>
                     <div class="row g-3">
 """
@@ -524,7 +530,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                             <div class="card border-info">
                                 <div class="card-body">
                                     <h6 class="card-subtitle mb-2 text-muted">Front Person Gender</h6>
-                                    <p class="card-text fs-5">{gender_display} {escape_html(gender)}</p>
+                                    <p class="card-text fs-5">{escape_html(gender_display)}</p>
                                 </div>
                             </div>
                         </div>
@@ -541,7 +547,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                         </div>
 """
     
-    html += """                    </div>
+        html += """                    </div>
                 </div>
 """
     
@@ -555,14 +561,14 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     html += f'                        <a href="{escape_html(festival_url)}" target="_blank" class="btn btn-info"><i class="bi bi-globe"></i> Festival Page</a>\n'
     
     # Then Spotify from CSV if available
-    if spotify_link:
+    if spotify_link and spotify_link != "NOT ON SPOTIFY":
         html += f'                        <a href="{escape_html(spotify_link)}" target="_blank" class="btn btn-success"><i class="bi bi-spotify"></i> Listen on Spotify</a>\n'
     
     # Add social links from festival website
     for link in social_links:
         link_lower = link.lower()
-        # Skip Spotify links if we already have one from CSV
-        if 'spotify.com' in link_lower and spotify_link:
+        # Skip Spotify links - they're already shown separately above
+        if 'spotify.com' in link_lower:
             continue
         if 'instagram.com' in link_lower:
             html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-instagram"></i> Instagram</a>\n'

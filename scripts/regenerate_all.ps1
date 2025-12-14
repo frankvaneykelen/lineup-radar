@@ -7,20 +7,20 @@
     for all configured festivals and years. It runs generate_html.py followed by 
     generate_artist_pages.py for each festival/year combination.
 
-.PARAMETER SkipPlaylists
-    Skip Spotify playlist generation
+.PARAMETER IncludePlaylists
+    Include Spotify playlist generation (skipped by default)
 
 .EXAMPLE
     .\regenerate_all.ps1
-    Regenerates all pages for all festivals.
+    Regenerates all pages for all festivals (skips playlists).
 
 .EXAMPLE
-    .\regenerate_all.ps1 -SkipPlaylists
-    Regenerates all pages but skips Spotify playlist generation.
+    .\regenerate_all.ps1 -IncludePlaylists
+    Regenerates all pages and includes Spotify playlist generation.
 #>
 
 param(
-    [switch]$SkipPlaylists
+    [switch]$IncludePlaylists
 )
 
 # Set error action preference
@@ -72,11 +72,11 @@ $allFestivals = @(
 
 $festivalsToProcess = $allFestivals
 
-# Load Spotify credentials from .keys.txt (unless skipping playlists)
+# Load Spotify credentials from .keys.txt (only if including playlists)
 $spotifyClientId = ""
 $spotifyClientSecret = ""
 
-if (-not $SkipPlaylists) {
+if ($IncludePlaylists) {
     Write-Host "Loading Spotify credentials..." -ForegroundColor Gray
 
     if (Test-Path ".keys.txt") {
@@ -106,14 +106,14 @@ if (-not $SkipPlaylists) {
         Write-Host "⚠ .keys.txt not found - playlist generation will be skipped" -ForegroundColor Yellow
     }
 } else {
-    Write-Host "⊘ Skipping Spotify playlist generation (--SkipPlaylists flag)" -ForegroundColor DarkGray
+    Write-Host "⊘ Skipping Spotify playlist generation (default - use -IncludePlaylists to enable)" -ForegroundColor DarkGray
 }
 
 Write-Host ""
 
 # Track success/failure and calculate operations
 $totalFestivals = $festivalsToProcess.Count
-$operationsPerFestival = if ($SkipPlaylists) { 3 } else { 4 }  # Each festival: lineup + about + artist pages (+ playlist if not skipping)
+$operationsPerFestival = if ($IncludePlaylists) { 4 } else { 3 }  # Each festival: lineup + about + artist pages (+ playlist if including)
 $totalOperations = ($totalFestivals * $operationsPerFestival) + 3  # Plus homepage + charts + FAQ
 $currentOperation = 0
 $successCount = 0
@@ -200,8 +200,8 @@ foreach ($festival in $festivalsToProcess) {
             $failureCount++
         }
         
-        # Generate/update Spotify playlist if not skipped and credentials are available
-        if (-not $SkipPlaylists) {
+        # Generate/update Spotify playlist if included and credentials are available
+        if ($IncludePlaylists) {
             # Update progress for Spotify playlist
             $currentOperation++
             $percentComplete = [int](($currentOperation / $totalOperations) * 100)
@@ -236,7 +236,7 @@ foreach ($festival in $festivalsToProcess) {
                 $successCount++
             }
         } else {
-            Write-Host "⊘ Skipping Spotify playlist (--SkipPlaylists flag)" -ForegroundColor DarkGray
+            Write-Host "⊘ Skipping Spotify playlist (default - use -IncludePlaylists to enable)" -ForegroundColor DarkGray
             Write-Host "✓ Successfully processed all content for $festivalName $year" -ForegroundColor Green
         }
     }
@@ -379,7 +379,7 @@ Write-Host "  Regeneration Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-$operationsLabel = if ($SkipPlaylists) { "lineup + about + artist pages each" } else { "lineup + about + artist pages + playlist each" }
+$operationsLabel = if ($IncludePlaylists) { "lineup + about + artist pages + playlist each" } else { "lineup + about + artist pages each" }
 Write-Host "Festivals processed: $totalFestivals ($operationsLabel)" -ForegroundColor White
 Write-Host "Additional pages: Homepage, Charts, FAQ" -ForegroundColor White
 Write-Host "Total operations: $(($totalFestivals * $operationsPerFestival) + 3)" -ForegroundColor White

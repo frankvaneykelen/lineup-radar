@@ -120,7 +120,7 @@ FESTIVALS = {
         'description': 'A single-day discovery festival in Alkmaar showcasing local and emerging artists.',
         'custom_scraper': True,  # Requires custom scraping logic
         'scraper_type': 'podium-victorie-venue',  # Use Podium Victorie venue scraper
-        'hide_from_navigation': True,  # Hide from main navigation, for example because it's data is not complete yet
+        'hide_from_navigation': False,  # Hide from main navigation, for example because it's data is not complete yet
     },
     # Add more festivals here as needed
     # 'lowlands': {

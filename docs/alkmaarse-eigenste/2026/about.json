@@ -2,7 +2,7 @@
   "festival": "alkmaarse-eigenste",
   "name": "Alkmaarse Eigenste",
   "year": 2026,
-  "generated_at": "2025-12-14T00:39:01.760790+00:00",
+  "generated_at": "2025-12-14T19:40:06.912750+00:00",
   "config_properties": {
     "name": "Alkmaarse Eigenste",
     "year": 2026,
@@ -19,42 +19,77 @@
   "stats": {
     "total_artists": 25,
     "genre_counts": {
-      "Alternative, Synthesizer Rock, Electronic Pop, Indie Grunge": 1,
-      "blues rock, garage rock, swampy roots influences": 1,
-      "Indie Pop": 1,
-      "soul, blues, rock, pop, indie": 1,
-      "Folk-Pop, Soul, Americana": 1,
-      "alternative rock, indie rock, pop": 1,
-      "rock": 1,
-      "Genre-overstijgend (multi-genre)": 1,
-      "Indie": 1,
-      "Alternative Pop": 1,
-      "rock, progressive rock, alternative rock": 1
+      "alternative": 6,
+      "rock": 4,
+      "alternative pop": 3,
+      "indie pop": 2,
+      "soul": 2,
+      "pop": 2,
+      "indie": 2,
+      "alternative rock": 2,
+      "indie rock": 2,
+      "indie folk": 2,
+      "dream pop": 2,
+      "dance pop": 2,
+      "synthesizer rock": 1,
+      "electronic pop": 1,
+      "indie grunge": 1,
+      "blues rock": 1,
+      "garage rock": 1,
+      "swampy roots influences": 1,
+      "blues": 1,
+      "folk-pop": 1,
+      "americana": 1,
+      "loop station": 1,
+      "multi-genre": 1,
+      "progressive rock": 1,
+      "singer-songwriter": 1,
+      "ambient pop": 1,
+      "pop rock": 1,
+      "grunge": 1,
+      "folkpop": 1,
+      "shoegaze": 1,
+      "post-punk": 1,
+      "ambient": 1,
+      "world music": 1,
+      "folk": 1,
+      "traditional": 1,
+      "jazz": 1,
+      "fusion": 1,
+      "improvisational music": 1,
+      "alt-pop-noir": 1,
+      "art pop": 1,
+      "dark folk": 1,
+      "gothic": 1,
+      "punk-influenced": 1,
+      "reggae": 1,
+      "ska": 1,
+      "nederpop": 1,
+      "classic rock": 1
     },
     "dj_count": 0,
     "country_counts": {
-      "Netherlands": 10,
-      "The Netherlands": 1
+      "Netherlands": 25
     },
     "gender_counts": {
-      "Female": 4,
-      "male": 1,
-      "Unknown": 16,
-      "Male": 2,
-      "1": 1,
-      "Band": 1
+      "Female": 7,
+      "Male": 9,
+      "Unknown": 5,
+      "Band": 4
     },
     "poc_counts": {
-      "No": 9,
-      "Unknown": 16
+      "No": 19,
+      "Unknown": 5,
+      "Yes": 1
     },
-    "average_rating": null,
+    "average_rating": 10.0,
     "rating_counts": {
-      "Unrated": 25
+      "9-10": 1,
+      "Unrated": 24
     },
-    "has_spotify_links": 0,
+    "has_spotify_links": 25,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Eclectic Sounds**  \n\nAlkmaarse Eigenste 2026 promises a vibrant showcase of musical diversity, featuring 25 artists spanning genres as varied as indie pop, blues rock, folk-pop, and electronic pop. With a clear emphasis on eclecticism, the festival highlights genre-blending acts such as those combining soul, blues, and Americana or merging progressive and alternative rock. This multi-genre approach ensures that there’s something for everyone, with a shared thread of innovation and creativity uniting the lineup.\n\nThe festival continues to champion local talent, with 11 of its acts hailing from the Netherlands, highlighting the richness of the Dutch music scene. However, while the festival embraces a wide range of musical styles, gender representation remains imbalanced, with only four female artists identified and a significant portion of performers listed as \"unknown\" in terms of gender. Similarly, while nine acts are confirmed as not featuring people of color, the diversity of the remaining lineup remains uncertain.\n\nNotably, none of the artists have been rated or linked to Spotify at this stage, suggesting a potential focus on emerging and grassroots talent. While this fosters a sense of discovery, it also presents an opportunity for the festival to better highlight the backgrounds and stories of its artists. Alkmaarse Eigenste 2026 is set to be a melting pot of sounds and styles, celebrating the unconventional and the unique, while leaving room for growth in representation and accessibility."
+  "ai_profile": "**Festival Profile: Alkmaarse Eigenste 2026**\n\nAlkmaarse Eigenste 2026 brings together a vibrant lineup of 25 artists exclusively from the Netherlands, showcasing the rich and diverse musical landscape of the country. With a strong focus on alternative and indie genres, the festival features an eclectic mix of styles, including alternative rock, indie pop, dream pop, and soul, alongside unique sounds like swampy roots influences, alt-pop-noir, and loop station performances. This year’s lineup reflects a celebration of both traditional and contemporary Dutch music, with all artists providing Spotify links for fans to explore their work.\n\nDiversity plays a key role in shaping the festival’s identity. The lineup includes a balance of male (9), female (7), and band (4) acts, with some artists’ gender identities not explicitly stated, adding to the festival’s inclusive atmosphere. While representation of people of color remains limited with only one confirmed artist, there’s room for growth in fostering greater inclusivity in future editions. The festival’s commitment to showcasing a wide spectrum of genres—from reggae and ska to jazz and post-punk—highlights its dedication to celebrating the many voices within Dutch music.\n\nHighly anticipated by fans, Alkmaarse Eigenste 2026 has already earned an average rating of 10.0, with one artist rated in the 9-10 range and others yet to be reviewed. With its genre-spanning lineup and a focus on homegrown talent, the festival promises to be a dynamic and unforgettable celebration of creativity, individuality, and the unique sound of the Netherlands."
 }

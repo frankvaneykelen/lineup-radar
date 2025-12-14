@@ -39,6 +39,12 @@ python scripts/fetch_festival_data.py --festival {slug} --year {year} --artist "
 
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival {slug} --year {year}
+
+# Manually enrich artist data interactively (prompts for missing fields)
+python scripts/manual_enrich_artists.py --festival {slug} --year {year}
+
+# Manually enrich a specific artist
+python scripts/manual_enrich_artists.py --festival {slug} --year {year} --artist "Artist Name"
 ```
 
 ### HTML Generation
@@ -57,11 +63,18 @@ python scripts/generate_about.py --festival {slug} --year {year}
 python scripts/generate_about.py --festival {slug} --year {year} --ai
 ```
 
+### Spotify Playlists
+
+```powershell
+# Generate Spotify playlists for the festival
+python scripts/generate_spotify_playlists.py --festival {slug} --year {year}
+```
+
 ### Full Regeneration
 
 ```powershell
-# Regenerate all HTML files (lineup, about, artist pages)
-.\\scripts\\regenerate_all.ps1
+# Regenerate all HTML files for this festival (lineup, about, artist pages)
+.\\scripts\\regenerate_festival.ps1 -Festival {slug} -Year {year}
 ```
 
 ## Files in This Directory
