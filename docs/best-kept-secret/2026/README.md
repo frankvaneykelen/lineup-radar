@@ -22,6 +22,12 @@ python scripts/fetch_festival_data.py --festival best-kept-secret --year 2026 --
 
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival best-kept-secret --year 2026
+
+# Manually enrich artist data interactively (prompts for missing fields)
+python scripts/manual_enrich_artists.py --festival best-kept-secret --year 2026
+
+# Manually enrich a specific artist
+python scripts/manual_enrich_artists.py --festival best-kept-secret --year 2026 --artist "Artist Name"
 ```
 
 ### HTML Generation
@@ -40,11 +46,18 @@ python scripts/generate_about.py --festival best-kept-secret --year 2026
 python scripts/generate_about.py --festival best-kept-secret --year 2026 --ai
 ```
 
+### Spotify Playlists
+
+```powershell
+# Generate Spotify playlists for the festival
+python scripts/generate_spotify_playlists.py --festival best-kept-secret --year 2026
+```
+
 ### Full Regeneration
 
 ```powershell
-# Regenerate all HTML files (lineup, about, artist pages)
-.\scripts\regenerate_all.ps1
+# Regenerate all HTML files for this festival (lineup, about, artist pages)
+.\scripts\regenerate_festival.ps1 -Festival best-kept-secret -Year 2026
 ```
 
 ## Files in This Directory
@@ -71,7 +84,7 @@ The `2026.csv` file contains these columns:
 - **Country** - Country of origin
 - **Bio** - AI-generated or general biography
 - **Website** - Official website
-- **Spotify** - Spotify artist link
+- **Spotify link** - Spotify artist link
 - **YouTube** - YouTube channel
 - **Instagram** - Instagram profile
 - **Photo URL** - Artist photo URL from festival

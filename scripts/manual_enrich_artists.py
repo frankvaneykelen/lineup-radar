@@ -255,7 +255,7 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
             confirm = get_input(f"Genre: {ai_data['genre']} (press Enter to accept, or type different)", default="accept")
             artist_data['Genre'] = ai_data['genre'] if confirm == "accept" else confirm
         else:
-            artist_data['Genre'] = get_input("Genre (e.g., Indie Rock, Pop, Electronic)")
+            artist_data['Genre'] = get_input("Genre (lowercase, use / to separate multiple genres, e.g., indie rock/pop/electronic)")
         if artist_data['Genre']:
             save_progress()
     
@@ -304,7 +304,7 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
             save_progress()
     
     if not artist_data.get('Spotify'):
-        artist_data['Spotify'] = get_input("Spotify link (full URL or just the artist ID)")
+        artist_data['Spotify link'] = get_input("Spotify link (full URL or just the artist ID)")
         if artist_data['Spotify']:
             save_progress()
     
@@ -366,7 +366,9 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
             if mark_scraped.lower() == 'y':
                 artist_data['Images Scraped'] = 'Yes'
                 save_progress()
-        else:
+        
+        # If not marked as scraped, offer Spotify or manual input
+        if not artist_data.get('Images Scraped') or artist_data['Images Scraped'] != 'Yes':
             # Try to get image from Spotify first
             spotify_image_url = None
             if artist_data.get('Spotify'):

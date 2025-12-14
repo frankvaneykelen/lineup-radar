@@ -406,8 +406,10 @@ def load_festival_artists(festival: str, year: int) -> List[Dict]:
         reader = csv.DictReader(f)
         
         for row in reader:
-            artist_name = row.get('Artist', '').strip()
-            spotify_link = row.get('Spotify', '').strip()
+            artist_name = row.get('Artist', '') or ''
+            artist_name = artist_name.strip()
+            spotify_link = row.get('Spotify', '') or ''
+            spotify_link = spotify_link.strip()
             
             if not spotify_link:
                 print(f"\n⚠️  No Spotify link found for '{artist_name}'")
