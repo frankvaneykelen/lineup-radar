@@ -2,7 +2,10 @@
 Tests for festival_helpers/slug.py
 """
 import pytest
-from festival_helpers.slug import artist_name_to_slug, get_sort_name
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+from helpers.slug import artist_name_to_slug, get_sort_name
 
 
 class TestArtistNameToSlug:

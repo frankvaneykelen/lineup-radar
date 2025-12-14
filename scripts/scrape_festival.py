@@ -13,7 +13,8 @@ import sys
 from pathlib import Path
 
 # Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
 import csv
 import json
@@ -21,7 +22,7 @@ import argparse
 import requests
 from bs4 import BeautifulSoup
 from typing import Dict, List, Optional
-from festival_helpers.config import get_festival_config, FESTIVALS
+from helpers.config import get_festival_config, FESTIVALS
 
 
 class UniversalFestivalScraper:
@@ -250,7 +251,7 @@ class UniversalFestivalScraper:
     def _scrape_generic(self) -> List[Dict]:
         """Generic scraper for standard festival pages."""
         # This would use the existing FestivalScraper from festival_helpers
-        from festival_helpers.scraper import FestivalScraper
+        from helpers.scraper import FestivalScraper
         
         print(f"\nUsing generic scraper for {self.config.name}")
         scraper = FestivalScraper(self.config)

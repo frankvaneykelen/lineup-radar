@@ -7,10 +7,10 @@ import sys
 from pathlib import Path
 
 # Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# helpers module is in the same directory
 
 import csv
-from festival_helpers import translate_text
+from helpers import translate_text
 
 def translate_bios(csv_file: str, festival: str):
     """Translate Festival Bio (NL) to Festival Bio (EN)."""

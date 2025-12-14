@@ -10,9 +10,9 @@ from pathlib import Path
 
 # Add parent directory to path for imports
 import sys
-sys.path.append(str(Path(__file__).parent.parent.parent))
+# helpers module is in the same directory
 
-from festival_helpers.menu import FESTIVALS, YEAR, generate_hamburger_menu
+from helpers.menu import FESTIVALS, YEAR, generate_hamburger_menu
 
 
 def count_artists_in_csv(csv_path: str) -> int:

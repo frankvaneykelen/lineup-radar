@@ -2,7 +2,10 @@
 Tests for festival_helpers/config.py
 """
 import pytest
-from festival_helpers.config import FestivalConfig, get_festival_config, FESTIVALS
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+from helpers.config import FestivalConfig, get_festival_config, FESTIVALS
 
 
 class TestFestivalConfig:

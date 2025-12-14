@@ -10,9 +10,9 @@ import sys
 from pathlib import Path
 
 # Add parent directory to path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# helpers module is in the same directory
 
-from festival_helpers import get_festival_config
+from helpers import get_festival_config
 
 
 def migrate_csv(csv_path):
@@ -108,7 +108,7 @@ def main():
     args = parser.parse_args()
     
     # Get list of festivals to process
-    from festival_helpers.config import FESTIVALS
+    from helpers.config import FESTIVALS
     
     if args.festival:
         festivals = [args.festival]

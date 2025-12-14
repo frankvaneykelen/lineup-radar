@@ -17,12 +17,13 @@ from pathlib import Path
 from typing import List, Dict, Optional, Set
 
 # Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent))
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-from festival_helpers.config import get_festival_config
+from helpers.config import get_festival_config
 
 
 def format_retry_time(error_message: str) -> str:
