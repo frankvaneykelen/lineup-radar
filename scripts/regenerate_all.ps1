@@ -64,6 +64,11 @@ $allFestivals = @(
         Year = 2026
     },
     [PSCustomObject]@{
+        Name = "Grauzone Festival"
+        Slug = "grauzone"
+        Year = 2026
+    },
+    [PSCustomObject]@{
         Name = "Pinkpop"
         Slug = "pinkpop"
         Year = 2026

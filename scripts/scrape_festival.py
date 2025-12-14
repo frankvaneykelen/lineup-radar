@@ -23,6 +23,26 @@ import requests
 from bs4 import BeautifulSoup
 from typing import Dict, List, Optional
 from helpers.config import get_festival_config, FESTIVALS
+from helpers.slug import artist_name_to_slug
+
+
+def download_image(url: str, save_path: Path) -> bool:
+    """Download an image from a URL to a local file."""
+    try:
+        response = requests.get(url, timeout=15, headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        })
+        response.raise_for_status()
+        
+        # Create parent directory if needed
+        save_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        with open(save_path, 'wb') as f:
+            f.write(response.content)
+        return True
+    except Exception as e:
+        print(f"  ❌ Error downloading image: {e}")
+        return False
 
 
 class UniversalFestivalScraper:
@@ -91,7 +111,6 @@ class UniversalFestivalScraper:
                     'Spotify': '',
                     'YouTube': '',
                     'Instagram': '',
-                    'Photo URL': '',
                     'Cancelled': '',
                     'Festival URL': '',
                     'Festival Bio (NL)': '',
@@ -150,7 +169,7 @@ class UniversalFestivalScraper:
                 'Artist': artist_name,
                 'Tagline': tagline,
                 'Day': day,
-                'Photo URL': photo_url,
+                '_image_url': photo_url,
                 'Festival URL': full_url,
                 'Start Time': '',
                 'End Time': '',
@@ -220,7 +239,6 @@ class UniversalFestivalScraper:
                                 'Spotify': '',
                                 'YouTube': '',
                                 'Instagram': '',
-                                'Photo URL': '',
                                 'AI Summary': '',
                                 'AI Rating': '',
                                 'Number of People in Act': '',
@@ -263,6 +281,7 @@ class UniversalFestivalScraper:
             artists.append({
                 'Artist': artist.get('name', ''),
                 'Festival URL': artist.get('url', ''),
+                '_image_url': artist.get('image_url', ''),
                 'Tagline': '',
                 'Day': '',
                 'Start Time': '',
@@ -275,7 +294,6 @@ class UniversalFestivalScraper:
                 'Spotify': '',
                 'YouTube': '',
                 'Instagram': '',
-                'Photo URL': '',
                 'AI Summary': '',
                 'AI Rating': '',
                 'Number of People in Act': '',
@@ -290,6 +308,56 @@ class UniversalFestivalScraper:
         
         return artists
     
+    def download_images(self, artists: List[Dict]) -> List[Dict]:
+        """Download images from image URLs to artist folders."""
+        print("\nDownloading artist images...")
+        downloaded_count = 0
+        
+        for artist in artists:
+            photo_url = artist.get('_image_url', '')
+            if not photo_url:
+                continue
+            
+            artist_name = artist.get('Artist', '')
+            if not artist_name:
+                continue
+            
+            # Generate slug for artist
+            slug = artist_name_to_slug(artist_name)
+            
+            # Determine file extension from URL
+            ext = '.jpg'
+            if photo_url.lower().endswith('.png'):
+                ext = '.png'
+            elif photo_url.lower().endswith('.webp'):
+                ext = '.webp'
+            elif photo_url.lower().endswith('.jpeg'):
+                ext = '.jpeg'
+            
+            # Create artist directory and image path
+            artist_dir = Path(f"docs/{self.festival_slug}/{self.year}/artists/{slug}")
+            image_path = artist_dir / f"{slug}_1{ext}"
+            
+            # Check if image already exists
+            if image_path.exists():
+                # Mark as scraped even if it already exists
+                artist['Images Scraped'] = 'Yes'
+                continue
+            
+            # Download the image
+            print(f"  Downloading {artist_name}...")
+            if download_image(photo_url, image_path):
+                downloaded_count += 1
+                # Update CSV to mark images as scraped
+                artist['Images Scraped'] = 'Yes'
+        
+        if downloaded_count > 0:
+            print(f"✓ Downloaded {downloaded_count} images")
+        else:
+            print("  No new images to download")
+        
+        return artists
+    
     def write_csv(self, artists: List[Dict]):
         """Write artists to CSV file."""
         output_dir = Path(self.config.output_dir)
@@ -300,7 +368,7 @@ class UniversalFestivalScraper:
         fieldnames = [
             'Artist', 'Tagline', 'Day', 'Start Time', 'End Time', 'Stage',
             'Genre', 'Country', 'Bio', 'Website', 
-            'Spotify', 'YouTube', 'Instagram', 'Photo URL',
+            'Spotify', 'YouTube', 'Instagram',
             'AI Summary', 'AI Rating', 
             'Number of People in Act', 'Gender of Front Person', 'Front Person of Color?',
             'Cancelled', 'Festival URL', 'Festival Bio (NL)', 'Festival Bio (EN)', 
@@ -354,6 +422,9 @@ def main():
             return 1
         
         print(f"\n✓ Found {len(artists)} artists total")
+        
+        # Download images if Photo URLs are available
+        artists = scraper.download_images(artists)
         
         output_path = scraper.write_csv(artists)
         

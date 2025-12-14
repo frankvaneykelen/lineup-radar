@@ -5,6 +5,7 @@ This page serves as the landing page linking to all yearly lineups.
 """
 
 import sys
+import json
 from pathlib import Path
 from typing import List
 from itertools import groupby
@@ -37,15 +38,34 @@ def find_festival_lineups(docs_dir: Path) -> List[dict]:
                             # Handle permission issues or file access errors
                             pass
                         
+                        # Try to read start_date from about.json
+                        start_date = None
+                        about_json = year_dir / "about.json"
+                        try:
+                            if about_json.exists():
+                                with open(about_json, 'r', encoding='utf-8') as f:
+                                    about_data = json.load(f)
+                                    start_date = about_data.get('start_date')
+                        except (OSError, json.JSONDecodeError):
+                            pass
+                        
                         lineups.append({
                             'festival': festival_dir.name,
                             'year': year_dir.name,
                             'path': f"{festival_dir.name}/{year_dir.name}/index.html",
-                            'csv_mtime': csv_mtime
+                            'csv_mtime': csv_mtime,
+                            'start_date': start_date
                         })
     
-    # Sort by year (most recent first), then by festival name
-    return sorted(lineups, key=lambda x: (x['year'], x['festival']), reverse=True)
+    # Sort by start_date (festivals with no date go last), then by festival name
+    # Use a tuple for sorting: (year, date_or_large_value, festival_name)
+    def sort_key(lineup):
+        year = lineup['year']
+        # If no start_date, use 9999-12-31 to sort it last within its year
+        date = lineup['start_date'] if lineup['start_date'] else '9999-12-31'
+        return (year, date, lineup['festival'])
+    
+    return sorted(lineups, key=sort_key)
 
 
 def generate_archive_index(docs_dir: Path):

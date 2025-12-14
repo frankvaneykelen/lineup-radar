@@ -132,6 +132,17 @@ FESTIVALS = {
         'description': 'A classic rock and pop festival in Weert, Netherlands, held annually since 1981.',
         'scraper_type': 'bospop',  # Use Bospop specific scraper
     },
+    'grauzone': {
+        'name': 'Grauzone Festival',
+        'base_url': 'https://www.grauzonefestival.nl',
+        'lineup_url': 'https://www.grauzonefestival.nl/',
+        'artist_path': '/',
+        'bio_language': 'English',
+        'description': 'A post-punk and darkwave festival in The Hague, Netherlands, featuring underground and alternative artists.',
+        'scraper_type': 'grauzone',  # Use Grauzone specific scraper
+        'spotify_playlist': 'https://open.spotify.com/playlist/5HDW8Kl7CJZq0arcPxJMNM',
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/186HHxcUHwTVNw9BxKcJDA',
+    },
     # Add more festivals here as needed
     # 'lowlands': {
     #     'name': 'Lowlands',

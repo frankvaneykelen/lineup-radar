@@ -452,10 +452,101 @@ class FestivalScraper:
         
         return []
     
+    def _scrape_grauzone_lineup(self, soup: BeautifulSoup) -> List[dict]:
+        """Scrape Grauzone Festival Squarespace layout."""
+        artists = []
+        seen_names = set()
+        
+        # Find all artist name elements in image titles
+        image_titles = soup.find_all('div', class_='image-title sqs-dynamic-text')
+        
+        for title_div in image_titles:
+            p_tag = title_div.find('p')
+            if not p_tag:
+                continue
+            
+            raw_name = p_tag.get_text(strip=True)
+            if not raw_name:
+                continue
+            
+            # Clean up the artist name
+            # Remove country codes like (US), (UK), etc.
+            clean_name = re.sub(r'\s*\([A-Z/]+\)\s*$', '', raw_name)
+            
+            # Handle special cases
+            if clean_name.startswith('DJ:'):
+                clean_name = clean_name.replace('DJ:', 'DJ', 1).strip()
+            elif clean_name.startswith("DJ'S:"):
+                clean_name = clean_name.replace("DJ'S:", '', 1).strip()
+            
+            # Remove HTML entities
+            clean_name = clean_name.replace('&amp;', '&')
+            clean_name = re.sub(r'<[^>]+>', '', clean_name)  # Remove any HTML tags
+            
+            # Fix spacing issues (e.g., "AVISHAG<strong> </strong>C" -> "AVISHAG C")
+            clean_name = re.sub(r'<strong>\s*</strong>', ' ', clean_name)
+            clean_name = re.sub(r'\s+', ' ', clean_name)  # Collapse multiple spaces
+            
+            # Convert to title case, but preserve special formatting
+            if clean_name.startswith('DJ '):
+                # Keep DJ prefix, title case the rest
+                clean_name = 'DJ ' + clean_name[3:].title()
+            else:
+                clean_name = clean_name.title()
+                # Fix common acronyms and special names
+                clean_name = clean_name.replace("'S", "'s")
+                clean_name = clean_name.replace("B2B", "B2B")  # Keep uppercase
+            
+            # Skip duplicates and navigation items
+            if clean_name in seen_names:
+                continue
+            if clean_name.lower() in ['faq', 'donate', 'tickets', 'line up', 'news', 'info', 'calendar', 'shop', 'policy', 'graukunst']:
+                continue
+            
+            seen_names.add(clean_name)
+            
+            # Try to find a link to an artist page and image URL
+            # Structure: div.image-title → figcaption → figure → a.image-inset
+            artist_url = None
+            image_url = None
+            try:
+                figcaption = title_div.find_parent('figcaption')
+                if figcaption:
+                    figure = figcaption.find_parent('figure')
+                    if figure:
+                        # Look for <a> tag with class 'image-inset' (or 'sqs-block-image-link')
+                        link = figure.find('a', class_='sqs-block-image-link')
+                        if link and link.get('href'):
+                            href = link.get('href')
+                            # Only accept internal festival links
+                            if not href.startswith('http') or 'grauzonefestival.nl' in href:
+                                if not any(x in href for x in ['/cart', '/faq', '/donate', '/tickets', '/news', '/info', '/shop', '/policy', '/new-events', '/graukunst']):
+                                    artist_url = href if href.startswith('http') else f"{self.config.base_url}{href}"
+                        
+                        # Look for the image within the figure
+                        img = figure.find('img')
+                        if img:
+                            # Try data-src first (Squarespace lazy loading), then src
+                            image_url = img.get('data-src') or img.get('src')
+            except Exception:
+                pass  # Continue without URL if extraction fails
+            
+            artists.append({
+                'name': clean_name,
+                'url': artist_url or '',
+                'image_url': image_url or ''
+            })
+        
+        return artists
+    
     def _try_lineup_heuristics(self, soup: BeautifulSoup) -> List[dict]:
         """Try heuristic patterns to find lineup links."""
         artists = []
         seen_urls = set()
+        
+        # Grauzone Festival specific: Squarespace layout with image titles
+        if 'grauzone' in self.festival_key.lower():
+            return self._scrape_grauzone_lineup(soup)
         
         # Look for links containing the artist path
         for link in soup.find_all('a', href=True):

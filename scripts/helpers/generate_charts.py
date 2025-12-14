@@ -8,7 +8,7 @@ import json
 import sys
 # helpers module is in the same directory
 
-from helpers.menu import generate_hamburger_menu
+from menu import generate_hamburger_menu
 
 def load_festival_data(csv_path):
     """Load and analyze festival data from CSV."""

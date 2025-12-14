@@ -22,8 +22,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 import csv
 import json
 import argparse
-from typing import Dict, List
-from festival_helpers import (
+from typing import Dict, List, Optional
+from helpers import (
     FestivalScraper,
     get_festival_config,
     artist_name_to_slug,

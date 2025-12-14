@@ -7,11 +7,10 @@ when new artists are added to the CSV.
 """
 
 import sys
-import sys
-sys.path.insert(0, str(Path(__file__).parent))
+from pathlib import Path
 
 # Add scripts directory to sys.path to import helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
 
 import csv
 from typing import Dict, List

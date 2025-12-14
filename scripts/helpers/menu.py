@@ -3,9 +3,40 @@ Shared menu generation functions for consistent navigation across all pages.
 """
 
 from typing import Literal
-from .config import FESTIVALS
+import json
+from pathlib import Path
+
+# Handle both direct execution and package import
+try:
+    from .config import FESTIVALS
+except ImportError:
+    from config import FESTIVALS
 
 YEAR = "2026"
+
+
+def get_festival_start_date(slug: str, year: str) -> str:
+    """
+    Get the start date for a festival from its about.json file.
+    
+    Returns:
+        Start date string in YYYY-MM-DD format, or '9999-12-31' if not found
+    """
+    # Try to find the about.json file
+    about_path = Path(f"docs/{slug}/{year}/about.json")
+    if not about_path.exists():
+        # Fallback for scripts running from scripts directory
+        about_path = Path(f"../docs/{slug}/{year}/about.json")
+    
+    try:
+        if about_path.exists():
+            with open(about_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get('start_date', '9999-12-31')
+    except (OSError, json.JSONDecodeError):
+        pass
+    
+    return '9999-12-31'
 
 
 def generate_hamburger_menu(
@@ -14,6 +45,7 @@ def generate_hamburger_menu(
 ) -> str:
     """
     Generate the hamburger menu HTML with consistent formatting.
+    Festivals are sorted by start date in ascending order.
     
     Args:
         path_prefix: Path prefix for links. Options:
@@ -29,12 +61,21 @@ def generate_hamburger_menu(
     
     lines = []
     
-    # Festival sections
+    # Get festivals with their start dates and sort by date
+    festival_list = []
     for slug, config in FESTIVALS.items():
         # Skip festivals marked as hidden from navigation
         if config.get('hide_from_navigation', False):
             continue
-            
+        
+        start_date = get_festival_start_date(slug, YEAR)
+        festival_list.append((start_date, slug, config))
+    
+    # Sort by start date (ascending)
+    festival_list.sort(key=lambda x: x[0])
+    
+    # Festival sections
+    for start_date, slug, config in festival_list:
         name = config.get('name', slug)
         lines.append(f'<div class={quote}festival-section{quote}>{name} {YEAR}</div>')
         lineup_url = f'{path_prefix}{slug}/{YEAR}/index.html'

@@ -12,7 +12,7 @@ from pathlib import Path
 import sys
 # helpers module is in the same directory
 
-from helpers.menu import FESTIVALS, YEAR, generate_hamburger_menu
+from menu import FESTIVALS, YEAR, generate_hamburger_menu
 
 
 def count_artists_in_csv(csv_path: str) -> int:
@@ -29,7 +29,7 @@ def get_csv_last_modified(csv_path: str) -> str:
     """Get the last modified date of a CSV file."""
     try:
         timestamp = os.path.getmtime(csv_path)
-        return datetime.fromtimestamp(timestamp).strftime('%B %d, %Y at %I:%M %p')
+        return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M')
     except FileNotFoundError:
         return 'Unknown'
 
@@ -38,11 +38,35 @@ def generate_festival_list_html() -> str:
     """Generate the dynamic festival list with artist counts and timestamps."""
     festival_items = []
     
+    # Import here to avoid circular dependency
+    import json
+    from pathlib import Path
+    
+    # Build a list of (start_date, festival_slug, festival_config)
+    festival_list = []
     for festival_slug, festival_config in FESTIVALS.items():
         # Skip festivals hidden from navigation
         if festival_config.get('hide_from_navigation', False):
             continue
-            
+        
+        # Get festival start date from about.json
+        about_path = Path(f'docs/{festival_slug}/{YEAR}/about.json')
+        start_date = '9999-12-31'  # Default for festivals without dates
+        if about_path.exists():
+            try:
+                with open(about_path, 'r', encoding='utf-8') as f:
+                    about_data = json.load(f)
+                    start_date = about_data.get('start_date', '9999-12-31')
+            except Exception:
+                pass
+        
+        festival_list.append((start_date, festival_slug, festival_config))
+    
+    # Sort by start_date (ascending)
+    festival_list.sort(key=lambda x: x[0])
+    
+    # Generate festival items in date order
+    for start_date, festival_slug, festival_config in festival_list:
         # Construct CSV path
         csv_path = f'docs/{festival_slug}/{YEAR}/{YEAR}.csv'
         
@@ -55,7 +79,7 @@ def generate_festival_list_html() -> str:
         
         # Generate HTML for this festival
         festival_items.append(
-            f'<li><strong>{festival_name} {YEAR}:</strong> {artist_count} artists (last updated: {last_modified})</li>'
+            f'<li><strong>{festival_name} {YEAR}:</strong> {artist_count} artists <i>(last updated: {last_modified})</i></li>'
         )
     
     return '\n                        '.join(festival_items)
