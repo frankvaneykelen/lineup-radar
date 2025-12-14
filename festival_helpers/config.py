@@ -123,6 +123,15 @@ FESTIVALS = {
         'hide_from_navigation': False,  # Hide from main navigation, for example because it's data is not complete yet
         'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/7CJ68OA5DWvF2p1Q0HrBOl',
     },
+    'bospop': {
+        'name': 'Bospop',
+        'base_url': 'https://bospopfestival.nl',
+        'lineup_url': 'https://bospopfestival.nl/programma/',
+        'artist_path': '/artiest/',
+        'bio_language': 'Dutch',
+        'description': 'A classic rock and pop festival in Weert, Netherlands, held annually since 1981.',
+        'scraper_type': 'bospop',  # Use Bospop specific scraper
+    },
     # Add more festivals here as needed
     # 'lowlands': {
     #     'name': 'Lowlands',

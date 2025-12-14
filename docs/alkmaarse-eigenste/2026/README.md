@@ -9,7 +9,7 @@
 
 ```powershell
 # Scrape the full lineup from the festival website
-python scripts/scrape_festival.py --festival alkmaarse-eigenste --year 2026
+python scripts/scrape_festival.py alkmaarse-eigenste --year 2026
 
 # Fetch Spotify links for all artists
 python scripts/fetch_spotify_links.py --festival alkmaarse-eigenste --year 2026
@@ -21,7 +21,7 @@ python scripts/fetch_festival_data.py --festival alkmaarse-eigenste --year 2026
 python scripts/fetch_festival_data.py --festival alkmaarse-eigenste --year 2026 --artist "Artist Name"
 
 # Enrich artist data with AI-generated insights
-python scripts/enrich_artists.py --festival alkmaarse-eigenste --year 2026
+python scripts/enrich_artists.py --festival alkmaarse-eigenste --year 2026 --ai
 
 # Manually enrich artist data interactively (prompts for missing fields)
 python scripts/manual_enrich_artists.py --festival alkmaarse-eigenste --year 2026

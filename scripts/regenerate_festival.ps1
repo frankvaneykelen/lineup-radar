@@ -31,7 +31,6 @@
 
 param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet('alkmaarse-eigenste', 'best-kept-secret', 'down-the-rabbit-hole', 'pinkpop', 'rock-werchter', 'footprints')]
     [string]$Festival,
     
     [int]$Year = 2026,
@@ -46,24 +45,12 @@ $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $env:PYTHONIOENCODING = "utf-8"
 
-# Festival name mapping
-$festivalNames = @{
-    'alkmaarse-eigenste' = 'Alkmaarse Eigenste'
-    'best-kept-secret' = 'Best Kept Secret'
-    'down-the-rabbit-hole' = 'Down The Rabbit Hole'
-    'pinkpop' = 'Pinkpop'
-    'rock-werchter' = 'Rock Werchter'
-    'footprints' = 'Footprints'
-}
-
-$festivalName = $festivalNames[$Festival]
-
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  Regenerating Festival HTML Pages" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Festival: $festivalName" -ForegroundColor White
+Write-Host "Festival: $Festival" -ForegroundColor White
 Write-Host "Year: $Year" -ForegroundColor White
 Write-Host ""
 
