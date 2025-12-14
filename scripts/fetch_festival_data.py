@@ -16,15 +16,13 @@ import sys
 from pathlib import Path
 
 # Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
 import csv
 import json
 import argparse
-import urllib.request
-import urllib.error
-import hashlib
-from typing import Dict, List, Optional
+from typing import Dict, List
 from festival_helpers import (
     FestivalScraper,
     get_festival_config,

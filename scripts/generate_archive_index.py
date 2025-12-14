@@ -11,9 +11,10 @@ from itertools import groupby
 from datetime import datetime, timezone
 
 # Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
-from festival_helpers.config import get_festival_config, FESTIVALS
-from festival_helpers import generate_hamburger_menu
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
+from helpers.config import get_festival_config, FESTIVALS
+from helpers import generate_hamburger_menu
 
 
 def find_festival_lineups(docs_dir: Path) -> List[dict]:

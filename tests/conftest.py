@@ -3,7 +3,9 @@ Pytest configuration and shared fixtures.
 """
 import pytest
 from pathlib import Path
-from festival_helpers.config import FestivalConfig
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+from helpers.config import FestivalConfig
 
 
 @pytest.fixture

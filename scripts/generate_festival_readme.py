@@ -10,9 +10,10 @@ import argparse
 import sys
 
 # Add parent directory to sys.path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
-from festival_helpers import get_festival_config
+from helpers import get_festival_config
 
 
 README_TEMPLATE = """# {festival_name} {year}

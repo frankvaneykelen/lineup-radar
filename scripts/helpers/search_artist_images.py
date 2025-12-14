@@ -12,13 +12,13 @@ import sys
 from pathlib import Path
 
 # Add parent directory to sys.path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# helpers module is in the same directory
 
 import csv
 import requests
 import urllib.parse
 from typing import List, Dict, Optional
-from festival_helpers import artist_name_to_slug, get_festival_config
+from helpers import artist_name_to_slug, get_festival_config
 
 
 def search_artist_images_bing(artist_name: str, num_results: int = 5) -> List[Dict[str, str]]:

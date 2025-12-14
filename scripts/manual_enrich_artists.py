@@ -15,10 +15,11 @@ from urllib.parse import urlparse, quote_plus
 from bs4 import BeautifulSoup
 
 # Add parent directory to path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
-from festival_helpers import get_festival_config, artist_name_to_slug
-from festival_helpers.ai_client import call_azure_openai
+from helpers import get_festival_config, artist_name_to_slug
+from helpers.ai_client import call_azure_openai
 
 
 def scrape_website(url):
@@ -169,7 +170,7 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
     """Prompt for artist data interactively."""
     
     # Create artist-specific directory
-    from festival_helpers import artist_name_to_slug as slug_func
+    from helpers import artist_name_to_slug as slug_func
     artist_slug = slug_func(artist_name)
     artist_dir = artists_dir / artist_slug
     artist_dir.mkdir(parents=True, exist_ok=True)
