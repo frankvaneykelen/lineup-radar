@@ -7,15 +7,16 @@ when new artists are added to the CSV.
 """
 
 import sys
-from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
-# Add parent directory to sys.path to import festival_helpers
+# Add scripts directory to sys.path to import helpers
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import csv
 from typing import Dict, List
 import json
-from festival_helpers.config import get_festival_config
+from helpers.config import get_festival_config
 
 
 def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:

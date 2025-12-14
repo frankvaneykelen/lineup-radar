@@ -7,8 +7,9 @@ Fetches content from festival website including bio/blurb and images.
 import sys
 from pathlib import Path
 
-# Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add scripts directory to path for helpers module
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
 import csv
 import re
@@ -21,14 +22,14 @@ import json
 import hashlib
 from functools import cmp_to_key
 import requests
-from festival_helpers import (
+from helpers import (
     artist_name_to_slug,
     translate_text,
     FestivalScraper,
     get_festival_config,
     generate_hamburger_menu
 )
-from festival_helpers.slug import get_sort_name
+from helpers.slug import get_sort_name
 
 
 def get_spotify_artist_image(artist_name: str) -> Optional[str]:

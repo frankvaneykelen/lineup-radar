@@ -9,7 +9,8 @@ import os
 from pathlib import Path
 
 # Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
 import csv
 from typing import Optional
@@ -18,7 +19,7 @@ import urllib.parse
 import json
 import base64
 
-from festival_helpers import FestivalScraper, get_festival_config
+from helpers import FestivalScraper, get_festival_config
 
 
 def get_spotify_token() -> Optional[str]:

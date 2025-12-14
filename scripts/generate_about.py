@@ -10,8 +10,9 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-# Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add scripts directory to path for helpers module
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
 import csv
 import json
@@ -19,9 +20,9 @@ import os
 from datetime import datetime, timezone
 import argparse
 
-from festival_helpers import get_festival_config, generate_hamburger_menu
-from festival_helpers.ai_client import enrich_with_ai
-from festival_helpers.text_utils import markdown_to_html
+from helpers import get_festival_config, generate_hamburger_menu
+from helpers.ai_client import enrich_with_ai
+from helpers.text_utils import markdown_to_html
 
 
 def load_artists(csv_file: Path) -> list[dict]:

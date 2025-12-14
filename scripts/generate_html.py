@@ -7,15 +7,16 @@ Creates interactive tables with sorting and filtering.
 import sys
 from pathlib import Path
 
-# Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add scripts directory to path for helpers module
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
 
 import csv
 import os
 import json
 import re
-from festival_helpers import artist_name_to_slug, get_festival_config, generate_hamburger_menu
-from festival_helpers.slug import get_sort_name
+from helpers import artist_name_to_slug, get_festival_config, generate_hamburger_menu
+from helpers.slug import get_sort_name
 
 def escape_html(text):
     """Escape HTML special characters."""

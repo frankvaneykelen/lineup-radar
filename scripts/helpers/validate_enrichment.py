@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 # Add parent directory to sys.path to import festival_helpers
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# helpers module is in the same directory
 
 import csv
 import re
@@ -19,7 +19,7 @@ from typing import Dict, List
 import json
 import os
 import requests
-from festival_helpers import (
+from helpers import (
     artist_name_to_slug,
     FestivalScraper,
     get_festival_config
