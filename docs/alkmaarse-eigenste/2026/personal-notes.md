@@ -8,13 +8,13 @@
 | Dear John              | 8 | Laurel Canyon, harmony, slide guitar|
 | Dentro                 |  |  |
 | Dress Up Dolls         | 9 | Comeback. Daan Stam returns with his first band. |
-| Efvy                   | 8 | has a song about Lijn 239, the Hoorn Station to Medemblik Busstation bus line |
+| Efvy                   | 8 | You've got to love a song about Lijn 239, the Hoorn Station to Medemblik Busstation bus line.  |
 | Emily Wareing & Band   |  7 |  |
 | Eurydice               | 7 |  Proggy rock. Freddy Mercurial vocals, band harmonies | 
-| Grey van Leeuwen       |  |  |
+| Grey van Leeuwen       | 7 | Quiet song |
 | Jill van der Meer      |  |  |
 | JULIA                  |  |  |
-| Krappe Sokken          |  |  |
+| Krappe Sokken          | 7 | Female vocals in Dutch and English. Punky song about the Karperton garage. 60s sounding song with Rhodes. |
 | Liquid Desert          |  |  |
 | Loud Wednesdays        |  |  |
 | Magnoliac              |  |  |
