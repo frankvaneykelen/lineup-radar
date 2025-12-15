@@ -5,9 +5,9 @@
 | Carmen de Kooning      |  |  |
 | Carousel               |  |  |
 | Days of Sway           |  |  |
-| Dear John              |  |  |
+| Dear John              | 8 | Laurel Canyon, harmony, slide guitar|
 | Dentro                 |  |  |
-| Dress Up Dolls         |  |  |
+| Dress Up Dolls         | 9 | Comeback. Daan Stam returns with his first band. |
 | Efvy                   |  |  |
 | Emily Wareing & Band   |  |  |
 | Eurydice               |  |  | 
