@@ -8,7 +8,7 @@
 | Dear John              | 8 | Laurel Canyon, harmony, slide guitar|
 | Dentro                 |  |  |
 | Dress Up Dolls         | 9 | Comeback. Daan Stam returns with his first band. |
-| Efvy                   |  |  |
+| Efvy                   | 8 | has a song about Lijn 239, the Hoorn Station to Medemblik Busstation bus line |
 | Emily Wareing & Band   |  |  |
 | Eurydice               |  |  | 
 | Grey van Leeuwen       |  |  |
