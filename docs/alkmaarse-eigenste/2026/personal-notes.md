@@ -15,7 +15,7 @@
 | Jill van der Meer      |  |  |
 | JULIA                  |  |  |
 | Krappe Sokken          | 7 | Female vocals in Dutch and English. Punky song about the Karperton garage. 60s sounding song with Rhodes. |
-| Liquid Desert          |  |  |
+| Liquid Desert          | 7 | Noisy. |
 | Loud Wednesdays        |  |  |
 | Magnoliac              |  |  |
 | Marigold               |  |  |
