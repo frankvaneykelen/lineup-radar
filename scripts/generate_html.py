@@ -334,8 +334,11 @@ def generate_html(csv_file, output_dir, config):
         
         tagline = escape_html(artist.get('Tagline', ''))
         
+        # Prepare bio tooltip - use the clean bio text without HTML formatting
+        bio_tooltip = escape_html(bio_title) if bio_title else ''
+        
         html_content += f"""                    <tr data-index="{idx}">
-                        <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'" {artist_cell_style}>
+                        <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'" {artist_cell_style} title="{bio_tooltip}">
                             <strong>{escape_html(artist_name)}</strong>
                         </td>
                         <td class="tagline">{tagline}</td>
