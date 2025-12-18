@@ -138,6 +138,26 @@ function initSwipeNavigation() {
     }
 }
 
+// Shared normalization for AZ sorting (matches Python get_sort_name)
+function normalizeForSort(str) {
+    if (!str) return '';
+    // Remove 'The ' prefix
+    let normalized = str.replace(/^The\s+/i, '');
+    // Unicode normalize to NFKD, remove diacritics
+    normalized = normalized.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+    // Remove non-alphanumeric except spaces
+    normalized = normalized.replace(/[^A-Za-z0-9 ]/g, '');
+    // Collapse multiple spaces
+    normalized = normalized.replace(/\s+/g, ' ');
+    // Uppercase for consistent sorting
+    return normalized.trim().toUpperCase();
+}
+
+// Set dark mode as default if no preference is set
+if (localStorage.getItem('darkMode') === null) {
+    localStorage.setItem('darkMode', 'enabled');
+}
+
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     initDarkMode();

@@ -78,6 +78,10 @@ body.dark-mode table td {
 
 body.dark-mode tbody tr:nth-child(even) {
     background: #16213e;
+    color: #e0e0e0;
+}
+body.dark-mode table td {
+    color: #e0e0e0;
 }
 
 body.dark-mode tr:hover {
@@ -661,7 +665,16 @@ body.dark-mode .dropdown-menu-custom {
     border-color: #2a3f5f;
 }
 
-body.dark-mode .dropdown-menu-custom .festival-links a {
+body.dark-mode .dropdown-menu-custom .festival-links {
+    color: #00d9ff;
+}
+
+body.dark-mode .dropdown-menu-custom .festival-links a,
+body.dark-mode .dropdown-menu-custom .festival-links a:visited {
+    color: #00d9ff;
+}
+
+body.dark-mode .dropdown-menu-custom .festival-links .festival-link-sep {
     color: #00d9ff;
 }
 
@@ -834,6 +847,12 @@ body.dark-mode .carousel-control-next-icon {
     body {
         background: white;
     }
+
+/* Ensure all stat-card text is readable in dark mode (e.g., Top Genres bars) */
+body.dark-mode .stat-card,
+body.dark-mode .stat-card * {
+    color: #e0e0e0 !important;
+}
     
     .controls, .stats {
         display: none;
@@ -1100,4 +1119,10 @@ body.dark-mode .rotate-close:hover {
     .rotate-message {
         display: flex;
     }
+}
+
+/* Ensure .profile-text is readable in dark mode */
+body.dark-mode .profile-text,
+body[data-theme="dark"] .profile-text {
+    color: #e0e0e0 !important;
 }

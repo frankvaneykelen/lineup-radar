@@ -68,6 +68,10 @@ def generate_html(csv_file, output_dir, config):
     output_path = Path(output_dir) / config.slug / year
     output_path.mkdir(parents=True, exist_ok=True)
     
+    # Sort artists for table using the same rule as artist pages
+    from helpers.slug import get_sort_name
+    artists = sorted(artists, key=lambda a: get_sort_name(a.get('Artist', '')))
+    
     # Generate HTML content
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -114,10 +118,10 @@ def generate_html(csv_file, output_dir, config):
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
                     Last updated: {last_updated_str}
-                    {' | <a href="about.html" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">About</a>'}
-                    {' | <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
-                    {' | <a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> Official Playlist</a>' if config.official_spotify_playlist else ''}
-                    {' | <a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>' if config.spotify_playlist_id else ''}
+                    {' <span class="festival-link-sep">|</span> <a href="about.html" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">About</a>'}
+                    {' <span class="festival-link-sep">|</span> <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
+                    {' <span class="festival-link-sep">|</span> <a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> Official Playlist</a>' if config.official_spotify_playlist else ''}
+                    {' <span class="festival-link-sep">|</span> <a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>' if config.spotify_playlist_id else ''}
                 </p>
             </div>
         </header>
@@ -604,24 +608,10 @@ def generate_html(csv_file, output_dir, config):
                 }}
                 
                 // String sorting with normalization for special characters
-                const normalizeForSort = (str) => {{
-                    let normalized = str.toString()
-                        .replace(/¥/g, 'Y')
-                        .replace(/Ø/g, 'O')
-                        .replace(/\\$/g, 'S')
-                        .replace(/€/g, 'E')
-                        .replace(/1/g, 'I')
-                        .normalize('NFD')
-                        .replace(/[\\u0300-\\u036f]/g, ''); // Remove diacritics
-                    
-                    // Remove leading articles for sorting (The, De, etc.)
-                    normalized = normalized.replace(/^(The|De|Le|La|Les|Los|Las|El|Il|Die|Der|Das)\\s+/i, '');
-                    
-                    return normalized;
-                }};
-                
-                const aNormalized = normalizeForSort(aValue);
-                const bNormalized = normalizeForSort(bValue);
+                // Use shared normalization from docs/shared/script.js
+                // (window.normalizeForSort is loaded globally)
+                const aNormalized = window.normalizeForSort ? window.normalizeForSort(aValue) : aValue;
+                const bNormalized = window.normalizeForSort ? window.normalizeForSort(bValue) : bValue;
                 const comparison = aNormalized.localeCompare(bNormalized);
                 return currentSort.direction === 'asc' ? comparison : -comparison;
             }});

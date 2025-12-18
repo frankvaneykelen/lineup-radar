@@ -88,7 +88,18 @@ def get_sort_name(artist_name: str) -> str:
         >>> get_sort_name("Radiohead")
         'Radiohead'
     """
+    import unicodedata
     name = artist_name.strip()
+    # Remove 'The ' prefix
     if name.lower().startswith('the '):
-        return name[4:]
-    return name
+        name = name[4:]
+    # Normalize unicode (e.g., "Ão" → "Ao", "∑tella" → "Stella")
+    name = unicodedata.normalize('NFKD', name)
+    name = name.encode('ascii', 'ignore').decode('ascii')
+    # Remove non-alphanumeric characters (except spaces)
+    import re
+    name = re.sub(r'[^A-Za-z0-9 ]', '', name)
+    # Collapse multiple spaces
+    name = re.sub(r'\s+', ' ', name)
+    # Strip and uppercase for consistent sorting
+    return name.strip().upper()

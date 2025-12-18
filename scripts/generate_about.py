@@ -352,6 +352,9 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
             color: var(--text-color, #212529);
             margin-bottom: 2rem;
         }}
+        body[data-theme="dark"] .profile-text {{
+            color: #e0e0e0;
+        }}
         body[data-theme=\"dark\"] .stat-card {{
             background: #2d2d2d;
             border-color: #444;
@@ -361,6 +364,9 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
         }}
         body[data-theme=\"dark\"] .stat-table td:first-child {{
             color: #adb5bd;
+        }}
+        body[data-theme=\"dark\"] .stat-table tr:nth-child(even) {{
+            background: #232b36;
         }}
     </style>
 </head>
