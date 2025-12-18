@@ -145,12 +145,17 @@ function normalizeForSort(str) {
     let normalized = str.replace(/^The\s+/i, '');
     // Unicode normalize to NFKD, remove diacritics
     normalized = normalized.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
-    // Remove non-alphanumeric except spaces
+    // Remove all non-alphanumeric characters except spaces (matches Python get_sort_name)
     normalized = normalized.replace(/[^A-Za-z0-9 ]/g, '');
     // Collapse multiple spaces
     normalized = normalized.replace(/\s+/g, ' ');
     // Uppercase for consistent sorting
-    return normalized.trim().toUpperCase();
+    const result = normalized.trim().toUpperCase();
+    // Debug: log normalization for Artist column
+    if (window && window._debugSort) {
+        console.log('normalizeForSort:', str, '=>', result);
+    }
+    return result;
 }
 
 // Set dark mode as default if no preference is set
@@ -160,8 +165,13 @@ if (localStorage.getItem('darkMode') === null) {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
+    window._debugSort = true; // Enable debug logging for normalization
     initDarkMode();
     initHamburgerMenu();
     initKeyboardNavigation();
     initSwipeNavigation();
+    // Force sort by Artist after DOM is ready
+    if (typeof sortTable === 'function') {
+        sortTable('Artist');
+    }
 });

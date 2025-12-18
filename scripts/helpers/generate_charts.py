@@ -1096,6 +1096,12 @@ def generate_charts_page():
             </div>
         </div>
         
+        <!-- Back to Home above footer -->
+        <div style="margin-top: 3rem; margin-bottom: 2rem; text-align: center;">
+            <a href="index.html" class="btn btn-primary btn-lg" style="font-size: 1.2em; padding: 15px 30px;">
+                <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
+        </div>
         <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
             <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
                 <i class="bi bi-moon-fill"></i>

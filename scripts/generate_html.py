@@ -371,7 +371,7 @@ def generate_html(csv_file, output_dir, config):
     
     <script>
         const artistsData = {artists_json};
-        let currentSort = {{ column: null, direction: 'asc' }};
+        let currentSort = {{ column: 'Artist', direction: 'asc' }};
         const hasScheduleData = {str(has_schedule_data).lower()};
         
         // Populate filter dropdowns with counts
