@@ -188,7 +188,10 @@ def generate_html(csv_file, output_dir, config):
     # Add table rows
     for idx, artist in enumerate(artists):
         spotify_link = artist.get('Spotify link', '').strip()
-        spotify_html = f'<a href="{escape_html(spotify_link)}" target="_blank" class="spotify-link">Spotify<span class="link-icon">🔗</span></a>' if spotify_link else ''
+        
+        # Only create link if it's a valid URL (not "NOT ON SPOTIFY")
+        is_valid_spotify = spotify_link and spotify_link != 'NOT ON SPOTIFY'
+        spotify_html = f'<a href="{escape_html(spotify_link)}" target="_blank" class="spotify-link">Spotify<span class="link-icon">🔗</span></a>' if is_valid_spotify else ''
         
         rating = artist.get('AI Rating', '').strip()
         rating_html = f'<span class="rating">{escape_html(rating)}</span>' if rating else ''
@@ -197,8 +200,8 @@ def generate_html(csv_file, output_dir, config):
         bio = escape_html(bio_text)
         take = escape_html(artist.get('AI Summary', ''))
         
-        # Add Spotify link to bio if available
-        if spotify_link:
+        # Add Spotify link to bio if available and valid
+        if is_valid_spotify:
             bio_with_link = f'{bio}<br><br><a href="{escape_html(spotify_link)}" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a>'
             bio_title = bio_text
         else:
