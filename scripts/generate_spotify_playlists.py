@@ -409,10 +409,10 @@ def load_festival_artists(festival: str, year: int) -> List[Dict]:
         for row in reader:
             artist_name = row.get('Artist', '') or ''
             artist_name = artist_name.strip()
-            spotify_link = row.get('Spotify', '') or ''
+            spotify_link = row.get('Spotify link', '') or ''
             spotify_link = spotify_link.strip()
             
-            if not spotify_link:
+            if not spotify_link or spotify_link == 'NOT ON SPOTIFY':
                 print(f"\n⚠️  No Spotify link found for '{artist_name}'")
                 print(f"  🔍 Search: https://open.spotify.com/search/{artist_name.replace(' ', '%20')}")
                 print(f"  📝 Enter Spotify artist URL (or 'NOT ON SPOTIFY' if not available, or press Enter to skip): ", end='', flush=True)

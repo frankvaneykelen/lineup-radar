@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 
 from .slug import artist_name_to_slug
 from .config import FestivalConfig
+from .ai_client import clean_scraped_text
 
 
 # Path to store learned selectors
@@ -231,7 +232,8 @@ class FestivalScraper:
                 if element:
                     text = element.get_text(strip=True)
                     if text and len(text) > 50:  # Reasonable bio length
-                        return text
+                        # Clean up whitespace issues before returning
+                        return clean_scraped_text(text)
                 else:
                     print(f"  ⚠️  Learned bio selector '{learned}' no longer works")
             except Exception as e:
@@ -240,7 +242,8 @@ class FestivalScraper:
         # Try common patterns (existing heuristics)
         bio_text = self._try_bio_heuristics(html, soup)
         if bio_text:
-            return bio_text
+            # Clean up whitespace issues before returning
+            return clean_scraped_text(bio_text)
         
         # If interactive and nothing found, ask user
         if self.interactive:
@@ -269,7 +272,9 @@ class FestivalScraper:
                 # Extract using the new selector
                 element = soup.select_one(selector)
                 if element:
-                    return element.get_text(strip=True)
+                    text = element.get_text(strip=True)
+                    # Clean up whitespace issues before returning
+                    return clean_scraped_text(text)
         
         return ""
     

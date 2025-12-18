@@ -17,10 +17,11 @@
 </head>
 <body>
     <!-- Rotate device message for mobile portrait -->
-    <div class="rotate-message">
+    <div class="rotate-message" id="rotateMessage">
         <div class="rotate-content">
+            <button class="rotate-close" id="rotateClose" aria-label="Close" title="Don't show again">&times;</button>
             <i class="bi bi-phone-landscape" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-            <p>For the best experience, please rotate your device to landscape mode</p>
+            <p>For the best experience, please rotate your device to landscape mode when viewing the festival lineup pages</p>
         </div>
     </div>
     
@@ -643,7 +644,7 @@
                         </td>
                         <td></td>
                         <td><span class="badge rounded-pill bg-primary me-1">Norway</span></td>
-                        <td class="bio" title="[using festival bio due to a lack of publicly available data] TOMORA is a match made in space: an easily ignitable two-stage rocket featuring Norwegian singer-songwriter AURORA and block-rockin’ beat pioneer Tom Rowlands of The Chemical Brothers. After fruitful collaborations on each other's albums, they now aim for the stars as a duo with a brand-new project that transcends time, space, and genres – the sum of two parts, but completely turned on its head. Just check out the hypnotic debut single ‘RING THE ALARM,’ a feverish track that will get you moving in no time. Talk about liftoff.">[using festival bio due to a lack of publicly available data] TOMORA is a match made in space: an easily ignitable two-stage rocket featuring Norwegian singer-songwriter AURORA and block-rockin’ beat pioneer Tom Rowlands of The Chemical Brothers. After fruitful collaborations on each other&#39;s albums, they now aim for the stars as a duo with a brand-new project that transcends time, space, and genres – the sum of two parts, but completely turned on its head. Just check out the hypnotic debut single ‘RING THE ALARM,’ a feverish track that will get you moving in no time. Talk about liftoff.<br><br><a href="https://open.spotify.com/artist/5r0BuurxKQugj8cjHiO8pY" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="bio" title="TOMORA is a match made in space: an easily ignitable two-stage rocket featuring Norwegian singer-songwriter AURORA and block-rockin’ beat pioneer Tom Rowlands of The Chemical Brothers. After fruitful collaborations on each other's albums, they now aim for the stars as a duo with a brand-new project that transcends time, space, and genres – the sum of two parts, but completely turned on its head. Just check out the hypnotic debut single ‘RING THE ALARM,’ a feverish track that will get you moving in no time. Talk about liftoff."><small class="text-muted fst-italic d-block mb-1"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small>TOMORA is a match made in space: an easily ignitable two-stage rocket featuring Norwegian singer-songwriter AURORA and block-rockin’ beat pioneer Tom Rowlands of The Chemical Brothers. After fruitful collaborations on each other&#39;s albums, they now aim for the stars as a duo with a brand-new project that transcends time, space, and genres – the sum of two parts, but completely turned on its head. Just check out the hypnotic debut single ‘RING THE ALARM,’ a feverish track that will get you moving in no time. Talk about liftoff.<br><br><a href="https://open.spotify.com/artist/5r0BuurxKQugj8cjHiO8pY" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">The project combines AURORA&#39;s ethereal vocals with potential electronic influences from Tom Rowlands and emotive songwriting from Tom Odell, suggesting a unique blend of atmospheric pop and experimental electronic elements. Their secretive branding and high-profile festival appearances add intrigue.</td>
                         <td><span class="rating">7</span></td>
                         <td></td>
@@ -887,6 +888,36 @@
         
         // Sort by Artist name on page load
         sortTable('Artist');
+        
+        // Rotate message cookie handling
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+        }
+        
+        // Check if user has dismissed the rotate message
+        if (getCookie('hideRotateMessage') === 'true') {
+            const rotateMsg = document.getElementById('rotateMessage');
+            if (rotateMsg) rotateMsg.style.display = 'none';
+        }
+        
+        // Handle close button
+        const rotateCloseBtn = document.getElementById('rotateClose');
+        if (rotateCloseBtn) {
+            rotateCloseBtn.addEventListener('click', function() {
+                const rotateMsg = document.getElementById('rotateMessage');
+                if (rotateMsg) {
+                    rotateMsg.style.display = 'none';
+                    setCookie('hideRotateMessage', 'true', 365); // Store for 1 year
+                }
+            });
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     

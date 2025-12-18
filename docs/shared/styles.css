@@ -1064,11 +1064,41 @@ body.dark-mode .rotate-message {
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 2px solid #00d9ff;
+    position: relative;
 }
 
 body.dark-mode .rotate-content {
     background: rgba(26, 26, 46, 0.95);
     color: #e0e0e0;
+}
+
+.rotate-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #666;
+    cursor: pointer;
+    padding: 5px 10px;
+    line-height: 1;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+.rotate-close:hover {
+    opacity: 1;
+    color: #00d9ff;
+    transform: scale(1.1);
+}
+
+body.dark-mode .rotate-close {
+    color: #ccc;
+}
+
+body.dark-mode .rotate-close:hover {
+    color: #00d9ff;
 }
 
 .rotate-content p {

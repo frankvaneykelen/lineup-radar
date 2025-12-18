@@ -88,8 +88,24 @@ if ($IncludePlaylist) {
         Write-Host "⚠ .keys.txt not found - playlist generation will be skipped" -ForegroundColor Yellow
     }
 }
-
 Write-Host ""
+
+# Get festival display name from config
+$getFestivalNameScript = @"
+import sys
+sys.path.insert(0, 'scripts')
+from helpers.config import FESTIVALS
+festival = '$Festival'
+if festival in FESTIVALS:
+    print(FESTIVALS[festival].get('name', festival))
+else:
+    print(festival)
+"@
+
+$festivalName = python -c $getFestivalNameScript
+if (-not $festivalName -or $LASTEXITCODE -ne 0) {
+    $festivalName = $Festival
+}
 
 # Track success/failure
 $totalOperations = if ($IncludePlaylist) { 4 } else { 3 }  # lineup + about + artist pages (+ playlist if requested)

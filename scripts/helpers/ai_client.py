@@ -143,3 +143,58 @@ def enrich_with_ai(prompt: str, temperature: float = 0.7) -> str:
     ]
     
     return call_azure_openai(messages, temperature=temperature)
+
+
+def clean_scraped_text(text: str) -> str:
+    """
+    Clean up text scraped from HTML to fix whitespace and formatting issues.
+    
+    This fixes common HTML parsing artifacts like:
+    - Missing spaces between words (e.g., "presentAvishag" -> "present Avishag")
+    - Missing spaces before/after parentheses (e.g., "bandCumgirl8(4AD)" -> "band Cumgirl8 (4AD)")
+    - Doubled spaces, missing punctuation spacing, etc.
+    
+    Args:
+        text: Raw scraped text
+        
+    Returns:
+        Cleaned text with proper spacing and formatting
+    """
+    if not text or not text.strip():
+        return ""
+    
+    # Quick check: if text looks clean (no obvious issues), skip GPT call
+    # Check for missing spaces: lowercase letter followed by uppercase letter without space
+    import re
+    has_spacing_issues = bool(re.search(r'[a-z][A-Z]', text))
+    has_paren_issues = bool(re.search(r'[a-zA-Z]\(', text))  # Letter directly before (
+    has_comma_issues = bool(re.search(r',[A-Z]', text))  # Comma followed directly by capital
+    
+    if not has_spacing_issues and not has_paren_issues and not has_comma_issues:
+        return text  # Text looks clean, no need to process
+    
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "You are a text cleanup assistant. Fix whitespace and formatting issues in scraped HTML text. "
+                "Add missing spaces between words, add spaces before opening parentheses and after closing parentheses when needed, "
+                "add spaces after commas and periods when missing, fix punctuation spacing. "
+                "Preserve the EXACT original wording, meaning, capitalization, and names. "
+                "Return ONLY the cleaned text with no explanations or comments."
+            )
+        },
+        {
+            "role": "user",
+            "content": text
+        }
+    ]
+    
+    try:
+        cleaned = call_azure_openai(messages, temperature=0.1)  # Low temperature for consistency
+        # Remove any quotes that GPT might add around the response
+        cleaned = cleaned.strip('"').strip("'").strip()
+        return cleaned
+    except Exception as e:
+        print(f"  ⚠️  Text cleanup failed: {e}")
+        return text  # Return original text if cleanup fails

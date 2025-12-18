@@ -523,6 +523,83 @@ This will:
 .\scripts\regenerate_all.ps1 -SkipPlaylists
 ```
 
+### Helper Scripts
+
+The project includes several helper utilities in `scripts/helpers/` for specialized tasks:
+
+#### Clean Scraped Bio Text
+
+Clean up whitespace and formatting issues in scraped festival bios using AI:
+
+```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
+# Clean bios for a specific festival
+python scripts/helpers/clean_csv_bios.py --festival grauzone --year 2026
+
+# Preview changes without saving (dry run)
+python scripts/helpers/clean_csv_bios.py --festival grauzone --year 2026 --dry-run
+
+# Clean all festivals at once
+python scripts/helpers/clean_csv_bios.py --all
+```
+
+**What it fixes:**
+- Missing spaces between words (e.g., "presentAvishag" → "present Avishag")
+- Missing spaces around parentheses (e.g., "bandCumgirl8(4AD)" → "band Cumgirl8 (4AD)")
+- Missing spaces after commas (e.g., ",Vals Alarm" → ", Vals Alarm")
+- Other HTML parsing artifacts from web scraping
+
+**When to use:**
+- After scraping festival websites with `scrape_festival.py`
+- When you notice formatting issues in existing CSV files
+- Before regenerating HTML pages to ensure clean text display
+
+**Note:** The scraper now automatically cleans bio text before saving to CSV, but this helper can fix issues in existing data.
+
+#### Extract Text from Images (OCR)
+
+Extract text from images, screenshots, or scanned documents using Azure OpenAI Vision:
+
+```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
+# Set up Azure OpenAI credentials
+$env:AZURE_OPENAI_KEY = "your-azure-openai-key-here"
+$env:AZURE_OPENAI_ENDPOINT = "https://your-resource.cognitiveservices.azure.com"
+$env:AZURE_OPENAI_DEPLOYMENT = "gpt-4o"
+
+# Extract text from an image
+python scripts/helpers/extract_image_text.py path/to/image.jpg
+
+# Or with a custom prompt
+python scripts/helpers/extract_image_text.py lineup_poster.png "Extract all artist names from this festival lineup poster"
+```
+
+**Use cases:**
+- Extract artist names from lineup announcement images
+- OCR festival schedules from screenshots
+- Extract text from promotional materials
+- Convert image-based data to text format
+
+**Or use as a function in your own scripts:**
+
+```python
+from helpers.extract_image_text import extract_text_from_image
+
+text = extract_text_from_image("festival_lineup.jpg")
+print(text)
+```
+
+#### Other Helper Scripts
+
+Additional helper scripts for specific tasks:
+
+- **Clear ratings**: `scripts/helpers/clear_dtrh_ratings.py`, `clear_pinkpop_ratings.py` - Reset AI ratings and summaries
+- **Generate charts**: `scripts/helpers/generate_charts.py` - Create festival statistics visualizations  
+- **Generate FAQ**: `scripts/helpers/generate_faq.py` - Create FAQ page from festival data
+- **Search images**: `scripts/helpers/search_artist_images.py` - Find and download artist images
+- **Translate bios**: `scripts/helpers/translate_festival_bios.py` - Translate Dutch bios to English
+- **Validate enrichment**: `scripts/helpers/validate_enrichment.py` - Check data quality after AI enrichment
+
 ### About pages
 
 - **Purpose**: Generate a short festival-year profile and structured metadata for each festival year. The generator computes simple festival statistics (genre counts, country counts, diversity breakdowns) and writes a human-readable HTML summary alongside a machine-readable `about.json` used by the site.

@@ -79,10 +79,11 @@ def generate_html(csv_file, output_dir, config):
 </head>
 <body>
     <!-- Rotate device message for mobile portrait -->
-    <div class="rotate-message">
+    <div class="rotate-message" id="rotateMessage">
         <div class="rotate-content">
+            <button class="rotate-close" id="rotateClose" aria-label="Close" title="Don't show again">&times;</button>
             <i class="bi bi-phone-landscape" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-            <p>For the best experience, please rotate your device to landscape mode</p>
+            <p>For the best experience, please rotate your device to landscape mode when viewing the festival lineup pages</p>
         </div>
     </div>
     
@@ -197,16 +198,24 @@ def generate_html(csv_file, output_dir, config):
         rating_html = f'<span class="rating">{escape_html(rating)}</span>' if rating else ''
         
         bio_text = artist.get('Bio', '').strip()
-        bio = escape_html(bio_text)
+        
+        # Check if bio starts with the festival bio disclaimer
+        disclaimer = "[using festival bio due to a lack of publicly available data] "
+        if bio_text.startswith(disclaimer):
+            bio_main = bio_text[len(disclaimer):]
+            bio = f'<small class="text-muted fst-italic d-block mb-1"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small>{escape_html(bio_main)}'
+            bio_title = bio_main
+        else:
+            bio = escape_html(bio_text)
+            bio_title = bio_text
+        
         take = escape_html(artist.get('AI Summary', ''))
         
         # Add Spotify link to bio if available and valid
         if is_valid_spotify:
             bio_with_link = f'{bio}<br><br><a href="{escape_html(spotify_link)}" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a>'
-            bio_title = bio_text
         else:
             bio_with_link = bio
-            bio_title = bio_text
         
         # Process genres - split by / and create separate badges
         genre_str = artist.get('Genre', '').strip()
@@ -544,6 +553,36 @@ def generate_html(csv_file, output_dir, config):
         
         // Sort by Artist name on page load
         sortTable('Artist');
+        
+        // Rotate message cookie handling
+        function getCookie(name) {{
+            const value = `; ${{document.cookie}}`;
+            const parts = value.split(`; ${{name}}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }}
+        
+        function setCookie(name, value, days) {{
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+        }}
+        
+        // Check if user has dismissed the rotate message
+        if (getCookie('hideRotateMessage') === 'true') {{
+            const rotateMsg = document.getElementById('rotateMessage');
+            if (rotateMsg) rotateMsg.style.display = 'none';
+        }}
+        
+        // Handle close button
+        const rotateCloseBtn = document.getElementById('rotateClose');
+        if (rotateCloseBtn) {{
+            rotateCloseBtn.addEventListener('click', function() {{
+                const rotateMsg = document.getElementById('rotateMessage');
+                if (rotateMsg) {{
+                    rotateMsg.style.display = 'none';
+                    setCookie('hideRotateMessage', 'true', 365); // Store for 1 year
+                }}
+            }});
+        }}
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     

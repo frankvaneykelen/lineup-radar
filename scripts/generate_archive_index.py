@@ -119,31 +119,10 @@ def generate_archive_index(docs_dir: Path):
                 <div class="col-lg-8 col-md-10">
                     <div class="section">
                         <h2 style="color: #00d9ff; margin-bottom: 1.5rem;">Never Miss the Acts Everyone Talks About</h2>
-                        <p class="intro" style="font-size: 1.1em; line-height: 1.8; margin-bottom: 2rem;">
-                            Ever read post-festival reviews and realize you skipped the breakout artist everyone loved?<br>
-                            <strong>LineupRadar</strong> helps you discover those hidden gems before the festival starts—so you can proudly say: <em>"I was there!"</em>
+                        <p>Ever read post-festival reviews and realize you skipped the breakout artist everyone loved?</p>
+                        <p><strong>LineupRadar</strong> helps you discover those hidden gems before the festival starts—so you can proudly say: <em>"I was there!"</em>
                         </p>
-                        
-                        <h3 style="color: #00d9ff; margin-top: 2rem; margin-bottom: 1rem;">Why Use LineupRadar?</h3>
-                        <ul style="font-size: 1.05em; line-height: 1.8; margin-bottom: 2rem;">
-                            <li><strong>Explore Complete Festival Lineups:</strong> Browse curated tables with ratings, bios, and metadata for every act.</li>
-                            <li><strong>Discover Emerging Artists:</strong> Find the next big names before they hit the main stage.</li>
-                            <li><strong>Filter by Diversity & Style:</strong> Tired of endless guitar bands? Use filters to uncover unique sounds and diverse performers.</li>
-                            <li><strong>Click Through for Details:</strong> Each artist has a dedicated page with background info, genre tags, and links.</li>
-                            <li><strong>Plan Your Perfect Festival Schedule:</strong> Avoid clashes and make sure you catch the acts that matter.</li>
-                        </ul>
-                        
-                        <h3 style="color: #00d9ff; margin-bottom: 1rem;">Ideal For</h3>
-                        <ul style="font-size: 1.05em; line-height: 1.8; margin-bottom: 2rem;">
-                            <li>Indie and boutique festival fans</li>
-                            <li>Music bloggers and reviewers</li>
-                            <li>Anyone who wants to go beyond the headliners</li>
-                        </ul>
-                        
-                        <p style="font-size: 1.1em; font-weight: 600; margin-bottom: 2rem; color: #00d9ff;">
-                            Start exploring now and turn your festival experience into a discovery adventure.
-                        </p>
-                        
+                        <p>Start exploring now and turn your festival experience into a discovery adventure.</p>                        
                         <div class="year-list">
 """
     
@@ -164,9 +143,9 @@ def generate_archive_index(docs_dir: Path):
     for year, year_lineups in groupby(lineups, key=lambda x: x['year']):
         year_lineups = list(year_lineups)
         html += f"""                            <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #00d9ff;">{year}</h3>
-                            <div class="row g-3">
+                            <div class="row g-4">
 """
-        # Two-column layout for festival buttons
+        # Card-based layout for festivals
         for lineup in year_lineups:
             # Skip festivals marked as hidden from navigation
             if FESTIVALS.get(lineup['festival'], {}).get('hide_from_navigation', False):
@@ -182,9 +161,52 @@ def generate_archive_index(docs_dir: Path):
                 festival_display = lineup['festival'].replace('-', ' ').title()
                 description = ""
             
-            title_attr = f' title="{description}"' if description else ''
-            html += f"""                                <div class="col-md-6">
-                                    <a href="{lineup['path']}" class="btn btn-primary btn-lg w-100" style="font-size: 1.3em; padding: 20px;"{title_attr}>{festival_display} {year} →</a>
+            # Get festival dates from about.json
+            festival_dates = "Dates TBA"
+            tagline = description or "Discover the lineup and artist details"
+            
+            about_json = Path("docs") / lineup['festival'] / year / "about.json"
+            try:
+                if about_json.exists():
+                    with open(about_json, 'r', encoding='utf-8') as f:
+                        about_data = json.load(f)
+                        start_date = about_data.get('start_date')
+                        end_date = about_data.get('end_date')
+                        
+                        if start_date and end_date:
+                            # Format dates nicely
+                            start_dt = datetime.strptime(start_date, '%Y-%m-%d')
+                            end_dt = datetime.strptime(end_date, '%Y-%m-%d')
+                            
+                            if start_dt.month == end_dt.month:
+                                # Same month: "June 14-16, 2026"
+                                festival_dates = f"{start_dt.strftime('%B')} {start_dt.day}-{end_dt.day}, {year}"
+                            else:
+                                # Different months: "May 30 - June 1, 2026"
+                                festival_dates = f"{start_dt.strftime('%B %d')} - {end_dt.strftime('%B %d')}, {year}"
+                        elif start_date:
+                            start_dt = datetime.strptime(start_date, '%Y-%m-%d')
+                            festival_dates = start_dt.strftime('%B %d, %Y')
+                        
+                        # Get tagline from about.json if available
+                        if about_data.get('tagline'):
+                            tagline = about_data['tagline']
+            except:
+                pass
+            
+            html += f"""                                <div class="col-md-6 col-lg-4">
+                                    <div class="card h-100 shadow-sm">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title text-primary">{festival_display}</h5>
+                                            <p class="card-text mb-2">
+                                                <small class="text-muted"><i class="bi bi-calendar-event"></i> {festival_dates}</small>
+                                            </p>
+                                            <p class="card-text flex-grow-1">{tagline}</p>
+                                            <a href="{lineup['path']}" class="btn btn-primary mt-auto">
+                                                View Lineup <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
 """
         html += """                            </div>
@@ -192,6 +214,24 @@ def generate_archive_index(docs_dir: Path):
     
     # Add Charts and FAQ buttons
     html += f"""
+ 
+                       <h2 style="color: #00d9ff; margin-top: 2rem; margin-bottom: 1rem;">Why Use LineupRadar?</h2>
+                        <ul style="font-size: 1.05em; line-height: 1.8; margin-bottom: 2rem;">
+                            <li><strong>Explore Complete Festival Lineups:</strong> Browse curated tables with ratings, bios, and metadata for every act.</li>
+                            <li><strong>Discover Emerging Artists:</strong> Find the next big names before they hit the main stage.</li>
+                            <li><strong>Filter by Diversity & Style:</strong> Tired of endless guitar bands? Use filters to uncover unique sounds and diverse performers.</li>
+                            <li><strong>Click Through for Details:</strong> Each artist has a dedicated page with background info, genre tags, and links.</li>
+                            <li><strong>Plan Your Perfect Festival Schedule:</strong> Avoid clashes and make sure you catch the acts that matter.</li>
+                        </ul>
+                        
+                        <h2 style="color: #00d9ff; margin-bottom: 1rem;">Ideal For</h2>
+                        <ul style="font-size: 1.05em; line-height: 1.8; margin-bottom: 2rem;">
+                            <li>Indie and boutique festival fans</li>
+                            <li>Music bloggers and reviewers</li>
+                            <li>Anyone who wants to go beyond the headliners</li>
+                        </ul>
+                        
+                                                    
                             <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: #00d9ff;">Explore & Learn</h3>
                             <div class="row g-3">
                                 <div class="col-md-6">

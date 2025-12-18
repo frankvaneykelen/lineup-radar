@@ -17,10 +17,11 @@
 </head>
 <body>
     <!-- Rotate device message for mobile portrait -->
-    <div class="rotate-message">
+    <div class="rotate-message" id="rotateMessage">
         <div class="rotate-content">
+            <button class="rotate-close" id="rotateClose" aria-label="Close" title="Don't show again">&times;</button>
             <i class="bi bi-phone-landscape" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-            <p>For the best experience, please rotate your device to landscape mode</p>
+            <p>For the best experience, please rotate your device to landscape mode when viewing the festival lineup pages</p>
         </div>
     </div>
     
@@ -162,7 +163,7 @@
                         </td>
                         <td><span class="badge rounded-pill bg-info text-dark me-1">Psychedelic</span><span class="badge rounded-pill bg-info text-dark me-1">80s-inspired</span></td>
                         <td><span class="badge rounded-pill bg-primary me-1">Netherlands</span></td>
-                        <td class="bio" title="[using festival bio due to a lack of publicly available data] The Amsterdam-based band Don Melody Club debuted in 2021 with the album Pure Donzin, now a cult classic. The lyrics are a bit strange but enjoyable, the music mildly psychedelic, with their new EP Zonder Pardon (2024) also featuring eighties influences. All psychonauts, gather round!">[using festival bio due to a lack of publicly available data] The Amsterdam-based band Don Melody Club debuted in 2021 with the album Pure Donzin, now a cult classic. The lyrics are a bit strange but enjoyable, the music mildly psychedelic, with their new EP Zonder Pardon (2024) also featuring eighties influences. All psychonauts, gather round!<br><br><a href="https://open.spotify.com/artist/0gnt5Tp8lW6u8obPtO3kuY" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="bio" title="The Amsterdam-based band Don Melody Club debuted in 2021 with the album Pure Donzin, now a cult classic. The lyrics are a bit strange but enjoyable, the music mildly psychedelic, with their new EP Zonder Pardon (2024) also featuring eighties influences. All psychonauts, gather round!"><small class="text-muted fst-italic d-block mb-1"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small>The Amsterdam-based band Don Melody Club debuted in 2021 with the album Pure Donzin, now a cult classic. The lyrics are a bit strange but enjoyable, the music mildly psychedelic, with their new EP Zonder Pardon (2024) also featuring eighties influences. All psychonauts, gather round!<br><br><a href="https://open.spotify.com/artist/0gnt5Tp8lW6u8obPtO3kuY" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Don Melody Club combines mildly psychedelic sounds with quirky, enjoyable lyrics and a touch of 80s influences, as seen in their upcoming EP Zonder Pardon. Their debut album Pure Donzin has already achieved cult status, suggesting a unique and creative approach to their music.</td>
                         <td><span class="rating">8</span></td>
                         <td>1</td>
@@ -175,7 +176,7 @@
                         </td>
                         <td><span class="badge rounded-pill bg-info text-dark me-1">minimalist electropop</span><span class="badge rounded-pill bg-info text-dark me-1">Malian desert blues</span></td>
                         <td><span class="badge rounded-pill bg-primary me-1">Germany</span></td>
-                        <td class="bio" title="[using festival bio due to a lack of publicly available data] The German duo fastmusic presents a completely unique combination of minimalist electropop with Malian desert blues-like guitar riffs. Frontman Bela Fast completes the somewhat haunting band sound with his falsetto vocals. Debut album *I Want To Love, And I Love* (2024) was created with a lot of Herzblut!">[using festival bio due to a lack of publicly available data] The German duo fastmusic presents a completely unique combination of minimalist electropop with Malian desert blues-like guitar riffs. Frontman Bela Fast completes the somewhat haunting band sound with his falsetto vocals. Debut album *I Want To Love, And I Love* (2024) was created with a lot of Herzblut!<br><br><a href="https://open.spotify.com/artist/1w4OW3ZCKBl98RmOyYWYPG" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="bio" title="The German duo fastmusic presents a completely unique combination of minimalist electropop with Malian desert blues-like guitar riffs. Frontman Bela Fast completes the somewhat haunting band sound with his falsetto vocals. Debut album *I Want To Love, And I Love* (2024) was created with a lot of Herzblut!"><small class="text-muted fst-italic d-block mb-1"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small>The German duo fastmusic presents a completely unique combination of minimalist electropop with Malian desert blues-like guitar riffs. Frontman Bela Fast completes the somewhat haunting band sound with his falsetto vocals. Debut album *I Want To Love, And I Love* (2024) was created with a lot of Herzblut!<br><br><a href="https://open.spotify.com/artist/1w4OW3ZCKBl98RmOyYWYPG" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">fastmusic&#39;s innovative blend of minimalist electropop and Malian desert blues guitar riffs creates a haunting and distinctive sound. Bela Fast&#39;s falsetto vocals add an ethereal quality to their music, making them stand out in the electronic and world music fusion space.</td>
                         <td><span class="rating">6</span></td>
                         <td>2</td>
@@ -201,7 +202,7 @@
                         </td>
                         <td><span class="badge rounded-pill bg-info text-dark me-1">Traditional Iranian</span><span class="badge rounded-pill bg-info text-dark me-1">Armenian Folk</span></td>
                         <td><span class="badge rounded-pill bg-primary me-1">France</span><span class="badge rounded-pill bg-primary me-1">Iran</span></td>
-                        <td class="bio" title="[using festival bio due to a lack of publicly available data] The intriguing duo Hamraaz consists of Lucie Lelaurin (France) and Khorshid Dadbeh (Iran). Lelaurin plays the Armenian double-reed wind instrument duduk, while Dadbeh specializes in the tār, a long-necked lute. Together, they create an enchanting bridge between traditional Iranian and Armenian music!">[using festival bio due to a lack of publicly available data] The intriguing duo Hamraaz consists of Lucie Lelaurin (France) and Khorshid Dadbeh (Iran). Lelaurin plays the Armenian double-reed wind instrument duduk, while Dadbeh specializes in the tār, a long-necked lute. Together, they create an enchanting bridge between traditional Iranian and Armenian music!<br><br><a href="https://open.spotify.com/artist/14xRdsioBP7lyulL3Brrjd" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="bio" title="The intriguing duo Hamraaz consists of Lucie Lelaurin (France) and Khorshid Dadbeh (Iran). Lelaurin plays the Armenian double-reed wind instrument duduk, while Dadbeh specializes in the tār, a long-necked lute. Together, they create an enchanting bridge between traditional Iranian and Armenian music!"><small class="text-muted fst-italic d-block mb-1"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small>The intriguing duo Hamraaz consists of Lucie Lelaurin (France) and Khorshid Dadbeh (Iran). Lelaurin plays the Armenian double-reed wind instrument duduk, while Dadbeh specializes in the tār, a long-necked lute. Together, they create an enchanting bridge between traditional Iranian and Armenian music!<br><br><a href="https://open.spotify.com/artist/14xRdsioBP7lyulL3Brrjd" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">Hamraaz offers a unique fusion of traditional Iranian and Armenian music, blending the soulful tones of the duduk with the intricate melodies of the tār. Their sound is deeply rooted in cultural heritage, creating an evocative and atmospheric musical experience.</td>
                         <td><span class="rating">8</span></td>
                         <td>2</td>
@@ -240,7 +241,7 @@
                         </td>
                         <td><span class="badge rounded-pill bg-info text-dark me-1">Jazz</span><span class="badge rounded-pill bg-info text-dark me-1">Gospel</span><span class="badge rounded-pill bg-info text-dark me-1">Hip-Hop</span><span class="badge rounded-pill bg-info text-dark me-1">Grime</span><span class="badge rounded-pill bg-info text-dark me-1">Afrobeat</span><span class="badge rounded-pill bg-info text-dark me-1">Classical</span></td>
                         <td><span class="badge rounded-pill bg-primary me-1">UK</span><span class="badge rounded-pill bg-primary me-1">Nigeria</span></td>
-                        <td class="bio" title="[using festival bio due to a lack of publicly available data] The English-Nigerian keyboardist NIJI became a professional musician at just 14 years old – we're dealing with a true talent here. Jazz, gospel, hip-hop, grime, and afrobeat resonate throughout his work, along with NIJI's delicate classical touch. Debut album *Oríkì* (2025) is a kaleidoscopic ode to his roots!">[using festival bio due to a lack of publicly available data] The English-Nigerian keyboardist NIJI became a professional musician at just 14 years old – we&#39;re dealing with a true talent here. Jazz, gospel, hip-hop, grime, and afrobeat resonate throughout his work, along with NIJI&#39;s delicate classical touch. Debut album *Oríkì* (2025) is a kaleidoscopic ode to his roots!<br><br><a href="https://open.spotify.com/artist/2Bjdx6wbbv4Ctfk01QmaIz" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="bio" title="The English-Nigerian keyboardist NIJI became a professional musician at just 14 years old – we're dealing with a true talent here. Jazz, gospel, hip-hop, grime, and afrobeat resonate throughout his work, along with NIJI's delicate classical touch. Debut album *Oríkì* (2025) is a kaleidoscopic ode to his roots!"><small class="text-muted fst-italic d-block mb-1"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small>The English-Nigerian keyboardist NIJI became a professional musician at just 14 years old – we&#39;re dealing with a true talent here. Jazz, gospel, hip-hop, grime, and afrobeat resonate throughout his work, along with NIJI&#39;s delicate classical touch. Debut album *Oríkì* (2025) is a kaleidoscopic ode to his roots!<br><br><a href="https://open.spotify.com/artist/2Bjdx6wbbv4Ctfk01QmaIz" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">NIJI&#39;s ability to seamlessly blend diverse genres like jazz, gospel, hip-hop, grime, and afrobeat with a classical influence showcases his versatility and deep musicality. His debut album *Oríkì* promises to be a rich exploration of his English-Nigerian heritage, likely offering a vibrant and innovative sound.</td>
                         <td><span class="rating">8</span></td>
                         <td>1</td>
@@ -266,7 +267,7 @@
                         </td>
                         <td><span class="badge rounded-pill bg-info text-dark me-1">Jazz</span><span class="badge rounded-pill bg-info text-dark me-1">Indie Pop</span><span class="badge rounded-pill bg-info text-dark me-1">R&amp;B</span></td>
                         <td><span class="badge rounded-pill bg-primary me-1">Germany</span></td>
-                        <td class="bio" title="[using festival bio due to a lack of publicly available data] The emerging Berlin quartet SO SORRY has nothing to apologize for, as their mix of jazz, indie pop, and R&B is far too good for that. In addition to being subtle, SO SORRY also sounds adventurous, thanks to their excellent instrumental mastery and the smooth vocals of Zuza Jasinska. Their debut EP is on the way!">[using festival bio due to a lack of publicly available data] The emerging Berlin quartet SO SORRY has nothing to apologize for, as their mix of jazz, indie pop, and R&amp;B is far too good for that. In addition to being subtle, SO SORRY also sounds adventurous, thanks to their excellent instrumental mastery and the smooth vocals of Zuza Jasinska. Their debut EP is on the way!<br><br><a href="https://open.spotify.com/artist/7I2WZUXf0p8d2WhYrFCFxP" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
+                        <td class="bio" title="The emerging Berlin quartet SO SORRY has nothing to apologize for, as their mix of jazz, indie pop, and R&B is far too good for that. In addition to being subtle, SO SORRY also sounds adventurous, thanks to their excellent instrumental mastery and the smooth vocals of Zuza Jasinska. Their debut EP is on the way!"><small class="text-muted fst-italic d-block mb-1"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small>The emerging Berlin quartet SO SORRY has nothing to apologize for, as their mix of jazz, indie pop, and R&amp;B is far too good for that. In addition to being subtle, SO SORRY also sounds adventurous, thanks to their excellent instrumental mastery and the smooth vocals of Zuza Jasinska. Their debut EP is on the way!<br><br><a href="https://open.spotify.com/artist/7I2WZUXf0p8d2WhYrFCFxP" target="_blank" style="white-space: nowrap; font-size: 0.85em; text-decoration: none;">Spotify<span class="link-icon">🔗</span></a></td>
                         <td class="take">SO SORRY combines the sophistication of jazz with the accessibility of indie pop and the groove of R&amp;B, creating a sound that is both refined and adventurous. The standout element is Zuza Jasinska&#39;s smooth vocals, which complement the band&#39;s instrumental expertise. Their upcoming debut EP is highly anticipated.</td>
                         <td><span class="rating">6</span></td>
                         <td>5</td>
@@ -523,6 +524,36 @@
         
         // Sort by Artist name on page load
         sortTable('Artist');
+        
+        // Rotate message cookie handling
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+        }
+        
+        // Check if user has dismissed the rotate message
+        if (getCookie('hideRotateMessage') === 'true') {
+            const rotateMsg = document.getElementById('rotateMessage');
+            if (rotateMsg) rotateMsg.style.display = 'none';
+        }
+        
+        // Handle close button
+        const rotateCloseBtn = document.getElementById('rotateClose');
+        if (rotateCloseBtn) {
+            rotateCloseBtn.addEventListener('click', function() {
+                const rotateMsg = document.getElementById('rotateMessage');
+                if (rotateMsg) {
+                    rotateMsg.style.display = 'none';
+                    setCookie('hideRotateMessage', 'true', 365); // Store for 1 year
+                }
+            });
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     

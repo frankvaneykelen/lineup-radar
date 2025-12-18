@@ -257,7 +257,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 </div>
             </div>
             <div class="artist-header-content">
-                <h1>{escape_html(artist_name)} @ <a href="../index.html" style="color: inherit; text-decoration: none;">{config.name} {year}</a></h1>
+                <h1>{escape_html(artist_name)} <span class="opacity-75">@ <a href="../index.html" style="color: inherit; text-decoration: none;">{config.name} {year}</a></span></h1>
                 <div class="badges d-flex flex-wrap gap-2">
 """
     
@@ -339,7 +339,18 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     # AI-generated Bio Section
     if bio:
-        html += f"""                <div class="section">
+        # Check if bio starts with the festival bio disclaimer
+        disclaimer = "[using festival bio due to a lack of publicly available data] "
+        if bio.startswith(disclaimer):
+            bio_text = bio[len(disclaimer):]
+            html += f"""                <div class="section">
+                    <h2>Bio</h2>
+                    <p class="mb-2"><small class="text-muted fst-italic"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small></p>
+                    <p>{escape_html(bio_text)}</p>
+                </div>
+"""
+        else:
+            html += f"""                <div class="section">
                     <h2>Bio</h2>
                     <p>{escape_html(bio)}</p>
                 </div>
@@ -348,12 +359,12 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         html += f"""                <div class="section">
                     <h2>Bio</h2>
                     <p>There is no information about this artist yet. If you can supply this information, please 
-                        <a href="https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Info:%20{urllib.parse.quote(artist_name)}" target="_blank" style="color: #00a8cc;">create an issue on the repo</a> with the following information:</p>
+                        <a href="https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Info:%20{urllib.parse.quote(artist_name)}" target="_blank" style="color: #00a8cc;">create an issue on the repo</a> with the relevant information like, in any language you like:</p>
                     <ul>
                         <li>Bio/background information</li>
-                        <li>Official website</li>
+                        <li>Official website / Instagram</li>
                         <li>Spotify artist link</li>
-                        <li>Genre(s)</li>
+                        <li>Genres</li>
                     </ul>
                 </div>
 """
@@ -384,7 +395,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     # English Translation of Festival Bio (primary)
     if festival_bio_en:
         html += f"""                <div class="section">
-                    <h2>About (from Festival)</h2>
+                    <h2>Festival Bio (English)</h2>
                     <p>{escape_html(festival_bio_en)}</p>
 """
         # Add collapsible Dutch text if available
@@ -399,14 +410,14 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     # Dutch Bio Section (if no English)
     elif festival_bio_nl:
         html += f"""                <div class="section">
-                    <h2>Over (Nederlands)</h2>
+                    <h2>Festival Bio (Nederlands)</h2>
                     <p>{escape_html(festival_bio_nl)}</p>
                 </div>
 """
     # Festival Bio Section (fallback for old pattern)
     elif festival_bio:
         html += f"""                <div class="section">
-                    <h2>About (from Festival)</h2>
+                    <h2>Festival Bio</h2>
                     <p>{escape_html(festival_bio)}</p>
                 </div>
 """
@@ -458,15 +469,21 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     # Links Section
     html += """                <div class="section">
                     <h2>Links</h2>
-                    <div class="d-flex gap-2 flex-wrap">
 """
     
-    # Festival page first
-    html += f'                        <a href="{escape_html(festival_url)}" target="_blank" class="btn btn-info"><i class="bi bi-globe"></i> Festival Page</a>\n'
+    # Collect all available links
+    has_links = False
+    links_html = ""
+    
+    # Festival page first (only if URL exists)
+    if festival_url and festival_url.strip():
+        links_html += f'                        <a href="{escape_html(festival_url)}" target="_blank" class="btn btn-info"><i class="bi bi-globe"></i> Festival Page</a>\n'
+        has_links = True
     
     # Then Spotify from CSV if available
     if spotify_link and spotify_link != "NOT ON SPOTIFY":
-        html += f'                        <a href="{escape_html(spotify_link)}" target="_blank" class="btn btn-success"><i class="bi bi-spotify"></i> Listen on Spotify</a>\n'
+        links_html += f'                        <a href="{escape_html(spotify_link)}" target="_blank" class="btn btn-success"><i class="bi bi-spotify"></i> Listen on Spotify</a>\n'
+        has_links = True
     
     # Add social links from festival website
     for link in social_links:
@@ -475,27 +492,44 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         if 'spotify.com' in link_lower:
             continue
         if 'instagram.com' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-instagram"></i> Instagram</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-instagram"></i> Instagram</a>\n'
         elif 'youtube.com' in link_lower or 'youtu.be' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-danger"><i class="bi bi-youtube"></i> YouTube</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-danger"><i class="bi bi-youtube"></i> YouTube</a>\n'
         elif 'facebook.com' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-facebook"></i> Facebook</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-facebook"></i> Facebook</a>\n'
         elif 'twitter.com' in link_lower or 'x.com' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-info"><i class="bi bi-twitter-x"></i> Twitter/X</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-info"><i class="bi bi-twitter-x"></i> Twitter/X</a>\n'
         elif 'soundcloud.com' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-warning"><i class="bi bi-soundwave"></i> SoundCloud</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-warning"><i class="bi bi-soundwave"></i> SoundCloud</a>\n'
         elif 'bandcamp.com' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-disc"></i> Bandcamp</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-disc"></i> Bandcamp</a>\n'
         elif 'tiktok.com' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-dark"><i class="bi bi-tiktok"></i> TikTok</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-dark"><i class="bi bi-tiktok"></i> TikTok</a>\n'
         elif 'apple.com' in link_lower and 'music' in link_lower:
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-music-note"></i> Apple Music</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-music-note"></i> Apple Music</a>\n'
         else:
             # Generic website link
-            html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-link-45deg"></i> Website</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-link-45deg"></i> Website</a>\n'
+        has_links = True
     
-    html += """                    </div>
-                </div>
+    if has_links:
+        html += """                    <div class="d-flex gap-2 flex-wrap">
+"""
+        html += links_html
+        html += """                    </div>
+"""
+    else:
+        html += f"""                    <p>No links are available for this artist yet. If you can help, please 
+                        <a href="https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Links:%20{urllib.parse.quote(artist_name)}" target="_blank" style="color: #00a8cc;">create an issue on the repo</a> with links like:</p>
+                    <ul>
+                        <li>Official website</li>
+                        <li>Spotify artist link</li>
+                        <li>Instagram / Facebook / Twitter</li>
+                        <li>YouTube / SoundCloud / Bandcamp</li>
+                    </ul>
+"""
+    
+    html += """                </div>
                 </div>
             </div>
         </div>
