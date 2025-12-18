@@ -185,11 +185,10 @@ def generate_html(csv_file, output_dir, config):
                 <thead>
                     <tr>
                         <th class="sortable" data-column="Artist">Artist</th>
+                        <th class="sortable" data-column="Tagline">Tagline</th>
                         {'<th class="sortable" data-column="Date">Schedule</th>' if has_schedule_data else ''}
                         <th class="sortable" data-column="Genre">Genre</th>
                         <th class="sortable" data-column="Country">Country</th>
-                        <th data-column="Bio">Bio</th>
-                        <th data-column="AI Summary">AI Summary</th>
                         <th class="sortable" data-column="AI Rating">Rating</th>
                         <th class="sortable" data-column="Number of People in Act">Size</th>
                         <th class="sortable" data-column="Gender of Front Person" title="Gender of Front Person">⚧️</th>
@@ -333,15 +332,16 @@ def generate_html(csv_file, output_dir, config):
         schedule_display = ' | '.join(schedule_parts) if schedule_parts else ''
         schedule_td = f'<td>{schedule_display}</td>' if has_schedule_data else ''
         
+        tagline = escape_html(artist.get('Tagline', ''))
+        
         html_content += f"""                    <tr data-index="{idx}">
-                        <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'"{artist_cell_style}>
+                        <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'" {artist_cell_style}>
                             <strong>{escape_html(artist_name)}</strong>
                         </td>
+                        <td class="tagline">{tagline}</td>
                         {schedule_td}
                         <td>{genre_html}</td>
                         <td>{country_html}</td>
-                        <td class="bio" title="{bio_title}">{bio_with_link}</td>
-                        <td class="take">{take}</td>
                         <td>{rating_html}</td>
                         <td>{escape_html(artist.get('Number of People in Act', ''))}</td>
                         <td title="{escape_html(gender)}">{gender_display}</td>
@@ -490,22 +490,32 @@ def generate_html(csv_file, output_dir, config):
             pocCounts[poc] = (pocCounts[poc] || 0) + 1;
         }});
         
-        // Update gender checkboxes with counts
+        // Update gender checkboxes with counts and hide options with 0 artists
         document.querySelectorAll('#genderFilters label').forEach(label => {{
             const input = label.querySelector('input');
             const value = input.value;
             const count = genderCounts[value] || 0;
             const icon = label.textContent.split(' ')[0]; // Get emoji
             label.innerHTML = `${{input.outerHTML}} ${{icon}} ${{value}} (${{count}})`;
+            
+            // Hide options with 0 artists
+            if (count === 0) {{
+                label.style.display = 'none';
+            }}
         }});
         
-        // Update POC checkboxes with counts
+        // Update POC checkboxes with counts and hide options with 0 artists
         document.querySelectorAll('#pocFilters label').forEach(label => {{
             const input = label.querySelector('input');
             const value = input.value;
             const count = pocCounts[value] || 0;
             const icon = label.textContent.split(' ')[0]; // Get emoji
             label.innerHTML = `${{input.outerHTML}} ${{icon}} ${{value}} (${{count}})`;
+            
+            // Hide options with 0 artists
+            if (count === 0) {{
+                label.style.display = 'none';
+            }}
         }});
         
         // Search and filter functionality

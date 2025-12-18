@@ -75,6 +75,7 @@ python scripts/generate_spotify_playlists.py --festival pinkpop --year 2026
 The `2026.csv` file contains these columns:
 
 - **Artist** - Artist/band name
+- **Tagline** - Festival tagline/description
 - **Date** - Performance date (YYYY-MM-DD format)
 - **Start Time** - Performance start time
 - **End Time** - Performance end time

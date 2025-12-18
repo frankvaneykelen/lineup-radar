@@ -43,7 +43,7 @@ def needs_enrichment(row: Dict, force: bool = False) -> bool:
     """Check if artist row needs data enrichment."""
     if force:
         return True  # Enrich all fields regardless of current values
-    essential_fields = ["Genre", "Country", "Bio", "AI Summary", "AI Rating"]
+    essential_fields = ["Tagline", "Genre", "Country", "Bio", "AI Summary", "AI Rating"]
     return any(not row.get(field, "").strip() for field in essential_fields)
 
 
@@ -61,6 +61,7 @@ def create_enrichment_prompt(artist_name: str, existing_bio: str = "") -> str:
     return f"""Provide comprehensive information about the musical artist "{artist_name}" in JSON format with these exact fields:{context_note}
 
 {{
+    "Tagline": "catchy 3-7 word phrase describing the artist (e.g., 'The most famous animated band on earth', 'Rock music\'s chief anti-hero', 'Legendary songsmith of darkness and devotion') - LEAVE EMPTY if you have no reliable information about the artist",
     "Genre": "primary genre(s), separated by /",
     "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",{bio_instruction}
     "AI Summary": "brief critical assessment based on the bio provided or from reviews/consensus - BE SPECIFIC about their sound/style, avoid generic phrases like 'emerging artist' or 'shows promise' (or empty string if no bio and insufficient public info)",

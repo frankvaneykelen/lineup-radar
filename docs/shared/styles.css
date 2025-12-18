@@ -383,7 +383,7 @@ td.artist-cell-with-bg {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 80px;
+    min-height: 50px;
     position: relative;
     overflow: hidden;
 }
@@ -501,17 +501,6 @@ td[title*="Gender"], td[title*="Person of Color"] {
 
 .spotify-link:hover {
     background: #1ed760;
-}
-
-.bio {
-    max-width: 400px;
-    /* line-height: 1.5; */
-    font-size: 80%;
-}
-
-.take {
-    max-width: 400px;
-    font-size: 80%;
 }
 
 /* Stats */

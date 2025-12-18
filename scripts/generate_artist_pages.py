@@ -257,7 +257,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 </div>
             </div>
             <div class="artist-header-content">
-                <h1>{escape_html(artist_name)} <span class="opacity-75">@ <a href="../index.html" style="color: inherit; text-decoration: none;">{config.name} {year}</a></span></h1>
+                <h1>{escape_html(artist_name)} <span class="opacity-50">@ <a href="../index.html" style="color: inherit; text-decoration: none;">{config.name} {year}</a></span></h1>
                 <div class="badges d-flex flex-wrap gap-2">
 """
     

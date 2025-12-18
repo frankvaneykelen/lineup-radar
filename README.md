@@ -593,12 +593,33 @@ print(text)
 
 Additional helper scripts for specific tasks:
 
+- **Generate taglines**: `scripts/helpers/generate_taglines.py` - Generate catchy 3-7 word taglines for all artists
 - **Clear ratings**: `scripts/helpers/clear_dtrh_ratings.py`, `clear_pinkpop_ratings.py` - Reset AI ratings and summaries
 - **Generate charts**: `scripts/helpers/generate_charts.py` - Create festival statistics visualizations  
 - **Generate FAQ**: `scripts/helpers/generate_faq.py` - Create FAQ page from festival data
 - **Search images**: `scripts/helpers/search_artist_images.py` - Find and download artist images
 - **Translate bios**: `scripts/helpers/translate_festival_bios.py` - Translate Dutch bios to English
 - **Validate enrichment**: `scripts/helpers/validate_enrichment.py` - Check data quality after AI enrichment
+
+**Generate Taglines**:
+
+```powershell
+# Generate taglines for all artists that don't have one yet
+python scripts/helpers/generate_taglines.py
+```
+
+This will automatically:
+- Process all festival CSVs
+- Generate catchy 3-7 word taglines for artists missing them
+- Preserve existing taglines
+- Use artist bio, genre, and AI summary for context
+
+Example taglines generated:
+- "The most famous animated band on earth" (Gorillaz)
+- "Rock music's chief anti-hero" (Jack White)
+- "Legendary songsmith of darkness and devotion" (Nick Cave)
+
+**Note**: The enrichment script (`enrich_artists.py`) now automatically generates taglines for new artists.
 
 ### About pages
 
