@@ -76,7 +76,7 @@ The `2026.csv` file contains these columns:
 
 - **Artist** - Artist/band name
 - **Tagline** - Festival tagline/description
-- **Day** - Performance day
+- **Date** - Performance date (YYYY-MM-DD format)
 - **Start Time** - Performance start time
 - **End Time** - Performance end time
 - **Stage** - Stage name
@@ -103,5 +103,6 @@ The `2026.csv` file contains these columns:
 ## Notes
 
 - **Personal Data Preserved**: The "AI Summary" and "AI Rating" columns are never overwritten when running update scripts
+- **Date Format**: Dates are in YYYY-MM-DD format for precise scheduling
 - **Dutch Bios**: Festival provides Dutch biographies
 - **Image Downloads**: Artist images are automatically downloaded when generating artist pages

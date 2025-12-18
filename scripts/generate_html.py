@@ -46,6 +46,15 @@ def generate_html(csv_file, output_dir, config):
         print(f"No data found in {csv_file}")
         return
     
+    # Check if any artist has schedule data
+    has_schedule_data = any(
+        artist.get('Date', '').strip() or 
+        artist.get('Start Time', '').strip() or 
+        artist.get('End Time', '').strip() or 
+        artist.get('Stage', '').strip()
+        for artist in artists
+    )
+    
     # Get year from filename (e.g., 2026.csv -> 2026)
     year = Path(csv_file).stem
     
@@ -121,6 +130,9 @@ def generate_html(csv_file, output_dir, config):
             </div>
             
             <div class="filters">
+                {'<div class="filter-group"><label for="dateFilter">Filter by Date</label><select id="dateFilter"><option value="">All Dates</option></select></div>' if has_schedule_data else ''}
+                {'<div class="filter-group"><label for="stageFilter">Filter by Stage</label><select id="stageFilter"><option value="">All Stages</option></select></div>' if has_schedule_data else ''}
+                
                 <div class="filter-group">
                     <label for="genreFilter">Filter by Genre</label>
                     <select id="genreFilter">
@@ -173,6 +185,7 @@ def generate_html(csv_file, output_dir, config):
                 <thead>
                     <tr>
                         <th class="sortable" data-column="Artist">Artist</th>
+                        {'<th class="sortable" data-column="Date">Schedule</th>' if has_schedule_data else ''}
                         <th class="sortable" data-column="Genre">Genre</th>
                         <th class="sortable" data-column="Country">Country</th>
                         <th data-column="Bio">Bio</th>
@@ -298,10 +311,33 @@ def generate_html(csv_file, output_dir, config):
             artist_cell_class = 'artist-cell-clickable artist-cell-with-bg'
             artist_cell_style = f' style="background-image: url(\'../../shared/lineup-radar-logo.png\');"'
         
+        # Get schedule info
+        date = escape_html(artist.get('Date', ''))
+        start_time = escape_html(artist.get('Start Time', ''))
+        # Build schedule info if available
+        schedule_parts = []
+        date_val = artist.get('Date', '').strip()
+        start_val = artist.get('Start Time', '').strip()
+        end_val = artist.get('End Time', '').strip()
+        stage_val = artist.get('Stage', '').strip()
+        
+        if date_val:
+            schedule_parts.append(escape_html(date_val))
+        if start_val and end_val:
+            schedule_parts.append(f'{escape_html(start_val)}-{escape_html(end_val)}')
+        elif start_val:
+            schedule_parts.append(escape_html(start_val))
+        if stage_val:
+            schedule_parts.append(escape_html(stage_val))
+        
+        schedule_display = ' | '.join(schedule_parts) if schedule_parts else ''
+        schedule_td = f'<td>{schedule_display}</td>' if has_schedule_data else ''
+        
         html_content += f"""                    <tr data-index="{idx}">
                         <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'"{artist_cell_style}>
                             <strong>{escape_html(artist_name)}</strong>
                         </td>
+                        {schedule_td}
                         <td>{genre_html}</td>
                         <td>{country_html}</td>
                         <td class="bio" title="{bio_title}">{bio_with_link}</td>
@@ -328,8 +364,50 @@ def generate_html(csv_file, output_dir, config):
     <script>
         const artistsData = {artists_json};
         let currentSort = {{ column: null, direction: 'asc' }};
+        const hasScheduleData = {str(has_schedule_data).lower()};
         
         // Populate filter dropdowns with counts
+        // Count dates and stages if schedule data exists
+        if (hasScheduleData) {{
+            const dateCounts = {{}};
+            const stageCounts = {{}};
+            
+            artistsData.forEach(a => {{
+                const date = a['Date'] || '';
+                const stage = a['Stage'] || '';
+                
+                if (date) {{
+                    dateCounts[date] = (dateCounts[date] || 0) + 1;
+                }}
+                if (stage) {{
+                    stageCounts[stage] = (stageCounts[stage] || 0) + 1;
+                }}
+            }});
+            
+            const dates = Object.keys(dateCounts).sort();
+            const stages = Object.keys(stageCounts).sort();
+            
+            const dateSelect = document.getElementById('dateFilter');
+            if (dateSelect) {{
+                dates.forEach(date => {{
+                    const option = document.createElement('option');
+                    option.value = date;
+                    option.textContent = `${{date}} (${{dateCounts[date]}})`;
+                    dateSelect.appendChild(option);
+                }});
+            }}
+            
+            const stageSelect = document.getElementById('stageFilter');
+            if (stageSelect) {{
+                stages.forEach(stage => {{
+                    const option = document.createElement('option');
+                    option.value = stage;
+                    option.textContent = `${{stage}} (${{stageCounts[stage]}})`;
+                    stageSelect.appendChild(option);
+                }});
+            }}
+        }}
+        
         // Count genres (split by / to handle multiple genres per artist)
         const genreCounts = {{}};
         artistsData.forEach(a => {{
@@ -436,6 +514,8 @@ def generate_html(csv_file, output_dir, config):
             const genreFilter = document.getElementById('genreFilter').value;
             const countryFilter = document.getElementById('countryFilter').value;
             const ratingFilter = document.getElementById('ratingFilter').value;
+            const dateFilter = hasScheduleData ? document.getElementById('dateFilter').value : '';
+            const stageFilter = hasScheduleData ? document.getElementById('stageFilter').value : '';
             
             // Get checked genders and POC values
             const checkedGenders = Array.from(document.querySelectorAll('#genderFilters input:checked')).map(cb => cb.value);
@@ -453,10 +533,12 @@ def generate_html(csv_file, output_dir, config):
                 const matchesGenre = !genreFilter || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).includes(genreFilter));
                 const matchesCountry = !countryFilter || (artist.Country && artist.Country.split('/').map(c => c.trim()).includes(countryFilter));
                 const matchesRating = !ratingFilter || (artist['AI Rating'] && parseFloat(artist['AI Rating']) >= parseFloat(ratingFilter));
+                const matchesDate = !dateFilter || (artist['Date'] && artist['Date'] === dateFilter);
+                const matchesStage = !stageFilter || (artist['Stage'] && artist['Stage'] === stageFilter);
                 const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person'] || 'Unknown');
                 const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?'] || 'Unknown');
                 
-                if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesGender && matchesPOC) {{
+                if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesDate && matchesStage && matchesGender && matchesPOC) {{
                     row.classList.remove('hidden');
                     visibleCount++;
                 }} else {{
@@ -539,6 +621,14 @@ def generate_html(csv_file, output_dir, config):
         document.getElementById('genreFilter').addEventListener('change', filterTable);
         document.getElementById('countryFilter').addEventListener('change', filterTable);
         document.getElementById('ratingFilter').addEventListener('change', filterTable);
+        
+        // Add schedule filter listeners if they exist
+        if (hasScheduleData) {{
+            const dateFilter = document.getElementById('dateFilter');
+            const stageFilter = document.getElementById('stageFilter');
+            if (dateFilter) dateFilter.addEventListener('change', filterTable);
+            if (stageFilter) stageFilter.addEventListener('change', filterTable);
+        }}
         
         // Add listeners for gender and POC checkboxes
         document.querySelectorAll('#genderFilters input, #pocFilters input').forEach(checkbox => {{
