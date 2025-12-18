@@ -2,7 +2,7 @@
   "festival": "grauzone",
   "name": "Grauzone Festival",
   "year": 2026,
-  "generated_at": "2025-12-18T22:15:11.394786+00:00",
+  "generated_at": "2025-12-18T22:33:43.927078+00:00",
   "config_properties": {
     "name": "Grauzone Festival",
     "year": 2026,
@@ -115,16 +115,19 @@
       "No": 28
     },
     "average_rating": 8.03,
+    "rated_count": 36,
+    "rated_percentage": 51.4,
     "rating_counts": {
       "9-10": 1,
       "8-9": 35,
       "Unrated": 34
     },
     "has_spotify_links": 0,
+    "spotify_percentage": 0.0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Grauzone Festival 2026** continues to solidify its reputation as a haven for alternative and underground music lovers, showcasing a diverse lineup of 70 artists across a wide spectrum of genres. This year’s festival highlights its roots in darkwave (12 acts) and post-punk (15 acts combined), while also embracing electronic and experimental sounds, including techno, synthpop, industrial, and EBM. With an average rating of 8.03, Grauzone promises an exceptional experience for fans of boundary-pushing music.\n\nThe festival’s lineup reflects its commitment to global representation, with artists hailing from 17 countries, including France (13 acts), the USA (16 acts combined), and the Netherlands (9 acts). Smaller but vibrant contributions from countries like Japan, Morocco, and Serbia add rich cultural diversity to the event. Grauzone also champions inclusivity, with a notable presence of female (18) and non-binary (1) artists, as well as 11 artists identifying as people of color, ensuring that the stage reflects a broad spectrum of voices and perspectives.\n\nKnown for its unique curation, Grauzone 2026 brings together emerging talent and seasoned acts across genres like shoegaze, noise rock, and dark synthwave, creating a space for artistic exploration. The inclusion of 11 DJs adds a dynamic, danceable element to the lineup. With its eclectic mix of sounds, international reach, and dedication to diversity, Grauzone continues to be a vital platform for celebrating the cutting edge of alternative music.",
+  "ai_profile": "**Grauzone Festival 2026: A Celebration of Dark and Diverse Sounds**\n\nGrauzone Festival 2026 brings together an eclectic lineup of 70 artists, showcasing a rich tapestry of genres that celebrate the darker and more experimental corners of music. With a strong emphasis on Darkwave, Post-punk, and Electronic music, the festival also ventures into subgenres like Industrial, EBM, and Synthpop, alongside unexpected influences like Folk, Noise Rock, and Italo Disco. This year’s program highlights the festival’s commitment to blending underground aesthetics with boundary-pushing artistry, offering a unique experience for fans of alternative and avant-garde sounds.\n\nDiversity is a cornerstone of Grauzone’s identity, reflected in its global artist roster. Performers hail from over 17 countries, with notable representation from France, the USA, and the Netherlands, alongside artists from countries like Japan, Morocco, and Serbia. The festival also embraces a wide range of identities, with a mix of male, female, non-binary, and mixed-gender acts taking the stage. Additionally, Grauzone continues to amplify voices from underrepresented communities, featuring 11 artists who identify as people of color.\n\nThis year’s edition promises more than just music; it’s a celebration of cultural and creative diversity. With 11 DJs complementing the live performances, Grauzone 2026 invites attendees to immerse themselves in a multi-dimensional world of sound and vision, where innovation meets tradition and boundaries are meant to be crossed.",
   "start_date": "2026-02-06",
   "end_date": "2026-02-08"
 }

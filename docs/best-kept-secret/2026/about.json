@@ -2,7 +2,7 @@
   "festival": "best-kept-secret",
   "name": "Best Kept Secret",
   "year": 2026,
-  "generated_at": "2025-12-18T22:13:43.174616+00:00",
+  "generated_at": "2025-12-18T22:32:17.101816+00:00",
   "config_properties": {
     "name": "Best Kept Secret",
     "year": 2026,
@@ -108,6 +108,8 @@
       "Yes": 12
     },
     "average_rating": 7.2,
+    "rated_count": 40,
+    "rated_percentage": 76.9,
     "rating_counts": {
       "9-10": 3,
       "8-9": 9,
@@ -115,11 +117,12 @@
       "6-7": 7,
       "Unrated": 12
     },
-    "has_spotify_links": 52,
+    "has_spotify_links": 51,
+    "spotify_percentage": 98.1,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Best Kept Secret 2026: A Celebration of Diversity and Genre Fusion**  \n\nThe 2026 edition of Best Kept Secret Festival promises an eclectic and boundary-pushing lineup, featuring 52 artists spanning an impressive range of 47 genres. From the pulsating beats of electronic and house to the introspective tones of indie folk and dream pop, the festival embraces musical diversity at its core. With notable representation in electronic (6 acts), post-punk (5 acts), hip-hop (5 acts), and alternative rock (4 acts), this year’s lineup guarantees something for every music enthusiast, boasting both mainstream appeal and niche discoveries.  \n\nHailing from 16 countries, the artists represent a global tapestry of talent. The USA leads the charge with 11 acts, closely followed by the Netherlands (10 acts) and the UK (6 acts), while countries like Ghana, South Africa, and Brazil add a vibrant international flavor to the mix. The festival also reflects a growing commitment to inclusion, with 12 acts featuring people of color and a gender breakdown that highlights male, female, mixed-gender, and non-binary representation.  \n\nWith an average rating of 7.2, including 12 acts scoring between 8 and 10, this year’s lineup is a blend of critically acclaimed performers and emerging talent. The presence of three DJs ensures dancefloor energy, while the mix of experimental rock, Afrobeat, and traditional South African music underscores the festival’s ethos of celebrating both innovation and cultural heritage. Best Kept Secret 2026 is more than a music festival—it’s a curated journey through sound, identity, and connection.",
+  "ai_profile": "**Best Kept Secret 2026: A Celebration of Diversity and Talent**\n\nBest Kept Secret 2026 presents an eclectic lineup of 52 artists spanning an impressive 40 unique genres, from electronic and post-punk to Afropop and psychedelic rock. With a strong presence of genres like electronic (6 artists), post-punk (5), hip-hop (5), and alternative rock (4), the festival promises a diverse auditory experience that caters to a wide range of musical tastes. The event also highlights the global nature of music, featuring artists from 16 countries, with the USA (11), Netherlands (10), UK (6), and Australia (5) leading the pack, alongside unique contributions from Ghana, Brazil, South Africa, and more.\n\nDiversity is at the heart of this year’s festival. While male artists make up the majority of the lineup, there is a notable representation of female (9), mixed-gender (9), and non-binary (1) acts, reflecting a commitment to showcasing varied perspectives. Furthermore, 12 of the artists are people of color, adding to the rich cultural mosaic of the festival. Best Kept Secret 2026 also includes 3 DJs, ensuring an energetic blend of live performances and danceable sets.\n\nWith an average rating of 7.2 from 76.9% of the rated acts, the lineup has already generated positive buzz among music enthusiasts. A remarkable 98.1% of the artists have Spotify links available, making it easier than ever for fans to explore their sound ahead of the festival. Best Kept Secret 2026 promises to be a vibrant celebration of musical innovation, cross-cultural collaboration, and artistic diversity.",
   "start_date": "2026-06-12",
   "end_date": "2026-06-14"
 }

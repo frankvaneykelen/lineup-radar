@@ -2,7 +2,7 @@
   "festival": "bospop",
   "name": "Bospop",
   "year": 2026,
-  "generated_at": "2025-12-18T22:14:13.826750+00:00",
+  "generated_at": "2025-12-18T22:32:47.738381+00:00",
   "config_properties": {
     "name": "Bospop",
     "year": 2026,
@@ -81,6 +81,8 @@
       "Unknown": 7
     },
     "average_rating": 8.16,
+    "rated_count": 32,
+    "rated_percentage": 82.1,
     "rating_counts": {
       "9-10": 8,
       "8-9": 21,
@@ -88,10 +90,11 @@
       "Unrated": 7
     },
     "has_spotify_links": 0,
+    "spotify_percentage": 0.0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Bospop 2026: A Celebration of Rock and Beyond**\n\nBospop 2026 continues its legacy as a premier music festival, showcasing a diverse lineup of 39 artists spanning a wide array of genres. True to its roots, rock dominates the bill with 15 acts, complemented by subgenres like blues rock, hard rock, and indie rock. However, the festival also embraces variety, featuring everything from electronic and techno to folk punk, symphonic metal, and comedy rock, ensuring there’s something for every music lover. With an impressive average artist rating of 8.16, attendees can expect top-tier performances across the weekend.\n\nThe festival boasts an international flair, with artists hailing from 10 countries. The USA, Netherlands, and UK lead the charge, contributing 22 acts collectively, while Canada, Belgium, Australia, and other nations add to the rich global tapestry. Gender representation shows room for growth, with male artists making up the majority (27), while female artists account for 5 acts, alongside one mixed-gender group. Additionally, 4 acts feature performers of color, highlighting a step toward greater diversity in the festival’s lineup.\n\nBospop 2026 celebrates both established names and emerging talent, with 29 artists scoring a rating above 8 out of 10 from the festival community. From soulful blues to high-energy nu-metal and experimental sounds, the festival promises a vibrant blend of genres and styles. With its eclectic mix and strong international presence, Bospop 2026 is set to deliver an unforgettable experience for music fans of all tastes.",
+  "ai_profile": "**Bospop Festival 2026: A Celebration of Rock and Beyond**  \n\nBospop 2026 brings together an electrifying lineup of 39 artists, showcasing a vibrant mix of genres with a strong emphasis on rock and its many subgenres. From classic rock and blues rock to symphonic metal and alternative sounds, the festival continues its tradition of celebrating diverse musical styles. Rock dominates the scene with 15 acts, while blues rock and alternative rock follow closely, providing a rich tapestry of sounds for every music enthusiast. The inclusion of genres like Celtic punk, stoner rock, and experimental music highlights the festival's commitment to offering something for everyone.  \n\nThis year’s lineup reflects an impressive international reach, with artists hailing from ten different countries. The USA leads the charge with ten acts, while the Netherlands and the UK each contribute six, ensuring a blend of global talent and local flavor. In terms of representation, the festival features a mix of male, female, and mixed-gender acts, with growing diversity among performers. While representation of artists of color remains limited, the festival has taken steps toward fostering a more inclusive stage.  \n\nWith an average artist rating of 8.16 and over 80% of acts rated, Bospop 2026 promises an exceptional experience for music lovers. The majority of rated artists received scores of 8 or higher, underscoring the high-caliber talent on display. While Spotify links are unavailable for the lineup this year, the festival’s eclectic mix of renowned and emerging talent ensures a memorable weekend for fans of all musical tastes. Whether you’re a rock purist or an adventurous listener, Bospop 2026 is set to deliver an unforgettable celebration of music.  ",
   "start_date": "2026-07-10",
   "end_date": "2026-07-12"
 }

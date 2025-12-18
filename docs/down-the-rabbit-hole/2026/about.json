@@ -2,7 +2,7 @@
   "festival": "down-the-rabbit-hole",
   "name": "Down The Rabbit Hole",
   "year": 2026,
-  "generated_at": "2025-12-18T22:14:37.805371+00:00",
+  "generated_at": "2025-12-18T22:33:11.002853+00:00",
   "config_properties": {
     "name": "Down The Rabbit Hole",
     "year": 2026,
@@ -103,6 +103,8 @@
       "Unknown": 7
     },
     "average_rating": 7.61,
+    "rated_count": 28,
+    "rated_percentage": 71.8,
     "rating_counts": {
       "9-10": 4,
       "8-9": 9,
@@ -110,10 +112,11 @@
       "Unrated": 11
     },
     "has_spotify_links": 39,
+    "spotify_percentage": 100.0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Down The Rabbit Hole 2026: A Kaleidoscope of Sound and Culture**  \n\nThe 2026 edition of *Down The Rabbit Hole* brings together an eclectic lineup of 39 artists, offering a vibrant mix of genres and cultural influences. From pulsating Electronic beats and soulful Folk to dynamic Hip-Hop and experimental sounds, the festival showcases a rich tapestry of musical styles. With Electronic (7 acts) and Indie Rock (7 acts) leading the charge, and a diverse array of genres like World Music, Psychedelic Rock, and Anatolian Rock peppered throughout, this year’s lineup promises a musical adventure for every taste. The presence of 3 DJs ensures dancefloor energy alongside more introspective and experimental performances.  \n\nThe festival highlights its global appeal with artists hailing from 15 countries, including heavy representation from the United Kingdom, United States (8 acts each), and the Netherlands (6 acts), alongside unique contributions from places like Thailand, DR Congo, and Turkey. Gender diversity is also a focal point, with 10 female acts, 4 mixed-gender groups, and a variety of voices from artists of color (9 acts), reflecting a commitment to inclusivity.  \n\nWith an average artist rating of 7.61, including 13 acts rated 8 or higher, *Down The Rabbit Hole 2026* promises top-tier performances. Notable for its blend of emerging talent and established names, the festival continues to embrace innovation and diversity while offering attendees a chance to immerse themselves in a truly global and genre-spanning musical experience.",
+  "ai_profile": "**Down The Rabbit Hole 2026: A Celebration of Diversity and Discovery**  \n\nThe 2026 edition of *Down The Rabbit Hole* promises to be a vibrant and eclectic celebration of music, bringing together 39 artists from 15 countries to create a truly global experience. With acts hailing from the UK, US, Netherlands, and as far afield as Thailand, Turkey, and DR Congo, the festival showcases a rich tapestry of sounds and influences. From the pulsating beats of electronic and techno to the soulful melodies of folk and world music, the lineup highlights a harmonious blend of genres, offering something for every music lover.  \n\nThis year’s festival is also a testament to diversity in representation. With a strong mix of male, female, and mixed-gender acts, Down The Rabbit Hole continues to highlight voices across the spectrum. Additionally, artists of color make up a significant portion of the lineup, reinforcing the festival’s commitment to inclusivity and amplifying underrepresented voices on the global stage.  \n\nAs always, the festival’s curation thrives on its adventurous spirit, with genres ranging from indie rock and hip-hop to Anatolian rock, molam, and psychedelic folk. With every artist offering a unique sonic perspective, this year’s Down The Rabbit Hole promises to be an unforgettable journey through sound, culture, and creativity.",
   "start_date": "2026-07-03",
   "end_date": "2026-07-05"
 }

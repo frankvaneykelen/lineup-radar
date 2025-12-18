@@ -2,7 +2,7 @@
   "festival": "alkmaarse-eigenste",
   "name": "Alkmaarse Eigenste",
   "year": 2026,
-  "generated_at": "2025-12-18T22:13:26.148770+00:00",
+  "generated_at": "2025-12-18T22:32:00.281933+00:00",
   "config_properties": {
     "name": "Alkmaarse Eigenste",
     "year": 2026,
@@ -84,15 +84,18 @@
       "Yes": 1
     },
     "average_rating": 10.0,
+    "rated_count": 1,
+    "rated_percentage": 4.0,
     "rating_counts": {
       "9-10": 1,
       "Unrated": 24
     },
-    "has_spotify_links": 25,
+    "has_spotify_links": 16,
+    "spotify_percentage": 64.0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Dutch Talent and Eclectic Sounds**\n\nAlkmaarse Eigenste 2026 is a vibrant showcase of local artistry, featuring 25 Dutch artists spanning an impressive variety of genres. From alternative and rock to indie folk, soul, and dream pop, the festival celebrates the diversity of modern music. Notable trends include a strong representation of alternative sounds, with six acts in the alternative genre, and a mix of indie and pop influences, demonstrating the creative versatility of the Dutch music scene.\n\nThe festival also highlights a commendable gender balance, with female artists making up a significant portion of the lineup, alongside male performers, bands, and emerging artists whose genders remain undisclosed. While the majority of artists are not people of color, the inclusion of diverse voices and styles, such as world music, reggae, and alt-pop-noir, adds depth and richness to the festival’s offerings. This commitment to diversity is further reflected in the blend of traditional, experimental, and contemporary genres.\n\nWith an average rating of 10.0 and all artists boasting Spotify links, Alkmaarse Eigenste 2026 promises a curated experience of top-tier talent and unique sounds. This festival is not just a celebration of music but a testament to the creativity and innovation thriving within the Netherlands, offering something for every music enthusiast.",
+  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Dutch Musical Diversity**\n\nAlkmaarse Eigenste 2026 promises an eclectic showcase of talent, featuring 25 artists exclusively from the Netherlands. With a rich blend of genres, the festival highlights a strong presence of alternative (6), rock (4), and indie-inspired styles, while also embracing niche and experimental sounds such as ambient pop, dark folk, and synthesizer rock. Fans of diverse music will find everything from soulful grooves to punk-influenced and world music performances, offering something for every taste.\n\nThe festival champions both individual and collective artistry, featuring a balanced representation of genders: 8 female artists, 9 male artists, and 3 bands, alongside 5 artists whose gender identities remain undisclosed. While most of the lineup identifies as non-POC, the festival includes at least one artist of color, showcasing a commitment to fostering inclusivity and reflecting the vibrant cultural landscape of the Netherlands.\n\nAlkmaarse Eigenste continues its tradition of celebrating homegrown talent, with all 25 acts hailing from the Netherlands. This year’s lineup not only highlights the diversity of Dutch music but also underscores the festival’s dedication to amplifying unique and innovative voices. From indie folk to reggae and beyond, Alkmaarse Eigenste 2026 is set to be a dynamic and memorable experience for music lovers.",
   "start_date": "2026-01-24",
   "end_date": "2026-01-24"
 }

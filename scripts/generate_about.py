@@ -84,8 +84,11 @@ def compute_stats(artists: list[dict]) -> dict:
     # Ratings
     ratings = [safe_float(a.get('AI Rating')) for a in artists]
     rated = [r for r in ratings if r is not None]
+    rated_percentage = (len(rated) / len(artists) * 100) if artists else 0
     if rated:
         stats['average_rating'] = round(sum(rated) / len(rated), 2)
+        stats['rated_count'] = len(rated)
+        stats['rated_percentage'] = round(rated_percentage, 1)
         # Distribution by ranges
         dist = {
             '9-10': 0,
@@ -113,10 +116,14 @@ def compute_stats(artists: list[dict]) -> dict:
         stats['rating_counts'] = {k: v for k, v in dist.items() if v > 0}
     else:
         stats['average_rating'] = None
+        stats['rated_count'] = 0
+        stats['rated_percentage'] = 0
         stats['rating_counts'] = {'Unrated': len(artists)}
 
     # Other counts
-    stats['has_spotify_links'] = sum(1 for a in artists if (a.get('Spotify link') or '').strip())
+    spotify_count = sum(1 for a in artists if (a.get('Spotify link') or '').strip() and a.get('Spotify link', '').strip() != 'NOT ON SPOTIFY')
+    stats['has_spotify_links'] = spotify_count
+    stats['spotify_percentage'] = round((spotify_count / len(artists) * 100), 1) if artists else 0
 
     return stats
 
@@ -143,6 +150,16 @@ def compare_with_previous(csv_path: Path, artists: list[dict]) -> dict:
 
 def generate_profile_text(config, stats: dict, prev: dict, use_ai: bool = False) -> str:
     # Build a prompt for AI summarization
+    
+    # Add guidance about data quality thresholds
+    rating_guidance = ""
+    if stats.get('rated_percentage', 0) < 75:
+        rating_guidance = f"\n⚠️ IMPORTANT: Only {stats.get('rated_percentage', 0):.0f}% of artists have ratings - DO NOT mention average ratings or rating statistics."
+    
+    spotify_guidance = ""
+    if stats.get('spotify_percentage', 0) < 95:
+        spotify_guidance = f"\n⚠️ IMPORTANT: Only {stats.get('spotify_percentage', 0):.0f}% of artists have Spotify links - DO NOT claim 'all artists' have Spotify links."
+    
     prompt_lines = []
     prompt_lines.append(f"Write a short festival profile for '{config.name}' {stats.get('year','')} based on the following statistics:")
     prompt_lines.append(json.dumps(stats, indent=2))
@@ -150,6 +167,14 @@ def generate_profile_text(config, stats: dict, prev: dict, use_ai: bool = False)
         prompt_lines.append("Compare to the previous year:")
         prompt_lines.append(json.dumps(prev, indent=2))
     prompt_lines.append("Focus on common ground between artists, notable trends, and diversity (gender, country, person-of-color measures). Keep it concise (approx 3 short paragraphs).")
+    
+    if rating_guidance:
+        prompt_lines.append(rating_guidance)
+    if spotify_guidance:
+        prompt_lines.append(spotify_guidance)
+    
+    prompt_lines.append("\nNEVER make claims about data that doesn't meet quality thresholds (75% for ratings, 95% for complete coverage).")
+    
     prompt = "\n\n".join(prompt_lines)
     if use_ai:
         try:
@@ -238,6 +263,16 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
                         for poc, count in stats.get('poc_counts', {}).items()])
     rating_rows = ''.join([f'<tr><td>{rating}</td><td>{count}</td></tr>' 
                            for rating, count in sorted(stats.get('rating_distribution', {}).items(), key=lambda x: -int(x[0]))])
+    
+    # Build rating overview stat HTML conditionally
+    rated_percentage = stats.get('rated_percentage', 0)
+    rating_overview_html = ""
+    if rated_percentage >= 75:
+        rating_overview_html = f"""
+                        <div class=\"overview-stat\">
+                            <span class=\"stat-number\">{stats.get('average_rating', 'N/A')}</span>
+                            <div class=\"stat-label\">Average Rating</div>
+                        </div>"""
     
     title = f"{config.name} {stats.get('year','')} About - Frank's LineupRadar"
     html = f"""<!DOCTYPE html>
@@ -350,6 +385,7 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
                     About page generated: {datetime.now(timezone.utc).strftime('%B %d, %Y %H:%M UTC')}
                     {' | <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
+                    {' | <a href="' + config.playlist_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LineupRadar Playlist</a>' if getattr(config, 'playlist_url', None) else ''}
                 </p>
             </div>
         </header>
@@ -368,11 +404,7 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
                         <div class=\"overview-stat\">
                             <span class=\"stat-number\">{stats.get('total_artists', 0)}</span>
                             <div class=\"stat-label\">Total Artists</div>
-                        </div>
-                        <div class=\"overview-stat\">
-                            <span class=\"stat-number\">{stats.get('average_rating', 'N/A')}</span>
-                            <div class=\"stat-label\">Average Rating</div>
-                        </div>
+                        </div>{rating_overview_html}
                         <div class=\"overview-stat\">
                             <span class=\"stat-number\">{stats.get('dj_count', 0)}</span>
                             <div class=\"stat-label\">DJs/Electronic Acts</div>
