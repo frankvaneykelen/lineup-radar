@@ -21,6 +21,13 @@ README_TEMPLATE = """# {festival_name} {year}
 **Festival Dates:** {dates}  
 **Location:** {location}
 
+## Setting Up
+
+```powershell
+# (Windows) Activate the virtual environment
+.venv\Scripts\Activate.ps1
+```
+
 ## Quick Commands
 
 ### Scraping & Data Updates
@@ -40,6 +47,9 @@ python scripts/fetch_festival_data.py --festival {slug} --year {year} --artist "
 
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival {slug} --year {year} --ai
+
+# Enrich artist data with AI-generated insights for a specific artist   
+python scripts/enrich_artists.py --festival {slug} --year {year} --ai --artist "Artist Name"
 
 # Manually enrich artist data interactively (prompts for missing fields)
 python scripts/manual_enrich_artists.py --festival {slug} --year {year}

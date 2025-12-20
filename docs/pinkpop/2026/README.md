@@ -3,6 +3,13 @@
 **Festival Dates:** June 19-21, 2026  
 **Location:** Landgraaf, Netherlands
 
+## Setting Up
+
+```powershell
+# (Windows) Activate the virtual environment
+.venv\Scripts\Activate.ps1
+```
+
 ## Quick Commands
 
 ### Scraping & Data Updates
@@ -22,6 +29,9 @@ python scripts/fetch_festival_data.py --festival pinkpop --year 2026 --artist "A
 
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival pinkpop --year 2026 --ai
+
+# Enrich artist data with AI-generated insights for a specific artist   
+python scripts/enrich_artists.py --festival pinkpop --year 2026 --ai --artist "Artist Name"
 
 # Manually enrich artist data interactively (prompts for missing fields)
 python scripts/manual_enrich_artists.py --festival pinkpop --year 2026

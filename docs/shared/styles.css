@@ -103,17 +103,15 @@ body.dark-mode .background-text {
 }
 
 body.dark-mode .card {
-    background: #16213e;
-    color: #e0e0e0;
-    border-color: #2a3f5f;
+    /* Removed custom card styling to use Bootstrap defaults */
 }
 
 body.dark-mode .card-body {
-    background: #16213e;
+    /* Removed custom card-body styling to use Bootstrap defaults */
 }
 
 body.dark-mode .card-subtitle {
-    color: #8a8a8a !important;
+    /* Removed custom card-subtitle styling to use Bootstrap defaults */
 }
 
 body.dark-mode footer {

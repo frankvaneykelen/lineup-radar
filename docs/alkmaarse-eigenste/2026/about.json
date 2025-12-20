@@ -2,7 +2,7 @@
   "festival": "alkmaarse-eigenste",
   "name": "Alkmaarse Eigenste",
   "year": 2026,
-  "generated_at": "2025-12-18T23:12:13.024872+00:00",
+  "generated_at": "2025-12-20T15:59:08.610480+00:00",
   "config_properties": {
     "name": "Alkmaarse Eigenste",
     "year": 2026,
@@ -21,16 +21,18 @@
     "genre_counts": {
       "alternative": 6,
       "rock": 4,
+      "alternative rock": 3,
+      "indie rock": 3,
       "alternative pop": 3,
       "indie pop": 2,
       "soul": 2,
       "pop": 2,
       "indie": 2,
-      "alternative rock": 2,
-      "indie rock": 2,
       "indie folk": 2,
       "dream pop": 2,
       "dance pop": 2,
+      "shoegaze": 2,
+      "post-punk": 2,
       "synthesizer rock": 1,
       "electronic pop": 1,
       "indie grunge": 1,
@@ -49,8 +51,6 @@
       "pop rock": 1,
       "grunge": 1,
       "folkpop": 1,
-      "shoegaze": 1,
-      "post-punk": 1,
       "ambient": 1,
       "world music": 1,
       "folk": 1,
@@ -73,29 +73,29 @@
       "Netherlands": 25
     },
     "gender_counts": {
-      "Female": 8,
+      "Female": 9,
       "Male": 9,
-      "Unknown": 5,
+      "Unknown": 4,
       "Band": 3
     },
     "poc_counts": {
-      "No": 18,
-      "Unknown": 6,
+      "No": 19,
+      "Unknown": 5,
       "Yes": 1
     },
-    "average_rating": 10.0,
-    "rated_count": 1,
-    "rated_percentage": 4.0,
+    "average_rating": 9.5,
+    "rated_count": 2,
+    "rated_percentage": 8.0,
     "rating_counts": {
-      "9-10": 1,
-      "Unrated": 24
+      "9-10": 2,
+      "Unrated": 23
     },
     "has_spotify_links": 16,
     "spotify_percentage": 64.0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Dutch Musical Diversity**  \n\nAlkmaarse Eigenste 2026 brings together an eclectic mix of 25 talented artists, all hailing from the Netherlands. With a strong focus on alternative and indie genres, the festival showcases a variety of styles, from alternative rock and indie folk to dream pop and dance pop. The lineup also includes unique sounds like ambient pop, swampy roots influences, and alt-pop-noir, ensuring a rich musical journey for every attendee.  \n\nThe festival celebrates diversity, not only in musical genres but also in representation. The lineup includes a balanced mix of male and female performers, as well as bands, amplifying a variety of voices and creative expressions. While the majority of artists are not people of color, Alkmaarse Eigenste shines a light on the growing inclusivity in the Dutch music scene, offering a platform for diverse talents and perspectives.  \n\nWith its commitment to promoting homegrown talent, Alkmaarse Eigenste 2026 is a reflection of the Netherlands' vibrant and multifaceted music culture. Expect a weekend of boundary-pushing performances, innovative sounds, and a celebration of artistic individuality in the heart of Alkmaar.",
+  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Dutch Musical Diversity**\n\nAlkmaarse Eigenste 2026 is set to light up the Netherlands with an eclectic lineup of 25 talented artists, all proudly hailing from the host country. This year’s festival showcases an impressive range of genres, with a strong emphasis on alternative (6 artists), rock (4), and their many subgenres, such as alternative rock (3) and indie rock (3). Attendees can also look forward to performances spanning soul, pop, folk, jazz, and even niche styles like shoegaze, alt-pop-noir, and swampy roots influences, making it a truly diverse celebration of sound.\n\nThe festival continues to highlight inclusivity and representation within its lineup. The artists feature a balanced gender mix, with equal numbers of male and female performers, alongside a notable presence of bands. While the majority of performers do not identify as people of color, there is a small but meaningful representation, reflecting the festival's effort to include diverse voices and backgrounds.\n\nAlkmaarse Eigenste 2026 also champions emerging and innovative sounds, with 16 of its artists featured on Spotify, offering fans a chance to explore their music ahead of the event. From the dreamy tones of ambient pop to the high-energy vibes of garage rock and ska, the festival promises a unique and memorable experience for music lovers of all tastes. This celebration of homegrown talent is not to be missed!",
   "start_date": "2026-01-24",
   "end_date": "2026-01-24"
 }

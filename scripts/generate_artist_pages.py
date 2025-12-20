@@ -474,22 +474,31 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     # Collect all available links
     has_links = False
     links_html = ""
-    
+
     # Festival page first (only if URL exists)
     if festival_url and festival_url.strip():
         links_html += f'                        <a href="{escape_html(festival_url)}" target="_blank" class="btn btn-info"><i class="bi bi-globe"></i> Festival Page</a>\n'
         has_links = True
-    
+
     # Then Spotify from CSV if available
     if spotify_link and spotify_link != "NOT ON SPOTIFY":
         links_html += f'                        <a href="{escape_html(spotify_link)}" target="_blank" class="btn btn-success"><i class="bi bi-spotify"></i> Listen on Spotify</a>\n'
         has_links = True
-    
+
+    # Add Website from CSV if present and not already in social_links
+    website = artist.get('Website', '').strip()
+    if website and website.lower() not in [s.lower() for s in social_links]:
+        links_html += f'                        <a href="{escape_html(website)}" target="_blank" class="btn btn-info"><i class="bi bi-link-45deg"></i> Website</a>\n'
+        has_links = True
+
     # Add social links from festival website
     for link in social_links:
         link_lower = link.lower()
         # Skip Spotify links - they're already shown separately above
         if 'spotify.com' in link_lower:
+            continue
+        # Skip Website if it's the same as the CSV Website
+        if website and link_lower == website.lower():
             continue
         if 'instagram.com' in link_lower:
             links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-instagram"></i> Instagram</a>\n'
@@ -511,7 +520,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
             # Generic website link
             links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-link-45deg"></i> Website</a>\n'
         has_links = True
-    
+
     if has_links:
         html += """                    <div class="d-flex gap-2 flex-wrap">
 """
@@ -520,7 +529,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
 """
     else:
         html += f"""                    <p>No links are available for this artist yet. If you can help, please 
-                        <a href="https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Links:%20{urllib.parse.quote(artist_name)}" target="_blank" style="color: #00a8cc;">create an issue on the repo</a> with links like:</p>
+                        <a href=\"https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Links:%20{urllib.parse.quote(artist_name)}\" target=\"_blank\" style=\"color: #00a8cc;\">create an issue on the repo</a> with links like:</p>
                     <ul>
                         <li>Official website</li>
                         <li>Spotify artist link</li>

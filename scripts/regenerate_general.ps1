@@ -144,6 +144,37 @@ Write-Host ""
 # Complete progress bar
 Write-Progress -Activity "Regenerating General Pages" -Status "Complete" -Completed
 
+
+# 4. Regenerate all festival README files
+$currentOperation++
+$totalOperations++
+$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+Write-Progress -Activity "Regenerating General Pages" -Status "Generating festival READMEs ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+
+Write-Host "Regenerating all festival README files..." -ForegroundColor Yellow
+Write-Host ""
+
+try {
+    $command = "python scripts/generate_festival_readme.py --all"
+    Write-Host "Running: $command" -ForegroundColor Gray
+    $output = & python scripts/generate_festival_readme.py --all 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "✓ Festival READMEs generated successfully" -ForegroundColor Green
+        Write-Host $output
+        $successCount++
+    } else {
+        Write-Host "✗ Failed to generate festival READMEs" -ForegroundColor Red
+        Write-Host "Error output:" -ForegroundColor Red
+        Write-Host $output -ForegroundColor Red
+        $failureCount++
+    }
+}
+catch {
+    Write-Host "✗ Exception while generating festival READMEs" -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    $failureCount++
+}
+
 # Calculate duration
 $endTime = Get-Date
 $duration = $endTime - $startTime
@@ -156,7 +187,7 @@ Write-Host "  Regeneration Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "Pages regenerated: Homepage, Charts, FAQ" -ForegroundColor White
+Write-Host "Pages regenerated: Homepage, Charts, FAQ, Festival READMEs" -ForegroundColor White
 Write-Host "Total operations: $totalOperations" -ForegroundColor White
 Write-Host "Successful: $successCount" -ForegroundColor Green
 Write-Host "Failed: $failureCount" -ForegroundColor $(if ($failureCount -eq 0) { "Green" } else { "Red" })

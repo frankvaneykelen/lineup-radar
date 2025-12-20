@@ -3,6 +3,13 @@
 **Festival Dates:** July 03-05, 2026  
 **Location:** Beuningen, Netherlands
 
+## Setting Up
+
+```powershell
+# (Windows) Activate the virtual environment
+.venv\Scripts\Activate.ps1
+```
+
 ## Quick Commands
 
 ### Scraping & Data Updates
@@ -22,6 +29,9 @@ python scripts/fetch_festival_data.py --festival down-the-rabbit-hole --year 202
 
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival down-the-rabbit-hole --year 2026 --ai
+
+# Enrich artist data with AI-generated insights for a specific artist   
+python scripts/enrich_artists.py --festival down-the-rabbit-hole --year 2026 --ai --artist "Artist Name"
 
 # Manually enrich artist data interactively (prompts for missing fields)
 python scripts/manual_enrich_artists.py --festival down-the-rabbit-hole --year 2026

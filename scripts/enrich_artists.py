@@ -178,7 +178,8 @@ def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost
         use_azure = False
     
     prompt = create_enrichment_prompt(artist_name, existing_bio)
-    
+    print(f"\n--- AI PROMPT for {artist_name} ---\n{prompt}\n--- END PROMPT ---\n")
+
     payload = {
         "messages": [
             {
@@ -194,28 +195,34 @@ def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost
         "temperature": 0.3,
         "max_tokens": 1000
     }
-    
+
     try:
         response = requests.post(endpoint, headers=headers, json=payload, timeout=30)
         response.raise_for_status()
-        
+
         result = response.json()
         content = result["choices"][0]["message"]["content"]
-        
+
+        print(f"--- AI RAW RESULT for {artist_name} ---\n{content}\n--- END RESULT ---\n")
+
         # Extract JSON from response
         content = content.strip()
         if content.startswith("```json"):
-            content = content.split("```json")[1].split("```")[0].strip()
+            content = content.split("```json")[1].split("```", 1)[0].strip()
         elif content.startswith("```"):
-            content = content.split("```")[1].split("```")[0].strip()
-        
+            content = content.split("```", 1)[1].split("```", 1)[0].strip()
+
+        if not content:
+            print(f"  ⚠️  {artist_name}: AI returned no content!\n")
+            return {}
+
         artist_data = json.loads(content)
         provider = "Azure OpenAI" if use_azure else "GitHub Models"
-        
+
         # Validate and log rating issues
         rating = artist_data.get("AI Rating", "")
         my_take = artist_data.get("AI Summary", "")
-        
+
         # Convert rating to string and handle edge cases
         if rating == 0 or rating == "0":
             print(f"  ⚠️  {artist_name}: AI returned rating 0 (not enough publicly available critical reviews or performance data) - setting to empty")
@@ -237,41 +244,17 @@ def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost
                 except (ValueError, TypeError):
                     # Keep original rating if conversion fails
                     pass
-        
+
         if not my_take.strip():
             print(f"  ⚠️  {artist_name}: AI returned empty 'AI Summary' (not enough publicly available critical reviews or performance data)")
-        
+
         print(f"  ✓ {artist_name}: Enriched with AI ({provider})")
-        
+
         # No delay needed with Azure OpenAI
         return artist_data
-        
+
     except requests.exceptions.RequestException as e:
         error_msg = str(e)
-        if "429" in error_msg:
-            # Try to get rate limit info from response headers
-            if hasattr(e, 'response') and e.response is not None:
-                headers = e.response.headers
-                retry_after = headers.get('Retry-After', '60')
-                try:
-                    wait_seconds = int(retry_after)
-                    wait_minutes = wait_seconds / 60
-                    if wait_seconds > 300:  # More than 5 minutes
-                        print(f"  ⚠️  {artist_name}: Rate limited - need to wait {wait_minutes:.1f} minutes")
-                        print(f"     GitHub Models free tier has limited requests.")
-                        print(f"     Skipping for now - run the script again later to continue.")
-                        return {}
-                    else:
-                        print(f"  ⚠️  {artist_name}: Rate limited, waiting {wait_seconds} seconds...")
-                        time.sleep(wait_seconds)
-                        return {}
-                except:
-                    wait_seconds = 60
-            else:
-                wait_seconds = 60
-            print(f"  ⚠️  {artist_name}: Rate limited, waiting {wait_seconds} seconds...")
-            time.sleep(wait_seconds)
-            return {}
         print(f"  ✗ {artist_name}: API error - {e}")
         return {}
     except (json.JSONDecodeError, KeyError) as e:
