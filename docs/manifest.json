@@ -1,0 +1,33 @@
+{
+  "name": "Frank's LineupRadar",
+  "short_name": "LineupRadar",
+  "description": "Discover Festival Lineups & Hidden Gems - Explore complete festival lineups, artist bios, ratings, and metadata.",
+  "start_url": "/lineup-radar/",
+  "scope": "/lineup-radar/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#00d9ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "shared/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "shared/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "shared/LineupRadar.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}
