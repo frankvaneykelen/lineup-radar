@@ -137,12 +137,12 @@ def generate_html(csv_file, output_dir, config):
             <div class="page-header-content">
                 <h1>{config.name} {year} Lineup</h1>
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
-                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
-                    Last updated: {last_updated_str}
-                    {' <span class="festival-link-sep">|</span> <a href="about.html" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">About</a>'}
-                    {' <span class="festival-link-sep">|</span> <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
-                    {' <span class="festival-link-sep">|</span> <a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> Official Playlist</a>' if config.official_spotify_playlist else ''}
-                    {' <span class="festival-link-sep">|</span> <a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" style="color: #499b66; text-decoration: none;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>' if config.spotify_playlist_id else ''}
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                    <span>Last updated: {last_updated_str}</span>
+                    <a href="about.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline-info btn-sm px-3 py-1" style="font-weight: 600;">About</a>
+                    {('<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm px-3 py-1" style="font-weight: 600;">Festival Site</a>') if config.lineup_url else ''}
+                    {('<a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> Official Playlist</a>') if config.official_spotify_playlist else ''}
+                    {('<a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>') if config.spotify_playlist_id else ''}
                 </p>
             </div>
         </header>

@@ -379,13 +379,6 @@ td.artist-cell-with-bg strong {
     z-index: 1;
 }
 
-tbody tr:nth-child(even) {
-    background: #fafbfc;
-}
-
-tr:hover {
-    background: #f0f1f3 !important;
-}
 
 tr.hidden {
     display: none;
@@ -825,9 +818,7 @@ body.dark-mode .stat-card * {
         border: 2px solid #333;
     }
     
-    tbody tr:nth-child(even) {
-        background: #f5f5f5;
-    }
+    /* Remove custom alternating row backgrounds for dark mode, use Bootstrap defaults */
     
     a {
         color: black;
