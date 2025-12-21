@@ -75,12 +75,15 @@ python scripts/generate_about.py --festival {slug} --year {year}
 python scripts/generate_about.py --festival {slug} --year {year} --ai
 ```
 
+
 ### Spotify Playlists
 
 ```powershell
 # Generate Spotify playlists for the festival
 python scripts/generate_spotify_playlists.py --festival {slug} --year {year}
 ```
+
+*If an artist is not found on Spotify, the script will suggest a search link and prompt you to enter the correct Spotify artist URL manually. The script will then update the CSV with the entered URL.*
 
 ### Full Regeneration
 

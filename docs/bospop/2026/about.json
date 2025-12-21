@@ -2,7 +2,7 @@
   "festival": "bospop",
   "name": "Bospop",
   "year": 2026,
-  "generated_at": "2025-12-21T22:17:24.513547+00:00",
+  "generated_at": "2025-12-21T23:15:21.867375+00:00",
   "config_properties": {
     "name": "Bospop",
     "year": 2026,
@@ -13,8 +13,8 @@
     "bio_language": "Dutch",
     "rating_boost": 0.0,
     "description": "A classic rock and pop festival in Weert, Netherlands, held annually since 1981.",
-    "official_spotify_playlist": "",
-    "spotify_playlist_id": ""
+    "official_spotify_playlist": "https://open.spotify.com/playlist/7knRsUGZKJCNIi6ds9xXjl?si=cb9dcc066e56430a",
+    "spotify_playlist_id": "https://open.spotify.com/playlist/18oMT94gxKYpX4BvuCpNdv?si=d1d5d3df7381491f"
   },
   "stats": {
     "total_artists": 39,
@@ -27,7 +27,6 @@
       "Blues": 3,
       "Soul": 3,
       "Symphonic Metal": 2,
-      "Electronic": 2,
       "Pop": 2,
       "Funk": 2,
       "New Wave": 2,
@@ -38,9 +37,9 @@
       "Comedy Rock": 1,
       "Hardcore punk": 1,
       "Metal": 1,
-      "Experimental": 1,
       "nu-metal": 1,
       "alternative folk rock": 1,
+      "Electronic": 1,
       "Downtempo": 1,
       "Techno": 1,
       "Post-Punk Revival": 1,
@@ -58,8 +57,8 @@
     "dj_count": 2,
     "country_counts": {
       "USA": 10,
-      "Netherlands": 6,
-      "UK": 6,
+      "Netherlands": 7,
+      "UK": 5,
       "Belgium": 4,
       "Canada": 3,
       "Australia": 2,
@@ -69,32 +68,32 @@
       "Sweden": 1
     },
     "gender_counts": {
-      "Male": 27,
+      "Male": 26,
       "Female": 5,
-      "Unknown": 5,
+      "Unknown": 6,
       "Mixed": 1,
       "he": 1
     },
     "poc_counts": {
       "No": 28,
-      "Yes": 4,
-      "Unknown": 7
+      "Unknown": 8,
+      "Yes": 3
     },
     "average_rating": 8.16,
-    "rated_count": 32,
-    "rated_percentage": 82.1,
+    "rated_count": 31,
+    "rated_percentage": 79.5,
     "rating_counts": {
       "9-10": 8,
-      "8-9": 21,
+      "8-9": 20,
       "7-8": 3,
-      "Unrated": 7
+      "Unrated": 8
     },
     "has_spotify_links": 0,
     "spotify_percentage": 0.0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Bospop 2026: A Celebration of Rock and Beyond**\n\nBospop 2026 promises an eclectic lineup of 39 artists spanning a variety of genres, with a strong foundation in rock music. From the classic energy of Rock (15 acts) and Blues Rock (5 acts) to the edgier vibes of Alternative Rock (5 acts) and Indie Rock (4 acts), the festival embraces its rock roots while exploring diverse styles like Symphonic Metal, Funk, and even Comedy Rock. With an average rating of 8.16 from 82.1% of the lineup, this year’s edition has been highly anticipated by fans and critics alike.\n\nThe festival’s lineup reflects a mix of local and international talent, with artists hailing from 10 different countries. The USA, the Netherlands, and the UK lead the charge, contributing 22 acts in total, while Belgium, Canada, and Australia add their unique flavors to the roster. Though male artists dominate the lineup (27), efforts to include female (5), mixed-gender (1), and unknown-gender acts (5) hint at a step toward greater diversity. Additionally, 4 artists are identified as people of color, though much remains unknown regarding the full representation.\n\nWhile none of the artists have Spotify links available, Bospop 2026 offers a rich and multifaceted experience for music lovers, showcasing a blend of established names and emerging talents. With a lineup that spans genres, generations, and geographies, the festival continues its legacy as a celebration of musical diversity and creativity. Whether you’re a fan of soulful Blues or high-energy Metal, this year’s Bospop is set to deliver something for everyone.",
+  "ai_profile": "**Bospop 2026: A Celebration of Rock's Diverse Spectrum**  \n\nBospop 2026 brings together an eclectic lineup of 39 artists, showcasing the festival's strong foundation in rock and its many offshoots. With rock as the dominant genre (15 acts), the festival also embraces Blues Rock, Alternative Rock, and Indie Rock, creating a rich musical tapestry. From the soulful sounds of Blues and Soul to the heavier tones of Symphonic Metal, Hard Rock, and even Glam Metal, Bospop continues to cater to a wide array of musical tastes. This year also sees the inclusion of niche genres like Celtic Punk, Stoner Rock, and EuroDada, adding a unique flair to the lineup.  \n\nThe festival reflects a commitment to international representation, with artists hailing from 10 countries. The USA leads with 10 acts, followed by strong showings from the Netherlands, the UK, and Belgium. While gender diversity remains a challenge, with predominantly male representation (26 artists), there is a growing effort to include female and mixed-gender acts, who represent 6 artists in total. Additionally, while the majority of artists are not people of color, a small but notable 3 acts bring further cultural diversity to the stage.  \n\nAudience enthusiasm is evident, with an impressive average rating of 8.16 from 31 rated acts, with 90% of those ratings sitting at 8 or above. This reflects the festival's ability to attract high-quality performers who resonate with attendees. Bospop 2026 promises a dynamic celebration of music, blending classic rock roots with fresh, innovative sounds and a growing awareness of inclusivity. It’s a must-attend event for fans of diverse and genre-bending performances.  ",
   "start_date": "2026-07-10",
   "end_date": "2026-07-12"
 }

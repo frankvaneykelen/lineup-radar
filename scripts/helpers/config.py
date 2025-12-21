@@ -131,6 +131,8 @@ FESTIVALS = {
         'bio_language': 'Dutch',
         'description': 'A classic rock and pop festival in Weert, Netherlands, held annually since 1981.',
         'scraper_type': 'bospop',  # Use Bospop specific scraper
+        'spotify_playlist': 'https://open.spotify.com/playlist/7knRsUGZKJCNIi6ds9xXjl?si=cb9dcc066e56430a',
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/18oMT94gxKYpX4BvuCpNdv?si=d1d5d3df7381491f',
     },
     'grauzone': {
         'name': 'Grauzone Festival',

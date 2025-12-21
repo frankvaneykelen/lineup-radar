@@ -120,7 +120,7 @@ def update_artist_spotify_link(festival: str, year: int, artist_name: str, new_u
         
         for row in reader:
             if row.get('Artist', '').strip() == artist_name:
-                row['Spotify'] = new_url
+                row['Spotify Link'] = new_url
             rows.append(row)
     
     # Write back
@@ -404,21 +404,21 @@ def load_festival_artists(festival: str, year: int) -> List[Dict]:
     artists = []
     
     with open(csv_path, 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        
-        for row in reader:
+        reader = list(csv.DictReader(f))
+        total = len(reader)
+        for idx, row in enumerate(reader, 1):
             artist_name = row.get('Artist', '') or ''
             artist_name = artist_name.strip()
-            spotify_link = row.get('Spotify link', '') or ''
+            spotify_link = row.get('Spotify Link', '') or ''
             spotify_link = spotify_link.strip()
-            
-            if not spotify_link or spotify_link == 'NOT ON SPOTIFY':
-                print(f"\n⚠️  No Spotify link found for '{artist_name}'")
+
+            if not spotify_link and spotify_link != 'NOT ON SPOTIFY':
+                print(f"\n⚠️  No Spotify link found for '{artist_name}' [{idx}/{total}]")
                 print(f"  🔍 Search: https://open.spotify.com/search/{artist_name.replace(' ', '%20')}")
                 print(f"  📝 Enter Spotify artist URL (or 'NOT ON SPOTIFY' if not available, or press Enter to skip): ", end='', flush=True)
-                
+
                 new_url = input().strip()
-                
+
                 if new_url:
                     if new_url.upper() == "NOT ON SPOTIFY":
                         update_artist_spotify_link(festival, year, artist_name, "NOT ON SPOTIFY")
@@ -438,11 +438,11 @@ def load_festival_artists(festival: str, year: int) -> List[Dict]:
                 else:
                     print(f"  ⏭️  Skipping {artist_name}")
                 continue
-            
+
             # Skip artists marked as not on Spotify
             if spotify_link.upper() == "NOT ON SPOTIFY":
                 continue
-            
+
             artist_id = extract_artist_id(spotify_link)
             if artist_id:
                 artists.append({

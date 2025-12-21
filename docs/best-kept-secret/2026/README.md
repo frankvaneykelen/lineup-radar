@@ -56,12 +56,15 @@ python scripts/generate_about.py --festival best-kept-secret --year 2026
 python scripts/generate_about.py --festival best-kept-secret --year 2026 --ai
 ```
 
+
 ### Spotify Playlists
 
 ```powershell
 # Generate Spotify playlists for the festival
 python scripts/generate_spotify_playlists.py --festival best-kept-secret --year 2026
 ```
+
+*If an artist is not found on Spotify, the script will suggest a search link and prompt you to enter the correct Spotify artist URL manually. The script will then update the CSV with the entered URL.*
 
 ### Full Regeneration
 
