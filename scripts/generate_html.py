@@ -269,17 +269,24 @@ def generate_html(csv_file, output_dir, config):
         
         if genre_str:
             genres = [g.strip() for g in genre_str.split('/')]
-            genre_badges = ''.join(f'<span class="badge rounded-pill bg-info text-dark me-1">{escape_html(g)}</span>' for g in genres)
+            # Each genre badge is a link to the filtered view
+            genre_badges = ''.join(
+                f'<a href="#genre={escape_html(g)}" class="badge rounded-pill bg-info text-dark me-1" style="text-decoration:none;">{escape_html(g)}</a>'
+                for g in genres
+            )
             dj_badge = '<span class="badge rounded-pill bg-warning text-dark">DJ</span>' if is_dj else ''
             genre_html = f'{genre_badges}{dj_badge}'
         else:
             genre_html = ''
-        
+
         # Process countries - split by / and create separate badges
         country_str = artist.get('Country', '').strip()
         if country_str:
             countries = [c.strip() for c in country_str.split('/')]
-            country_html = ''.join(f'<span class="badge rounded-pill bg-primary me-1">{escape_html(c)}</span>' for c in countries)
+            country_html = ''.join(
+                f'<a href="#country={escape_html(c)}" class="badge rounded-pill bg-primary me-1" style="text-decoration:none;">{escape_html(c)}</a>'
+                for c in countries
+            )
         else:
             country_html = ''
         

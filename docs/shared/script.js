@@ -163,6 +163,40 @@ if (localStorage.getItem('darkMode') === null) {
     localStorage.setItem('darkMode', 'enabled');
 }
 
+
+// Helper: parse hash for filter (e.g., #genre=Electronic or #country=USA)
+function applyHashFilter() {
+    const hash = window.location.hash;
+    if (!hash) return;
+    // Support #genre=... or #country=...
+    const genreMatch = hash.match(/^#genre=(.+)$/i);
+    const countryMatch = hash.match(/^#country=(.+)$/i);
+    let changed = false;
+    if (genreMatch) {
+        const genre = decodeURIComponent(genreMatch[1]);
+        const genreFilter = document.getElementById('genreFilter');
+        if (genreFilter) {
+            genreFilter.value = genre;
+            changed = true;
+        }
+    }
+    if (countryMatch) {
+        const country = decodeURIComponent(countryMatch[1]);
+        const countryFilter = document.getElementById('countryFilter');
+        if (countryFilter) {
+            countryFilter.value = country;
+            changed = true;
+        }
+    }
+    // Only trigger filter if a filter was set
+    if (changed && typeof filterTable === 'function') {
+        filterTable();
+    }
+}
+
+// Listen for hash changes (e.g., when clicking a badge)
+window.addEventListener('hashchange', applyHashFilter);
+
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     window._debugSort = true; // Enable debug logging for normalization
@@ -174,4 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof sortTable === 'function') {
         sortTable('Artist');
     }
+    // Apply hash filter if present
+    setTimeout(applyHashFilter, 0);
 });
