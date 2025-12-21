@@ -256,6 +256,29 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{url}">
+
+    <!-- Structured Data: MusicGroup -->
+    <script type="application/ld+json">
+{json.dumps({
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": artist_name,
+    "url": url,
+    "image": [base_url + img for img in images] if images else [],
+    "description": meta_description,
+    "genre": genres,
+    "foundingLocation": {
+        "@type": "Country",
+        "name": countries[0] if countries else ""
+    },
+    "sameAs": social_links,
+    "numberOfMembers": num_people if num_people else None,
+    "member": [],
+    "award": [],
+    "album": [],
+    "track": []
+}, ensure_ascii=False, indent=4)}
+    </script>
 </head>
 <body>
     <div class="container-fluid">
