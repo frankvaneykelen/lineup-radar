@@ -275,111 +275,52 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
                         </div>"""
     
     title = f"{config.name} {stats.get('year','')} About - Frank's LineupRadar"
+    description = f"About page for {config.name} {stats.get('year','')}. Festival profile and statistics including top genres, countries, and ratings."
+    base_url = "https://frankvaneykelen.github.io/lineup-radar/"
+    url = f"{base_url}{config.slug}/{stats.get('year','')}/about.html"
+    
     html = f"""<!DOCTYPE html>
-<html lang=\"en\">
+<html lang="en">
 <head>
-    <meta charset=\"UTF-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>{title}</title>    <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"../../shared/favicon_16x16.png\">
-    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../../shared/favicon_32x32.png\">
-    <link rel=\"icon\" type=\"image/png\" sizes=\"48x48\" href=\"../../shared/favicon_48x48.png\">
-    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"../../shared/favicon_180x180.png\">    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">
-    <link rel=\"stylesheet\" href=\"../../shared/styles.css\">
-    <style>
-        .stats-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }}
-        .stat-card {{
-            background: var(--card-bg, #ffffff);
-            border: 1px solid var(--border-color, #dee2e6);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }}
-        .stat-card h3 {{
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--heading-color, #212529);
-            border-bottom: 2px solid var(--primary-color, #0d6efd);
-            padding-bottom: 0.5rem;
-        }}
-        .stat-table {{
-            width: 100%;
-            border-collapse: collapse;
-        }}
-        .stat-table td {{
-            padding: 0.6rem 0.5rem;
-            border-bottom: 1px solid var(--border-color, #e9ecef);
-            font-size: 0.95rem;
-        }}
-        .stat-table tr:last-child td {{
-            border-bottom: none;
-        }}
-        .stat-table td:first-child {{
-            color: var(--text-color, #495057);
-        }}
-        .stat-table td:last-child {{
-            text-align: right;
-            font-weight: 600;
-            color: var(--primary-color, #0d6efd);
-        }}
-        .stat-number {{
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color, #0d6efd);
-            line-height: 1;
-            display: block;
-        }}
-        .stat-label {{
-            font-size: 0.9rem;
-            color: var(--text-muted, #6c757d);
-            margin-top: 0.25rem;
-        }}
-        .overview-stat {{
-            margin-bottom: 1.5rem;
-        }}
-        .overview-stat:last-child {{
-            margin-bottom: 0;
-        }}
-        .profile-text {{
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: var(--text-color, #212529);
-            margin-bottom: 2rem;
-        }}
-        body[data-theme="dark"] .profile-text {{
-            color: #e0e0e0;
-        }}
-        body[data-theme=\"dark\"] .stat-card {{
-            background: #2d2d2d;
-            border-color: #444;
-        }}
-        body[data-theme=\"dark\"] .stat-table td {{
-            border-bottom-color: #444;
-        }}
-        body[data-theme=\"dark\"] .stat-table td:first-child {{
-            color: #adb5bd;
-        }}
-        body[data-theme=\"dark\"] .stat-table tr:nth-child(even) {{
-            background: #232b36;
-        }}
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content="{description}">
+    <meta name="author" content="Frank van Eykelen">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../shared/favicon_16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../shared/favicon_32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../../shared/favicon_48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../shared/favicon_180x180.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <link rel="stylesheet" href="../../shared/about-stats.css">
+    
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:title" content="{title}">
+    <meta property="og:description" content="{description}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{url}">
+    <meta property="og:image" content="{base_url}shared/lineup-radar-logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{title}">
+    <meta name="twitter:description" content="{description}">
+    <meta name="twitter:image" content="{base_url}shared/lineup-radar-logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{url}">
 </head>
 <body>
-    <div class=\"container-fluid\">
-        <header class=\"artist-header lineup-header\">
-            <div class=\"hamburger-menu\">
-                <button id=\"hamburgerBtn\" class=\"btn btn-outline-light hamburger-btn\" title=\"Menu\">
-                    <i class=\"bi bi-list\"></i>
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
                 </button>
-                <div id=\"dropdownMenu\" class=\"dropdown-menu-custom\">
-                    <a href=\"../../index.html\" class=\"home-link\">
-                        <i class=\"bi bi-house-door-fill\"></i> Home
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="../../index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
                     </a>
 {menu_html}
                 </div>
@@ -403,79 +344,79 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
             </section>
             
             <section>
-                <h2 style=\"margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600;\">Festival Statistics</h2>
-                <div class=\"stats-grid\">
-                    <div class=\"stat-card\">
+                <h2 style="margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600;">Festival Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
                         <h3>Overview</h3>
-                        <div class=\"overview-stat\">
-                            <span class=\"stat-number\">{stats.get('total_artists', 0)}</span>
-                            <div class=\"stat-label\">Total Artists</div>
+                        <div class="overview-stat">
+                            <span class="stat-number">{stats.get('total_artists', 0)}</span>
+                            <div class="stat-label">Total Artists</div>
                         </div>{rating_overview_html}
-                        <div class=\"overview-stat\">
-                            <span class=\"stat-number\">{stats.get('dj_count', 0)}</span>
-                            <div class=\"stat-label\">DJs/Electronic Acts</div>
+                        <div class="overview-stat">
+                            <span class="stat-number">{stats.get('dj_count', 0)}</span>
+                            <div class="stat-label">DJs/Electronic Acts</div>
                         </div>
-                        <div class=\"overview-stat\">
-                            <span class=\"stat-number\">{stats.get('has_spotify_links', 0)}</span>
-                            <div class=\"stat-label\">Artists with Spotify Links</div>
+                        <div class="overview-stat">
+                            <span class="stat-number">{stats.get('has_spotify_links', 0)}</span>
+                            <div class="stat-label">Artists with Spotify Links</div>
                         </div>
                     </div>
                     
-                    <div class=\"stat-card\">
+                    <div class="stat-card">
                         <h3>Top Genres</h3>
-                        <table class=\"stat-table\">
-                            {genre_rows if genre_rows else '<tr><td colspan=\"2\" style=\"text-align: center; color: #6c757d;\">No data</td></tr>'}
+                        <table class="stat-table">
+                            {genre_rows if genre_rows else '<tr><td colspan="2" style="text-align: center; color: #6c757d;">No data</td></tr>'}
                         </table>
                     </div>
                     
-                    <div class=\"stat-card\">
+                    <div class="stat-card">
                         <h3>Top Countries</h3>
-                        <table class=\"stat-table\">
-                            {country_rows if country_rows else '<tr><td colspan=\"2\" style=\"text-align: center; color: #6c757d;\">No data</td></tr>'}
+                        <table class="stat-table">
+                            {country_rows if country_rows else '<tr><td colspan="2" style="text-align: center; color: #6c757d;">No data</td></tr>'}
                         </table>
                     </div>
                 </div>
                 
-                <div class=\"stats-grid\" style=\"margin-top: 1.5rem;\">
-                    <div class=\"stat-card\">
+                <div class="stats-grid" style="margin-top: 1.5rem;">
+                    <div class="stat-card">
                         <h3>Gender Distribution</h3>
-                        <canvas id=\"genderChart\" width=\"300\" height=\"300\"></canvas>
+                        <canvas id="genderChart" width="300" height="300"></canvas>
                     </div>
                     
-                    <div class=\"stat-card\">
+                    <div class="stat-card">
                         <h3>Artists of Color</h3>
-                        <canvas id=\"pocChart\" width=\"300\" height=\"300\"></canvas>
+                        <canvas id="pocChart" width="300" height="300"></canvas>
                     </div>
                     
-                    <div class=\"stat-card\">
+                    <div class="stat-card">
                         <h3>Rating Distribution</h3>
-                        <canvas id=\"ratingChart\" width=\"300\" height=\"300\"></canvas>
+                        <canvas id="ratingChart" width="300" height="300"></canvas>
                     </div>
                 </div>
             </section>
         </div>
     </div>
     
-    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <footer style=\"background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;\">
-        <button class=\"dark-mode-toggle\" id=\"darkModeToggle\" title=\"Toggle dark mode\">
-            <i class=\"bi bi-moon-fill\"></i>
+    <footer style="background: #1a1a2e; color: #ccc; padding: 30px 20px; text-align: center; font-size: 0.9em; margin-top: 40px;">
+        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
         </button>
         <div>
-            <p style=\"margin-bottom: 15px;\">
+            <p style="margin-bottom: 15px;">
                 <strong>Content Notice:</strong> These pages combine content scraped from the 
-                <a href=\"{config.lineup_url or '#'}\" target=\"_blank\" style=\"color: #00d9ff; text-decoration: none;\">{config.name} festival website</a>
+                <a href="{config.lineup_url or '#'}" target="_blank" style="color: #00d9ff; text-decoration: none;">{config.name} festival website</a>
                 with AI-generated content using <strong>Azure OpenAI GPT-4o</strong>.
             </p>
-            <p style=\"margin-bottom: 15px;\">
+            <p style="margin-bottom: 15px;">
                 <strong>⚠️ Disclaimer:</strong> Information may be incomplete or inaccurate due to automated generation and web scraping. 
                 Please verify critical details on official sources.
             </p>
-            <p style=\"margin-bottom: 0;\">
+            <p style="margin-bottom: 0;">
                 Generated with ❤️ • 
-                <a href=\"https://github.com/frankvaneykelen/lineup-radar\" target=\"_blank\" style=\"color: #00d9ff; text-decoration: none;\">
-                    <i class=\"bi bi-github\"></i> View on GitHub
+                <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
+                    <i class="bi bi-github"></i> View on GitHub
                 </a>
             </p>
         </div>

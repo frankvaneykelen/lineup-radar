@@ -16,7 +16,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from helpers import get_festival_config
 
 
-README_TEMPLATE = """# {festival_name} {year}
+
+README_TEMPLATE = r"""# {festival_name} {year}
 
 **Festival Dates:** {dates}  
 **Location:** {location}

@@ -67,7 +67,7 @@ python scripts/generate_spotify_playlists.py --festival alkmaarse-eigenste --yea
 
 ```powershell
 # Regenerate all HTML files for this festival (lineup, about, artist pages)
-.\scripts\regenerate_festival.ps1 -Festival alkmaarse-eigenste -Year 2026
+.\\scripts\\regenerate_festival.ps1 -Festival alkmaarse-eigenste -Year 2026
 ```
 
 ## Files in This Directory

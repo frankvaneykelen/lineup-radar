@@ -63,35 +63,6 @@ body.dark-mode .filter-group select {
     border-color: #00a8cc;
 }
 
-body.dark-mode table th {
-    background: linear-gradient(135deg, #0a4a5c 0%, #08394a 100%);
-}
-
-body.dark-mode table th:hover {
-    background: linear-gradient(135deg, #00a8cc 0%, #0a4a5c 100%);
-}
-
-body.dark-mode table td {
-    border-bottom-color: #2a3f5f;
-    color: #e0e0e0;
-}
-
-body.dark-mode tbody tr:nth-child(even) {
-    background: #16213e;
-    color: #e0e0e0;
-}
-body.dark-mode table td {
-    color: #e0e0e0;
-}
-
-body.dark-mode tr:hover {
-    background: #1e2d4a !important;
-}
-
-body.dark-mode td.artist-cell-with-bg strong {
-    background: rgba(0, 168, 204, 0.95);
-}
-
 body.dark-mode .section p {
     color: #b0b0b0;
 }
@@ -100,18 +71,6 @@ body.dark-mode .my-take,
 body.dark-mode .background-text {
     background: #16213e;
     border-left-color: #00d9ff;
-}
-
-body.dark-mode .card {
-    /* Removed custom card styling to use Bootstrap defaults */
-}
-
-body.dark-mode .card-body {
-    /* Removed custom card-body styling to use Bootstrap defaults */
-}
-
-body.dark-mode .card-subtitle {
-    /* Removed custom card-subtitle styling to use Bootstrap defaults */
 }
 
 body.dark-mode footer {

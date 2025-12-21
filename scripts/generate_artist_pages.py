@@ -221,13 +221,15 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     # Create keywords from genres and countries
     meta_keywords = f"{artist_name}, {config.name} {year}, " + ", ".join(genres[:5]) if genres else f"{artist_name}, {config.name} {year}"
-    
+    title = f"{escape_html(artist_name)} - {config.name} {year} - Frank's LineupRadar"
+    url = f"https://frankvaneykelen.github.io/lineup-radar/{config.slug}/{year}/artists/{artist_name_to_slug(artist_name)}.html"
+    base_url = f"https://frankvaneykelen.github.io/lineup-radar/{config.slug}/{year}/artists/"
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{escape_html(artist_name)} - {config.name} {year} - Frank's LineupRadar</title>
+    <title>{title}</title>
     <meta name="description" content="{escape_html(meta_description)}">
     <meta name="keywords" content="{escape_html(meta_keywords)}">
     <meta name="author" content="Frank van Eykelen">
@@ -238,6 +240,22 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../shared/styles.css">
     <link rel="stylesheet" href="../overrides.css">
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:title" content="{title}">
+    <meta property="og:description" content="{meta_description}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{url}">
+    <meta property="og:image" content="{base_url}{get_hero_image(images)}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{title}">
+    <meta name="twitter:description" content="{meta_description}">
+    <meta name="twitter:image" content="{base_url}{get_hero_image(images)}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{url}">
 </head>
 <body>
     <div class="container-fluid">
@@ -620,6 +638,11 @@ def download_image(img_url: str, output_dir: Path, artist_slug: str) -> Optional
         print(f"    ⚠️  Failed to download image: {e}")
         return None
 
+def get_hero_image(images, fallback="../../../shared/lineup-radar-logo.png"):
+    """Return the best hero image for an artist page (for display and og:image)."""
+    if images and len(images) > 0:
+        return images[0]
+    return fallback
 
 def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 'down-the-rabbit-hole'):
     """Generate individual pages for all artists."""

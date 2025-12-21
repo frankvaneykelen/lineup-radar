@@ -77,13 +77,18 @@ def generate_archive_index(docs_dir: Path):
         print("   Generate lineups first with: python generate_html.py --year YYYY --festival FESTIVAL")
         sys.exit(1)
     
+    title = "Frank's LineupRadar | Discover Festival Lineups & Hidden Gems"
+    description = "Explore complete festival lineups, artist bios, ratings, and metadata. Discover emerging acts before the festival starts with Frank's LineupRadar."
+    url = "https://frankvaneykelen.github.io/lineup-radar/"
+    baseurl = url
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frank's LineupRadar | Discover Festival Lineups & Hidden Gems</title>
-    <meta name="description" content="Explore complete festival lineups, artist bios, ratings, and metadata. Discover emerging acts before the festival starts with Frank's LineupRadar.">
+    <title>{title}</title>
+    <meta name="description" content="{description}">
     <meta name="keywords" content="festival lineup, indie festivals, artist discovery, setlist, music metadata, boutique festivals, lineup archive, music diversity">
     <meta name="author" content="Frank van Eykelen">
     <link rel="icon" type="image/png" sizes="16x16" href="shared/favicon_16x16.png">
@@ -92,6 +97,22 @@ def generate_archive_index(docs_dir: Path):
     <link rel="apple-touch-icon" sizes="180x180" href="shared/favicon_180x180.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="shared/styles.css">
+    
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:title" content="{title}">
+    <meta property="og:description" content="{description}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{url}">
+    <meta property="og:image" content="{baseurl}shared/lineup-radar-logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{title}">
+    <meta name="twitter:description" content="{description}">
+    <meta name="twitter:image" content="{baseurl}shared/lineup-radar-logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{url}">
 </head>
 <body>
     <div class="container-fluid">

@@ -94,6 +94,11 @@ def generate_faq_html() -> str:
     # Count only festivals not hidden from navigation
     festival_count = sum(1 for config in FESTIVALS.values() if not config.get('hide_from_navigation', False))
     
+    title = "FAQ - Frank's LineupRadar"
+    description = "Frequently Asked Questions about Frank's LineupRadar, the ultimate festival lineup tracking tool."
+    url = "https://frankvaneykelen.github.io/lineup-radar/faq.html"     
+    base_url = "https://frankvaneykelen.github.io/lineup-radar/"    
+    
     # Generate HTML
     html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -108,6 +113,22 @@ def generate_faq_html() -> str:
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="shared/styles.css">
+    
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:title" content="{title}">
+    <meta property="og:description" content="{description}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{url}">
+    <meta property="og:image" content="{base_url}shared/lineup-radar-logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{title}">
+    <meta name="twitter:description" content="{description}">
+    <meta name="twitter:image" content="{base_url}shared/lineup-radar-logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{url}">
 </head>
 <body>
     <div class="container-fluid">

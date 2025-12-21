@@ -58,6 +58,11 @@ def generate_html(csv_file, output_dir, config):
     # Get year from filename (e.g., 2026.csv -> 2026)
     year = Path(csv_file).stem
     
+    title = f"{config.name} {year} Lineup - Frank's LineupRadar"
+    description = f"Browse the complete {config.name} {year} lineup with artist ratings, genres, and bios. Discover hidden gems and plan your perfect festival schedule."
+    base_url = "https://frankvaneykelen.github.io/lineup-radar/"
+    url = f"{base_url}{config.slug}/{year}/index.html"
+    
     # Get last modified time of CSV file in UTC
     from datetime import datetime, timezone
     csv_path = Path(csv_file)
@@ -78,8 +83,8 @@ def generate_html(csv_file, output_dir, config):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{config.name} {year} Lineup - Frank's LineupRadar</title>
-    <meta name="description" content="Browse the complete {config.name} {year} lineup with artist ratings, genres, and bios. Discover hidden gems and plan your perfect festival schedule.">
+    <title>{title}</title>
+    <meta name="description" content="{description}">
     <meta name="keywords" content="{config.name}, {year} lineup, festival artists, music discovery, artist ratings, {config.name} {year}">
     <meta name="author" content="Frank van Eykelen">
     <link rel="icon" type="image/png" sizes="16x16" href="../../shared/favicon_16x16.png">
@@ -89,6 +94,22 @@ def generate_html(csv_file, output_dir, config):
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../shared/styles.css">
     <link rel="stylesheet" href="overrides.css">
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:title" content="{title}">
+    <meta property="og:description" content="{description}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{url}">
+    <meta property="og:image" content="{base_url}shared/lineup-radar-logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{title}">
+    <meta name="twitter:description" content="{description}">
+    <meta name="twitter:image" content="{base_url}shared/lineup-radar-logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{url}">
 </head>
 <body>
     <!-- Rotate device message for mobile portrait -->

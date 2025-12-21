@@ -67,7 +67,7 @@ python scripts/generate_spotify_playlists.py --festival grauzone --year 2026
 
 ```powershell
 # Regenerate all HTML files for this festival (lineup, about, artist pages)
-.\scripts\regenerate_festival.ps1 -Festival grauzone -Year 2026
+.\\scripts\\regenerate_festival.ps1 -Festival grauzone -Year 2026
 ```
 
 ## Files in This Directory
