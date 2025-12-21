@@ -77,6 +77,7 @@ FESTIVALS = {
         'bio_language': 'English',
         'description': "Belgium's largest annual rock music festival, held in Werchter since 1974, featuring major international artists.",
         'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/3brJf9tiSKtvbg7jQ1MO0d',
+        'spotify_playlist': 'https://open.spotify.com/playlist/63I9phrPUwQMKKBIjj52mU?si=f90a4cd3fbd64f2d',
     },
     'footprints': {
         'name': 'Footprints Festival',
