@@ -577,6 +577,7 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
             }});
         }}
     </script>
+    <script defer src="https://frankvaneykelen-umami-app.azurewebsites.net/script.js" data-website-id="c10bb9a5-e39d-4286-a3d9-7c3ca9171d51"></script>
 </body>
 </html>
 """
