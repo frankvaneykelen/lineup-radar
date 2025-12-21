@@ -6,7 +6,9 @@ A personal tracking system for multiple festival programs, maintaining detailed 
 
 This project helps track and rate artists performing at different festivals. Each festival has its own folder structure with CSV files per year, containing comprehensive artist information including genres, ratings, and personal notes.
 
-## Supported Festivals
+## Supported Festivals (Examples)
+
+Below are some of the festivals currently supported by LineupRadar. This is not a complete list—new festivals and editions are added regularly. For the most up-to-date coverage, see the festival folders in `docs/`.
 
 - **Down The Rabbit Hole** (Dutch, Beuningen)
 - **Pinkpop** (English, Landgraaf)
