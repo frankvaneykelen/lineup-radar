@@ -106,6 +106,8 @@ def generate_faq_html() -> str:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - Frank's LineupRadar</title>
+    <meta name="description" content="{description}">
+    <meta name="author" content="Frank van Eykelen">
     <link rel="icon" type="image/png" sizes="16x16" href="shared/favicon_16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="shared/favicon_32x32.png">
     <link rel="icon" type="image/png" sizes="48x48" href="shared/favicon_48x48.png">
