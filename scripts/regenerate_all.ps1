@@ -271,11 +271,11 @@ Write-Host "Regenerating homepage..." -ForegroundColor Yellow
 Write-Host ""
 
 try {
-    $command = "python scripts/generate_archive_index.py docs"
+    $command = "python scripts/generate_homepage.py docs"
     Write-Host "Running: $command" -ForegroundColor Gray
     
     # Execute and capture output
-    $output = & python scripts/generate_archive_index.py docs 2>&1
+    $output = & python scripts/generate_homepage.py docs 2>&1
     
     # Check if command succeeded
     if ($LASTEXITCODE -eq 0) {

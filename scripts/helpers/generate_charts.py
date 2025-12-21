@@ -197,7 +197,7 @@ def generate_charts_page():
         <div class="artist-content container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12" style="max-width: 1400px;">
-                    <div class="section">
+                    <div>
 """
     
     # Calculate diversity scores for summary
@@ -261,10 +261,10 @@ def generate_charts_page():
             <!-- Interactive Heatmap Matrix -->
             <div class="heatmap-container">
                 <h2>Festival Comparison Matrix</h2>
-                <p style="color: #666; margin-bottom: 15px;">Interactive heatmap showing relative strength across metrics. Darker colors indicate higher values. Click column headers to sort, hover cells for exact values.</p>
+                <p>Interactive heatmap showing relative strength across metrics. Darker colors indicate higher values. Click column headers to sort, hover cells for exact values.</p>
                 
                 <!-- Legend -->
-                <div style="display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px; flex-wrap: wrap; font-size: 14px;">
+                <div style="display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; border-radius: 4px; flex-wrap: wrap; font-size: 14px;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <div style="width: 40px; height: 20px; background: linear-gradient(to right, #f0f0f0, #4CAF50); border: 1px solid #ddd; border-radius: 3px;"></div>
                         <span>Avg Rating (0-10)</span>
@@ -292,7 +292,7 @@ def generate_charts_page():
             <div class="heatmap-tooltip" id="heatmapTooltip"></div>
             
             <!-- Overview Stats -->
-            <div class="stats-grid">
+            <div class="card-group">
 """
     
     for name, data in festival_data.items():
@@ -303,14 +303,38 @@ def generate_charts_page():
         avg_rating = sum(rating * count for rating, count in data['ratings'].items()) / sum(data['ratings'].values()) if data['ratings'] else 0
         
         html += f"""
-                <div class="stat-card">
-                    <h3>{name} 2026</h3>
-                    <div class="stat-value">{data['total_artists']}</div>
-                    <div>Total Artists</div>
-                    <hr>
-                    <div><strong>{female_pct:.1f}%</strong> Female Front Person</div>
-                    <div><strong>{poc_pct:.1f}%</strong> POC Front Person</div>
-                    <div><strong>{avg_rating:.1f}</strong> Average Rating</div>
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">{name} 2026</h6>
+                        <p class="card-text">Total Artists: {data['total_artists']}</p>
+                        <hr>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <strong>{female_pct:.1f}%</strong>
+                                </td>
+                                <td>
+                                    Female Front Person
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>{poc_pct:.1f}%</strong>
+                                </td>
+                                <td>
+                                    POC Front Person
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>{avg_rating:.1f}%</strong>
+                                </td>
+                                <td>
+                                    Average Rating
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
 """
     

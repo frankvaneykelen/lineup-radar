@@ -384,20 +384,20 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         disclaimer = "[using festival bio due to a lack of publicly available data] "
         if bio.startswith(disclaimer):
             bio_text = bio[len(disclaimer):]
-            html += f"""                <div class="section">
+            html += f"""                <div>
                     <h2>Bio</h2>
                     <p class="mb-2"><small class="text-muted fst-italic"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small></p>
                     <p>{escape_html(bio_text)}</p>
                 </div>
 """
         else:
-            html += f"""                <div class="section">
+            html += f"""                <div>
                     <h2>Bio</h2>
                     <p>{escape_html(bio)}</p>
                 </div>
 """
     else:
-        html += f"""                <div class="section">
+        html += f"""                <div>
                     <h2>Bio</h2>
                     <p>There is no information about this artist yet. If you can supply this information, please 
                         <a href="https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Info:%20{urllib.parse.quote(artist_name)}" target="_blank" style="color: #00a8cc;">create an issue on the repo</a> with the relevant information like, in any language you like:</p>
@@ -412,7 +412,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     # AI Rating Section
     if ai_rating:
-        html += f"""                <div class="section">
+        html += f"""                <div>
                     <h2>AI Rating</h2>
                     <span class="badge bg-gradient fs-4 px-4 py-2 my-rating">{escape_html(ai_rating)}</span>
                 </div>
@@ -420,7 +420,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     # AI Summary Section
     if ai_summary:
-        html += f"""                <div class="section">
+        html += f"""                <div>
                     <h2>AI Summary</h2>
                     <p>{escape_html(ai_summary)}</p>
                 </div>
@@ -435,7 +435,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     # English Translation of Festival Bio (primary)
     if festival_bio_en:
-        html += f"""                <div class="section">
+        html += f"""                <div>
                     <h2>Festival Bio (English)</h2>
                     <p>{escape_html(festival_bio_en)}</p>
 """
@@ -450,14 +450,14 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
 """
     # Dutch Bio Section (if no English)
     elif festival_bio_nl:
-        html += f"""                <div class="section">
+        html += f"""                <div>
                     <h2>Festival Bio (Nederlands)</h2>
                     <p>{escape_html(festival_bio_nl)}</p>
                 </div>
 """
     # Festival Bio Section (fallback for old pattern)
     elif festival_bio:
-        html += f"""                <div class="section">
+        html += f"""                <div>
                     <h2>Festival Bio</h2>
                     <p>{escape_html(festival_bio)}</p>
                 </div>
@@ -465,7 +465,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     # Info Grid - only show if there's data to display
     if num_people or gender or poc:
-        html += """                <div class="section">
+        html += """                <div>
                     <h2>Details</h2>
                     <div class="row g-3">
 """
@@ -508,7 +508,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
 """
     
     # Links Section
-    html += """                <div class="section">
+    html += """                <div>
                     <h2>Links</h2>
 """
     

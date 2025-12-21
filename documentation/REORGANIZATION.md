@@ -14,7 +14,7 @@ down-the-rabbit-hole/
 │   ├── fetch_spotify_links.py     # Fetch Spotify links (scraping + API)
 │   ├── generate_html.py           # Generate lineup HTML pages
 │   ├── generate_artist_pages.py   # Generate individual artist pages
-│   ├── generate_archive_index.py  # Generate homepage
+│   ├── generate_homepage.py  # Generate homepage
 │   ├── scrape_footprints.py       # Custom Footprints scraper
 │   ├── scrape_pinkpop_lineup.py   # Pinkpop lineup scraper
 │   ├── update_lineup.py           # Update lineup with new artists

@@ -63,9 +63,6 @@ body.dark-mode .filter-group select {
     border-color: #00a8cc;
 }
 
-body.dark-mode .section p {
-    color: #b0b0b0;
-}
 
 body.dark-mode .my-take,
 body.dark-mode .background-text {
@@ -431,7 +428,8 @@ a:hover .link-icon {
 }
 
 /* Larger emoji for gender and POC columns */
-td[title*="Gender"], td[title*="Person of Color"] {
+td[title*="Gender"],
+td[title*="Person of Color"] {
     font-size: 1.4em;
 }
 
@@ -707,24 +705,6 @@ body.dark-mode .dropdown-menu-custom a.home-link:hover {
     padding: 40px;
 }
 
-.section {
-    margin-bottom: 30px;
-}
-
-.section h2 {
-    color: #00a8cc;
-    font-size: 1.5em;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #00d9ff;
-}
-
-.section p {
-    line-height: 1.8;
-    color: #555;
-    white-space: pre-line;
-}
-
 .my-take {
     background: #f0fbff;
     padding: 20px;
@@ -798,28 +778,30 @@ body.dark-mode .carousel-control-next-icon {
         background: white;
     }
 
-/* Ensure all stat-card text is readable in dark mode (e.g., Top Genres bars) */
-body.dark-mode .stat-card,
-body.dark-mode .stat-card * {
-    color: #e0e0e0 !important;
-}
-    
-    .controls, .stats {
+    /* Ensure all stat-card text is readable in dark mode (e.g., Top Genres bars) */
+    body.dark-mode .stat-card,
+    body.dark-mode .stat-card * {
+        color: #e0e0e0 !important;
+    }
+
+    .controls,
+    .stats {
         display: none;
     }
-    
-    .badge, .country-badge {
+
+    .badge,
+    .country-badge {
         border: 1px solid #333;
         background: white !important;
         color: black !important;
     }
-    
+
     .country-badge {
         border: 2px solid #333;
     }
-    
+
     /* Remove custom alternating row backgrounds for dark mode, use Bootstrap defaults */
-    
+
     a {
         color: black;
         text-decoration: underline;
@@ -832,159 +814,169 @@ body.dark-mode .stat-card * {
         padding: 5px;
         font-size: 13px;
     }
-    
-    header, .header {
+
+    header,
+    .header {
         padding: 15px 10px;
     }
-    
-    h1, .header h1 {
+
+    h1,
+    .header h1 {
         font-size: 1.4em;
         margin-bottom: 5px;
     }
-    
+
     .subtitle {
         font-size: 0.9em;
     }
-    
+
     .controls {
         padding: 12px 10px;
     }
-    
+
     .table-container {
         padding: 0 5px 15px;
     }
-    
+
     .search-box {
         padding: 8px 12px;
         font-size: 14px;
     }
-    
+
     .filters {
         gap: 8px;
         margin-top: 10px;
     }
-    
+
     .filter-group {
         min-width: 100px;
     }
-    
+
     .filter-group label {
         font-size: 12px;
         margin-bottom: 3px;
     }
-    
+
     .filter-group select {
         padding: 6px;
         font-size: 12px;
     }
-    
+
     table {
         margin-top: 10px;
     }
-    
-    th, td {
+
+    th,
+    td {
         padding: 6px 4px;
         font-size: 11px;
     }
-    
-    .bio, .take {
+
+    .bio,
+    .take {
         max-width: 180px;
         font-size: 11px;
         line-height: 1.3;
     }
-    
+
     .badge {
         padding: 2px 6px;
         font-size: 10px;
     }
-    
+
     .spotify-link {
         padding: 4px 8px;
         font-size: 10px;
     }
-    
+
     .rating {
         font-size: 0.95em;
     }
-    
+
     .stats {
         padding: 12px 10px;
         font-size: 12px;
     }
-    
+
     /* Mobile table column optimization */
-    table th:nth-child(1), /* Artist */
+    table th:nth-child(1),
+    /* Artist */
     table td:nth-child(1) {
         width: 100px;
     }
-    
-    table th:nth-child(2), /* Genre */
+
+    table th:nth-child(2),
+    /* Genre */
     table td:nth-child(2) {
         width: 50px;
     }
-    
-    table th:nth-child(3), /* Country */
+
+    table th:nth-child(3),
+    /* Country */
     table td:nth-child(3) {
         width: 50px;
     }
-    
-    table th:nth-child(4), /* Bio */
+
+    table th:nth-child(4),
+    /* Bio */
     table td:nth-child(4) {
         min-width: 110px;
     }
-    
-    table th:nth-child(5), /* AI Summary */
+
+    table th:nth-child(5),
+    /* AI Summary */
     table td:nth-child(5) {
         min-width: 110px;
     }
-    
-    table th:nth-child(6), /* AI Rating */
+
+    table th:nth-child(6),
+    /* AI Rating */
     table td:nth-child(6) {
         width: 60px;
     }
-    
+
     /* Artist Page Mobile */
     .artist-header {
         padding: 15px 10px;
         flex-wrap: wrap;
         gap: 10px;
     }
-    
+
     .artist-header h1 {
         font-size: 1.4em;
     }
-    
+
     .hamburger-btn {
         font-size: 1.2em;
     }
-    
+
     .dropdown-menu-custom {
         min-width: 200px;
         max-width: 90vw;
     }
-    
+
     .artist-header-content {
         flex: 1;
         min-width: 200px;
     }
-    
+
     .artist-nav {
         width: 100%;
         justify-content: space-between;
     }
-    
+
     .artist-content {
         padding: 20px;
     }
-    
+
     .content {
         padding: 20px;
     }
-    
+
     .info-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .container {
         max-width: 900px;
     }

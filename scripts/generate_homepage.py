@@ -68,7 +68,7 @@ def find_festival_lineups(docs_dir: Path) -> List[dict]:
     return sorted(lineups, key=sort_key)
 
 
-def generate_archive_index(docs_dir: Path):
+def generate_homepage(docs_dir: Path):
     """Generate the main archive index page."""
     lineups = find_festival_lineups(docs_dir)
     
@@ -138,7 +138,7 @@ def generate_archive_index(docs_dir: Path):
         <div class="artist-content container-fluid">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
-                    <div class="section">
+                    <div>
                         <h2 style="color: #00d9ff; margin-bottom: 1.5rem;">Never Miss the Acts Everyone Talks About</h2>
                         <p>Ever read post-festival reviews and realize you skipped the breakout artist everyone loved?</p>
                         <p><strong>LineupRadar</strong> helps you discover those hidden gems before the festival starts—so you can proudly say: <em>"I was there!"</em>
@@ -195,11 +195,12 @@ def generate_archive_index(docs_dir: Path):
                         end_date = about_data.get('end_date')
                         
                         if start_date and end_date:
-                            # Format dates nicely
                             start_dt = datetime.strptime(start_date, '%Y-%m-%d')
                             end_dt = datetime.strptime(end_date, '%Y-%m-%d')
-                            
-                            if start_dt.month == end_dt.month:
+                            if start_date == end_date:
+                                # Single day festival
+                                festival_dates = start_dt.strftime('%B %d, %Y')
+                            elif start_dt.month == end_dt.month:
                                 # Same month: "June 14-16, 2026"
                                 festival_dates = f"{start_dt.strftime('%B')} {start_dt.day}-{end_dt.day}, {year}"
                             else:
@@ -266,10 +267,7 @@ def generate_archive_index(docs_dir: Path):
                                     </a>
                                 </div>
                             </div>
-                            
-                            <p style="margin-top: 2rem; text-align: center; color: #888; font-size: 0.9em;">
-                                <em>Last updated: {timestamp}</em>
-                            </p>
+
                         </div>
                     </div>
                 </div>
@@ -290,6 +288,8 @@ def generate_archive_index(docs_dir: Path):
                     Please verify critical details on official sources.
                 </p>
                 <p style="margin-bottom: 0;">
+                    Last updated: {timestamp}
+                    • 
                     Generated with ❤️ • 
                     <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
                         <i class="bi bi-github"></i> View on GitHub
@@ -324,7 +324,7 @@ def main():
         print("  Create it first or run generate_html.py")
         sys.exit(1)
     
-    generate_archive_index(docs_dir)
+    generate_homepage(docs_dir)
     print("\n✓ Done!")
 
 

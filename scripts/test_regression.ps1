@@ -231,7 +231,7 @@ Write-TestHeader "TEST 6: Generate Archive Index"
 try {
     Write-Host "Generating archive index..." -ForegroundColor Yellow
     $env:PYTHONIOENCODING = "utf-8"
-    python scripts/generate_archive_index.py 2>&1 | Out-Null
+    python scripts/generate_homepage.py 2>&1 | Out-Null
     
     if ($LASTEXITCODE -eq 0) {
         $indexPath = "docs/index.html"
@@ -241,21 +241,21 @@ try {
             $hasPinkpop = $content -match "Pinkpop"
             
             if ($hasDTRH -and $hasPinkpop) {
-                Write-TestResult -TestName "generate_archive_index.py" -Success $true -Details "Both festivals present"
+                Write-TestResult -TestName "generate_homepage.py" -Success $true -Details "Both festivals present"
             } else {
                 $missing = @()
                 if (-not $hasDTRH) { $missing += "Down The Rabbit Hole" }
                 if (-not $hasPinkpop) { $missing += "Pinkpop" }
-                Write-TestResult -TestName "generate_archive_index.py" -Success $false -Details "Missing festivals: $($missing -join ', ')"
+                Write-TestResult -TestName "generate_homepage.py" -Success $false -Details "Missing festivals: $($missing -join ', ')"
             }
         } else {
-            Write-TestResult -TestName "generate_archive_index.py" -Success $false -Details "Output file not found: $indexPath"
+            Write-TestResult -TestName "generate_homepage.py" -Success $false -Details "Output file not found: $indexPath"
         }
     } else {
-        Write-TestResult -TestName "generate_archive_index.py" -Success $false -Details "Exit code: $LASTEXITCODE"
+        Write-TestResult -TestName "generate_homepage.py" -Success $false -Details "Exit code: $LASTEXITCODE"
     }
 } catch {
-    Write-TestResult -TestName "generate_archive_index.py" -Success $false -Details $_.Exception.Message
+    Write-TestResult -TestName "generate_homepage.py" -Success $false -Details $_.Exception.Message
 }
 
 # Test 7: Verify HTML structure

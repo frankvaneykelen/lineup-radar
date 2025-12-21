@@ -330,9 +330,9 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
                 {'<p class="festival-dates" style="font-size: 1.1em; font-weight: 600; margin-top: 0.75rem; color: var(--primary-color, #0d6efd);">' + date_display + '</p>' if date_display else ''}
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
-                    About page generated: {datetime.now(timezone.utc).strftime('%B %d, %Y %H:%M UTC')}
-                    {' | <a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Festival Site</a>' if config.lineup_url else ''}
-                    {' | <a href="' + config.playlist_url + '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LineupRadar Playlist</a>' if getattr(config, 'playlist_url', None) else ''}
+                   
+                    {'<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Festival Site</a>' if config.lineup_url else ''}
+                    {' | <a href="' + config.playlist_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">LineupRadar Playlist</a>' if getattr(config, 'playlist_url', None) else ''}
                 </p>
             </div>
         </header>
@@ -414,7 +414,7 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
                 Please verify critical details on official sources.
             </p>
             <p style="margin-bottom: 0;">
-                Generated with ❤️ • 
+                Generated with ❤️ on {datetime.now(timezone.utc).strftime('%B %d, %Y %H:%M UTC')} • 
                 <a href="https://github.com/frankvaneykelen/lineup-radar" target="_blank" style="color: #00d9ff; text-decoration: none;">
                     <i class="bi bi-github"></i> View on GitHub
                 </a>

@@ -464,7 +464,7 @@ python scripts/generate_html.py --festival footprints --year 2026
 python scripts/generate_artist_pages.py --festival footprints --year 2026
 python scripts/generate_html.py --festival best-kept-secret --year 2026
 python scripts/generate_artist_pages.py --festival best-kept-secret --year 2026
-python scripts/generate_archive_index.py docs
+python scripts/generate_homepage.py docs
 ```
 
 #### Generating Charts (comparison page)
