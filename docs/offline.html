@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - LineupRadar</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="shared/favicon_32x32.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: url('shared/icon-192.png') no-repeat center;
+            background-size: contain;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00d9ff;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #00d9ff;
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 217, 255, 0.3);
+        }
+        
+        .features {
+            margin-top: 40px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .features h2 {
+            font-size: 1.3rem;
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+        
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features li {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00d9ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="icon"></div>
+        <h1>You're Offline</h1>
+        <p>It looks like you've lost your internet connection. Some cached pages may still be available.</p>
+        <a href="/" class="btn" onclick="window.location.reload(); return false;">Try Again</a>
+        
+        <div class="features">
+            <h2>While you're offline...</h2>
+            <ul>
+                <li>Previously viewed festival lineups are cached</li>
+                <li>Artist pages you've visited are available</li>
+                <li>Core app features are still accessible</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
