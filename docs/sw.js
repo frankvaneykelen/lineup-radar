@@ -1,93 +1,338 @@
-// Service Worker for LineupRadar PWA
-const CACHE_NAME = 'lineup-radar-v1';
-const OFFLINE_URL = '/lineup-radar/offline.html';
-
-// Assets to cache on install
-const ASSETS_TO_CACHE = [
-  '/lineup-radar/',
-  '/lineup-radar/index.html',
-  '/lineup-radar/offline.html',
-  '/lineup-radar/shared/styles.css',
-  '/lineup-radar/shared/script.js',
-  '/lineup-radar/shared/icon-192.png',
-  '/lineup-radar/shared/icon-512.png',
-  '/lineup-radar/shared/favicon_180x180.png',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'
-];
-
-// Install event - cache core assets
-self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker...');
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('[SW] Caching core assets');
-        return cache.addAll(ASSETS_TO_CACHE);
-      })
-      .then(() => self.skipWaiting())
+    caches.open('lineup-radar-v1').then(cache => {
+      return cache.addAll(ASSETS_TO_CACHE);
+    })
   );
 });
 
-// Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating service worker...');
-  event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== CACHE_NAME) {
-              console.log('[SW] Deleting old cache:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
-      .then(() => self.clients.claim())
-  );
-});
-
-// Fetch event - serve from cache, fallback to network
-self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin) && 
-      !event.request.url.startsWith('https://cdn.jsdelivr.net')) {
-    return;
-  }
-
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        if (cachedResponse) {
-          // Return cached version
-          return cachedResponse;
-        }
-
-        // Not in cache, fetch from network
-        return fetch(event.request)
-          .then((networkResponse) => {
-            // Cache successful responses for HTML, CSS, JS, and images
-            if (networkResponse.ok && 
-                (event.request.url.endsWith('.html') ||
-                 event.request.url.endsWith('.css') ||
-                 event.request.url.endsWith('.js') ||
-                 event.request.url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/))) {
-              const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(event.request, responseToCache);
-                });
-            }
-            return networkResponse;
-          })
-          .catch(() => {
-            // Network failed, show offline page for HTML requests
-            if (event.request.destination === 'document') {
-              return caches.match(OFFLINE_URL);
-            }
-            return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
-          });
-      })
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
   );
 });
+
+const ASSETS_TO_CACHE = [
+  '/charts.html',
+  '/faq.html',
+  '/google3ad0065f3a348360.html',
+  '/index.html',
+  '/offline.html',
+  '/alkmaarse-eigenste/2026/about.html',
+  '/alkmaarse-eigenste/2026/index.html',
+  '/alkmaarse-eigenste/2026/artists/3-point-landing.html',
+  '/alkmaarse-eigenste/2026/artists/black-operator.html',
+  '/alkmaarse-eigenste/2026/artists/carmen-de-kooning.html',
+  '/alkmaarse-eigenste/2026/artists/carousel.html',
+  '/alkmaarse-eigenste/2026/artists/days-of-sway.html',
+  '/alkmaarse-eigenste/2026/artists/dear-john.html',
+  '/alkmaarse-eigenste/2026/artists/dentro.html',
+  '/alkmaarse-eigenste/2026/artists/dress-up-dolls.html',
+  '/alkmaarse-eigenste/2026/artists/dressup-dolls.html',
+  '/alkmaarse-eigenste/2026/artists/efvy.html',
+  '/alkmaarse-eigenste/2026/artists/emily-wareing-band.html',
+  '/alkmaarse-eigenste/2026/artists/eurydice.html',
+  '/alkmaarse-eigenste/2026/artists/grey-van-leeuwen.html',
+  '/alkmaarse-eigenste/2026/artists/jill-van-der-meer.html',
+  '/alkmaarse-eigenste/2026/artists/julia.html',
+  '/alkmaarse-eigenste/2026/artists/krappe-sokken.html',
+  '/alkmaarse-eigenste/2026/artists/liquid-desert.html',
+  '/alkmaarse-eigenste/2026/artists/loud-wednesdays.html',
+  '/alkmaarse-eigenste/2026/artists/magnoliac.html',
+  '/alkmaarse-eigenste/2026/artists/marigold.html',
+  '/alkmaarse-eigenste/2026/artists/mia-chauvin.html',
+  '/alkmaarse-eigenste/2026/artists/orchestre-partout.html',
+  '/alkmaarse-eigenste/2026/artists/selma-peelen.html',
+  '/alkmaarse-eigenste/2026/artists/strak-plan.html',
+  '/alkmaarse-eigenste/2026/artists/tease.html',
+  '/alkmaarse-eigenste/2026/artists/wildfires.html',
+  '/best-kept-secret/2026/about.html',
+  '/best-kept-secret/2026/index.html',
+  '/best-kept-secret/2026/artists/aldous-harding.html',
+  '/best-kept-secret/2026/artists/amaarae.html',
+  '/best-kept-secret/2026/artists/ao.html',
+  '/best-kept-secret/2026/artists/apichat-pakwan.html',
+  '/best-kept-secret/2026/artists/ata-kak.html',
+  '/best-kept-secret/2026/artists/bcuc.html',
+  '/best-kept-secret/2026/artists/blood-incantation.html',
+  '/best-kept-secret/2026/artists/bruno-berle.html',
+  '/best-kept-secret/2026/artists/croithe.html',
+  '/best-kept-secret/2026/artists/curtis-harding.html',
+  '/best-kept-secret/2026/artists/dame-area.html',
+  '/best-kept-secret/2026/artists/don-west.html',
+  '/best-kept-secret/2026/artists/ethel-cain.html',
+  '/best-kept-secret/2026/artists/genesis-owusu.html',
+  '/best-kept-secret/2026/artists/getdown-services.html',
+  '/best-kept-secret/2026/artists/ghostwoman.html',
+  '/best-kept-secret/2026/artists/gorillaz.html',
+  '/best-kept-secret/2026/artists/grote-geelstaart.html',
+  '/best-kept-secret/2026/artists/hayley-williams.html',
+  '/best-kept-secret/2026/artists/jack-white.html',
+  '/best-kept-secret/2026/artists/job-jobse.html',
+  '/best-kept-secret/2026/artists/joey-valence-brae.html',
+  '/best-kept-secret/2026/artists/jungle-by-night.html',
+  '/best-kept-secret/2026/artists/leoniden.html',
+  '/best-kept-secret/2026/artists/lucky-done-gone.html',
+  '/best-kept-secret/2026/artists/mac-demarco.html',
+  '/best-kept-secret/2026/artists/mark-william-lewis.html',
+  '/best-kept-secret/2026/artists/mavi.html',
+  '/best-kept-secret/2026/artists/men-an-tol.html',
+  '/best-kept-secret/2026/artists/merol.html',
+  '/best-kept-secret/2026/artists/midrift.html',
+  '/best-kept-secret/2026/artists/militarie-gun.html',
+  '/best-kept-secret/2026/artists/modelactriz.html',
+  '/best-kept-secret/2026/artists/mula-b.html',
+  '/best-kept-secret/2026/artists/nation-of-language.html',
+  '/best-kept-secret/2026/artists/newdad.html',
+  '/best-kept-secret/2026/artists/nick-cave-the-bad-seeds.html',
+  '/best-kept-secret/2026/artists/parker-fans.html',
+  '/best-kept-secret/2026/artists/sammy-virji.html',
+  '/best-kept-secret/2026/artists/sef.html',
+  '/best-kept-secret/2026/artists/shady-nasty.html',
+  '/best-kept-secret/2026/artists/sharon-van-etten-the-attachment-theory.html',
+  '/best-kept-secret/2026/artists/skullcrusher.html',
+  '/best-kept-secret/2026/artists/sophie-straat.html',
+  '/best-kept-secret/2026/artists/sorry.html',
+  '/best-kept-secret/2026/artists/tella.html',
+  '/best-kept-secret/2026/artists/the-zawose-queens.html',
+  '/best-kept-secret/2026/artists/tramhaus.html',
+  '/best-kept-secret/2026/artists/tropical-fuck-storm.html',
+  '/best-kept-secret/2026/artists/weval-live.html',
+  '/best-kept-secret/2026/artists/wolf-alice.html',
+  '/best-kept-secret/2026/artists/yard-act.html',
+  '/bospop/2026/about.html',
+  '/bospop/2026/index.html',
+  '/bospop/2026/artists/airbourne.html',
+  '/bospop/2026/artists/anouk.html',
+  '/bospop/2026/artists/biohazard.html',
+  '/bospop/2026/artists/bizkit-park.html',
+  '/bospop/2026/artists/chris-isaak.html',
+  '/bospop/2026/artists/clouseau.html',
+  '/bospop/2026/artists/cooking-with-knopfler.html',
+  '/bospop/2026/artists/counting-crows.html',
+  '/bospop/2026/artists/dawn-brothers.html',
+  '/bospop/2026/artists/dk-harrell.html',
+  '/bospop/2026/artists/fantastic-negrito.html',
+  '/bospop/2026/artists/floor-jansen.html',
+  '/bospop/2026/artists/goodbye-june.html',
+  '/bospop/2026/artists/grace-bowers.html',
+  '/bospop/2026/artists/green-crow-collective.html',
+  '/bospop/2026/artists/heartland-drive.html',
+  '/bospop/2026/artists/henrik-freischlader.html',
+  '/bospop/2026/artists/jesper-lindell.html',
+  '/bospop/2026/artists/kaiser-chiefs.html',
+  '/bospop/2026/artists/kensington.html',
+  '/bospop/2026/artists/lenny-kravitz.html',
+  '/bospop/2026/artists/moby.html',
+  '/bospop/2026/artists/omd.html',
+  '/bospop/2026/artists/palaye-royale.html',
+  '/bospop/2026/artists/parris.html',
+  '/bospop/2026/artists/razorlight.html',
+  '/bospop/2026/artists/regressive-hypnosis.html',
+  '/bospop/2026/artists/steel-panther.html',
+  '/bospop/2026/artists/the-commoners.html',
+  '/bospop/2026/artists/the-damn-truth.html',
+  '/bospop/2026/artists/the-fatal-flowers.html',
+  '/bospop/2026/artists/the-ks.html',
+  '/bospop/2026/artists/the-rumjacks.html',
+  '/bospop/2026/artists/the-ultimate-eagles.html',
+  '/bospop/2026/artists/tribute-to-toto.html',
+  '/bospop/2026/artists/triggerfinger.html',
+  '/bospop/2026/artists/volbeat.html',
+  '/bospop/2026/artists/within-temptation.html',
+  '/bospop/2026/artists/zz-top.html',
+  '/down-the-rabbit-hole/2026/about.html',
+  '/down-the-rabbit-hole/2026/index.html',
+  '/down-the-rabbit-hole/2026/artists/all-them-witches.html',
+  '/down-the-rabbit-hole/2026/artists/apparat.html',
+  '/down-the-rabbit-hole/2026/artists/arp-frique-the-perpetual-singers.html',
+  '/down-the-rabbit-hole/2026/artists/avalon-emerson.html',
+  '/down-the-rabbit-hole/2026/artists/baxter-dury.html',
+  '/down-the-rabbit-hole/2026/artists/beirut.html',
+  '/down-the-rabbit-hole/2026/artists/charlotte-cardin.html',
+  '/down-the-rabbit-hole/2026/artists/cmat.html',
+  '/down-the-rabbit-hole/2026/artists/dabeull-live-band.html',
+  '/down-the-rabbit-hole/2026/artists/david-byrne.html',
+  '/down-the-rabbit-hole/2026/artists/de-nachtwacht.html',
+  '/down-the-rabbit-hole/2026/artists/de-staat-becomes-de-staat.html',
+  '/down-the-rabbit-hole/2026/artists/derya-yildirim-grup-simsek.html',
+  '/down-the-rabbit-hole/2026/artists/empire-of-the-sun.html',
+  '/down-the-rabbit-hole/2026/artists/florence-road.html',
+  '/down-the-rabbit-hole/2026/artists/florence-the-machine.html',
+  '/down-the-rabbit-hole/2026/artists/folk-bitch-trio.html',
+  '/down-the-rabbit-hole/2026/artists/harry-mack.html',
+  '/down-the-rabbit-hole/2026/artists/joy-crookes.html',
+  '/down-the-rabbit-hole/2026/artists/kevin-morby.html',
+  '/down-the-rabbit-hole/2026/artists/kingongolo-kiniata.html',
+  '/down-the-rabbit-hole/2026/artists/little-simz.html',
+  '/down-the-rabbit-hole/2026/artists/loyle-carner.html',
+  '/down-the-rabbit-hole/2026/artists/lumi.html',
+  '/down-the-rabbit-hole/2026/artists/mall-grab-b2b-narciss.html',
+  '/down-the-rabbit-hole/2026/artists/matt-berninger.html',
+  '/down-the-rabbit-hole/2026/artists/mind-enterprises.html',
+  '/down-the-rabbit-hole/2026/artists/oklou.html',
+  '/down-the-rabbit-hole/2026/artists/overmono.html',
+  '/down-the-rabbit-hole/2026/artists/paradise-bangkok-molam-international-band.html',
+  '/down-the-rabbit-hole/2026/artists/sierra-ferrell.html',
+  '/down-the-rabbit-hole/2026/artists/son-mieux.html',
+  '/down-the-rabbit-hole/2026/artists/sticks.html',
+  '/down-the-rabbit-hole/2026/artists/the-mary-wallopers.html',
+  '/down-the-rabbit-hole/2026/artists/the-xx.html',
+  '/down-the-rabbit-hole/2026/artists/tomora.html',
+  '/down-the-rabbit-hole/2026/artists/westside-cowboy.html',
+  '/down-the-rabbit-hole/2026/artists/yenouukeur-yenuk1matu.html',
+  '/down-the-rabbit-hole/2026/artists/zwangere-guy.html',
+  '/footprints/2026/about.html',
+  '/footprints/2026/index.html',
+  '/footprints/2026/artists/derya-yldrm-grup-simsek.html',
+  '/footprints/2026/artists/don-melody-club.html',
+  '/footprints/2026/artists/fastmusic.html',
+  '/footprints/2026/artists/gizmo-varillas.html',
+  '/footprints/2026/artists/hamraaz.html',
+  '/footprints/2026/artists/islandman.html',
+  '/footprints/2026/artists/keshavara.html',
+  '/footprints/2026/artists/niji.html',
+  '/footprints/2026/artists/sessa.html',
+  '/footprints/2026/artists/so-sorry.html',
+  '/footprints/2026/artists/why-the-eye.html',
+  '/grauzone/2026/about.html',
+  '/grauzone/2026/index.html',
+  '/grauzone/2026/artists/arabian-panther.html',
+  '/grauzone/2026/artists/avishag-c-rodrigues.html',
+  '/grauzone/2026/artists/avishagc-rodrigues.html',
+  '/grauzone/2026/artists/body-maintanence.html',
+  '/grauzone/2026/artists/deceits.html',
+  '/grauzone/2026/artists/des-demonas.html',
+  '/grauzone/2026/artists/desinteresse.html',
+  '/grauzone/2026/artists/die-spitz.html',
+  '/grauzone/2026/artists/ditz.html',
+  '/grauzone/2026/artists/dj-carmilla-sioux.html',
+  '/grauzone/2026/artists/dj-graaf-drankula.html',
+  '/grauzone/2026/artists/dj-helena-hauff.html',
+  '/grauzone/2026/artists/dj-i-f.html',
+  '/grauzone/2026/artists/dj-jen-cardini.html',
+  '/grauzone/2026/artists/dj-sharlese.html',
+  '/grauzone/2026/artists/dj-zaatar.html',
+  '/grauzone/2026/artists/djs-neu-romancer-radondo.html',
+  '/grauzone/2026/artists/djs-the-hacker-b2b-alessandro-adriani.html',
+  '/grauzone/2026/artists/eat-girls.html',
+  '/grauzone/2026/artists/fellatio.html',
+  '/grauzone/2026/artists/fit.html',
+  '/grauzone/2026/artists/forever-grey.html',
+  '/grauzone/2026/artists/frustration.html',
+  '/grauzone/2026/artists/grote-geelstaart.html',
+  '/grauzone/2026/artists/hamraaz.html',
+  '/grauzone/2026/artists/hide.html',
+  '/grauzone/2026/artists/home-front.html',
+  '/grauzone/2026/artists/jehnny-beth.html',
+  '/grauzone/2026/artists/kompromat.html',
+  '/grauzone/2026/artists/kontravoid.html',
+  '/grauzone/2026/artists/lust-for-youth.html',
+  '/grauzone/2026/artists/lydia-lunchs-big-sexy-noise.html',
+  '/grauzone/2026/artists/male-tears.html',
+  '/grauzone/2026/artists/mint-field.html',
+  '/grauzone/2026/artists/minuit-machine.html',
+  '/grauzone/2026/artists/nation-unrest.html',
+  '/grauzone/2026/artists/neu-romancer.html',
+  '/grauzone/2026/artists/nghtcrwlr.html',
+  '/grauzone/2026/artists/nurnberg.html',
+  '/grauzone/2026/artists/nuxx.html',
+  '/grauzone/2026/artists/oh-non.html',
+  '/grauzone/2026/artists/ozgur-baba.html',
+  '/grauzone/2026/artists/pissoir-des-dieux.html',
+  '/grauzone/2026/artists/pixel-grip.html',
+  '/grauzone/2026/artists/pot-pot.html',
+  '/grauzone/2026/artists/potochkine.html',
+  '/grauzone/2026/artists/primal-baby.html',
+  '/grauzone/2026/artists/sad-madona.html',
+  '/grauzone/2026/artists/safe-mind.html',
+  '/grauzone/2026/artists/sarin.html',
+  '/grauzone/2026/artists/sixth-june.html',
+  '/grauzone/2026/artists/slash-need.html',
+  '/grauzone/2026/artists/stella-rose.html',
+  '/grauzone/2026/artists/subject-sue.html',
+  '/grauzone/2026/artists/sydney-valette.html',
+  '/grauzone/2026/artists/the-chisel.html',
+  '/grauzone/2026/artists/the-discussion.html',
+  '/grauzone/2026/artists/the-etters.html',
+  '/grauzone/2026/artists/the-mall.html',
+  '/grauzone/2026/artists/the-none.html',
+  '/grauzone/2026/artists/the-serfs.html',
+  '/grauzone/2026/artists/tomo-katsurada-jonny-nash.html',
+  '/grauzone/2026/artists/torba.html',
+  '/grauzone/2026/artists/traitrs.html',
+  '/grauzone/2026/artists/twin-tribes.html',
+  '/grauzone/2026/artists/uitzendbureau.html',
+  '/grauzone/2026/artists/vals-alarm.html',
+  '/grauzone/2026/artists/warmduscher.html',
+  '/grauzone/2026/artists/whitelands.html',
+  '/grauzone/2026/artists/years-of-denial.html',
+  '/grauzone/2026/artists/youth-code.html',
+  '/pinkpop/2026/about.html',
+  '/pinkpop/2026/index.html',
+  '/pinkpop/2026/artists/alessi-rose.html',
+  '/pinkpop/2026/artists/bente.html',
+  '/pinkpop/2026/artists/de-herfshane-band.html',
+  '/pinkpop/2026/artists/di-rect.html',
+  '/pinkpop/2026/artists/dogstar.html',
+  '/pinkpop/2026/artists/editors.html',
+  '/pinkpop/2026/artists/fat-dog.html',
+  '/pinkpop/2026/artists/foo-fighters.html',
+  '/pinkpop/2026/artists/franz-ferdinand.html',
+  '/pinkpop/2026/artists/giant-rooks.html',
+  '/pinkpop/2026/artists/haevn.html',
+  '/pinkpop/2026/artists/idles.html',
+  '/pinkpop/2026/artists/kingfishr.html',
+  '/pinkpop/2026/artists/lauren-spencer-smith.html',
+  '/pinkpop/2026/artists/max-mcnown.html',
+  '/pinkpop/2026/artists/roxy-dekker.html',
+  '/pinkpop/2026/artists/royel-otis.html',
+  '/pinkpop/2026/artists/ski-aggu.html',
+  '/pinkpop/2026/artists/sleep-theory.html',
+  '/pinkpop/2026/artists/sofi-tukker.html',
+  '/pinkpop/2026/artists/suzan-freek.html',
+  '/pinkpop/2026/artists/teddy-swims.html',
+  '/pinkpop/2026/artists/the-beaches.html',
+  '/pinkpop/2026/artists/the-cure.html',
+  '/pinkpop/2026/artists/the-haunted-youth.html',
+  '/pinkpop/2026/artists/the-plot-in-you.html',
+  '/pinkpop/2026/artists/the-pretty-reckless.html',
+  '/pinkpop/2026/artists/twenty-one-pilots.html',
+  '/pinkpop/2026/artists/wet-leg.html',
+  '/pinkpop/2026/artists/white-lies.html',
+  '/pinkpop/2026/artists/yungblud.html',
+  '/pinkpop/2026/artists/zara-larsson.html',
+  '/rock-werchter/2026/about.html',
+  '/rock-werchter/2026/index.html',
+  '/rock-werchter/2026/artists/a-perfect-circle.html',
+  '/rock-werchter/2026/artists/all-them-witches.html',
+  '/rock-werchter/2026/artists/dylan-gossett.html',
+  '/rock-werchter/2026/artists/ethel-cain.html',
+  '/rock-werchter/2026/artists/gorillaz.html',
+  '/rock-werchter/2026/artists/halsey.html',
+  '/rock-werchter/2026/artists/kasabian.html',
+  '/rock-werchter/2026/artists/kneecap.html',
+  '/rock-werchter/2026/artists/lauren-spencer-smith.html',
+  '/rock-werchter/2026/artists/lewis-capaldi.html',
+  '/rock-werchter/2026/artists/loyle-carner.html',
+  '/rock-werchter/2026/artists/matt-berninger.html',
+  '/rock-werchter/2026/artists/moby.html',
+  '/rock-werchter/2026/artists/mumford-sons.html',
+  '/rock-werchter/2026/artists/palaye-royale.html',
+  '/rock-werchter/2026/artists/paul-kalkbrenner.html',
+  '/rock-werchter/2026/artists/pixies.html',
+  '/rock-werchter/2026/artists/royel-otis.html',
+  '/rock-werchter/2026/artists/teddy-swims.html',
+  '/rock-werchter/2026/artists/the-cure.html',
+  '/rock-werchter/2026/artists/the-haunted-youth.html',
+  '/rock-werchter/2026/artists/the-last-dinner-party.html',
+  '/rock-werchter/2026/artists/the-lumineers.html',
+  '/rock-werchter/2026/artists/the-prodigy.html',
+  '/rock-werchter/2026/artists/the-vaccines.html',
+  '/rock-werchter/2026/artists/the-war-on-drugs.html',
+  '/rock-werchter/2026/artists/the-xx.html',
+  '/rock-werchter/2026/artists/twenty-one-pilots.html',
+  '/rock-werchter/2026/artists/zwangere-guy.html',
+];

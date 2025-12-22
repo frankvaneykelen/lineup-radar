@@ -438,6 +438,30 @@ scripts\regenerate_all.bat
 # Activate virtual environment first
 .venv\Scripts\Activate.ps1
 
+# Regenerate service worker for offline caching
+
+## generate_sw.py: Service Worker Generator
+
+The script `scripts/helpers/generate_sw.py` scans the `docs/` directory for all HTML pages and generates `docs/sw.js` with an updated `ASSETS_TO_CACHE` array for offline caching in the PWA.
+
+**Usage:**
+
+```powershell
+python scripts/helpers/generate_sw.py
+```
+
+This will overwrite `docs/sw.js` with all festival and artist pages included for offline support. The script is also called automatically by `scripts/regenerate_all.ps1`.
+
+**When to use:**
+- After adding, removing, or renaming festival/artist HTML pages
+- To ensure your PWA caches all current content for offline use
+
+**What it does:**
+- Scans `docs/` for all `.html` files
+- Updates `docs/sw.js` so the PWA caches all festival, artist, and main pages
+
+**Note:** If you manually edit `docs/sw.js`, your changes will be overwritten next time you run this script or the full regeneration.
+
 # Update only the Spotify playlist for a festival (requires credentials in .keys.txt)
 python scripts/generate_spotify_playlists.py --festival alkmaarse-eigenste --year 2026
 python scripts/generate_spotify_playlists.py --festival down-the-rabbit-hole --year 2026
