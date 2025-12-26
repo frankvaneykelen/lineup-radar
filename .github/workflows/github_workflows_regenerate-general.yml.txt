@@ -1,0 +1,33 @@
+name: Regenerate General Files
+
+on:
+  workflow_dispatch:
+
+jobs:
+  regenerate-general:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Run PowerShell script
+        shell: pwsh
+        run: |
+          ./scripts/regenerate_general.ps1
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Regenerate general files"
+            git push
+          else
+            echo "No changes to commit"
+          fi
