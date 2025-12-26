@@ -2,7 +2,7 @@
 Spotify Playlist Generator and Updater for Festival Lineups
 
 Creates and updates Spotify playlists for each festival year with:
-- 5 songs per artist (who has a Spotify link)
+- 5 songs per artist (who has a Spotify Link)
 - Top 3 tracks by popularity
 - First track from 2 most recent singles
 - Avoids duplicates between top tracks and singles
@@ -105,7 +105,7 @@ def extract_artist_id(spotify_url: str) -> Optional[str]:
 
 
 def update_artist_spotify_link(festival: str, year: int, artist_name: str, new_url: str):
-    """Update the Spotify link for an artist in the CSV file."""
+    """Update the Spotify Link for an artist in the CSV file."""
     csv_path = Path(f"docs/{festival}/{year}/{year}.csv")
     
     if not csv_path.exists():
@@ -129,7 +129,7 @@ def update_artist_spotify_link(festival: str, year: int, artist_name: str, new_u
         writer.writeheader()
         writer.writerows(rows)
     
-    print(f"  ✅ Updated CSV with new Spotify link for {artist_name}")
+    print(f"  ✅ Updated CSV with new Spotify Link for {artist_name}")
 
 
 def is_main_artist_track(track: Dict, artist_id: str) -> bool:
@@ -413,7 +413,7 @@ def load_festival_artists(festival: str, year: int) -> List[Dict]:
             spotify_link = spotify_link.strip()
 
             if not spotify_link and spotify_link != 'NOT ON SPOTIFY':
-                print(f"\n⚠️  No Spotify link found for '{artist_name}' [{idx}/{total}]")
+                print(f"\n⚠️  No Spotify Link found for '{artist_name}' [{idx}/{total}]")
                 print(f"  🔍 Search: https://open.spotify.com/search/{artist_name.replace(' ', '%20')}")
                 print(f"  📝 Enter Spotify artist URL (or 'NOT ON SPOTIFY' if not available, or press Enter to skip): ", end='', flush=True)
 

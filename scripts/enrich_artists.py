@@ -66,7 +66,7 @@ def create_enrichment_prompt(artist_name: str, existing_bio: str = "") -> str:
     "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",{bio_instruction}
     "AI Summary": "brief critical assessment based on the bio provided or from reviews/consensus - BE SPECIFIC about their sound/style, avoid generic phrases like 'emerging artist' or 'shows promise' (or empty string if no bio and insufficient public info)",
     "AI Rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance (or empty string if insufficient info)",
-    "Spotify link": "full Spotify artist URL (https://open.spotify.com/artist/...)",
+    "Spotify Link": "full Spotify artist URL (https://open.spotify.com/artist/...)",
     "Number of People in Act": "number as integer, or empty if solo/varies",
     "Gender of Front Person": "Male/Female/Mixed/Non-binary. Do not guess - leave empty if uncertain. Only use this list, do not use other terms like pronouns.",
     "Front Person of Color?": "Yes/No"

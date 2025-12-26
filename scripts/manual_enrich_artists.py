@@ -193,8 +193,8 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
         print(f"  Current Country: {artist_data['Country']}")
     if artist_data.get('Bio'):
         print(f"  Current Bio: {artist_data['Bio'][:100]}...")
-    if artist_data.get('Spotify link'):
-        print(f"  Current Spotify: {artist_data['Spotify link']}")
+    if artist_data.get('Spotify Link'):
+        print(f"  Current Spotify: {artist_data['Spotify Link']}")
     
     print()
     
@@ -229,10 +229,10 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
     
     # If no website, offer to use Spotify or social media for AI analysis
     if not scrape_url and not artist_data.get('Genre'):
-        if artist_data.get('Spotify link'):
+        if artist_data.get('Spotify Link'):
             use_spotify = get_input(f"No website found. Use Spotify page for AI analysis? (y/n)", default="y")
             if use_spotify.lower() == 'y':
-                scrape_url = artist_data['Spotify link']
+                scrape_url = artist_data['Spotify Link']
         else:
             alt_url = get_input("Enter Instagram/Facebook/Bandcamp URL for AI analysis (or press Enter to skip)", allow_empty=True)
             if alt_url:
@@ -304,9 +304,9 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
         if artist_data['Bio']:
             save_progress()
     
-    if not artist_data.get('Spotify link'):
-        artist_data['Spotify link'] = get_input("Spotify link (full URL or just the artist ID)")
-        if artist_data['Spotify link']:
+    if not artist_data.get('Spotify Link'):
+        artist_data['Spotify Link'] = get_input("Spotify Link (full URL or just the artist ID)")
+        if artist_data['Spotify Link']:
             save_progress()
     
     if not artist_data.get('Number of People in Act'):
@@ -372,11 +372,11 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
         if not artist_data.get('Images Scraped') or artist_data['Images Scraped'] != 'Yes':
             # Try to get image from Spotify first
             spotify_image_url = None
-            if artist_data.get('Spotify link'):
+            if artist_data.get('Spotify Link'):
                 try_spotify = get_input("Try to get image from Spotify? (y/n)", default="y")
                 if try_spotify.lower() == 'y':
                     print(f"  🎵 Scraping Spotify for image...")
-                    spotify_image_url = scrape_spotify_image(artist_data['Spotify link'])
+                    spotify_image_url = scrape_spotify_image(artist_data['Spotify Link'])
                     if spotify_image_url:
                         print(f"  ✓ Found Spotify image: {spotify_image_url}")
                         use_spotify_img = get_input("Use this Spotify image? (y/n)", default="y")
@@ -502,7 +502,7 @@ def main():
             artist_data.get('Genre') and 
             artist_data.get('Country') and 
             artist_data.get('Bio') and
-            artist_data.get('Spotify link') and
+            artist_data.get('Spotify Link') and
             artist_data.get('Website') and  # Includes URLs or "HAS_NO_WEBSITE"
             artist_data.get('Images Scraped') == 'Yes'
         )

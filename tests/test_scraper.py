@@ -80,14 +80,14 @@ class TestFestivalScraper:
         assert bio == ""
     
     def test_extract_spotify_link(self, sample_dtrh_config, sample_artist_html_dtrh):
-        """Test Spotify link extraction."""
+        """Test Spotify Link extraction."""
         scraper = FestivalScraper(sample_dtrh_config)
         link = scraper.extract_spotify_link(sample_artist_html_dtrh)
         
         assert link == "https://open.spotify.com/artist/1234567890"
     
     def test_extract_spotify_link_no_match(self, sample_dtrh_config):
-        """Test Spotify link extraction with no match."""
+        """Test Spotify Link extraction with no match."""
         scraper = FestivalScraper(sample_dtrh_config)
         link = scraper.extract_spotify_link("<html>No spotify link</html>")
         

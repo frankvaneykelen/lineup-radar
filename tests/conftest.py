@@ -92,7 +92,7 @@ def sample_csv_data():
     return {
         'headers': [
             'Artist', 'Genre', 'Country', 'Bio', 'AI Summary', 'AI Rating',
-            'Spotify link', 'Number of People in Act', 'Gender of Front Person',
+            'Spotify Link', 'Number of People in Act', 'Gender of Front Person',
             'Front Person of Color?', 'Festival URL', 'Festival Bio (NL)',
             'Festival Bio (EN)', 'Social Links', 'Images Scraped'
         ],
@@ -104,7 +104,7 @@ def sample_csv_data():
                 'Bio': 'Test bio',
                 'AI Summary': 'Great artist',
                 'AI Rating': '8',
-                'Spotify link': 'https://open.spotify.com/artist/123',
+                'Spotify Link': 'https://open.spotify.com/artist/123',
                 'Number of People in Act': '4',
                 'Gender of Front Person': 'Male',
                 'Front Person of Color?': 'No',

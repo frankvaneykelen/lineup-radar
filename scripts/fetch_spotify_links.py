@@ -149,7 +149,7 @@ def update_spotify_links(csv_path: Path, festival: str = 'down-the-rabbit-hole',
     
     for row in rows:
         artist_name = row.get('Artist', '').strip()
-        current_link = row.get('Spotify link', '').strip()
+        current_link = row.get('Spotify Link', '').strip()
         festival_url = row.get('Festival URL', '').strip()
         
         if not artist_name:

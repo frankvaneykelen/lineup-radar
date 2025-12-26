@@ -166,7 +166,7 @@ def get_csv_columns(csv_file):
         'Bio': 'AI-generated or general biography',
         'Website': 'Official website',
         'Spotify': 'Spotify artist link',
-        'Spotify link': 'Spotify artist link',
+        'Spotify Link': 'Spotify artist link',
         'YouTube': 'YouTube channel',
         'Instagram': 'Instagram profile',
         'Photo URL': 'Artist photo URL from festival',

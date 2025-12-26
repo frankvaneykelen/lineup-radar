@@ -60,7 +60,7 @@ FESTIVALS = {
         'description': 'A forward-thinking music and arts festival in The Hague, Netherlands, known for adventurous programming.',
         'scraper_type': 'rewire',
         'spotify_playlist': '',
-        'lineup_radar_spotify_playlist': '',
+        'lineup_radar_spotify_playlist': 'https://open.spotify.com/playlist/5FvP4rOQmHx7JpBDX666jx',
     },
     'down-the-rabbit-hole': {
         'name': 'Down The Rabbit Hole',

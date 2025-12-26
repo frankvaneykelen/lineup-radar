@@ -99,7 +99,7 @@ The `2026.csv` file contains these columns:
 - **Website** - Official website
 - **AI Summary** - AI-generated critical assessment (preserved on updates)
 - **AI Rating** - AI-generated rating 1-10 (preserved on updates)
-- **Spotify link** - Spotify artist link
+- **Spotify Link** - Spotify artist link
 - **Number of People in Act** - Band size
 - **Gender of Front Person** - Gender identification
 - **Front Person of Color?** - Yes/No

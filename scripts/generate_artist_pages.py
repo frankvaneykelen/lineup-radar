@@ -165,7 +165,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     bio = artist.get('Bio', '').strip()
     ai_summary = artist.get('AI Summary', '').strip()
     ai_rating = artist.get('AI Rating', '').strip()
-    spotify_link = artist.get('Spotify link', '').strip()
+    spotify_link = artist.get('Spotify Link', '').strip()
     num_people = artist.get('Number of People in Act', '').strip()
     gender_raw = artist.get('Gender of Front Person', '').strip().lower()
     # Tagline fallback logic: always provide a tagline
@@ -186,7 +186,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     bio = artist.get('Bio', '').strip()
     ai_summary = artist.get('AI Summary', '').strip()
     ai_rating = artist.get('AI Rating', '').strip()
-    spotify_link = artist.get('Spotify link', '').strip()
+    spotify_link = artist.get('Spotify Link', '').strip()
     num_people = artist.get('Number of People in Act', '').strip()
     gender_raw = artist.get('Gender of Front Person', '').strip().lower()
     # Normalize gender values
@@ -598,24 +598,24 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         if website and link_lower == website.lower():
             continue
         if 'instagram.com' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-instagram"></i> Instagram</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-primary"><i class="bi bi-instagram"></i> Instagram</a>\n'
         elif 'youtube.com' in link_lower or 'youtu.be' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-danger"><i class="bi bi-youtube"></i> YouTube</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-danger"><i class="bi bi-youtube"></i> YouTube</a>\n'
         elif 'facebook.com' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-facebook"></i> Facebook</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-primary"><i class="bi bi-facebook"></i> Facebook</a>\n'
         elif 'twitter.com' in link_lower or 'x.com' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-info"><i class="bi bi-twitter-x"></i> Twitter/X</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-info"><i class="bi bi-twitter-x"></i> Twitter/X</a>\n'
         elif 'soundcloud.com' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-warning"><i class="bi bi-soundwave"></i> SoundCloud</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-warning"><i class="bi bi-soundwave"></i> SoundCloud</a>\n'
         elif 'bandcamp.com' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-disc"></i> Bandcamp</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-light"><i class="bi bi-disc"></i> Bandcamp</a>\n'
         elif 'tiktok.com' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-dark"><i class="bi bi-tiktok"></i> TikTok</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-dark"><i class="bi bi-tiktok"></i> TikTok</a>\n'
         elif 'apple.com' in link_lower and 'music' in link_lower:
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-music-note"></i> Apple Music</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-light"><i class="bi bi-music-note"></i> Apple Music</a>\n'
         else:
             # Generic website link
-            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-link-45deg"></i> Website</a>\n'
+            links_html += f'                        <a href="{escape_html(link)}" target="_blank" class="btn btn-light"><i class="bi bi-link-45deg"></i> Website</a>\n'
         has_links = True
 
     if has_links:

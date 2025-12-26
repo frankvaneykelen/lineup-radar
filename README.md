@@ -41,7 +41,7 @@ Each festival can have its own configuration (language, scraping patterns, etc.)
   - **Website**: Official artist/band website
   - **AI Summary**: AI-generated critical assessment and notes
   - **AI Rating**: AI-generated rating (scale: 1-10)
-  - **Spotify link**: Link to artist's Spotify profile
+  - **Spotify Link**: Link to artist's Spotify profile
   - **Number of People in Act**: Band size
   - **Gender of Front Person**: Gender identification of lead performer
   - **Front Person of Color?**: Yes/No indicator
@@ -177,7 +177,7 @@ The script will interactively prompt you for:
 - Genre
 - Country (defaults to Netherlands on Enter)
 - Bio (single or multi-line)
-- Spotify link
+- Spotify Link
 - Gender of Front Person (1=Male, 2=Female, 3=Non-Binary, 4=Band)
 - Front Person of Color (y/n)
 - Image (URL to download or local file path to copy)

@@ -87,7 +87,7 @@ Return JSON with these exact fields:
     "AI Summary": "brief critical assessment based on the festival bio and known reviews (1-2 sentences, or empty if insufficient info)",
     "Tagline": "A single-sentence tagline or hook that summarizes the artist, REQUIRED if you are able to generate a Bio and AI Summary (do not leave empty if those are present)",
     "AI Rating": "rating 1-10 based on critical acclaim and festival suitability (or empty if insufficient info)",
-    "Spotify link": "full Spotify URL",
+    "Spotify Link": "full Spotify URL",
     "Number of People in Act": "number or empty",
     "Gender of Front Person": "Male/Female/Mixed/Non-binary",
     "Front Person of Color?": "Yes/No"
@@ -104,7 +104,7 @@ CRITICAL: Generate Bio and AI Summary primarily from the festival bio provided. 
     "AI Summary": "brief critical assessment (1-2 sentences, or empty if insufficient info)",
     "Tagline": "A single-sentence tagline or hook that summarizes the artist, REQUIRED if you are able to generate a Bio and AI Summary (do not leave empty if those are present)",
     "AI Rating": "rating 1-10 (or empty if insufficient info)",
-    "Spotify link": "full Spotify URL",
+    "Spotify Link": "full Spotify URL",
     "Number of People in Act": "number or empty",
     "Gender of Front Person": "Male/Female/Mixed/Non-binary",
     "Front Person of Color?": "Yes/No"

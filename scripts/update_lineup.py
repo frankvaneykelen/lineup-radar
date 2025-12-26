@@ -42,7 +42,7 @@ def create_artist_dict(name: str) -> Dict:
         "Bio": "",
         "AI Summary": "",
         "AI Rating": "",
-        "Spotify link": "",
+        "Spotify Link": "",
         "Number of People in Act": "",
         "Gender of Front Person": "",
         "Front Person of Color?": ""

@@ -121,7 +121,7 @@ def compute_stats(artists: list[dict]) -> dict:
         stats['rating_counts'] = {'Unrated': len(artists)}
 
     # Other counts
-    spotify_count = sum(1 for a in artists if (a.get('Spotify link') or '').strip() and a.get('Spotify link', '').strip() != 'NOT ON SPOTIFY')
+    spotify_count = sum(1 for a in artists if (a.get('Spotify Link') or '').strip() and a.get('Spotify Link', '').strip() != 'NOT ON SPOTIFY')
     stats['has_spotify_links'] = spotify_count
     stats['spotify_percentage'] = round((spotify_count / len(artists) * 100), 1) if artists else 0
 

@@ -216,7 +216,7 @@ class FestivalScraper:
     
     def fetch_spotify_link(self, artist_name: str) -> Optional[str]:
         """
-        Fetch Spotify link for an artist from their festival page.
+        Fetch Spotify Link for an artist from their festival page.
         
         Args:
             artist_name: Name of the artist
