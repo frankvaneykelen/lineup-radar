@@ -129,17 +129,37 @@ class FestivalScraper:
         
         self.session_learned = False  # Track if we learned anything new this session
     
-    def fetch_page(self, url: str, timeout: int = 10) -> Optional[str]:
+    def fetch_page(self, url: str, timeout: int = 10, use_selenium: bool = False) -> Optional[str]:
         """
-        Fetch HTML content from a URL.
+        Fetch HTML content from a URL. Uses Selenium for dynamic content if required.
         
         Args:
             url: URL to fetch
             timeout: Request timeout in seconds
-            
+            use_selenium: If True, use Selenium to render dynamic content
         Returns:
             HTML content as string, or None if fetch fails
         """
+        # Use Selenium for Rewire artist pages to get dynamic content
+        if use_selenium or (self.festival_key == "rewire" and "/artist/" in url):
+            try:
+                from selenium import webdriver
+                from selenium.webdriver.chrome.options import Options
+                chrome_options = Options()
+                chrome_options.add_argument('--headless')
+                chrome_options.add_argument('--disable-gpu')
+                chrome_options.add_argument(f'user-agent={self.user_agent}')
+                driver = webdriver.Chrome(options=chrome_options)
+                driver.set_page_load_timeout(timeout)
+                driver.get(url)
+                time.sleep(2)  # Wait for JS to load
+                html = driver.page_source
+                driver.quit()
+                return html
+            except Exception as e:
+                print(f"  ⚠️  Selenium error fetching {url}: {e}")
+                return None
+        # Fallback to requests for static pages
         try:
             req = urllib.request.Request(url, headers={'User-Agent': self.user_agent})
             with urllib.request.urlopen(req, timeout=timeout) as response:

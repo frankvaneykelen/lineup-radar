@@ -51,6 +51,17 @@ class FestivalConfig:
 
 # Festival configurations
 FESTIVALS = {
+    'rewire': {
+        'name': 'Rewire Festival',
+        'base_url': 'https://www.rewirefestival.nl',
+        'lineup_url': 'https://www.rewirefestival.nl/line/up/2026',
+        'artist_path': '/artist/',
+        'bio_language': 'English',
+        'description': 'A forward-thinking music and arts festival in The Hague, Netherlands, known for adventurous programming.',
+        'scraper_type': 'rewire',
+        'spotify_playlist': '',
+        'lineup_radar_spotify_playlist': '',
+    },
     'down-the-rabbit-hole': {
         'name': 'Down The Rabbit Hole',
         'base_url': 'https://downtherabbithole.nl',

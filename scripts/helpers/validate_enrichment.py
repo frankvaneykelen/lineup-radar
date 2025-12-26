@@ -74,7 +74,7 @@ def enrich_artist_with_ai(artist_name: str, festival_bio: str = "") -> Dict[str,
     
     # Create prompt with festival bio context
     if festival_bio:
-        prompt = f"""Based on this festival bio and your knowledge, provide information about "{artist_name}" in JSON format:
+        prompt = f"""Based on this festival bio and your knowledge, provide information about \"{artist_name}\" in JSON format:
 
 FESTIVAL BIO:
 {festival_bio}
@@ -85,6 +85,7 @@ Return JSON with these exact fields:
     "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",
     "Bio": "1-2 sentence background about the artist based on the festival bio and your knowledge",
     "AI Summary": "brief critical assessment based on the festival bio and known reviews (1-2 sentences, or empty if insufficient info)",
+    "Tagline": "A single-sentence tagline or hook that summarizes the artist, REQUIRED if you are able to generate a Bio and AI Summary (do not leave empty if those are present)",
     "AI Rating": "rating 1-10 based on critical acclaim and festival suitability (or empty if insufficient info)",
     "Spotify link": "full Spotify URL",
     "Number of People in Act": "number or empty",
@@ -92,15 +93,16 @@ Return JSON with these exact fields:
     "Front Person of Color?": "Yes/No"
 }}
 
-CRITICAL: Generate Bio and AI Summary primarily from the festival bio provided. Only leave empty if the festival bio provides no useful information. DO NOT hallucinate demographics - only answer if you know for certain. Use abbreviated country names: "UK" not "United Kingdom", "USA" not "United States", "DR Congo" not "Democratic Republic of the Congo"."""
+CRITICAL: Generate Bio and AI Summary primarily from the festival bio provided. If you generate a Bio and AI Summary, you MUST also generate a Tagline. Only leave empty if the festival bio provides no useful information. DO NOT hallucinate demographics - only answer if you know for certain. Use abbreviated country names: "UK" not "United Kingdom", "USA" not "United States", "DR Congo" not "Democratic Republic of the Congo"."""
     else:
-        prompt = f"""Provide information about the musical artist "{artist_name}" in JSON format:
+        prompt = f"""Provide information about the musical artist \"{artist_name}\" in JSON format:
 
 {{
     "Genre": "primary genre(s), separated by /",
     "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",
     "Bio": "1-2 sentence biography (or empty if insufficient info)",
     "AI Summary": "brief critical assessment (1-2 sentences, or empty if insufficient info)",
+    "Tagline": "A single-sentence tagline or hook that summarizes the artist, REQUIRED if you are able to generate a Bio and AI Summary (do not leave empty if those are present)",
     "AI Rating": "rating 1-10 (or empty if insufficient info)",
     "Spotify link": "full Spotify URL",
     "Number of People in Act": "number or empty",
@@ -108,7 +110,7 @@ CRITICAL: Generate Bio and AI Summary primarily from the festival bio provided. 
     "Front Person of Color?": "Yes/No"
 }}
 
-CRITICAL: If you cannot find reliable information about this artist, leave Bio, AI Summary, and AI Rating EMPTY. DO NOT hallucinate or guess. Use abbreviated country names: "UK" not "United Kingdom", "USA" not "United States", "DR Congo" not "Democratic Republic of the Congo"."""
+CRITICAL: If you cannot find reliable information about this artist, leave Bio, AI Summary, and AI Rating EMPTY. If you generate a Bio and AI Summary, you MUST also generate a Tagline. DO NOT hallucinate or guess. Use abbreviated country names: "UK" not "United Kingdom", "USA" not "United States", "DR Congo" not "Democratic Republic of the Congo"."""
     
     endpoint = f"{azure_endpoint.rstrip('/')}/openai/deployments/{azure_deployment}/chat/completions?api-version=2024-12-01-preview"
     headers = {

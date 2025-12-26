@@ -155,9 +155,9 @@ def extract_social_links_from_html(html: str) -> list:
 
 
 def generate_artist_page(artist: Dict, year: str, festival_content: Dict, 
-                         prev_artist: Optional[Dict] = None, 
-                         next_artist: Optional[Dict] = None,
-                         config = None) -> str:
+                        prev_artist: Optional[Dict] = None, 
+                        next_artist: Optional[Dict] = None,
+                        config = None) -> str:
     """Generate HTML page for a single artist."""
     artist_name = artist.get('Artist', '')
     genre = artist.get('Genre', '').strip()
@@ -167,7 +167,51 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     ai_rating = artist.get('AI Rating', '').strip()
     spotify_link = artist.get('Spotify link', '').strip()
     num_people = artist.get('Number of People in Act', '').strip()
-    gender = artist.get('Gender of Front Person', '').strip()
+    gender_raw = artist.get('Gender of Front Person', '').strip().lower()
+    # Tagline fallback logic: always provide a tagline
+    tagline = artist.get('Tagline', '').strip()
+    if not tagline:
+        if bio:
+            match = re.match(r'(.+?[.!?])\s', bio)
+            if match:
+                tagline = match.group(1).strip()
+            else:
+                tagline = bio[:120].strip()
+        else:
+            tagline = ''
+    """Generate HTML page for a single artist."""
+    artist_name = artist.get('Artist', '')
+    genre = artist.get('Genre', '').strip()
+    country = artist.get('Country', '').strip()
+    bio = artist.get('Bio', '').strip()
+    ai_summary = artist.get('AI Summary', '').strip()
+    ai_rating = artist.get('AI Rating', '').strip()
+    spotify_link = artist.get('Spotify link', '').strip()
+    num_people = artist.get('Number of People in Act', '').strip()
+    gender_raw = artist.get('Gender of Front Person', '').strip().lower()
+    # Normalize gender values
+    gender_map = {
+        'male': 'Male',
+        'man': 'Male',
+        'he': 'Male',
+        'him': 'Male',
+        'm': 'Male',
+        'female': 'Female',
+        'woman': 'Female',
+        'she': 'Female',
+        'her': 'Female',
+        'f': 'Female',
+        'non-binary': 'Non-binary',
+        'nonbinary': 'Non-binary',
+        'nb': 'Non-binary',
+        'enby': 'Non-binary',
+        'mixed': 'Mixed',
+        'group': 'Mixed',
+        'various': 'Mixed',
+        'unknown': 'Unknown',
+        '': ''
+    }
+    gender = gender_map.get(gender_raw, gender_raw.capitalize() if gender_raw else '')
     poc = artist.get('Front Person of Color?', '').strip()
     
     festival_url = festival_content['url']
@@ -438,11 +482,15 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 
                 <div class="col festival-column">
 """
-    
+        
     # FESTIVAL COLUMN: Festival Bio, Details, Links
-    
-    # English Translation of Festival Bio (primary)
-    if festival_bio_en:
+    # Only show festival_bio_en if not duplicating the AI bio disclaimer
+    show_festival_bio = True
+    disclaimer = "[using festival bio due to a lack of publicly available data] "
+    if bio and bio.startswith(disclaimer):
+        show_festival_bio = False
+
+    if festival_bio_en and show_festival_bio:
         html += f"""                <div>
                     <h2>Festival Bio (English)</h2>
                     <p>{escape_html(festival_bio_en)}</p>
@@ -456,20 +504,20 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
 """
         html += """                </div>
 """
-    # Dutch Bio Section (if no English)
-    elif festival_bio_nl:
+    # Dutch Bio Section (if no English or not showing English)
+    elif festival_bio_nl and show_festival_bio:
         html += f"""                <div>
                     <h2>Festival Bio (Nederlands)</h2>
                     <p>{escape_html(festival_bio_nl)}</p>
                 </div>
 """
-    # Festival Bio Section (fallback for old pattern)
-    elif festival_bio:
-        html += f"""                <div>
-                    <h2>Festival Bio</h2>
-                    <p>{escape_html(festival_bio)}</p>
-                </div>
-"""
+    # # Festival Bio Section (fallback for old pattern)
+    # elif festival_bio:
+    #     html += f"""                <div>
+    #                 <h2>Festival Bio</h2>
+    #                 <p>{escape_html(festival_bio)}</p>
+    #             </div>
+# """
     
     # Info Grid - only show if there's data to display
     if num_people or gender or poc:

@@ -22,6 +22,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 import csv
 import json
 import argparse
+import hashlib
+import urllib.request
 from typing import Dict, List, Optional
 from helpers import (
     FestivalScraper,
@@ -54,13 +56,14 @@ def save_csv(csv_path: Path, headers: List[str], rows: List[Dict]):
 
 def needs_festival_data(row: Dict) -> bool:
     """Check if artist needs festival data fetched."""
-    # Check if any festival data columns are missing or empty
+    # Check if any festival data columns are missing or empty, or if images have not been scraped
     festival_fields = [
         'Festival Bio (NL)',
         'Festival Bio (EN)',
         'Festival URL'
     ]
-    return any(not row.get(field, '').strip() for field in festival_fields)
+    images_scraped = row.get('Images Scraped', '').strip().lower() != 'yes'
+    return any(not row.get(field, '').strip() for field in festival_fields) or images_scraped
 
 
 def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, config, existing_url: str = '') -> Dict[str, str]:
@@ -202,175 +205,304 @@ def download_image(img_url: str, output_dir: Path, artist_slug: str) -> Optional
 def extract_images_from_html(html: str, config, artist_name: str = '') -> List[str]:
     """Extract artist image URLs from festival page HTML."""
     import re
-    
+    import html as html_module
+
     artist_images = []
     og_image_found = False
-    
+
     try:
         # Try og:image meta tag first (Bospop, many WordPress sites) - HIGHEST PRIORITY
         og_image_pattern = r'<meta\s+property=["\']og:image["\']\s+content=["\']([^"\']+)["\']'
         og_images = re.findall(og_image_pattern, html)
-        
+
         # Process og:image first (highest priority for Bospop)
         for img_url in og_images:
+            img_url = html_module.unescape(img_url)
             img_lower = img_url.lower()
-            
+
             # Check for Bospop images (WordPress uploads from bospopfestival.nl)
             is_bospop_image = 'wp-content/uploads' in img_lower and 'bospopfestival.nl' in config.base_url.lower()
-            
+
             if is_bospop_image:
                 # Skip logos, default images, and other non-artist images
                 if any(skip in img_lower for skip in ['logo', 'icon', 'brand', 'sponsor', 'default', 'placeholder']):
                     continue
-                
+
                 # Skip thumbnails
                 if '/thumbs/' in img_lower or '/thumb/' in img_lower:
                     continue
-                
+
                 # Skip images with generic year-only paths (likely defaults)
                 if re.search(r'/20\d{2}/[^/]*\.(jpg|png|webp)$', img_lower):
                     continue
-                
+
                 if img_url not in artist_images:
                     artist_images.append(img_url)
                     og_image_found = True
-        
+
         # If we found a good og:image, use ONLY that and skip other sources
         if og_image_found:
             return artist_images
-        
+
         # Only continue to other sources if og:image wasn't found
         # Try srcset (DTRH, Pinkpop)
         srcset_pattern = r'srcset=["\']([^"\']+)["\']'
         all_srcsets = re.findall(srcset_pattern, html)
-        
+
         # Also try regular img src (Rock Werchter, Bospop)
         img_pattern = r'<img[^>]+src=["\']([^"\']+)["\'][^>]*>'
         all_imgs = re.findall(img_pattern, html)
-        
+
         # Process srcset
         for srcset in all_srcsets:
             # Parse srcset - it contains multiple URLs separated by commas
             urls = [url.strip().split()[0] for url in srcset.split(',') if url.strip()]
             if not urls:
                 continue
-                
-            img_url = urls[-1]  # Use the largest size
+
+            img_url = html_module.unescape(urls[-1])  # Use the largest size
             img_lower = img_url.lower()
-            
+
             # Skip thumbnails
             if '/thumbs/' in img_lower or '/thumb/' in img_lower or 'thumbnail' in img_lower:
                 continue
-            
+
             # Check for Down The Rabbit Hole images
             is_dtrh_image = 'cache/media_' in img_lower and ('crop_' in img_lower or 'fit_' in img_lower or 'widen_' in img_lower)
-            
+
             # Check for Pinkpop images (WordPress uploads with acts-header pattern)
             is_pinkpop_image = 'wp-content/uploads' in img_lower and 'acts-header' in img_lower
-            
+
             # Check for Bospop images (WordPress uploads from bospopfestival.nl)
             is_bospop_image = 'wp-content/uploads' in img_lower and 'bospopfestival.nl' in config.base_url.lower()
-            
+
             # Check for Rock Werchter images (cache/default_band or media/cache)
             is_rock_werchter_image = 'cache/default_band' in img_lower or ('media/cache' in img_lower and 'rockwerchter' in img_lower)
-            
+
             if is_dtrh_image or is_pinkpop_image or is_bospop_image or is_rock_werchter_image:
                 # Skip sponsor/logo images
                 if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo', 'brand', 'default', 'placeholder']):
                     continue
-                
+
                 if img_url.startswith('//'):
                     img_url = 'https:' + img_url
                 elif img_url.startswith('/'):
                     img_url = config.base_url.rstrip('/') + img_url
-                
+
                 if img_url not in artist_images:
                     artist_images.append(img_url)
-        
+
+
+        # Special strict rule for Rewire: always use first non-thumbnail, non-logo image from all_imgs
+        if config.slug == "rewire" and all_imgs:
+            for img_url in all_imgs:
+                orig_img_url = img_url
+                img_url = html_module.unescape(img_url)
+                img_lower = img_url.lower()
+                # Skip thumbnails and obvious non-artist images
+                if any(skip in img_lower for skip in ['thumb', 'logo', 'icon', 'brand', 'sponsor', 'default', 'placeholder']):
+                    continue
+                if img_url.startswith('//'):
+                    img_url = 'https:' + img_url
+                elif img_url.startswith('/'):
+                    img_url = config.base_url.rstrip('/') + img_url
+                if img_url not in artist_images:
+                    artist_images.append(img_url)
+                break
+
         # Process regular img tags for Rock Werchter and Bospop
         for img_url in all_imgs:
+            orig_img_url = img_url
+            img_url = html_module.unescape(img_url)
             img_lower = img_url.lower()
-            
+
             # Skip thumbnails
             if '/thumbs/' in img_lower or '/thumb/' in img_lower or 'thumbnail' in img_lower:
                 continue
-            
+
             # Check for Rock Werchter images
             is_rock_werchter_image = ('/media/cache/default_band/upload/' in img_lower or 
                                      'cache/default_band/upload/' in img_lower)
-            
+
             # Check for Bospop images in regular img tags (WordPress uploads)
             is_bospop_image = ('wp-content/uploads' in img_lower and 'bospopfestival.nl' in config.base_url.lower())
-            
+
             if is_rock_werchter_image or is_bospop_image:
                 # Skip logos and other non-artist images
                 if any(skip in img_lower for skip in ['logo', 'icon', 'brand', 'sponsor', 'default', 'placeholder']):
                     continue
-                
+
                 if img_url.startswith('//'):
                     img_url = 'https:' + img_url
                 elif img_url.startswith('/'):
                     img_url = config.base_url.rstrip('/') + img_url
-                
+
                 if img_url not in artist_images:
                     artist_images.append(img_url)
-        
+
+        # Fallback: If no images found by strict rules, interactively ask user to select from all_imgs
+        if not artist_images and all_imgs:
+            import html as html_module
+            candidate_imgs = []
+            for img_url in all_imgs:
+                orig_img_url = img_url
+                img_url = html_module.unescape(img_url)
+                img_lower = img_url.lower()
+                # Skip thumbnails and obvious non-artist images
+                if any(skip in img_lower for skip in ['thumb', 'logo', 'icon', 'brand', 'sponsor', 'default', 'placeholder']):
+                    continue
+                if img_url.startswith('//'):
+                    img_url = 'https:' + img_url
+                elif img_url.startswith('/'):
+                    img_url = config.base_url.rstrip('/') + img_url
+                candidate_imgs.append(img_url)
+
+            if candidate_imgs:
+                print("\n[USER INPUT REQUIRED] No artist image found by strict rules.")
+                print(f"Artist: {artist_name}")
+                print("Select which image(s) to use (comma-separated indices, or leave blank to skip):")
+                for idx, img in enumerate(candidate_imgs):
+                    print(f"  [{idx}] {img}")
+                selection = input("Enter indices (e.g. 0 or 0,2): ").strip()
+                if selection:
+                    try:
+                        indices = [int(i) for i in selection.split(',') if i.strip().isdigit()]
+                        for i in indices:
+                            if 0 <= i < len(candidate_imgs):
+                                artist_images.append(candidate_imgs[i])
+                    except Exception as e:
+                        print(f"[WARN] Invalid input, no images selected. Error: {e}")
+                else:
+                    print("No fallback image selected for this artist.")
+
         # Use second image if available (first is often festival logo)
         if len(artist_images) >= 2:
             artist_images = [artist_images[1]]
         elif artist_images:
             artist_images = [artist_images[0]]
-            
+
     except Exception as e:
         print(f"  ✗ Error extracting images: {e}")
-    
+
     return artist_images
 
 
 def extract_social_links(html: str) -> Dict[str, str]:
     """Extract social media links from festival page HTML."""
     import re
-    
+
     social_links = {}
-    
-    # Look for links in the "Meer weten over" section
-    section_pattern = r'<div[^>]*class="[^"]*border p-8 mt-8[^"]*"[^>]*>(.*?)</div>'
-    section_match = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
-    
-    if section_match:
-        section_content = section_match.group(1)
-        link_pattern = r'<a[^>]*target="_blank"[^>]*href="([^"]+)"[^>]*>'
-        potential_links = re.findall(link_pattern, section_content)
-        
-        for link in potential_links:
-            link_lower = link.lower()
-            
-            # Exclude festival/mojo/livenation/newsletter links
-            if any(exclude in link_lower for exclude in [
-                'dtrh_festival', 'dtrh_fest', 'downtherabbithole',
-                'mojo.nl', 'livenation', 'list-manage.com'
-            ]):
-                continue
-            
-            # Categorize social media links
-            if 'facebook.com' in link_lower:
-                social_links['Facebook'] = link
-            elif 'instagram.com' in link_lower:
-                social_links['Instagram'] = link
-            elif 'twitter.com' in link_lower or 'x.com' in link_lower:
-                social_links['Twitter'] = link
-            elif 'youtube.com' in link_lower or 'youtu.be' in link_lower:
-                social_links['YouTube'] = link
-            elif 'soundcloud.com' in link_lower:
-                social_links['SoundCloud'] = link
-            elif 'bandcamp.com' in link_lower:
-                social_links['Bandcamp'] = link
-            elif 'spotify.com' in link_lower and '/artist/' in link_lower:
-                social_links['Spotify'] = link
+
+    # Special handling for Rewire: scrape all <a> tags in #links and Bandcamp iframe in #bandcamp
+    links_section = re.search(r'<div[^>]*id="links"[^>]*>(.*?)</div>', html, re.DOTALL | re.IGNORECASE)
+    if links_section:
+        links_html = links_section.group(1)
+        a_tags = re.findall(r'<a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', links_html, re.DOTALL | re.IGNORECASE)
+        for href, text in a_tags:
+            href_lower = href.lower()
+            text_lower = text.lower()
+            if 'instagram.com' in href_lower:
+                social_links['Instagram'] = href.strip()
+            elif 'facebook.com' in href_lower:
+                social_links['Facebook'] = href.strip()
+            elif 'twitter.com' in href_lower or 'x.com' in href_lower:
+                social_links['Twitter'] = href.strip()
+            elif 'youtube.com' in href_lower or 'youtu.be' in href_lower:
+                social_links['YouTube'] = href.strip()
+            elif 'soundcloud.com' in href_lower:
+                social_links['SoundCloud'] = href.strip()
+            elif 'bandcamp.com' in href_lower:
+                social_links['Bandcamp'] = href.strip()
+            elif 'spotify.com' in href_lower and '/artist/' in href_lower:
+                social_links['Spotify'] = href.strip()
             else:
-                # Generic website link
-                social_links['Website'] = link
-    
+                # Website or other
+                social_links['Website'] = href.strip()
+
+    # Bandcamp player iframe: try to extract the Bandcamp artist URL from the embedded player
+    bandcamp_section = re.search(r'<div[^>]*id="bandcamp"[^>]*>(.*?)</div>', html, re.DOTALL | re.IGNORECASE)
+    if bandcamp_section:
+        iframe_match = re.search(r'<iframe[^>]*src="([^"]+)"', bandcamp_section.group(1))
+        if iframe_match:
+            bandcamp_iframe = iframe_match.group(1).strip()
+            # Try to extract album= or track= from the iframe src
+            album_match = re.search(r'album=(\d+)', bandcamp_iframe)
+            track_match = re.search(r'track=(\d+)', bandcamp_iframe)
+            album_id = album_match.group(1) if album_match else None
+            track_id = track_match.group(1) if track_match else None
+
+            # Try to find a matching album/track link in the HTML
+            artist_url = None
+            if album_id:
+                # Match any Bandcamp album link containing the album_id, regardless of query string
+                album_link = re.search(r'<a[^>]+href="(https://[a-z0-9\-]+\.bandcamp\.com/album/[^"\s]+)"', html, re.IGNORECASE)
+                if album_link:
+                    artist_url = re.sub(r'/album/.*$', '', album_link.group(1))
+            elif track_id:
+                track_link = re.search(r'<a[^>]+href="(https://[a-z0-9\-]+\.bandcamp\.com/track/[^"\?]+)[^>]*track=' + track_id + r'[^>]*"', html, re.IGNORECASE)
+                if track_link:
+                    artist_url = re.sub(r'/track/.*$', '', track_link.group(1))
+
+            # Fallback: try to extract artist subdomain from iframe src
+            if not artist_url:
+                subdomain_match = re.search(r'https://([a-z0-9\-]+)\.bandcamp\.com', bandcamp_iframe)
+                if subdomain_match:
+                    artist_url = f'https://{subdomain_match.group(1)}.bandcamp.com/'
+
+            # NEW: Fetch and parse the iframe src URL for more robust extraction
+            if not artist_url:
+                import urllib.request
+                try:
+                    req = urllib.request.Request(bandcamp_iframe, headers={'User-Agent': 'Mozilla/5.0'})
+                    with urllib.request.urlopen(req, timeout=10) as response:
+                        iframe_html = response.read().decode('utf-8')
+                    # Look for the first https://<artist>.bandcamp.com/ URL in the iframe HTML
+                    url_match = re.search(r'https://([a-z0-9\-]+)\.bandcamp\.com/', iframe_html)
+                    if url_match:
+                        artist_url = f'https://{url_match.group(1)}.bandcamp.com/'
+                except Exception as e:
+                    print(f"  ⚠️  Error fetching Bandcamp iframe src: {e}")
+
+            if artist_url:
+                social_links['Bandcamp'] = artist_url
+            else:
+                social_links['Bandcamp'] = bandcamp_iframe
+
+    # Fallback: Look for links in the "Meer weten over" section (legacy)
+    if not social_links:
+        section_pattern = r'<div[^>]*class="[^"]*border p-8 mt-8[^"]*"[^>]*>(.*?)</div>'
+        section_match = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
+        if section_match:
+            section_content = section_match.group(1)
+            link_pattern = r'<a[^>]*target="_blank"[^>]*href="([^"]+)"[^>]*>'
+            potential_links = re.findall(link_pattern, section_content)
+            for link in potential_links:
+                link_lower = link.lower()
+                # Exclude festival/mojo/livenation/newsletter links
+                if any(exclude in link_lower for exclude in [
+                    'dtrh_festival', 'dtrh_fest', 'downtherabbithole',
+                    'mojo.nl', 'livenation', 'list-manage.com'
+                ]):
+                    continue
+                # Categorize social media links
+                if 'facebook.com' in link_lower:
+                    social_links['Facebook'] = link
+                elif 'instagram.com' in link_lower:
+                    social_links['Instagram'] = link
+                elif 'twitter.com' in link_lower or 'x.com' in link_lower:
+                    social_links['Twitter'] = link
+                elif 'youtube.com' in link_lower or 'youtu.be' in link_lower:
+                    social_links['YouTube'] = link
+                elif 'soundcloud.com' in link_lower:
+                    social_links['SoundCloud'] = link
+                elif 'bandcamp.com' in link_lower:
+                    social_links['Bandcamp'] = link
+                elif 'spotify.com' in link_lower and '/artist/' in link_lower:
+                    social_links['Spotify'] = link
+                else:
+                    # Generic website link
+                    social_links['Website'] = link
+
     return social_links
 
 

@@ -56,20 +56,159 @@ class UniversalFestivalScraper:
     
     def scrape(self) -> List[Dict]:
         """Main scraping method that routes to appropriate strategy."""
-        
         # Check for manual CSV first (Footprints-style)
         if self._has_manual_csv():
             return self._scrape_from_manual_csv()
-        
+        # Custom scraper for Rewire
+        if self.festival_slug == 'rewire':
+            return self._scrape_rewire()
         # Check for custom scraper configuration
         scraper_type = self.festival_config.get('scraper_type', 'generic')
-        
         if scraper_type == 'best-kept-secret':
             return self._scrape_best_kept_secret()
         elif scraper_type == 'tivoli-venue':
             return self._scrape_tivoli_venue()
         else:
             return self._scrape_generic()
+
+    def _scrape_rewire(self) -> List[Dict]:
+        """Scrape Rewire festival lineup using Selenium for JavaScript rendering."""
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        from selenium.webdriver.common.by import By
+        import time
+        import re
+
+        url = self.config.lineup_url
+        print(f"\n[selenium] Fetching: {url}")
+        options = Options()
+        # options.add_argument('--headless')  # Disabled for debugging
+        options.add_argument('--disable-gpu')
+        options.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(executable_path="C:/chromedriver-win64/chromedriver.exe", options=options)
+        driver.get(url)
+        time.sleep(3)  # Wait for JS to load
+
+        artists = []
+        links = driver.find_elements(By.ID, 'artistcard')
+        for a in links:
+            try:
+                href = a.get_attribute('href')
+                name = ''
+                day = ''
+                image_url = ''
+                # Get artist name
+                info_div = a.find_element(By.ID, 'info')
+                h1 = info_div.find_element(By.TAG_NAME, 'h1')
+                name = h1.text.strip()
+                # Get day
+                img_div = a.find_element(By.ID, 'img')
+                datetag = img_div.find_element(By.ID, 'datetag')
+                day = datetag.text.strip()
+                # Compose full artist URL
+                full_url = href if href.startswith('http') else f"https://www.rewirefestival.nl{href}"
+                # Visit artist detail page to get best image
+                print(f"    [img search] Preparing to launch Selenium driver for: {full_url}")
+                try:
+                    driver2 = webdriver.Chrome(executable_path="C:/chromedriver-win64/chromedriver.exe", options=options)
+                    print(f"    [img search] Selenium driver launched for: {full_url}")
+                except Exception as e:
+                    print(f"    [img search] ERROR launching Selenium driver: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    continue
+                try:
+                    driver2.get(full_url)
+                    print(f"    [img search] Navigated to detail page: {full_url}")
+                    # Save screenshot for debugging
+                    slug = name.lower().replace(' ', '_').replace('&', 'and').replace('/', '_')
+                    screenshot_path = f"{slug}_debug.png"
+                    driver2.save_screenshot(screenshot_path)
+                    print(f"    [img search] Screenshot saved: {screenshot_path}")
+                except Exception as e:
+                    print(f"    [img search] ERROR navigating to detail page: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    driver2.quit()
+                    continue
+                time.sleep(3)
+                try:
+                    print(f"    [img search] Page title: {driver2.title}")
+                    print(f"    [img search] Current URL: {driver2.current_url}")
+                    print(f"    [img search] Page source length: {len(driver2.page_source)}")
+                    img_tags = driver2.find_elements(By.TAG_NAME, 'img')
+                    print(f"    [img search] Found {len(img_tags)} <img> tags on detail page for {name}")
+                    for idx, img in enumerate(img_tags):
+                        print(f"      [img {idx}] src: {img.get_attribute('src')}")
+                        print(f"      [img {idx}] srcset: {img.get_attribute('srcset')}")
+                        print(f"      [img {idx}] alt: {img.get_attribute('alt')}")
+                        print(f"      [img {idx}] class: {img.get_attribute('class')}")
+                    best_img = None
+                    best_width = 0
+                    print(f"    [img search] --- Begin candidate selection ---")
+                    for img in img_tags:
+                        src = img.get_attribute('src')
+                        if src and (src.endswith('.jpg') or src.endswith('.png')):
+                            print(f"      [img] Candidate: {src}")
+                            # Prefer prismic.io/rewirefestival but accept any .jpg/.png
+                            if 'prismic.io/rewirefestival' in src:
+                                print(f"      [img] Selected (prismic): {src}")
+                                best_img = img
+                                break
+                            if not best_img:
+                                print(f"      [img] Selected (first .jpg/.png): {src}")
+                                best_img = img
+                    print(f"    [img search] --- End candidate selection ---")
+                    if best_img:
+                        srcset = best_img.get_attribute('srcset')
+                        if srcset:
+                            candidates = [s.strip().split(' ') for s in srcset.split(',')]
+                            print(f"      [img] srcset: {srcset}")
+                            max_url = max(candidates, key=lambda x: int(x[1][:-1]) if len(x) > 1 and x[1].endswith('w') else 0)[0]
+                            print(f"      [img] Selected highest-res from srcset: {max_url}")
+                            image_url = max_url
+                        else:
+                            image_url = best_img.get_attribute('src')
+                            print(f"      [img] Selected src: {image_url}")
+                    else:
+                        print(f"    ⚠️ No suitable .jpg/.png image found for {name}")
+                except Exception as e:
+                    import traceback
+                    print(f"    ⚠️ No detail image for {name}: {e}")
+                    traceback.print_exc()
+                driver2.quit()
+                artists.append({
+                    'Artist': name,
+                    'Day': day,
+                    'Stage': '',
+                    'Cancelled': '',
+                    'AI Summary': '',
+                    'AI Rating': '',
+                    'Tagline': '',
+                    'Start Time': '',
+                    'End Time': '',
+                    'Genre': '',
+                    'Country': '',
+                    'Bio': '',
+                    'Website': '',
+                    'Spotify': '',
+                    'YouTube': '',
+                    'Instagram': '',
+                    'Number of People in Act': '',
+                    'Gender of Front Person': '',
+                    'Front Person of Color?': '',
+                    'Festival URL': full_url,
+                    'Festival Bio (NL)': '',
+                    'Festival Bio (EN)': '',
+                    'Social Links': '',
+                    'Images Scraped': image_url
+                })
+                print(f"  ✓ {name} ({day})")
+            except Exception as e:
+                print(f"  ⚠️ Error parsing artist: {e}")
+        driver.quit()
+        print(f"✓ Parsed {len(artists)} artists from Rewire lineup page (Selenium)")
+        return artists
     
     def _has_manual_csv(self) -> bool:
         """Check if a manual CSV file exists (Book(Sheet1).csv)."""

@@ -61,18 +61,19 @@ def create_enrichment_prompt(artist_name: str, existing_bio: str = "") -> str:
     return f"""Provide comprehensive information about the musical artist "{artist_name}" in JSON format with these exact fields:{context_note}
 
 {{
-    "Tagline": "catchy 3-7 word phrase describing the artist (e.g., 'The most famous animated band on earth', 'Rock music\'s chief anti-hero', 'Legendary songsmith of darkness and devotion') - LEAVE EMPTY if you have no reliable information about the artist",
+    "Tagline": "A single-sentence tagline or hook that summarizes the artist, REQUIRED if you are able to generate an AI Summary and AI Rating (do not leave empty if those are present)",
     "Genre": "primary genre(s), separated by /",
     "Country": "country of origin (use short names: UK, USA, DR Congo, etc.)",{bio_instruction}
     "AI Summary": "brief critical assessment based on the bio provided or from reviews/consensus - BE SPECIFIC about their sound/style, avoid generic phrases like 'emerging artist' or 'shows promise' (or empty string if no bio and insufficient public info)",
     "AI Rating": "rating from 1-10 based on critical acclaim, live reputation, and artistic significance (or empty string if insufficient info)",
     "Spotify link": "full Spotify artist URL (https://open.spotify.com/artist/...)",
     "Number of People in Act": "number as integer, or empty if solo/varies",
-    "Gender of Front Person": "Male/Female/Mixed/Non-binary",
+    "Gender of Front Person": "Male/Female/Mixed/Non-binary. Do not guess - leave empty if uncertain. Only use this list, do not use other terms like pronouns.",
     "Front Person of Color?": "Yes/No"
 }}
 
 CRITICAL GUIDELINES:
+- If you generate an AI Summary and AI Rating, you MUST also generate a Tagline. Only leave Tagline empty if those fields are also empty or you have no reliable information about the artist.
 - If a bio is provided in the context, use it as your PRIMARY source - extract genre, country, and style details from it
 - For "AI Summary": If bio is provided, write a specific assessment based on the bio's content (their sound, influences, achievements mentioned)
 - AVOID generic phrases like "emerging artist with growing following" or "shows promise" - be specific about their musical style
@@ -102,6 +103,9 @@ RATING SCALE (USE THE FULL RANGE - weighted for discoverability):
 - Leave "Number of People in Act" empty for solo artists or when it varies (DJs, producers)
 - Use abbreviated country names: "UK" not "United Kingdom", "USA" not "United States", "DR Congo" not "Democratic Republic of the Congo"
 - When in doubt about ANY field, leave it empty rather than guessing
+
+PREVENT MISTAKES:
+- ex_libris on the Rewire Festival is not a metal band - he is a solo electronic artist from the Netherlands
 
 Return ONLY valid JSON, no additional text."""
 
