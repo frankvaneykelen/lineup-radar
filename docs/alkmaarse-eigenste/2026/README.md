@@ -41,6 +41,9 @@ python scripts/manual_enrich_artists.py --festival alkmaarse-eigenste --year 202
 
 # Translate Dutch festival bios to English (requires Azure OpenAI credentials)
 python scripts/helpers/translate_festival_bios.py --festival alkmaarse-eigenste --year 2026
+
+# Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
+python scripts/helpers/generate_taglines.py --festival alkmaarse-eigenste --year 2026
 ```
 
 ### HTML Generation

@@ -60,6 +60,9 @@ python scripts/manual_enrich_artists.py --festival {slug} --year {year} --artist
 
 # Translate Dutch festival bios to English (requires Azure OpenAI credentials)
 python scripts/helpers/translate_festival_bios.py --festival {slug} --year {year}
+
+# Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
+python scripts/helpers/generate_taglines.py --festival {slug} --year {year}
 ```
 
 ### HTML Generation

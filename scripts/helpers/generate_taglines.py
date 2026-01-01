@@ -12,6 +12,7 @@ from pathlib import Path
 # Add scripts directory to sys.path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import argparse
 import csv
 import json
 import os
@@ -137,15 +138,15 @@ Return ONLY the tagline text, no quotes, no JSON, no additional commentary."""
         return ""
 
 
-def process_festival(festival_path: Path):
+def process_festival(festival_path: Path, year: int = 2026):
     """Process a single festival CSV to generate missing taglines."""
-    csv_path = festival_path / "2026.csv"
+    csv_path = festival_path / f"{year}.csv"
     
     if not csv_path.exists():
         return 0
     
     festival_name = festival_path.parent.name
-    print(f"\n📁 Processing {festival_name}...")
+    print(f"\n📁 Processing {festival_name} {year}...")
     
     headers, rows = load_csv(csv_path)
     
@@ -194,29 +195,81 @@ def process_festival(festival_path: Path):
 
 def main():
     """Main function to process all festivals."""
+    parser = argparse.ArgumentParser(
+        description='Generate taglines for artists that don\'t have one yet'
+    )
+    parser.add_argument(
+        '--festival',
+        type=str,
+        help='Festival slug (e.g., alkmaarse-eigenste)'
+    )
+    parser.add_argument(
+        '--year',
+        type=int,
+        default=2026,
+        help='Festival year (default: 2026)'
+    )
+    parser.add_argument(
+        '--all',
+        action='store_true',
+        help='Process all festivals'
+    )
+    
+    args = parser.parse_args()
+    
     docs_path = Path(__file__).parent.parent.parent / "docs"
     
-    print("=== Generating Taglines for All Festivals ===")
-    print("\nThis will generate taglines for artists that don't have one yet.")
-    print("Existing taglines will be preserved.\n")
+    if args.festival:
+        # Process single festival
+        festival_dir = docs_path / args.festival / str(args.year)
+        
+        if not festival_dir.exists():
+            print(f"✗ Festival directory not found: {festival_dir}")
+            sys.exit(1)
+        
+        print(f"=== Generating Taglines for {args.festival} {args.year} ===")
+        print("\nThis will generate taglines for artists that don't have one yet.")
+        print("Existing taglines will be preserved.\n")
+        
+        count = process_festival(festival_dir, args.year)
+        
+        if count > 0:
+            print(f"\n✅ Complete! Generated {count} taglines.")
+            print("\n💡 Tip: Review the generated taglines and adjust if needed.")
+            print(f"   Then regenerate HTML with: .\\scripts\\regenerate_festival.ps1 -Festival {args.festival} -Year {args.year}")
+        else:
+            print("\n✅ No taglines needed to be generated.")
     
-    total_updated = 0
+    elif args.all:
+        # Process all festivals
+        print("=== Generating Taglines for All Festivals ===")
+        print("\nThis will generate taglines for artists that don't have one yet.")
+        print("Existing taglines will be preserved.\n")
+        
+        total_updated = 0
+        
+        # Find all festival directories
+        festival_dirs = [d for d in docs_path.iterdir() 
+                         if d.is_dir() and not d.name.startswith('.') and d.name != 'shared']
+        
+        for festival_dir in sorted(festival_dirs):
+            year_dir = festival_dir / str(args.year)
+            if year_dir.exists():
+                count = process_festival(year_dir, args.year)
+                total_updated += count
+        
+        print(f"\n✅ Complete! Generated {total_updated} taglines across all festivals.")
+        
+        if total_updated > 0:
+            print("\n💡 Tip: Review the generated taglines and adjust if needed.")
+            print("   Then regenerate HTML with: .\\scripts\\regenerate_all.ps1")
     
-    # Find all festival directories
-    festival_dirs = [d for d in docs_path.iterdir() 
-                     if d.is_dir() and not d.name.startswith('.') and d.name != 'shared']
-    
-    for festival_dir in sorted(festival_dirs):
-        year_dir = festival_dir / "2026"
-        if year_dir.exists():
-            count = process_festival(year_dir)
-            total_updated += count
-    
-    print(f"\n✅ Complete! Generated {total_updated} taglines across all festivals.")
-    
-    if total_updated > 0:
-        print("\n💡 Tip: Review the generated taglines and adjust if needed.")
-        print("   Then regenerate HTML with: .\\scripts\\regenerate_all.ps1")
+    else:
+        parser.print_help()
+        print("\nExamples:")
+        print("  python scripts/helpers/generate_taglines.py --festival alkmaarse-eigenste --year 2026")
+        print("  python scripts/helpers/generate_taglines.py --all")
+        print("  python scripts/helpers/generate_taglines.py --all --year 2025")
 
 
 if __name__ == "__main__":

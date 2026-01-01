@@ -630,12 +630,18 @@ Additional helper scripts for specific tasks:
 **Generate Taglines**:
 
 ```powershell
-# Generate taglines for all artists that don't have one yet
-python scripts/helpers/generate_taglines.py
+# Generate taglines for a specific festival
+python scripts/helpers/generate_taglines.py --festival alkmaarse-eigenste --year 2026
+
+# Or generate taglines for all festivals at once
+python scripts/helpers/generate_taglines.py --all
+
+# Or for a different year
+python scripts/helpers/generate_taglines.py --all --year 2025
 ```
 
 This will automatically:
-- Process all festival CSVs
+- Process festival CSVs
 - Generate catchy 3-7 word taglines for artists missing them
 - Preserve existing taglines
 - Use artist bio, genre, and AI summary for context

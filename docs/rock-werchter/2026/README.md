@@ -41,6 +41,9 @@ python scripts/manual_enrich_artists.py --festival rock-werchter --year 2026 --a
 
 # Translate Dutch festival bios to English (requires Azure OpenAI credentials)
 python scripts/helpers/translate_festival_bios.py --festival rock-werchter --year 2026
+
+# Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
+python scripts/helpers/generate_taglines.py --festival rock-werchter --year 2026
 ```
 
 ### HTML Generation
