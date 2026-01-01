@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  regenerate-general:
+  regenerate-all-files:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -39,7 +39,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           if ! git diff --cached --quiet; then
-            git commit -m "Regenerate general files"
+            git commit -m "Regenerate all files"
             git push
           else
             echo "No changes to commit"
