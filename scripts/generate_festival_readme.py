@@ -57,6 +57,9 @@ python scripts/manual_enrich_artists.py --festival {slug} --year {year}
 
 # Manually enrich a specific artist
 python scripts/manual_enrich_artists.py --festival {slug} --year {year} --artist "Artist Name"
+
+# Translate Dutch festival bios to English (requires Azure OpenAI credentials)
+python scripts/helpers/translate_festival_bios.py --festival {slug} --year {year}
 ```
 
 ### HTML Generation

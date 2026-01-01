@@ -10,7 +10,7 @@ from pathlib import Path
 # helpers module is in the same directory
 
 import csv
-from helpers import translate_text
+from ai_client import translate_text
 
 def translate_bios(csv_file: str, festival: str):
     """Translate Festival Bio (NL) to Festival Bio (EN)."""

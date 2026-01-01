@@ -38,6 +38,9 @@ python scripts/manual_enrich_artists.py --festival down-the-rabbit-hole --year 2
 
 # Manually enrich a specific artist
 python scripts/manual_enrich_artists.py --festival down-the-rabbit-hole --year 2026 --artist "Artist Name"
+
+# Translate Dutch festival bios to English (requires Azure OpenAI credentials)
+python scripts/helpers/translate_festival_bios.py --festival down-the-rabbit-hole --year 2026
 ```
 
 ### HTML Generation
