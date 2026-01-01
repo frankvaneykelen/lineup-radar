@@ -2,7 +2,7 @@
   "festival": "grauzone",
   "name": "Grauzone Festival",
   "year": 2026,
-  "generated_at": "2025-12-26T15:06:09.041470+00:00",
+  "generated_at": "2026-01-01T13:49:14.767614+00:00",
   "config_properties": {
     "name": "Grauzone Festival",
     "year": 2026,
@@ -122,12 +122,12 @@
       "8-9": 35,
       "Unrated": 34
     },
-    "has_spotify_links": 0,
-    "spotify_percentage": 0.0,
+    "has_spotify_links": 20,
+    "spotify_percentage": 28.6,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Grauzone Festival 2026: A Celebration of Alternative Sounds and Global Diversity**\n\nGrauzone Festival 2026 brings together 70 diverse artists, creating a vibrant fusion of genres that span the dark and experimental corners of music. With a strong focus on Darkwave (12 acts), Post-punk (15 acts across variations), and Electronic (7 acts), the lineup highlights the festival's dedication to underground and alternative sounds. Fans of Synthpop, Industrial, EBM, and Techno will also find plenty to enjoy, alongside niche styles like Italo Disco, Dream Pop, and Noise Rock.\n\nThe festival embraces global diversity, showcasing artists from 17 countries, including prominent representation from France (13 acts), the USA (16 acts when combining USA and United States), and the Netherlands (9 acts). Artists from Japan, Morocco, Belarus, and Serbia further highlight the international character of the event. Grauzone also champions inclusivity, featuring a mix of male, female, non-binary, and mixed-gender acts, with 11 artists identifying as people of color.\n\nGrauzone Festival 2026 promises an eclectic and inclusive experience, offering a platform for both established and emerging voices in the alternative music scene. With its unique blend of genres, global reach, and commitment to diversity, the festival continues to be a beacon for adventurous music lovers.",
+  "ai_profile": "Grauzone Festival 2026 features 70 artists. Top genres include Darkwave, Post-punk, Electronic. Average user rating: 8.03. The lineup includes 22 male, 15 female, 10 mixed/group, 1 non-binary, with 11 artists of color.",
   "start_date": "2026-02-06",
   "end_date": "2026-02-08"
 }
