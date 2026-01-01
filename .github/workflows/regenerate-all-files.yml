@@ -1,4 +1,4 @@
-name: regenerate-general-files
+name: regenerate-all-files
 
 on:
   workflow_dispatch:
@@ -27,7 +27,7 @@ jobs:
       - name: Run PowerShell script
         shell: pwsh
         run: |
-          ./scripts/regenerate_general.ps1
+          ./scripts/regenerate_all.ps1
 
       - name: Commit and push changes
         run: |
