@@ -246,7 +246,6 @@ foreach ($festival in $festivalsToProcess) {
                 $successCount++
             }
         } else {
-            Write-Host "⊘ Skipping Spotify playlist (default - use -IncludePlaylists to enable)" -ForegroundColor DarkGray
             Write-Host "✓ Successfully processed all content for $festivalName $year" -ForegroundColor Green
         }
     }
