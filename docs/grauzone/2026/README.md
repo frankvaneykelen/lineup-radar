@@ -97,7 +97,7 @@ The `2026.csv` file contains these columns:
 - **Country** - Country of origin
 - **Bio** - AI-generated or general biography
 - **Website** - Official website
-- **Spotify Link** - Spotify Link
+- **Spotify Link** - Spotify artist link
 - **YouTube** - YouTube channel
 - **Instagram** - Instagram profile
 - **AI Summary** - AI-generated critical assessment (preserved on updates)
