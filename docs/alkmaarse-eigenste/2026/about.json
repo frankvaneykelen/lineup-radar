@@ -2,7 +2,7 @@
   "festival": "alkmaarse-eigenste",
   "name": "Alkmaarse Eigenste",
   "year": 2026,
-  "generated_at": "2026-01-01T14:56:59.346691+00:00",
+  "generated_at": "2026-01-07T21:00:14.008643+00:00",
   "config_properties": {
     "name": "Alkmaarse Eigenste",
     "year": 2026,
@@ -17,16 +17,17 @@
     "spotify_playlist_id": "https://open.spotify.com/playlist/7CJ68OA5DWvF2p1Q0HrBOl"
   },
   "stats": {
-    "total_artists": 25,
+    "total_artists": 26,
     "genre_counts": {
       "alternative": 6,
-      "rock": 4,
+      "rock": 5,
+      "pop": 3,
       "alternative rock": 3,
       "indie rock": 3,
       "alternative pop": 3,
       "indie pop": 2,
+      "folk": 2,
       "soul": 2,
-      "pop": 2,
       "indie": 2,
       "singer-songwriter": 2,
       "indie folk": 2,
@@ -53,8 +54,9 @@
       "grunge": 1,
       "folkpop": 1,
       "ambient": 1,
+      "Indie": 1,
+      "Acoustic": 1,
       "world music": 1,
-      "folk": 1,
       "traditional": 1,
       "jazz": 1,
       "fusion": 1,
@@ -67,37 +69,38 @@
       "reggae": 1,
       "ska": 1,
       "nederpop": 1,
-      "classic rock": 1
+      "classic rock": 1,
+      "pop, R&B": 1
     },
-    "dj_count": 0,
+    "dj_count": 1,
     "country_counts": {
       "Netherlands": 25
     },
     "gender_counts": {
       "Female": 9,
-      "Male": 10,
+      "Male": 11,
       "Unknown": 3,
       "Band": 3
     },
     "poc_counts": {
-      "No": 19,
-      "Unknown": 5,
+      "No": 21,
+      "Unknown": 4,
       "Yes": 1
     },
-    "average_rating": 8.63,
-    "rated_count": 19,
-    "rated_percentage": 76.0,
+    "average_rating": 8.57,
+    "rated_count": 21,
+    "rated_percentage": 80.8,
     "rating_counts": {
       "9-10": 11,
-      "8-9": 8,
-      "Unrated": 6
+      "8-9": 10,
+      "Unrated": 5
     },
-    "has_spotify_links": 16,
-    "spotify_percentage": 64.0,
+    "has_spotify_links": 17,
+    "spotify_percentage": 65.4,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "Alkmaarse Eigenste 2026 features 25 artists. Top genres include alternative, rock, alternative rock. Average user rating: 8.63. The lineup includes 10 male, 9 female, with 1 artists of color.",
+  "ai_profile": "Alkmaarse Eigenste 2026 features 26 artists. Top genres include alternative, rock, pop. Average user rating: 8.57. The lineup includes 11 male, 9 female, with 1 artists of color.",
   "start_date": "2026-01-24",
   "end_date": "2026-01-24"
 }
