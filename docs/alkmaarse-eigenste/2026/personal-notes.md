@@ -2,7 +2,7 @@
 | ---                    | --- | --- |
 | 3 Point Landing        | 7 | The female vocal is symphonic metal, but the music is synth-based |
 | Black Operator         | 7 | Noisy. Good vocals. |
-| Carmen de Kooning      | 7 |  Her only song on Spotify is a Froukje cover |
+| Carmen de Kooning      | 7 |  Her only song on Spotify is a four year old Froukje cover |
 | Carousel               |  |  |
 | Days of Sway           |  |  |
 | Dear John              | 8 | Laurel Canyon, harmony, slide guitar|
