@@ -9,7 +9,7 @@
 | Dentro                 |  |  |
 | Dress Up Dolls         | 9 | Comeback. Daan Stam returns with his first band. |
 | Efvy                   | 8 | You've got to love a song about Lijn 239, the Hoorn Station to Medemblik Busstation bus line.  |
-| Emily Wareing & Band   |  7 |  |
+| Emily Wareing & Band   | 8 |  |
 | Eurydice               | 7 |  Proggy rock. Freddy Mercurial vocals, band harmonies | 
 | Grey van Leeuwen       | 7 | Quiet song |
 | Jill van der Meer      |  |  |
