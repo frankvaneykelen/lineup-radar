@@ -108,11 +108,30 @@ if (-not $festivalName -or $LASTEXITCODE -ne 0) {
 }
 
 # Track success/failure
-$totalOperations = if ($IncludePlaylist) { 4 } else { 3 }  # lineup + about + artist pages (+ playlist if requested)
+# Base operations: lineup + about + artist pages
+# Optional: timetable (if schedule data exists) + playlist (if requested)
+# We'll update totalOperations as we discover what's needed
+$totalOperations = 3  # lineup + about + artist pages (will add timetable + playlist if applicable)
 $currentOperation = 0
 $successCount = 0
 $failureCount = 0
 $startTime = Get-Date
+
+# Check for schedule data to determine if we should generate timetable
+$csvPath = "docs/$Festival/$Year/$Year.csv"
+$hasScheduleDataCheck = $false
+if (Test-Path $csvPath) {
+    $csvContent = Get-Content $csvPath -Raw -Encoding UTF8
+    if ($csvContent -match "Date,Start Time,End Time,Stage" -or $csvContent -match "Date" -and $csvContent -match "Start Time") {
+        $hasScheduleDataCheck = $true
+        $totalOperations++
+    }
+}
+
+# Add playlist to count if requested
+if ($IncludePlaylist) {
+    $totalOperations++
+}
 
 Write-Host "Processing: $festivalName $Year..." -ForegroundColor Yellow
 Write-Host ""
@@ -137,7 +156,39 @@ try {
         $successCount++
     }
     
-    # 2. Run the about page generation script
+    # 2. Generate timetable if schedule data exists
+    $csvPath = "docs/$Festival/$Year/$Year.csv"
+    $hasScheduleData = $false
+    if (Test-Path $csvPath) {
+        $csvContent = Get-Content $csvPath -Raw -Encoding UTF8
+        if ($csvContent -match "Date,Start Time,End Time,Stage" -or $csvContent -match "Date" -and $csvContent -match "Start Time") {
+            $hasScheduleData = $true
+        }
+    }
+    
+    if ($hasScheduleData) {
+        $currentOperation++
+        Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating timetable ($currentOperation of $totalOperations)" -PercentComplete (($currentOperation / $totalOperations) * 100)
+        
+        $commandTimetable = "python scripts/generate_timetable.py --festival $Festival --year $Year"
+        Write-Host "Running: $commandTimetable" -ForegroundColor Gray
+        
+        $outputTimetable = & python scripts/generate_timetable.py --festival $Festival --year $Year 2>&1
+        
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "✓ Generated timetable" -ForegroundColor Green
+            $successCount++
+        } else {
+            Write-Host "⚠ Failed to generate timetable (skipping)" -ForegroundColor Yellow
+            Write-Host "Error output:" -ForegroundColor Yellow
+            Write-Host $outputTimetable -ForegroundColor Yellow
+            # Don't count as failure since timetable is optional
+        }
+    } else {
+        Write-Host "⊘ Skipping timetable (no schedule data)" -ForegroundColor DarkGray
+    }
+    
+    # 3. Run the about page generation script
     $currentOperation++
     Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating about page ($currentOperation of $totalOperations)" -PercentComplete (($currentOperation / $totalOperations) * 100)
     
@@ -156,7 +207,7 @@ try {
         $failureCount++
     }
     
-    # 3. Run the artist pages generation script
+    # 4. Run the artist pages generation script
     $currentOperation++
     Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating artist pages ($currentOperation of $totalOperations)" -PercentComplete (($currentOperation / $totalOperations) * 100)
     
@@ -175,7 +226,7 @@ try {
         $failureCount++
     }
     
-    # 4. Generate/update Spotify playlist if requested and credentials are available
+    # 5. Generate/update Spotify playlist if requested and credentials are available
     if ($IncludePlaylist) {
         $currentOperation++
         Write-Progress -Activity "Regenerating Festival Pages" -Status "Updating Spotify playlist ($currentOperation of $totalOperations)" -PercentComplete (($currentOperation / $totalOperations) * 100)

@@ -46,11 +46,11 @@ def generate_html(csv_file, output_dir, config):
         print(f"No data found in {csv_file}")
         return
     
-    # Check if any artist has schedule data
+    # Check if any artist has complete schedule data (all 4 fields required)
     has_schedule_data = any(
-        artist.get('Date', '').strip() or 
-        artist.get('Start Time', '').strip() or 
-        artist.get('End Time', '').strip() or 
+        artist.get('Date', '').strip() and 
+        artist.get('Start Time', '').strip() and 
+        artist.get('End Time', '').strip() and 
         artist.get('Stage', '').strip()
         for artist in artists
     )
@@ -146,8 +146,10 @@ def generate_html(csv_file, output_dir, config):
                 <h1>{config.name} {year} Lineup</h1>
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
                 <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-                   <a href="about.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;">About</a>
-                    {('<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;">Festival Site</a>') if config.lineup_url else ''}
+                    <a href="index.html" class="btn btn-primary btn-sm px-3 py-1 active" style="font-weight: 600;"><i class="bi bi-list-ul"></i> Lineup</a>
+                    {('<a href="timetable.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-calendar3"></i> Timetable</a>') if has_schedule_data else ''}
+                    <a href="about.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-info-circle"></i> About</a>
+                    {('<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;">🎪 Festival Site</a>') if config.lineup_url else ''}
                     {('<a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> Official Playlist</a>') if config.official_spotify_playlist else ''}
                     {('<a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>') if config.spotify_playlist_id else ''}
                 </p>

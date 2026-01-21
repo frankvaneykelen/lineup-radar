@@ -374,6 +374,32 @@ This will:
 6. Display multiple images in a carousel when available
 7. Add previous/next navigation between artists
 8. Show fallback messages when information is unavailable
+9. Show performance schedule (Date, Start Time, End Time, Stage) when available
+
+#### Step 2b: Festival timetable (optional)
+
+For festivals with schedule data (Date, Start Time, End Time, Stage columns), generate a visual timetable/blokkenschema:
+
+```powershell
+# Ensure virtual environment is activated (.venv\Scripts\Activate.ps1)
+python scripts/generate_timetable.py --festival alkmaarse-eigenste --year 2026
+```
+
+This will:
+
+1. Generate a grid-style timetable in `docs/festival-slug/2026/timetable.html`
+2. Display stages as rows (ordered from about.json stages array)
+3. Show time slots as columns (automatically detected from CSV data)
+4. Color-code each stage row for easy visual identification
+5. Display artist blocks spanning their performance duration
+6. Include artist name (linked to artist page), times, and tagline in each cell
+7. Optimize layout for wide screens (1900px+)
+8. Automatically add a "Timetable" link to the main lineup page
+
+**Requirements:**
+
+- CSV must have Date, Start Time, End Time, and Stage columns populated
+- about.json must have stages array defined (e.g., `["Grote zaal", "Kleine zaal", ...]`)
 
 #### Step 3: Startup/Landing page
 

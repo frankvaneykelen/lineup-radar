@@ -137,7 +137,7 @@ foreach ($festival in $festivalsToProcess) {
     $year = $festival.Year
     
     $currentOperation++
-    $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+    $percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
     Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName $year ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
     
     Write-Host "Processing: $festivalName $year..." -ForegroundColor Yellow
@@ -164,9 +164,42 @@ foreach ($festival in $festivalsToProcess) {
         Write-Host "✓ Generated lineup index page" -ForegroundColor Green
         $successCount++
         
+        # Generate timetable if schedule data exists
+        $csvPath = "docs/$festivalSlug/$year/$year.csv"
+        $hasScheduleData = $false
+        if (Test-Path $csvPath) {
+            $csvContent = Get-Content $csvPath -Raw -Encoding UTF8
+            if ($csvContent -match "Date,Start Time,End Time,Stage" -or $csvContent -match "Date" -and $csvContent -match "Start Time") {
+                $hasScheduleData = $true
+            }
+        }
+        
+        if ($hasScheduleData) {
+            $currentOperation++
+            $percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
+            Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating timetable for $festivalName ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+            
+            $commandTimetable = "python scripts/generate_timetable.py --festival $festivalSlug --year $year"
+            Write-Host "Running: $commandTimetable" -ForegroundColor Gray
+            
+            $outputTimetable = & python scripts/generate_timetable.py --festival $festivalSlug --year $year 2>&1
+            
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "✓ Generated timetable" -ForegroundColor Green
+                $successCount++
+            } else {
+                Write-Host "⚠ Failed to generate timetable (skipping)" -ForegroundColor Yellow
+                Write-Host "Error output:" -ForegroundColor Yellow
+                Write-Host $outputTimetable -ForegroundColor Yellow
+                # Don't count as failure since timetable is optional
+            }
+        } else {
+            Write-Host "⊘ Skipping timetable (no schedule data)" -ForegroundColor DarkGray
+        }
+        
         # Update progress for about page
         $currentOperation++
-        $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+        $percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
         Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName about page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
         
         # Run the about page generation script
@@ -189,7 +222,7 @@ foreach ($festival in $festivalsToProcess) {
         
         # Update progress for artist pages
         $currentOperation++
-        $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+        $percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
         Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName artist pages ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
         
         # Run the artist pages generation script
@@ -214,7 +247,7 @@ foreach ($festival in $festivalsToProcess) {
         if ($IncludePlaylists) {
             # Update progress for Spotify playlist
             $currentOperation++
-            $percentComplete = [int](($currentOperation / $totalOperations) * 100)
+            $percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
             Write-Progress -Activity "Regenerating Festival Pages" -Status "Updating Spotify playlist for $festivalName ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
             
             if ($spotifyClientId -and $spotifyClientSecret) {
@@ -262,7 +295,7 @@ foreach ($festival in $festivalsToProcess) {
 
 # Regenerate homepage (index.html)
 $currentOperation++
-$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+$percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
 Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating homepage ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
 
 Write-Host ""
@@ -299,7 +332,7 @@ Write-Host ""
 
 # Generate charts page
 $currentOperation++
-$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+$percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
 Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating charts page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
 
 Write-Host ""
@@ -337,7 +370,7 @@ Write-Host ""
 
 # Generate FAQ page
 $currentOperation++
-$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+$percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
 Write-Progress -Activity "Regenerating Festival Pages" -Status "Generating FAQ page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
 
 Write-Host ""

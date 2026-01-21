@@ -148,7 +148,26 @@ def compare_with_previous(csv_path: Path, artists: list[dict]) -> dict:
     return prev_stats
 
 
-def generate_profile_text(config, stats: dict, prev: dict, use_ai: bool = False) -> str:
+def generate_profile_text(config, stats: dict, prev: dict, start_date=None, end_date=None, use_ai: bool = False) -> str:
+    # Format festival dates if available
+    date_text = ''
+    if start_date and end_date:
+        from datetime import datetime as dt
+        try:
+            start_dt = dt.strptime(start_date, '%Y-%m-%d')
+            end_dt = dt.strptime(end_date, '%Y-%m-%d')
+            if start_date == end_date:
+                date_text = f"taking place on {start_dt.strftime('%B %d, %Y')}"
+            else:
+                if start_dt.month == end_dt.month and start_dt.year == end_dt.year:
+                    date_text = f"taking place {start_dt.strftime('%B %d')} - {end_dt.strftime('%d, %Y')}"
+                elif start_dt.year == end_dt.year:
+                    date_text = f"taking place {start_dt.strftime('%B %d')} - {end_dt.strftime('%B %d, %Y')}"
+                else:
+                    date_text = f"taking place {start_dt.strftime('%B %d, %Y')} - {end_dt.strftime('%B %d, %Y')}"
+        except ValueError:
+            pass
+    
     # Build a prompt for AI summarization
     
     # Add guidance about data quality thresholds
@@ -161,7 +180,10 @@ def generate_profile_text(config, stats: dict, prev: dict, use_ai: bool = False)
         spotify_guidance = f"\n⚠️ IMPORTANT: Only {stats.get('spotify_percentage', 0):.0f}% of artists have Spotify links - DO NOT claim 'all artists' have Spotify links."
     
     prompt_lines = []
-    prompt_lines.append(f"Write a short festival profile for '{config.name}' {stats.get('year','')} based on the following statistics:")
+    festival_intro = f"Write a short festival profile for '{config.name}' {stats.get('year','')}"
+    if date_text:
+        festival_intro += f" {date_text}"
+    prompt_lines.append(festival_intro + " based on the following statistics:")
     prompt_lines.append(json.dumps(stats, indent=2))
     if prev:
         prompt_lines.append("Compare to the previous year:")
@@ -204,8 +226,9 @@ def generate_profile_text(config, stats: dict, prev: dict, use_ai: bool = False)
     poc_total = sum(poc_counts.values()) - poc_counts.get('Unknown', 0)
     poc_text = f"{poc_yes} artists of color" if poc_total > 0 else "no diversity data"
     
+    date_intro = f" {date_text}" if date_text else ""
     return (
-        f"{config.name} {stats.get('year','')} features {stats.get('total_artists')} artists. "
+        f"{config.name} {stats.get('year','')}{date_intro} features {stats.get('total_artists')} artists. "
         f"Top genres include {top_genres}. Average user rating: {stats.get('average_rating')}. "
         f"The lineup includes {gender_text}, with {poc_text}."
     )
@@ -223,34 +246,9 @@ def write_outputs(output_dir: Path, about: dict, html_profile: str):
     print(f"✓ Wrote {json_path} and {html_path}")
 
 
-def render_html(config, stats, profile_text, start_date=None, end_date=None):
+def render_html(config, stats, profile_text, start_date=None, end_date=None, artists=None):
     # Generate menu HTML (use escaped=False since we'll manually escape in the f-string)
     menu_html = generate_hamburger_menu(path_prefix="../../", escaped=False)
-    
-    # Format festival dates if available
-    date_display = ''
-    if start_date and end_date:
-        # Convert from YYYY-MM-DD to human-readable format
-        from datetime import datetime as dt
-        try:
-            start_dt = dt.strptime(start_date, '%Y-%m-%d')
-            end_dt = dt.strptime(end_date, '%Y-%m-%d')
-            if start_date == end_date:
-                # Single day festival
-                date_display = start_dt.strftime('%B %d, %Y')
-            else:
-                # Multi-day festival
-                if start_dt.month == end_dt.month and start_dt.year == end_dt.year:
-                    # Same month and year
-                    date_display = f"{start_dt.strftime('%B %d')} - {end_dt.strftime('%d, %Y')}"
-                elif start_dt.year == end_dt.year:
-                    # Same year, different months
-                    date_display = f"{start_dt.strftime('%B %d')} - {end_dt.strftime('%B %d, %Y')}"
-                else:
-                    # Different years
-                    date_display = f"{start_dt.strftime('%B %d, %Y')} - {end_dt.strftime('%B %d, %Y')}"
-        except ValueError:
-            pass
     
     # Build formatted statistics tables
     genre_rows = ''.join([f'<tr><td>{genre}</td><td>{count}</td></tr>' 
@@ -278,6 +276,15 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
     description = f"About page for {config.name} {stats.get('year','')}. Festival profile and statistics including top genres, countries, and ratings."
     base_url = "https://frankvaneykelen.github.io/lineup-radar/"
     url = f"{base_url}{config.slug}/{stats.get('year','')}/about.html"
+    
+    # Check if festival has schedule data
+    has_schedule_data = False
+    if artists:
+        has_schedule_data = any(
+            artist.get('Date') and artist.get('Start Time') and artist.get('End Time') and artist.get('Stage')
+            for artist in artists
+        )
+    has_schedule_button = '<a href="timetable.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-calendar3"></i> Timetable</a>' if has_schedule_data else ''
     
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -336,11 +343,13 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None):
             <div class="page-header-content">
                 <h1>About {config.name} {stats.get('year','')}</h1>
                 {'<p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">' + config.description + '</p>' if config.description else ''}
-                {'<p class="festival-dates" style="font-size: 1.1em; font-weight: 600; margin-top: 0.75rem; color: var(--primary-color, #0d6efd);">' + date_display + '</p>' if date_display else ''}
-                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem;">
-                   
-                    {'<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Festival Site</a>' if config.lineup_url else ''}
-                    {' | <a href="' + config.playlist_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">LineupRadar Playlist</a>' if getattr(config, 'playlist_url', None) else ''}
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                    <a href="index.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-list-ul"></i> Lineup</a>
+                    {has_schedule_button}
+                    <a href="about.html" class="btn btn-primary btn-sm px-3 py-1 active" style="font-weight: 600;"><i class="bi bi-info-circle"></i> About</a>
+                    {'<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;">🎪 Festival Site</a>' if config.lineup_url else ''}
+                    {'<a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> Official Playlist</a>' if config.official_spotify_playlist else ''}
+                    {'<a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>' if config.spotify_playlist_id else ''}
                 </p>
             </div>
         </header>
@@ -557,18 +566,20 @@ def main():
     existing_about_file = out_dir / 'about.json'
     start_date = None
     end_date = None
+    stages = None
     if existing_about_file.exists():
         try:
             with existing_about_file.open('r', encoding='utf-8') as f:
                 existing_about = json.load(f)
                 start_date = existing_about.get('start_date')
                 end_date = existing_about.get('end_date')
+                stages = existing_about.get('stages')
         except Exception:
             pass
 
     profile_text = ''
     # Only call the networked AI when --ai is explicitly provided. Otherwise use fallback text.
-    profile_text = generate_profile_text(config, stats, prev, use_ai=args.ai)
+    profile_text = generate_profile_text(config, stats, prev, start_date, end_date, use_ai=args.ai)
 
     about = {
         'festival': config.slug,
@@ -586,8 +597,10 @@ def main():
         about['start_date'] = start_date
     if end_date:
         about['end_date'] = end_date
+    if stages:
+        about['stages'] = stages
 
-    html = render_html(config, stats, profile_text, start_date, end_date)
+    html = render_html(config, stats, profile_text, start_date, end_date, artists)
     write_outputs(out_dir, about, html)
     
     # Generate/update README for this festival edition
