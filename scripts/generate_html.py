@@ -642,6 +642,39 @@ def generate_html(csv_file, output_dir, config):
                     return currentSort.direction === 'asc' ? aNum - bNum : bNum - aNum;
                 }}
                 
+                // Handle date/time sorting for schedule columns
+                if (column === 'Date' || column === 'Start Time') {{
+                    // Combine date and time for proper sorting
+                    const aDate = a.data['Date'] || '';
+                    const aTime = a.data['Start Time'] || '';
+                    const bDate = b.data['Date'] || '';
+                    const bTime = b.data['Start Time'] || '';
+                    
+                    // Create sortable datetime strings
+                    let aDateTime = aDate + ' ' + aTime;
+                    let bDateTime = bDate + ' ' + bTime;
+                    
+                    // Handle late-night shows (00:00-05:59 should be treated as next day)
+                    const aHour = parseInt(aTime.split(':')[0]) || 0;
+                    const bHour = parseInt(bTime.split(':')[0]) || 0;
+                    
+                    if (aHour < 6 && aDate) {{
+                        // Add a day to the sort key for late-night shows
+                        const date = new Date(aDate);
+                        date.setDate(date.getDate() + 1);
+                        aDateTime = date.toISOString().split('T')[0] + ' ' + aTime;
+                    }}
+                    
+                    if (bHour < 6 && bDate) {{
+                        const date = new Date(bDate);
+                        date.setDate(date.getDate() + 1);
+                        bDateTime = date.toISOString().split('T')[0] + ' ' + bTime;
+                    }}
+                    
+                    const comparison = aDateTime.localeCompare(bDateTime);
+                    return currentSort.direction === 'asc' ? comparison : -comparison;
+                }}
+                
                 // String sorting with normalization for special characters
                 // Use shared normalization from docs/shared/script.js
                 // (window.normalizeForSort is loaded globally)

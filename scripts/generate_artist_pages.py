@@ -157,8 +157,19 @@ def extract_social_links_from_html(html: str) -> list:
 def generate_artist_page(artist: Dict, year: str, festival_content: Dict, 
                         prev_artist: Optional[Dict] = None, 
                         next_artist: Optional[Dict] = None,
-                        config = None) -> str:
-    """Generate HTML page for a single artist."""
+                        config = None,
+                        schedule_info: Optional[List[Dict]] = None) -> str:
+    """Generate HTML page for a single artist.
+    
+    Args:
+        artist: Dictionary with artist data
+        year: Festival year
+        festival_content: Dictionary with images, bios, etc.
+        prev_artist: Previous artist for navigation
+        next_artist: Next artist for navigation
+        config: Festival configuration
+        schedule_info: List of dictionaries with Date, Start Time, End Time, Stage for each performance
+    """
     artist_name = artist.get('Artist', '')
     genre = artist.get('Genre', '').strip()
     country = artist.get('Country', '').strip()
@@ -511,6 +522,59 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                     <p>{escape_html(festival_bio_nl)}</p>
                 </div>
 """
+    
+    # Schedule Section - show if schedule data is provided
+    if schedule_info and any(s.get('Date') or s.get('Start Time') or s.get('End Time') or s.get('Stage') for s in schedule_info):
+        html += """                <div>
+                    <h2>Schedule</h2>
+"""
+        for i, schedule in enumerate(schedule_info):
+            date = schedule.get('Date', '').strip()
+            start_time = schedule.get('Start Time', '').strip()
+            end_time = schedule.get('End Time', '').strip()
+            stage = schedule.get('Stage', '').strip()
+            
+            # Format date if available (e.g., "2026-01-24" -> "Friday, January 24")
+            date_formatted = ''
+            if date:
+                try:
+                    from datetime import datetime
+                    dt = datetime.strptime(date, '%Y-%m-%d')
+                    date_formatted = dt.strftime('%A, %B %d')
+                except:
+                    date_formatted = date
+            
+            # Format time range if both start and end are available
+            time_range = ''
+            if start_time and end_time:
+                time_range = f"{start_time} - {end_time}"
+            elif start_time:
+                time_range = f"From {start_time}"
+            elif end_time:
+                time_range = f"Until {end_time}"
+            
+            # Add a header if there are multiple performances
+            performance_header = f"<h5>Performance {i+1}</h5>" if len(schedule_info) > 1 else ""
+            
+            html += f"""                    <div class="card border-info mb-3">
+                        <div class="card-body">
+                            {performance_header}
+"""
+            if date_formatted:
+                html += f"""                            <p class="mb-2"><i class="bi bi-calendar3"></i> <strong>{escape_html(date_formatted)}</strong></p>
+"""
+            if time_range:
+                html += f"""                            <p class="mb-2"><i class="bi bi-clock"></i> {escape_html(time_range)}</p>
+"""
+            if stage:
+                html += f"""                            <p class="mb-0"><i class="bi bi-pin-map-fill"></i> {escape_html(stage)}</p>
+"""
+            html += """                        </div>
+                    </div>
+"""
+        html += """                </div>
+"""
+    
     # # Festival Bio Section (fallback for old pattern)
     # elif festival_bio:
     #     html += f"""                <div>
@@ -726,10 +790,67 @@ def get_hero_image(images, fallback="../../../shared/lineup-radar-logo.png"):
 def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 'down-the-rabbit-hole'):
     """Generate individual pages for all artists."""
     # Read CSV data
-    artists = []
+    all_rows = []
     with open(csv_file, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
-        artists = list(reader)
+        all_rows = list(reader)
+    
+    # Group rows by artist name (to handle artists with multiple performances)
+    from collections import defaultdict
+    artists_grouped = defaultdict(list)
+    for row in all_rows:
+        artist_name = row.get('Artist', '').strip()
+        if artist_name:
+            artists_grouped[artist_name].append(row)
+    
+    # Create a single artist entry for each unique artist
+    # Use the first row for main artist data, collect schedule from all rows
+    artists = []
+    for artist_name, rows in artists_grouped.items():
+        # Use first row for main artist data
+        artist_data = rows[0].copy()
+        
+        # Collect schedule information from all performances
+        schedule_info = []
+        for row in rows:
+            schedule_entry = {
+                'Date': row.get('Date', '').strip(),
+                'Start Time': row.get('Start Time', '').strip(),
+                'End Time': row.get('End Time', '').strip(),
+                'Stage': row.get('Stage', '').strip()
+            }
+            # Only add if there's any schedule data
+            if any(schedule_entry.values()):
+                schedule_info.append(schedule_entry)
+        
+        # Sort schedule_info chronologically by Date and Start Time
+        # Handle late-night shows (times 00:00-05:59 are treated as next day)
+        def schedule_sort_key(schedule):
+            from datetime import datetime, timedelta
+            date = schedule.get('Date', '')
+            start_time = schedule.get('Start Time', '')
+            
+            if not date or not start_time:
+                return '9999-12-31 23:59'  # Put entries without date/time at the end
+            
+            try:
+                # Parse the date and time
+                dt = datetime.strptime(f"{date} {start_time}", '%Y-%m-%d %H:%M')
+                
+                # If time is between 00:00 and 05:59, treat it as next day
+                if dt.hour < 6:
+                    dt = dt + timedelta(days=1)
+                
+                return dt.strftime('%Y-%m-%d %H:%M')
+            except:
+                # Fallback to string concatenation if parsing fails
+                return f"{date} {start_time}"
+        
+        schedule_info.sort(key=schedule_sort_key)
+        
+        # Attach schedule info to artist data
+        artist_data['_schedule_info'] = schedule_info
+        artists.append(artist_data)
     
     # Sort artists alphabetically, ignoring "The" prefix
     artists = sorted(artists, key=lambda a: get_sort_name(a.get('Artist', '')))
@@ -814,8 +935,11 @@ def generate_all_artist_pages(csv_file: Path, output_dir: Path, festival: str = 
         prev_artist = artists[idx - 1] if idx > 0 else None
         next_artist = artists[idx + 1] if idx < len(artists) - 1 else None
         
+        # Get schedule information
+        schedule_info = artist.get('_schedule_info', [])
+        
         # Generate HTML
-        html = generate_artist_page(artist, year, festival_content, prev_artist, next_artist, config)
+        html = generate_artist_page(artist, year, festival_content, prev_artist, next_artist, config, schedule_info)
         
         # Save file
         slug = artist_name_to_slug(artist_name)
