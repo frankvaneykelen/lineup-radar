@@ -2,7 +2,11 @@
   "festival": "grauzone",
   "name": "Grauzone Festival",
   "year": 2026,
+<<<<<<< HEAD
   "generated_at": "2026-01-21T21:13:55.723906+00:00",
+=======
+  "generated_at": "2026-01-21T19:58:05.372315+00:00",
+>>>>>>> d830ea927baab48226c981490ffc453afccec667
   "config_properties": {
     "name": "Grauzone Festival",
     "year": 2026,

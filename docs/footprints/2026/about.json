@@ -2,7 +2,11 @@
   "festival": "footprints",
   "name": "Footprints Festival",
   "year": 2026,
+<<<<<<< HEAD
   "generated_at": "2026-01-21T21:13:45.529778+00:00",
+=======
+  "generated_at": "2026-01-21T19:57:58.752590+00:00",
+>>>>>>> d830ea927baab48226c981490ffc453afccec667
   "config_properties": {
     "name": "Footprints Festival",
     "year": 2026,

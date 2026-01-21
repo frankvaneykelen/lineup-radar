@@ -2,7 +2,11 @@
   "festival": "best-kept-secret",
   "name": "Best Kept Secret",
   "year": 2026,
+<<<<<<< HEAD
   "generated_at": "2026-01-21T21:16:33.603292+00:00",
+=======
+  "generated_at": "2026-01-21T19:56:50.198697+00:00",
+>>>>>>> d830ea927baab48226c981490ffc453afccec667
   "config_properties": {
     "name": "Best Kept Secret",
     "year": 2026,

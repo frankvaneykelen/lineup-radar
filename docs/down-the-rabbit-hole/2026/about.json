@@ -2,7 +2,11 @@
   "festival": "down-the-rabbit-hole",
   "name": "Down The Rabbit Hole",
   "year": 2026,
+<<<<<<< HEAD
   "generated_at": "2026-01-21T21:17:29.065147+00:00",
+=======
+  "generated_at": "2026-01-21T19:57:38.078090+00:00",
+>>>>>>> d830ea927baab48226c981490ffc453afccec667
   "config_properties": {
     "name": "Down The Rabbit Hole",
     "year": 2026,

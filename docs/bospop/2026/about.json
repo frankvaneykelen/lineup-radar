@@ -2,7 +2,11 @@
   "festival": "bospop",
   "name": "Bospop",
   "year": 2026,
+<<<<<<< HEAD
   "generated_at": "2026-01-21T21:17:05.060709+00:00",
+=======
+  "generated_at": "2026-01-21T19:57:17.421007+00:00",
+>>>>>>> d830ea927baab48226c981490ffc453afccec667
   "config_properties": {
     "name": "Bospop",
     "year": 2026,
