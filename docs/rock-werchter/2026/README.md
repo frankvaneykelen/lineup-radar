@@ -1,6 +1,6 @@
 # Rock Werchter 2026
 
-**Festival Dates:** July 02-05, 2026  
+**Festival Dates:** TBD  
 **Location:** Werchter, Belgium
 
 ## Setting Up
@@ -120,6 +120,5 @@ The `2026.csv` file contains these columns:
 
 - **Personal Data Preserved**: The "AI Summary" and "AI Rating" columns are never overwritten when running update scripts
 - **Date Format**: Dates are in YYYY-MM-DD format for precise scheduling
-- **Multi-Day Festival**: 4-day festival
 - **English Bios**: Festival provides English biographies
 - **Image Downloads**: Artist images are automatically downloaded when generating artist pages

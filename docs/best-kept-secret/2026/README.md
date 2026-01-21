@@ -1,6 +1,6 @@
 # Best Kept Secret 2026
 
-**Festival Dates:** June 12-14, 2026  
+**Festival Dates:** TBD  
 **Location:** Hilvarenbeek, Netherlands
 
 ## Setting Up

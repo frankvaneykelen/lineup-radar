@@ -1,6 +1,6 @@
 # Footprints Festival 2026
 
-**Festival Dates:** February 21, 2026  
+**Festival Dates:** TBD  
 **Location:** TivoliVredenburg, Utrecht, Netherlands
 
 ## Setting Up
@@ -120,6 +120,5 @@ The `2026.csv` file contains these columns:
 
 - **Personal Data Preserved**: The "AI Summary" and "AI Rating" columns are never overwritten when running update scripts
 - **Date Format**: Dates are in YYYY-MM-DD format for precise scheduling
-- **Single-Day Festival**: This is a one-day event
 - **Dutch Bios**: Festival provides Dutch biographies
 - **Image Downloads**: Artist images are automatically downloaded when generating artist pages

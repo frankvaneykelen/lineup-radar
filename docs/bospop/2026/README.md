@@ -1,6 +1,6 @@
 # Bospop 2026
 
-**Festival Dates:** July 10-12, 2026  
+**Festival Dates:** TBD  
 **Location:** TBD
 
 ## Setting Up

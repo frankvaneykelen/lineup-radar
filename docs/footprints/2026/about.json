@@ -2,11 +2,7 @@
   "festival": "footprints",
   "name": "Footprints Festival",
   "year": 2026,
-<<<<<<< HEAD
-  "generated_at": "2026-01-21T21:13:45.529778+00:00",
-=======
-  "generated_at": "2026-01-21T19:57:58.752590+00:00",
->>>>>>> d830ea927baab48226c981490ffc453afccec667
+  "generated_at": "2026-01-21T21:20:47.030636+00:00",
   "config_properties": {
     "name": "Footprints Festival",
     "year": 2026,
@@ -81,7 +77,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Footprints Festival 2026** is set to light up February 21 with an eclectic lineup of 11 artists hailing from 10 different countries, showcasing a rich tapestry of global sounds. With genres ranging from electronic and psychedelic to Malian desert blues, traditional Iranian music, and minimalist electropop, the festival promises a boundary-pushing musical experience that celebrates diversity and innovation. Notably, 100% of the artists have Spotify links available, ensuring attendees can explore their music before the big day.\n\nThe festival emphasizes inclusivity, with 7 out of 11 artists identifying as people of color, reflecting its commitment to amplifying diverse voices. While the lineup is predominantly male (8 artists), the inclusion of female and mixed-gender acts adds a layer of representation that enriches the festival’s artistic narrative. Germany leads the way with the most representation (4 acts), but artists from countries like Nigeria, Brazil, Iran, and Turkey further highlight the global reach of the event.\n\nWith an average artist rating of 7.73, the lineup has been met with strong anticipation, particularly with 82% of acts rated between 8 and 9. The mix of established names and emerging talents across a wide array of genres ensures there’s something for everyone, making Footprints Festival 2026 a must-attend event for music lovers seeking a cultural and sonic adventure.",
-  "start_date": "2026-02-21",
-  "end_date": "2026-02-21"
+  "ai_profile": "Footprints Festival 2026 features 11 artists. Top genres include Electronic, Psychedelic, Indie Pop. Average user rating: 7.73. The lineup includes 8 male, 2 female, 1 mixed/group, with 7 artists of color."
 }

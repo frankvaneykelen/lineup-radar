@@ -1,6 +1,6 @@
 # Pinkpop 2026
 
-**Festival Dates:** June 19-21, 2026  
+**Festival Dates:** TBD  
 **Location:** Landgraaf, Netherlands
 
 ## Setting Up

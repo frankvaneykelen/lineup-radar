@@ -2,11 +2,7 @@
   "festival": "alkmaarse-eigenste",
   "name": "Alkmaarse Eigenste",
   "year": 2026,
-<<<<<<< HEAD
-  "generated_at": "2026-01-21T21:16:14.112075+00:00",
-=======
-  "generated_at": "2026-01-21T19:56:34.029910+00:00",
->>>>>>> d830ea927baab48226c981490ffc453afccec667
+  "generated_at": "2026-01-21T21:19:20.328985+00:00",
   "config_properties": {
     "name": "Alkmaarse Eigenste",
     "year": 2026,
@@ -109,19 +105,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-<<<<<<< HEAD
-  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Dutch Musical Diversity**\n\nOn January 24, 2026, the vibrant city of Alkmaar will host *Alkmaarse Eigenste*, a festival showcasing the rich and eclectic musical talents of the Netherlands. Featuring 34 artists across a wide range of genres, the festival emphasizes variety and creativity, with performances spanning alternative, rock, pop, folk, soul, jazz, electronic, and more. With a strong representation of alternative and rock subgenres, including indie rock, shoegaze, and post-punk, the event promises a dynamic lineup that caters to fans of both emerging and established sounds.\n\nThe festival also highlights the diversity of Dutch music, with an inclusive lineup of solo artists, bands, and DJs. Female artists and bands make up a significant portion of the performers, and the event features artists from a variety of cultural and musical backgrounds. This emphasis on representation and inclusivity ensures a vibrant and multifaceted experience for attendees, celebrating the unique voices and perspectives within the Dutch music scene.\n\nWhether you're drawn to the introspective melodies of singer-songwriters, the high-energy beats of dance-pop and DJs, or the soulful harmonies of folk and indie, *Alkmaarse Eigenste* offers something for everyone. With an eclectic mix of multi-genre artists and fresh talent, this one-day festival is a must-attend event for music lovers eager to explore the best of contemporary Dutch music.",
-=======
-  "ai_profile": "Alkmaarse Eigenste 2026 features 34 artists. Top genres include alternative, rock, pop. Average user rating: 8.65. The lineup includes 13 male, 10 female, with 2 artists of color.",
->>>>>>> d830ea927baab48226c981490ffc453afccec667
-  "start_date": "2026-01-24",
-  "end_date": "2026-01-24",
-  "stages": [
-    "Grote zaal",
-    "Kleine zaal",
-    "Bezemhok",
-    "Bus",
-    "Overloop",
-    "Sluis"
-  ]
+  "ai_profile": "Alkmaarse Eigenste 2026 features 34 artists. Top genres include alternative, rock, pop. Average user rating: 8.65. The lineup includes 13 male, 10 female, with 2 artists of color."
 }

@@ -1,6 +1,6 @@
 # Grauzone Festival 2026
 
-**Festival Dates:** February 06-08, 2026  
+**Festival Dates:** TBD  
 **Location:** TBD
 
 ## Setting Up
