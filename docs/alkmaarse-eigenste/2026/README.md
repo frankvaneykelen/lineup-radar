@@ -115,6 +115,11 @@ The `2026.csv` file contains these columns:
 - **Festival Bio (EN)** - English bio from festival
 - **Social Links** - JSON with social media links
 - **Images Scraped** - Yes/No if images downloaded
+- **** - 
+- **** - 
+- **** - 
+- **** - 
+- **** - 
 
 ## Notes
 

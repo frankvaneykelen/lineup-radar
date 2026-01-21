@@ -64,4 +64,4 @@ scrape_*_lineup.py
 
 design/*.psd
 
-design/*.psd
+*.psd

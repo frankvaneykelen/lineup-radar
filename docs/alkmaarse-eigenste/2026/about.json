@@ -2,7 +2,7 @@
   "festival": "alkmaarse-eigenste",
   "name": "Alkmaarse Eigenste",
   "year": 2026,
-  "generated_at": "2026-01-07T21:00:14.008643+00:00",
+  "generated_at": "2026-01-21T19:34:17.186356+00:00",
   "config_properties": {
     "name": "Alkmaarse Eigenste",
     "year": 2026,
@@ -17,19 +17,21 @@
     "spotify_playlist_id": "https://open.spotify.com/playlist/7CJ68OA5DWvF2p1Q0HrBOl"
   },
   "stats": {
-    "total_artists": 26,
+    "total_artists": 34,
     "genre_counts": {
-      "alternative": 6,
-      "rock": 5,
-      "pop": 3,
-      "alternative rock": 3,
-      "indie rock": 3,
+      "alternative": 7,
+      "rock": 7,
+      "pop": 5,
+      "alternative rock": 4,
+      "indie rock": 4,
       "alternative pop": 3,
+      "singer-songwriter": 3,
       "indie pop": 2,
       "folk": 2,
       "soul": 2,
       "indie": 2,
-      "singer-songwriter": 2,
+      "loop station": 2,
+      "multi-genre": 2,
       "indie folk": 2,
       "dream pop": 2,
       "dance pop": 2,
@@ -45,8 +47,6 @@
       "folk-pop": 1,
       "americana": 1,
       "uplifting": 1,
-      "loop station": 1,
-      "multi-genre": 1,
       "progressive rock": 1,
       "ambient pop": 1,
       "english-language": 1,
@@ -70,37 +70,42 @@
       "ska": 1,
       "nederpop": 1,
       "classic rock": 1,
-      "pop, R&B": 1
+      "pop, R&B": 1,
+      "handpan": 1,
+      "meditative": 1,
+      "rap": 1,
+      "acoustic": 1,
+      "DJs": 1
     },
-    "dj_count": 1,
+    "dj_count": 2,
     "country_counts": {
-      "Netherlands": 25
+      "Netherlands": 29
     },
     "gender_counts": {
-      "Female": 9,
-      "Male": 11,
-      "Unknown": 3,
+      "Female": 10,
+      "Male": 13,
+      "Unknown": 8,
       "Band": 3
     },
     "poc_counts": {
-      "No": 21,
-      "Unknown": 4,
-      "Yes": 1
+      "No": 23,
+      "Unknown": 9,
+      "Yes": 2
     },
-    "average_rating": 8.57,
-    "rated_count": 21,
-    "rated_percentage": 80.8,
+    "average_rating": 8.65,
+    "rated_count": 23,
+    "rated_percentage": 67.6,
     "rating_counts": {
-      "9-10": 11,
+      "9-10": 13,
       "8-9": 10,
-      "Unrated": 5
+      "Unrated": 11
     },
-    "has_spotify_links": 17,
-    "spotify_percentage": 65.4,
+    "has_spotify_links": 20,
+    "spotify_percentage": 58.8,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "Alkmaarse Eigenste 2026 features 26 artists. Top genres include alternative, rock, pop. Average user rating: 8.57. The lineup includes 11 male, 9 female, with 1 artists of color.",
+  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Diversity and Musical Fusion**  \n\nAlkmaarse Eigenste 2026 brings together 34 artists from a wide range of genres, creating a vibrant and eclectic lineup. With a strong focus on alternative and rock sounds, the festival features prominent representation from genres like alternative rock, indie rock, and pop, alongside unique flavors such as shoegaze, dream pop, and even alt-pop-noir. The inclusion of loop station performers, singer-songwriters, and multi-genre artists further highlights the festival's commitment to musical diversity and innovation.  \n\nRooted in the Netherlands, Alkmaarse Eigenste is proud to showcase the talents of 29 Dutch artists while also incorporating global influences through genres like world music, reggae, and fusion. The festival also values representation, featuring a balanced mix of male and female performers, band ensembles, and a small but notable presence of artists of color. This blend of backgrounds and styles ensures a dynamic and inclusive experience for festival-goers.  \n\nFrom soulful acoustic performances to energetic DJ sets, Alkmaarse Eigenste 2026 promises something for every music lover. With nearly 60% of the artists offering a digital presence through Spotify, fans can explore their sounds ahead of the event and discover new favorites. The festival continues to be a celebration of artistry, community, and the rich tapestry of the music scene in the Netherlands and beyond.",
   "start_date": "2026-01-24",
   "end_date": "2026-01-24"
 }
