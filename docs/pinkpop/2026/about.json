@@ -1,21 +1,7 @@
 {
   "festival": "pinkpop",
-  "name": "Pinkpop",
   "year": 2026,
-  "generated_at": "2026-01-21T21:44:07.644798+00:00",
-  "config_properties": {
-    "name": "Pinkpop",
-    "year": 2026,
-    "base_url": "https://www.pinkpop.nl",
-    "lineup_url": "https://www.pinkpop.nl/en/programme/",
-    "artist_path": "/en/line-up/",
-    "slug": "pinkpop",
-    "bio_language": "English",
-    "rating_boost": 0.0,
-    "description": "The longest-running annual music festival in the Netherlands, held in Landgraaf since 1970.",
-    "official_spotify_playlist": "https://open.spotify.com/playlist/2lVlLvH6VA3Fsb2NLSN1Ib",
-    "spotify_playlist_id": "https://open.spotify.com/playlist/2MMOziv3RBxvz93DQ3i9bT"
-  },
+  "generated_at": "2026-01-21T22:34:54.890554+00:00",
   "stats": {
     "total_artists": 32,
     "genre_counts": {
@@ -88,7 +74,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "start_date": "2026-06-19",
-  "end_date": "2026-06-21",
-  "ai_profile": "Pinkpop 2026 features 32 artists. Top genres include Alternative Rock, Pop, Indie Rock. Average user rating: 6.88. The lineup includes 20 male, 8 female, 4 mixed/group, with 1 artists of color."
+  "ai_profile": "**Pinkpop 2026: A Vibrant Fusion of Sounds and Styles**  \n\nFrom June 19–21, 2026, Pinkpop returns with a diverse lineup of 32 artists spanning a wide array of genres and styles. Anchored in its tradition of showcasing rock and alternative music, this year’s edition leans heavily into Alternative Rock (8 acts), Pop (7 acts), and Indie Rock (6 acts), with additional flavors from Electropop, Post-Punk, and Punk Rock. With all featured artists rated and linked on Spotify, fans can dive into the sounds ahead of time, reflecting the festival’s commitment to accessibility and music discovery.  \n\nThe artist roster highlights a global representation, with acts from the United Kingdom and the United States leading the charge (9 artists each), followed closely by Dutch talent (7 artists). Contributions from Germany, Canada, Australia, Belgium, and Sweden further diversify the lineup. Gender representation includes 8 female-led acts, 4 mixed-gender groups, and 20 male-fronted performances—showing room for growth in achieving greater balance.  \n\nWhile only one artist identifies as a person of color, the festival’s eclectic blend of genres and international presence underscores its dedication to variety. With an average artist rating of 6.88 and the majority of performers scoring 7 or higher, attendees can expect a mix of critically acclaimed and rising stars. Pinkpop 2026 promises an exciting mix of established and emerging talent, celebrating music’s universal language."
 }

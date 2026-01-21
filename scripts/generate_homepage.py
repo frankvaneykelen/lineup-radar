@@ -38,14 +38,14 @@ def find_festival_lineups(docs_dir: Path) -> List[dict]:
                             # Handle permission issues or file access errors
                             pass
                         
-                        # Try to read start_date from about.json
+                        # Try to read start_date from settings.json
                         start_date = None
-                        about_json = year_dir / "about.json"
+                        settings_json = year_dir / "settings.json"
                         try:
-                            if about_json.exists():
-                                with open(about_json, 'r', encoding='utf-8') as f:
-                                    about_data = json.load(f)
-                                    start_date = about_data.get('start_date')
+                            if settings_json.exists():
+                                with open(settings_json, 'r', encoding='utf-8') as f:
+                                    settings_data = json.load(f)
+                                    start_date = settings_data.get('start_date')
                         except (OSError, json.JSONDecodeError):
                             pass
                         
@@ -182,17 +182,17 @@ def generate_homepage(docs_dir: Path):
                 festival_display = lineup['festival'].replace('-', ' ').title()
                 description = ""
             
-            # Get festival dates from about.json
+            # Get festival dates from settings.json
             festival_dates = "Dates TBA"
             tagline = description or "Discover the lineup and artist details"
             
-            about_json = Path("docs") / lineup['festival'] / year / "about.json"
+            settings_json = Path("docs") / lineup['festival'] / year / "settings.json"
             try:
-                if about_json.exists():
-                    with open(about_json, 'r', encoding='utf-8') as f:
-                        about_data = json.load(f)
-                        start_date = about_data.get('start_date')
-                        end_date = about_data.get('end_date')
+                if settings_json.exists():
+                    with open(settings_json, 'r', encoding='utf-8') as f:
+                        settings_data = json.load(f)
+                        start_date = settings_data.get('start_date')
+                        end_date = settings_data.get('end_date')
                         
                         if start_date and end_date:
                             start_dt = datetime.strptime(start_date, '%Y-%m-%d')

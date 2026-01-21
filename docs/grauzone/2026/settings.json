@@ -1,0 +1,14 @@
+{
+  "name": "Grauzone Festival",
+  "base_url": "https://www.grauzonefestival.nl",
+  "lineup_url": "https://www.grauzonefestival.nl/",
+  "artist_path": "/",
+  "bio_language": "English",
+  "rating_boost": 0.0,
+  "description": "A post-punk and darkwave festival in The Hague, Netherlands, featuring underground and alternative artists.",
+  "official_spotify_playlist": "https://open.spotify.com/playlist/5HDW8Kl7CJZq0arcPxJMNM",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/186HHxcUHwTVNw9BxKcJDA",
+  "start_date": "2026-02-06",
+  "end_date": "2026-02-08",
+  "stages": []
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Rewire Festival",
+  "base_url": "https://www.rewirefestival.nl",
+  "lineup_url": "https://www.rewirefestival.nl/line/up/2026",
+  "artist_path": "/artist/",
+  "bio_language": "English",
+  "rating_boost": 0.0,
+  "description": "A forward-thinking music and arts festival in The Hague, Netherlands, known for adventurous programming.",
+  "official_spotify_playlist": "",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/5FvP4rOQmHx7JpBDX666jx",
+  "start_date": "2026-04-09",
+  "end_date": "2026-04-11",
+  "stages": []
+}

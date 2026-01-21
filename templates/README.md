@@ -64,3 +64,52 @@ fieldnames = [
     'Social Links', 'Images Scraped'
 ]
 ```
+
+## `settings.json`
+
+Festival-specific settings that should be preserved across regenerations. This file is **never** overwritten by scripts.
+
+### Properties
+
+**Festival Information:**
+- `name` - Festival display name
+- `description` - Short description of the festival
+- `base_url` - Festival website base URL
+- `lineup_url` - URL to festival lineup/program page
+- `artist_path` - Path segment for artist pages (e.g., "/programma/")
+
+**Configuration:**
+- `bio_language` - Language of artist bios on festival website ("Dutch" or "English")
+- `rating_boost` - Rating adjustment for discovery festivals (e.g., 1.5 for emerging artists)
+
+**Dates & Venues:**
+- `start_date` - Festival start date (ISO format: YYYY-MM-DD)
+- `end_date` - Festival end date (ISO format: YYYY-MM-DD)
+- `stages` - Array of stage/venue names (optional, used for timetable display)
+
+**Spotify Integration:**
+- `official_spotify_playlist` - Official festival Spotify playlist URL
+- `spotify_playlist_id` - LineupRadar curated Spotify playlist URL
+
+### Usage
+
+Create a `settings.json` file in each festival year directory (e.g., `docs/alkmaarse-eigenste/2026/settings.json`):
+
+```json
+{
+  "name": "Alkmaarse Eigenste",
+  "base_url": "https://alkmaarseigenste.nl",
+  "lineup_url": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/",
+  "artist_path": "",
+  "bio_language": "Dutch",
+  "rating_boost": 1.0,
+  "description": "A single-day discovery festival in Alkmaar showcasing local and emerging artists.",
+  "official_spotify_playlist": "",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/7CJ68OA5DWvF2p1Q0HrBOl",
+  "start_date": "2026-01-24",
+  "end_date": "2026-01-24",
+  "stages": ["Grote zaal", "Kleine zaal", "Bezemhok"]
+}
+```
+
+These settings are automatically merged into `about.json` during generation but are **never modified** by scripts.

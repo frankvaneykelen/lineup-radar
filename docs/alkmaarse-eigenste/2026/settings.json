@@ -1,0 +1,21 @@
+{
+  "name": "Alkmaarse Eigenste",
+  "base_url": "https://alkmaarseigenste.nl",
+  "lineup_url": "https://www.podiumvictorie.nl/programma/alkmaarseigenste2026/",
+  "artist_path": "",
+  "bio_language": "Dutch",
+  "rating_boost": 1.0,
+  "description": "A single-day discovery festival in Alkmaar showcasing local and emerging artists.",
+  "official_spotify_playlist": "",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/7CJ68OA5DWvF2p1Q0HrBOl",
+  "start_date": "2026-01-24",
+  "end_date": "2026-01-24",
+  "stages": [
+    "Grote zaal",
+    "Kleine zaal",
+    "Bezemhok",
+    "Bus",
+    "Overloop",
+    "Sluis"
+  ]
+}

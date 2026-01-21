@@ -1,21 +1,7 @@
 {
   "festival": "grauzone",
-  "name": "Grauzone Festival",
   "year": 2026,
-  "generated_at": "2026-01-21T21:43:30.841444+00:00",
-  "config_properties": {
-    "name": "Grauzone Festival",
-    "year": 2026,
-    "base_url": "https://www.grauzonefestival.nl",
-    "lineup_url": "https://www.grauzonefestival.nl/",
-    "artist_path": "/",
-    "slug": "grauzone",
-    "bio_language": "English",
-    "rating_boost": 0.0,
-    "description": "A post-punk and darkwave festival in The Hague, Netherlands, featuring underground and alternative artists.",
-    "official_spotify_playlist": "https://open.spotify.com/playlist/5HDW8Kl7CJZq0arcPxJMNM",
-    "spotify_playlist_id": "https://open.spotify.com/playlist/186HHxcUHwTVNw9BxKcJDA"
-  },
+  "generated_at": "2026-01-21T22:34:12.275465+00:00",
   "stats": {
     "total_artists": 70,
     "genre_counts": {
@@ -127,7 +113,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "start_date": "2026-02-06",
-  "end_date": "2026-02-08",
-  "ai_profile": "Grauzone Festival 2026 features 70 artists. Top genres include Darkwave, Post-punk, Electronic. Average user rating: 8.03. The lineup includes 22 male, 15 female, 10 mixed/group, 1 non-binary, with 11 artists of color."
+  "ai_profile": "**Grauzone Festival 2026: A Celebration of Dark and Diverse Sounds**\n\nFrom February 6th to 8th, 2026, Grauzone Festival returns to The Hague, Netherlands, with an eclectic lineup of 70 artists spanning a wide spectrum of genres. Known for its dedication to the dark and experimental edges of music, this year’s festival showcases an impressive mix of Darkwave, Post-punk, Techno, Industrial, and Synthpop, alongside niche styles like Ethereal Techno, Noise Rock, and Italo Disco. With 11 DJs in the mix, attendees can expect a seamless blend of live performances and electronic sets that push the boundaries of sound.\n\nGrauzone 2026 reflects a global melting pot of talent, with artists hailing from 18 countries, including France, the USA, Netherlands, UK, Japan, and Morocco. This year’s lineup celebrates diversity not just geographically but also in its representation of gender and cultural backgrounds. Performers include a mix of male, female, non-binary, and mixed-gender acts, as well as notable contributions from artists of color, underscoring the festival’s commitment to inclusivity and varied perspectives.\n\nWith its signature focus on innovative and genre-defying music, Grauzone Festival 2026 continues to be a haven for fans of underground and alternative sounds. Whether you're drawn to the haunting melodies of Darkwave, the raw energy of Post-punk, or the pulsating rhythms of Techno, this year’s edition promises a captivating journey through the avant-garde."
 }

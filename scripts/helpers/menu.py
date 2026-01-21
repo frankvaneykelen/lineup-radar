@@ -46,20 +46,20 @@ def has_schedule_data(slug: str, year: str) -> bool:
 
 def get_festival_start_date(slug: str, year: str) -> str:
     """
-    Get the start date for a festival from its about.json file.
+    Get the start date for a festival from its settings.json file.
     
     Returns:
         Start date string in YYYY-MM-DD format, or '9999-12-31' if not found
     """
-    # Try to find the about.json file
-    about_path = Path(f"docs/{slug}/{year}/about.json")
-    if not about_path.exists():
+    # Try to find the settings.json file
+    settings_path = Path(f"docs/{slug}/{year}/settings.json")
+    if not settings_path.exists():
         # Fallback for scripts running from scripts directory
-        about_path = Path(f"../docs/{slug}/{year}/about.json")
+        settings_path = Path(f"../docs/{slug}/{year}/settings.json")
     
     try:
-        if about_path.exists():
-            with open(about_path, 'r', encoding='utf-8') as f:
+        if settings_path.exists():
+            with open(settings_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 return data.get('start_date', '9999-12-31')
     except (OSError, json.JSONDecodeError):

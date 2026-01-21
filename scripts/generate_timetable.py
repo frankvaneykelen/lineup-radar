@@ -110,13 +110,13 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
     year = csv_file.stem
     config = get_festival_config(festival, int(year))
     
-    # Read about.json for stage order
-    about_file = output_dir / festival / year / "about.json"
+    # Read settings.json for stage order
+    settings_file = output_dir / festival / year / "settings.json"
     stages_order = []
-    if about_file.exists():
-        with open(about_file, 'r', encoding='utf-8') as f:
-            about_data = json.load(f)
-            stages_order = about_data.get('stages', [])
+    if settings_file.exists():
+        with open(settings_file, 'r', encoding='utf-8') as f:
+            settings_data = json.load(f)
+            stages_order = settings_data.get('stages', [])
     
     # Filter performances with schedule data and group by date
     scheduled_performances = {}

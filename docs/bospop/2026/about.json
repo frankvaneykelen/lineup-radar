@@ -1,21 +1,7 @@
 {
   "festival": "bospop",
-  "name": "Bospop",
   "year": 2026,
-  "generated_at": "2026-01-21T21:42:41.836590+00:00",
-  "config_properties": {
-    "name": "Bospop",
-    "year": 2026,
-    "base_url": "https://bospopfestival.nl",
-    "lineup_url": "https://bospopfestival.nl/programma/",
-    "artist_path": "/artiest/",
-    "slug": "bospop",
-    "bio_language": "Dutch",
-    "rating_boost": 0.0,
-    "description": "A classic rock and pop festival in Weert, Netherlands, held annually since 1981.",
-    "official_spotify_playlist": "https://open.spotify.com/playlist/7knRsUGZKJCNIi6ds9xXjl?si=cb9dcc066e56430a",
-    "spotify_playlist_id": "https://open.spotify.com/playlist/18oMT94gxKYpX4BvuCpNdv?si=d1d5d3df7381491f"
-  },
+  "generated_at": "2026-01-21T22:33:10.984025+00:00",
   "stats": {
     "total_artists": 39,
     "genre_counts": {
@@ -93,7 +79,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "start_date": "2026-07-10",
-  "end_date": "2026-07-12",
-  "ai_profile": "Bospop 2026 features 39 artists. Top genres include Rock, Blues Rock, Alternative Rock. Average user rating: 8.16. The lineup includes 26 male, 5 female, 1 mixed/group, with 3 artists of color."
+  "ai_profile": "**Bospop 2026: A Celebration of Rock Diversity**  \n\nTaking place from July 10–12, 2026, Bospop returns with a lineup of 39 artists representing a rich tapestry of rock and its many subgenres. With a strong emphasis on Rock (15 artists), Blues Rock (5), and Alternative Rock (5), the festival continues its tradition of celebrating guitar-driven music while embracing diversity with acts spanning genres like Soul, Symphonic Metal, Indie Rock, and even Comedy Rock. Two DJs further expand the sonic palette, ensuring a dynamic experience for attendees.  \n\nThe festival showcases talent from across the globe, with artists hailing from the USA (10 acts), the Netherlands (7), the UK (5), and beyond, including Canada, Australia, and Sweden. While male artists dominate the lineup (26), the inclusion of female (5), mixed-gender (1), and POC talent (3) reflects a gradual shift towards greater representation. Bospop’s eclectic roster also highlights its commitment to blending mainstream appeal with niche genres, offering something for every music lover.  \n\nWith an impressive average rating of 8.16, 82% of the artists have Spotify links, allowing fans to explore much of the lineup in advance. The festival promises a weekend of standout performances and genre-spanning creativity, uniting rock enthusiasts in a celebration of music’s enduring power to connect and inspire."
 }

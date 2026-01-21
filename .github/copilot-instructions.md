@@ -13,7 +13,22 @@
 - Use UTF-8 encoding
 - Preserve user-edited fields (AI Summary, AI Rating) during updates
 - Only add new artists when updating, never remove or modify existing entries
-- When an artist cancels, update the "Cancelled" column to "Yes" instead of removing the entry. - When an artist cancels, update the "Cancelled" column to "Yes" instead of removing the entry.
+- When an artist cancels, update the "Cancelled" column to "Yes" instead of removing the entry
+
+## JSON Files
+
+### settings.json
+- **Never modify** settings.json files - they contain user-defined properties
+- Properties: name, description, URLs, dates, stages, spotify playlists, bio_language, rating_boost
+- Located in each festival year directory (e.g., `docs/alkmaarse-eigenste/2026/settings.json`)
+- These values are automatically merged into about.json during generation
+- Values in settings.json override defaults from config.py
+
+### about.json
+- Generated file - can be overwritten
+- Reads from settings.json for user properties (config_properties, start_date, end_date, stages)
+- Contains only generated content: stats, AI profile, generated_at timestamp
+- festival, year, and generated_at are metadata; everything else comes from settings.json or is computed
 
 ## Code Style
 

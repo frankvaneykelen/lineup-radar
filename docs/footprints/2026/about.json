@@ -1,21 +1,7 @@
 {
   "festival": "footprints",
-  "name": "Footprints Festival",
   "year": 2026,
-  "generated_at": "2026-01-21T21:43:23.962609+00:00",
-  "config_properties": {
-    "name": "Footprints Festival",
-    "year": 2026,
-    "base_url": "https://www.tivolivredenburg.nl",
-    "lineup_url": "https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026",
-    "artist_path": "",
-    "slug": "footprints",
-    "bio_language": "Dutch",
-    "rating_boost": 1.5,
-    "description": "A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.",
-    "official_spotify_playlist": "https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS",
-    "spotify_playlist_id": "https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX"
-  },
+  "generated_at": "2026-01-21T22:34:00.998344+00:00",
   "stats": {
     "total_artists": 11,
     "genre_counts": {
@@ -77,7 +63,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "start_date": "2026-02-21",
-  "end_date": "2026-02-21",
-  "ai_profile": "Footprints Festival 2026 features 11 artists. Top genres include Electronic, Psychedelic, Indie Pop. Average user rating: 7.73. The lineup includes 8 male, 2 female, 1 mixed/group, with 7 artists of color."
+  "ai_profile": "**Footprints Festival 2026** promises a rich and eclectic celebration of music, taking place on February 21, 2026. Featuring 11 talented artists, the festival showcases a vibrant blend of genres, ranging from Electronic, Psychedelic, and Indie Pop to Anatolian Rock, Malian Desert Blues, and Experimental sounds. With artists spanning 10 countries, including Germany, Brazil, Turkey, and Nigeria, the festival highlights a truly global lineup. This diversity is also reflected in the presence of artists representing various cultural heritages, with 7 out of 11 performers identifying as people of color.\n\nThe festival stands out for its genre-spanning inclusivity and its embrace of both traditional and modern influences. From the hypnotic grooves of Afrobeat and the soulful strains of Gospel to the intricate sounds of Traditional Iranian music and minimalist electropop, Footprints Festival offers a dynamic experience for attendees. The lineup also features a mix of male and female artists, with a notable inclusion of mixed-gender acts, further emphasizing its commitment to diverse representation.\n\nWith an impressive average artist rating of 7.73, and every artist boasting Spotify links for pre-event discovery, Footprints Festival 2026 is set to leave a lasting impression. The event’s curation reflects a harmonious balance between innovative sounds and cross-cultural exchange, making it a must-attend for music lovers seeking a unique and inspiring festival experience."
 }

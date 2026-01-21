@@ -1,21 +1,7 @@
 {
   "festival": "best-kept-secret",
-  "name": "Best Kept Secret",
   "year": 2026,
-  "generated_at": "2026-01-21T21:42:14.171723+00:00",
-  "config_properties": {
-    "name": "Best Kept Secret",
-    "year": 2026,
-    "base_url": "https://www.bestkeptsecret.nl",
-    "lineup_url": "https://www.bestkeptsecret.nl/program/list",
-    "artist_path": "/bands/",
-    "slug": "best-kept-secret",
-    "bio_language": "English",
-    "rating_boost": 0.0,
-    "description": "An indie music festival in Hilvarenbeek, Netherlands, featuring alternative, indie rock, and electronic music.",
-    "official_spotify_playlist": "https://open.spotify.com/playlist/2ClqlT8FIHuwI0oxUKHqTl?si=ECVe6VbETtqi-V4v3lDniQ",
-    "spotify_playlist_id": "https://open.spotify.com/playlist/3aKy6IEpXtiyZzqaBQ0j16?si=e17fc38a617e4741"
-  },
+  "generated_at": "2026-01-21T22:32:39.005680+00:00",
   "stats": {
     "total_artists": 52,
     "genre_counts": {
@@ -122,7 +108,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "start_date": "2026-06-12",
-  "end_date": "2026-06-14",
-  "ai_profile": "Best Kept Secret 2026 features 52 artists. Top genres include Electronic, Post-punk, Hip-Hop. Average user rating: 7.2. The lineup includes 22 male, 9 female, 9 mixed/group, 1 non-binary, with 12 artists of color."
+  "ai_profile": "**Best Kept Secret 2026: A Celebration of Diversity in Sound**  \nTaking place from June 12–14, 2026, Best Kept Secret returns as a vibrant showcase of eclectic music, featuring 52 artists spanning a wide spectrum of genres and styles. From the pulsating beats of electronic and house to the raw energy of post-punk and alternative rock, this year’s lineup offers something for every music lover. Genres like hip-hop, indie rock, and funk are well-represented, alongside unique sounds such as Afrobeat, traditional South African music, and Afro-psychedelic funk, highlighting the festival’s commitment to sonic diversity.\n\nWith artists hailing from 16 countries, including the USA, the Netherlands, the UK, Australia, Ghana, and South Africa, the festival celebrates a truly global lineup. The gender and cultural representation also reflect Best Kept Secret’s dedication to inclusivity, with 12 artists identifying as people of color and a mix of male, female, non-binary, and mixed-gender acts on stage. The presence of three DJs further enriches the festival’s dynamic energy, ensuring both live performances and dance-ready sets.\n\nMusic enthusiasts will also appreciate the festival’s strong connection to its audience, with 98.1% of artists boasting Spotify links for easy exploration of their sounds. With an average rating of 7.2 from attendees, Best Kept Secret 2026 promises an exciting and well-rounded experience, uniting fans through a shared love of music, discovery, and celebration."
 }

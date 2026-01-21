@@ -561,21 +561,36 @@ def main():
     stats['year'] = args.year
     prev = compare_with_previous(csv_file, artists)
 
-    # Try to read existing about.json to get start_date and end_date if they exist
+    # Read settings.json for user-defined properties
     out_dir = Path(args.output) / config.slug / str(args.year)
-    existing_about_file = out_dir / 'about.json'
-    start_date = None
-    end_date = None
-    stages = None
-    if existing_about_file.exists():
+    settings_file = out_dir / 'settings.json'
+    settings = {}
+    if settings_file.exists():
         try:
-            with existing_about_file.open('r', encoding='utf-8') as f:
-                existing_about = json.load(f)
-                start_date = existing_about.get('start_date')
-                end_date = existing_about.get('end_date')
-                stages = existing_about.get('stages')
+            with settings_file.open('r', encoding='utf-8') as f:
+                settings = json.load(f)
         except Exception:
             pass
+    
+    # Extract specific settings
+    start_date = settings.get('start_date')
+    end_date = settings.get('end_date')
+    stages = settings.get('stages')
+    
+    # Build config_properties from settings.json, falling back to config object
+    config_properties = {
+        'name': settings.get('name', config.name),
+        'year': args.year,
+        'base_url': settings.get('base_url', config.base_url),
+        'lineup_url': settings.get('lineup_url', config.lineup_url),
+        'artist_path': settings.get('artist_path', config.artist_path),
+        'slug': config.slug,
+        'bio_language': settings.get('bio_language', config.bio_language),
+        'rating_boost': settings.get('rating_boost', config.rating_boost),
+        'description': settings.get('description', config.description),
+        'official_spotify_playlist': settings.get('official_spotify_playlist', config.official_spotify_playlist),
+        'spotify_playlist_id': settings.get('spotify_playlist_id', config.spotify_playlist_id),
+    }
 
     profile_text = ''
     # Only call the networked AI when --ai is explicitly provided. Otherwise use fallback text.
@@ -583,22 +598,12 @@ def main():
 
     about = {
         'festival': config.slug,
-        'name': config.name,
         'year': args.year,
         'generated_at': datetime.now(timezone.utc).isoformat(),
-        'config_properties': {k: v for k, v in config.__dict__.items() if not k.startswith('_')},
         'stats': stats,
         'previous_year_comparison': prev,
         'ai_profile': profile_text
     }
-    
-    # Preserve start_date and end_date if they exist
-    if start_date:
-        about['start_date'] = start_date
-    if end_date:
-        about['end_date'] = end_date
-    if stages:
-        about['stages'] = stages
 
     html = render_html(config, stats, profile_text, start_date, end_date, artists)
     write_outputs(out_dir, about, html)

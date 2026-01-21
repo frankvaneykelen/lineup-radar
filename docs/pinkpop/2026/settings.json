@@ -1,0 +1,14 @@
+{
+  "name": "Pinkpop",
+  "base_url": "https://www.pinkpop.nl",
+  "lineup_url": "https://www.pinkpop.nl/en/programme/",
+  "artist_path": "/en/line-up/",
+  "bio_language": "English",
+  "rating_boost": 0.0,
+  "description": "The longest-running annual music festival in the Netherlands, held in Landgraaf since 1970.",
+  "official_spotify_playlist": "https://open.spotify.com/playlist/2lVlLvH6VA3Fsb2NLSN1Ib",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/2MMOziv3RBxvz93DQ3i9bT",
+  "start_date": "2026-06-19",
+  "end_date": "2026-06-21",
+  "stages": []
+}

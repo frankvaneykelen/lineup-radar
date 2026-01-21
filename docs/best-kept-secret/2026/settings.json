@@ -1,0 +1,14 @@
+{
+  "name": "Best Kept Secret",
+  "base_url": "https://www.bestkeptsecret.nl",
+  "lineup_url": "https://www.bestkeptsecret.nl/program/list",
+  "artist_path": "/bands/",
+  "bio_language": "English",
+  "rating_boost": 0.0,
+  "description": "An indie music festival in Hilvarenbeek, Netherlands, featuring alternative, indie rock, and electronic music.",
+  "official_spotify_playlist": "https://open.spotify.com/playlist/2ClqlT8FIHuwI0oxUKHqTl?si=ECVe6VbETtqi-V4v3lDniQ",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/3aKy6IEpXtiyZzqaBQ0j16?si=e17fc38a617e4741",
+  "start_date": "2026-06-12",
+  "end_date": "2026-06-14",
+  "stages": []
+}

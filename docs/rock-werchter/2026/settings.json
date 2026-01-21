@@ -1,0 +1,14 @@
+{
+  "name": "Rock Werchter",
+  "base_url": "https://www.rockwerchter.be",
+  "lineup_url": "https://www.rockwerchter.be/en/line-up/a-z",
+  "artist_path": "/en/acts/",
+  "bio_language": "English",
+  "rating_boost": 0.0,
+  "description": "Belgium's largest annual rock music festival, held in Werchter since 1974, featuring major international artists.",
+  "official_spotify_playlist": "https://open.spotify.com/playlist/63I9phrPUwQMKKBIjj52mU?si=f90a4cd3fbd64f2d",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/3brJf9tiSKtvbg7jQ1MO0d",
+  "start_date": "2026-07-02",
+  "end_date": "2026-07-05",
+  "stages": []
+}
