@@ -2,7 +2,7 @@
   "festival": "alkmaarse-eigenste",
   "name": "Alkmaarse Eigenste",
   "year": 2026,
-  "generated_at": "2026-01-21T21:41:57.612317+00:00",
+  "generated_at": "2026-01-21T21:57:32.713379+00:00",
   "config_properties": {
     "name": "Alkmaarse Eigenste",
     "year": 2026,
@@ -105,5 +105,13 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "Alkmaarse Eigenste 2026 features 34 artists. Top genres include alternative, rock, pop. Average user rating: 8.65. The lineup includes 13 male, 10 female, with 2 artists of color."
+  "ai_profile": "**Alkmaarse Eigenste 2026: A Celebration of Homegrown Talent and Genre Diversity**\n\nAlkmaarse Eigenste 2026 is a vibrant showcase of musical artistry, featuring 34 talented performers, all proudly hailing from the Netherlands. The lineup represents a rich tapestry of genres, with a strong focus on alternative (7 artists) and rock (7 artists), while pop, indie rock, and singer-songwriter styles also shine through. The festival celebrates a diverse mix of sounds, from soulful melodies and dream pop to folk, reggae, and even experimental styles like loop station and alt-pop-noir, offering something for every music enthusiast.\n\nThe event highlights a commendable effort toward gender inclusion, with 10 female artists, 13 male artists, and a mix of bands and artists of unspecified gender. While there is still room to expand representation, the festival is moving toward a more balanced and inclusive lineup. Diversity of musical expression is also evident, with a blend of traditional and modern influences, from classic rock to meditative handpan performances, showcasing the uniqueness of Dutch music.\n\nAlkmaarse Eigenste 2026 is a true celebration of local talent and creative variety, bringing together well-known and emerging voices. With its eclectic mix of genres and a commitment to showcasing a wide range of musical styles, the festival promises an unforgettable experience for music lovers, all while championing the rich cultural and artistic heritage of the Netherlands.",
+  "stages": [
+    "Grote zaal",
+    "Kleine zaal",
+    "Bezemhok",
+    "Bus",
+    "Overloop",
+    "Sluis"
+  ]
 }
