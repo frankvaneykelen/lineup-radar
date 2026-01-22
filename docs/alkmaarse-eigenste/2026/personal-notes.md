@@ -8,7 +8,7 @@
 | Carousel               |   |  |
 | Days of Sway           | 7 | Nice 90s rock vibe, grey beard, multiple solo vocalists. Dinosaur Jr. melodic lines. Sample line: "there is more plastic in your face than in the ocean" |
 | Dear John              | 8 | Laurel Canyon, harmony, slide guitar |
-| Dentro                 |   |  |
+| Dansstudio Dentro      | - |  |
 | Dress Up Dolls         | 9 | Comeback. Daan Stam returns with his first band. |
 | Efvy                   | 8 | You've got to love a song about Lijn 239, the Hoorn Station to Medemblik Busstation bus line. |
 | Emily Wareing & Band   | 8 | Classy pop music |
