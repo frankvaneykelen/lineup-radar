@@ -129,18 +129,21 @@ $currentOperation = 0
 $successCount = 0
 $failureCount = 0
 $startTime = Get-Date
+$festivalCounter = 0
 
 # Process each festival
 foreach ($festival in $festivalsToProcess) {
     $festivalName = $festival.Name
     $festivalSlug = $festival.Slug
     $year = $festival.Year
+    $festivalCounter++
     
     $currentOperation++
     $percentComplete = [Math]::Min(100, [int](($currentOperation / $totalOperations) * 100))
     Write-Progress -Activity "Regenerating Festival Pages" -Status "Processing $festivalName $year ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
     
-    Write-Host "Processing: $festivalName $year..." -ForegroundColor Yellow
+    Write-Host "Processing: $festivalName $year... " -NoNewline -ForegroundColor Yellow
+    Write-Host "($("{0:D2}" -f $festivalCounter)/$("{0:D2}" -f $totalFestivals))" -ForegroundColor Cyan
     Write-Host "Festival slug: $festivalSlug" -ForegroundColor Gray
     Write-Host ""
     
@@ -312,6 +315,7 @@ try {
     # Check if command succeeded
     if ($LASTEXITCODE -eq 0) {
         Write-Host "✓ Successfully regenerated homepage" -ForegroundColor Green
+        Write-Host "  → docs/index.html" -ForegroundColor Gray
         $successCount++
     } else {
         Write-Host "✗ Failed to regenerate homepage" -ForegroundColor Red

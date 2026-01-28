@@ -10,5 +10,6 @@
   "spotify_playlist_id": "https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX",
   "start_date": "2026-02-21",
   "end_date": "2026-02-21",
-  "stages": []
+  "stages": [],
+  "archived": false
 }

@@ -68,6 +68,30 @@ def get_festival_start_date(slug: str, year: str) -> str:
     return '9999-12-31'
 
 
+def is_festival_archived(slug: str, year: str) -> bool:
+    """
+    Check if a festival is archived from its settings.json file.
+    
+    Returns:
+        True if archived, False otherwise
+    """
+    # Try to find the settings.json file
+    settings_path = Path(f"docs/{slug}/{year}/settings.json")
+    if not settings_path.exists():
+        # Fallback for scripts running from scripts directory
+        settings_path = Path(f"../docs/{slug}/{year}/settings.json")
+    
+    try:
+        if settings_path.exists():
+            with open(settings_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get('archived', False)
+    except (OSError, json.JSONDecodeError):
+        pass
+    
+    return False
+
+
 def generate_hamburger_menu(
     path_prefix: Literal["", "../../", "../../../"] = "../../",
     escaped: bool = False
@@ -95,6 +119,10 @@ def generate_hamburger_menu(
     for slug, config in FESTIVALS.items():
         # Skip festivals marked as hidden from navigation
         if config.get('hide_from_navigation', False):
+            continue
+        
+        # Skip archived festivals
+        if is_festival_archived(slug, YEAR):
             continue
         
         start_date = get_festival_start_date(slug, YEAR)
@@ -130,16 +158,20 @@ def generate_hamburger_menu(
                 f'</div>'
             )
     
-    # Charts and FAQ links
+    # Charts, FAQ, and Archive links
     lines.append(f'<div class={quote}festival-section{quote}>General</div>')
     charts_url = f'{path_prefix}charts.html'
     faq_url = f'{path_prefix}faq.html'
+    archive_url = f'{path_prefix}archive.html'
     
     lines.append(f'<a href={quote}{charts_url}{quote} class={quote}festival-year{quote}>')
     lines.append(f'<i class={quote}bi bi-bar-chart-fill{quote}></i> Charts')
     lines.append(f'</a>')
     lines.append(f'<a href={quote}{faq_url}{quote} class={quote}festival-year{quote}>')
     lines.append(f'<i class={quote}bi bi-question-circle{quote}></i> FAQ')
+    lines.append(f'</a>')
+    lines.append(f'<a href={quote}{archive_url}{quote} class={quote}festival-year{quote}>')
+    lines.append(f'<i class={quote}bi bi-archive{quote}></i> Archive')
     lines.append(f'</a>')
     
     return '\n'.join(lines)

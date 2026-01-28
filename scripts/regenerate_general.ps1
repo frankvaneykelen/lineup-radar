@@ -25,7 +25,7 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Track success/failure
-$totalOperations = 3  # homepage + charts + FAQ
+$totalOperations = 4  # homepage + archive + charts + FAQ
 $currentOperation = 0
 $successCount = 0
 $failureCount = 0
@@ -49,6 +49,7 @@ try {
     # Check if command succeeded
     if ($LASTEXITCODE -eq 0) {
         Write-Host "✓ Successfully regenerated homepage" -ForegroundColor Green
+        Write-Host "  → docs/index.html" -ForegroundColor Gray
         $successCount++
     } else {
         Write-Host "✗ Failed to regenerate homepage" -ForegroundColor Red
@@ -67,7 +68,44 @@ Write-Host ""
 Write-Host "----------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 
-# 2. Generate charts page
+# 2. Regenerate archive page
+$currentOperation++
+$percentComplete = [int](($currentOperation / $totalOperations) * 100)
+Write-Progress -Activity "Regenerating General Pages" -Status "Generating archive page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
+
+Write-Host "Regenerating archive page..." -ForegroundColor Yellow
+Write-Host ""
+
+try {
+    $command = "python scripts/generate_archive.py"
+    Write-Host "Running: $command" -ForegroundColor Gray
+    
+    # Execute and capture output
+    $output = & python scripts/generate_archive.py 2>&1
+    
+    # Check if command succeeded
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "✓ Successfully regenerated archive page" -ForegroundColor Green
+        Write-Host $output
+        $successCount++
+    } else {
+        Write-Host "✗ Failed to regenerate archive page" -ForegroundColor Red
+        Write-Host "Error output:" -ForegroundColor Red
+        Write-Host $output -ForegroundColor Red
+        $failureCount++
+    }
+}
+catch {
+    Write-Host "✗ Exception while regenerating archive page" -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    $failureCount++
+}
+
+Write-Host ""
+Write-Host "----------------------------------------" -ForegroundColor DarkGray
+Write-Host ""
+
+# 3. Generate charts page
 $currentOperation++
 $percentComplete = [int](($currentOperation / $totalOperations) * 100)
 Write-Progress -Activity "Regenerating General Pages" -Status "Generating charts page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete
@@ -104,7 +142,7 @@ Write-Host ""
 Write-Host "----------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 
-# 3. Generate FAQ page
+# 4. Generate FAQ page
 $currentOperation++
 $percentComplete = [int](($currentOperation / $totalOperations) * 100)
 Write-Progress -Activity "Regenerating General Pages" -Status "Generating FAQ page ($currentOperation of $totalOperations)" -PercentComplete $percentComplete

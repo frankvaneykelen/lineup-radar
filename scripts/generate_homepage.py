@@ -68,6 +68,71 @@ def find_festival_lineups(docs_dir: Path) -> List[dict]:
     return sorted(lineups, key=sort_key)
 
 
+def render_festival_card(lineup: dict) -> str:
+    """Render a festival card for the homepage."""
+    year = lineup['year']
+    
+    # Skip festivals marked as hidden from navigation
+    if FESTIVALS.get(lineup['festival'], {}).get('hide_from_navigation', False):
+        return ""
+        
+    # Get festival config for proper name and description
+    try:
+        config = get_festival_config(lineup['festival'], int(year))
+        festival_display = config.name
+        description = config.description
+    except:
+        # Fallback if config not found
+        festival_display = lineup['festival'].replace('-', ' ').title()
+        description = ""
+    
+    # Get festival dates from settings.json
+    festival_dates = "Dates TBA"
+    tagline = description or "Discover the lineup and artist details"
+    
+    settings_json = Path("docs") / lineup['festival'] / year / "settings.json"
+    try:
+        if settings_json.exists():
+            with open(settings_json, 'r', encoding='utf-8') as f:
+                settings_data = json.load(f)
+                start_date = settings_data.get('start_date')
+                end_date = settings_data.get('end_date')
+                
+                if start_date and end_date:
+                    start_dt = datetime.strptime(start_date, '%Y-%m-%d')
+                    end_dt = datetime.strptime(end_date, '%Y-%m-%d')
+                    if start_date == end_date:
+                        # Single day festival
+                        festival_dates = start_dt.strftime('%B %d, %Y')
+                    elif start_dt.month == end_dt.month:
+                        # Same month: "June 14-16, 2026"
+                        festival_dates = f"{start_dt.strftime('%B')} {start_dt.day}-{end_dt.day}, {year}"
+                    else:
+                        # Different months: "May 30 - June 1, 2026"
+                        festival_dates = f"{start_dt.strftime('%B %d')} - {end_dt.strftime('%B %d')}, {year}"
+                elif start_date:
+                    start_dt = datetime.strptime(start_date, '%Y-%m-%d')
+                    festival_dates = start_dt.strftime('%B %d, %Y')
+    except:
+        pass
+    
+    return f"""                                <div class="col-md-6 col-lg-4">
+                                    <div class="card h-100 shadow-sm">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title text-primary">{festival_display}</h5>
+                                            <p class="card-text mb-2">
+                                                <small class="text-muted"><i class="bi bi-calendar-event"></i> {festival_dates}</small>
+                                            </p>
+                                            <p class="card-text flex-grow-1">{tagline}</p>
+                                            <a href="{lineup['path']}" class="btn btn-primary mt-auto">
+                                                View Lineup <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+"""
+
+
 def generate_homepage(docs_dir: Path):
     """Generate the main archive index page."""
     lineups = find_festival_lineups(docs_dir)
@@ -158,80 +223,55 @@ def generate_homepage(docs_dir: Path):
         now = datetime.now()
         timestamp = now.strftime("%B %d, %Y at %I:%M %p")
     
-    # Group lineups by year for better organization
-    from itertools import groupby
+    # Separate lineups into upcoming and archived
+    upcoming_lineups = []
+    archived_lineups = []
     
-    for year, year_lineups in groupby(lineups, key=lambda x: x['year']):
-        year_lineups = list(year_lineups)
-        html += f"""                            <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #00d9ff;">{year}</h3>
+    for lineup in lineups:
+        settings_json = Path("docs") / lineup['festival'] / lineup['year'] / "settings.json"
+        is_archived = False
+        try:
+            if settings_json.exists():
+                with open(settings_json, 'r', encoding='utf-8') as f:
+                    settings_data = json.load(f)
+                    is_archived = settings_data.get('archived', False)
+        except (OSError, json.JSONDecodeError):
+            pass
+        
+        if is_archived:
+            archived_lineups.append(lineup)
+        else:
+            upcoming_lineups.append(lineup)
+    
+    # Render upcoming festivals section
+    if upcoming_lineups:
+        html += f"""                            <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #00d9ff;">Upcoming Festivals</h3>
                             <div class="row g-4">
 """
-        # Card-based layout for festivals
-        for lineup in year_lineups:
-            # Skip festivals marked as hidden from navigation
-            if FESTIVALS.get(lineup['festival'], {}).get('hide_from_navigation', False):
-                continue
-                
-            # Get festival config for proper name and description
-            try:
-                config = get_festival_config(lineup['festival'], int(year))
-                festival_display = config.name
-                description = config.description
-            except:
-                # Fallback if config not found
-                festival_display = lineup['festival'].replace('-', ' ').title()
-                description = ""
-            
-            # Get festival dates from settings.json
-            festival_dates = "Dates TBA"
-            tagline = description or "Discover the lineup and artist details"
-            
-            settings_json = Path("docs") / lineup['festival'] / year / "settings.json"
-            try:
-                if settings_json.exists():
-                    with open(settings_json, 'r', encoding='utf-8') as f:
-                        settings_data = json.load(f)
-                        start_date = settings_data.get('start_date')
-                        end_date = settings_data.get('end_date')
-                        
-                        if start_date and end_date:
-                            start_dt = datetime.strptime(start_date, '%Y-%m-%d')
-                            end_dt = datetime.strptime(end_date, '%Y-%m-%d')
-                            if start_date == end_date:
-                                # Single day festival
-                                festival_dates = start_dt.strftime('%B %d, %Y')
-                            elif start_dt.month == end_dt.month:
-                                # Same month: "June 14-16, 2026"
-                                festival_dates = f"{start_dt.strftime('%B')} {start_dt.day}-{end_dt.day}, {year}"
-                            else:
-                                # Different months: "May 30 - June 1, 2026"
-                                festival_dates = f"{start_dt.strftime('%B %d')} - {end_dt.strftime('%B %d')}, {year}"
-                        elif start_date:
-                            start_dt = datetime.strptime(start_date, '%Y-%m-%d')
-                            festival_dates = start_dt.strftime('%B %d, %Y')
-                        
-                        # Get tagline from about.json if available
-                        if about_data.get('tagline'):
-                            tagline = about_data['tagline']
-            except:
-                pass
-            
-            html += f"""                                <div class="col-md-6 col-lg-4">
-                                    <div class="card h-100 shadow-sm">
-                                        <div class="card-body d-flex flex-column">
-                                            <h5 class="card-title text-primary">{festival_display}</h5>
-                                            <p class="card-text mb-2">
-                                                <small class="text-muted"><i class="bi bi-calendar-event"></i> {festival_dates}</small>
-                                            </p>
-                                            <p class="card-text flex-grow-1">{tagline}</p>
-                                            <a href="{lineup['path']}" class="btn btn-primary mt-auto">
-                                                View Lineup <i class="bi bi-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-"""
+        for lineup in upcoming_lineups:
+            html += render_festival_card(lineup)
+        
         html += """                            </div>
+"""
+    
+    # Render archived festivals section
+    if archived_lineups:
+        html += f"""                            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: #888;">Past Festivals</h3>
+                            <p style="color: #aaa; margin-bottom: 1.5rem;">Browse our archive of past festival lineups.</p>
+                            <div class="row g-4">
+"""
+        # Limit to 6 most recent archived festivals on homepage
+        for lineup in archived_lineups[:6]:
+            html += render_festival_card(lineup)
+        
+        html += """                            </div>
+"""
+        if len(archived_lineups) > 6:
+            html += f"""                            <div class="text-center mt-4">
+                                <a href="archive.html" class="btn btn-outline-secondary">
+                                    <i class="bi bi-archive"></i> View All Archived Festivals ({len(archived_lineups)})
+                                </a>
+                            </div>
 """
     
     # Add Charts and FAQ buttons

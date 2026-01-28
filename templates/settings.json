@@ -10,5 +10,6 @@
   "spotify_playlist_id": "",
   "start_date": null,
   "end_date": null,
-  "stages": []
+  "stages": [],
+  "archived": false
 }
