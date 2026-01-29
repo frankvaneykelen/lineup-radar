@@ -10,6 +10,25 @@
   "spotify_playlist_id": "https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX",
   "start_date": "2026-02-21",
   "end_date": "2026-02-21",
-  "stages": [],
-  "archived": false
+  "stages": [
+    "Pandora",
+    "Hertz",
+    "Cloud Nine",
+    "Club Nine",
+    "Pandora Foyer",
+    "Park 6"
+  ],
+  "archived": false,
+  "scraper": {
+    "type": "tivoli-html",
+    "selectors": {
+      "accordion_container": "div.js-accordion.accordion",
+      "artist_name": "div.js-accordion-trigger.accordion__title h2",
+      "bio_container": "div.js-accordion-target.accordion__content.flow",
+      "bio_paragraphs": "p"
+    },
+    "filters": {
+      "exclude_keywords": ["u-pas", "park 6", "kunst-expo"]
+    }
+  }
 }

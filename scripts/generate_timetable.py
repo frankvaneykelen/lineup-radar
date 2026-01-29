@@ -167,14 +167,23 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
     granularity = 5  # 5-minute intervals
     time_slots = generate_time_slots(start_hour, end_hour, granularity)
     
-    # Stage colors (inspired by timetable.png)
+    # Stage colors - define colors for all festivals
     stage_colors = {
+        # Alkmaarse Eigenste
         "Grote zaal": "#FF6B6B",      # Red
         "Kleine zaal": "#4ECDC4",     # Teal
         "Bezemhok": "#95E1D3",        # Light teal
         "Bus": "#FFE66D",             # Yellow
         "Overloop": "#C7CEEA",        # Lavender
-        "Sluis": "#FF9A9E"            # Pink
+        "Sluis": "#FF9A9E",           # Pink
+        
+        # Footprints Festival (colors from official poster design)
+        "Pandora": "#FF8C42",         # Bright Orange
+        "Hertz": "#00D4FF",           # Cyan
+        "Cloud Nine": "#40E0D0",      # Turquoise
+        "Club Nine": "#FFD93D",       # Yellow
+        "Pandora Foyer": "#FF6B9D",   # Coral Pink
+        "Park 6": "#8B7FD6"           # Purple
     }
     
     # Get unique stages and sort them according to stages_order

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footprints Festival 2026 - Timetable</title>
+    <meta name="description" content="Festival timetable for Footprints Festival 2026">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../shared/favicon_16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../shared/favicon_32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../../shared/favicon_48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../shared/favicon_180x180.png">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <link rel="stylesheet" href="overrides.css">
+    
+    <meta property="og:title" content="Footprints Festival 2026 - Timetable">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frankvaneykelen.github.io/lineup-radar/footprints/2026/timetable.html">
+    
+    <style>
+        .timetable-container {
+            width: 100%;
+            max-width: 1900px;
+            margin: 0 auto;
+            overflow-x: auto;
+            padding: 20px;
+        }
+        
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 0.75rem;
+        }
+        
+        body.dark-mode .timetable {
+            background: #1a1a1a;
+        }
+        
+        .timetable th {
+            background: #333;
+            color: white;
+            padding: 8px 8px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            min-width: 120px;
+            border-left: 1px solid white;
+        }
+        
+        .timetable th.stage-header {
+            background: #222;
+            left: 0;
+            z-index: 11;
+            min-width: 120px;
+            max-width: 120px;
+            text-align: left;
+            padding-left: 12px;
+        }
+        
+        .timetable td {
+            border: 1px solid #ddd;
+            padding: 0;
+            vertical-align: top;
+            height: 90px;
+            position: relative;
+        }
+        
+        body.dark-mode .timetable td {
+            border-color: #444;
+        }
+        
+        .timetable td.stage-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 12px;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            min-width: 120px;
+            max-width: 120px;
+        }
+        
+        .timetable td.time-slot {
+            min-width: 20px;
+        }
+        
+        .performance {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            padding: 6px;
+            border-radius: 4px;
+            border: 2px solid rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        
+        .performance:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 100;
+            transform: scale(1.02);
+            transition: all 0.2s;
+        }
+        
+        .performance-artist {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+        
+        .performance-artist a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .performance-artist a:hover {
+            text-decoration: underline;
+        }
+        
+        .performance-time {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-bottom: 2px;
+        }
+        
+        .performance-tagline {
+            font-size: 0.7rem;
+            font-style: italic;
+            opacity: 0.75;
+            line-height: 1.1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        /* Timetable-specific styles */
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="artist-header lineup-header">
+            <div class="hamburger-menu">
+                <button id="hamburgerBtn" class="btn btn-outline-light hamburger-btn" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu-custom">
+                    <a href="../../index.html" class="home-link">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+<div class="festival-section">Grauzone Festival 2026</div>
+<div class="festival-links"><a href="../../grauzone/2026/index.html">Lineup</a> | <a href="../../grauzone/2026/about.html">About</a></div>
+<div class="festival-section">Footprints Festival 2026</div>
+<div class="festival-links"><a href="../../footprints/2026/index.html">Lineup</a> | <a href="../../footprints/2026/timetable.html">Timetable</a> | <a href="../../footprints/2026/about.html">About</a></div>
+<div class="festival-section">Rewire Festival 2026</div>
+<div class="festival-links"><a href="../../rewire/2026/index.html">Lineup</a> | <a href="../../rewire/2026/about.html">About</a></div>
+<div class="festival-section">Best Kept Secret 2026</div>
+<div class="festival-links"><a href="../../best-kept-secret/2026/index.html">Lineup</a> | <a href="../../best-kept-secret/2026/about.html">About</a></div>
+<div class="festival-section">Pinkpop 2026</div>
+<div class="festival-links"><a href="../../pinkpop/2026/index.html">Lineup</a> | <a href="../../pinkpop/2026/about.html">About</a></div>
+<div class="festival-section">Rock Werchter 2026</div>
+<div class="festival-links"><a href="../../rock-werchter/2026/index.html">Lineup</a> | <a href="../../rock-werchter/2026/about.html">About</a></div>
+<div class="festival-section">Down The Rabbit Hole 2026</div>
+<div class="festival-links"><a href="../../down-the-rabbit-hole/2026/index.html">Lineup</a> | <a href="../../down-the-rabbit-hole/2026/about.html">About</a></div>
+<div class="festival-section">Bospop 2026</div>
+<div class="festival-links"><a href="../../bospop/2026/index.html">Lineup</a> | <a href="../../bospop/2026/about.html">About</a></div>
+<div class="festival-section">General</div>
+<a href="../../charts.html" class="festival-year">
+<i class="bi bi-bar-chart-fill"></i> Charts
+</a>
+<a href="../../faq.html" class="festival-year">
+<i class="bi bi-question-circle"></i> FAQ
+</a>
+<a href="../../archive.html" class="festival-year">
+<i class="bi bi-archive"></i> Archive
+</a>
+                </div>
+            </div>
+            <div class="page-header-content">
+                <h1>Footprints Festival 2026 Timetable / Blokkenschema</h1>
+                <p class="festival-description" style="font-size: 0.95em; opacity: 0.85; margin-top: 0.5rem; max-width: 800px;">A curated discovery festival at TivoliVredenburg in Utrecht, showcasing emerging international artists across diverse genres.</p>
+                <p class="subtitle" style="font-size: 0.8em; opacity: 0.7; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                    <a href="index.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-list-ul"></i> Lineup</a>
+                    <a href="timetable.html" class="btn btn-primary btn-sm px-3 py-1 active" style="font-weight: 600;"><i class="bi bi-calendar3"></i> Timetable</a>
+                    <a href="about.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-info-circle"></i> About</a>
+                    <a href="https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;">🎪 Festival Site</a>
+                    <a href="https://open.spotify.com/playlist/2Qt2F5Mwnsd56LFfzagivS" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> Official Playlist</a>
+                    <a href="https://open.spotify.com/playlist/2lWvCj3mbc0Xn4uN7HeTNX" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>
+                </p>
+        </div>
+    </header>
+</div>
+
+<div class="timetable-container">
+    <table class="timetable">
+        <thead>
+            <tr>
+                <th class="stage-header">Stage</th>
+                    <th colspan="6">19:00</th>
+                    <th colspan="6">19:30</th>
+                    <th colspan="6">20:00</th>
+                    <th colspan="6">20:30</th>
+                    <th colspan="6">21:00</th>
+                    <th colspan="6">21:30</th>
+                    <th colspan="6">22:00</th>
+                    <th colspan="6">22:30</th>
+                    <th colspan="6">23:00</th>
+                    <th colspan="6">23:30</th>
+                    <th colspan="6">00:00</th>
+                    <th colspan="6">00:30</th>
+                    <th colspan="6">01:00</th>
+                    <th colspan="6">01:30</th>
+                    <th colspan="6">02:00</th>
+                </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="stage-name" style="background-color: #FF8C42;">Pandora</td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #FF8C42CC;">
+                            <div class="performance-artist"><a href="artists/don-melody-club.html">Don Melody Club</a></div>
+                            <div class="performance-time">19:00 - 19:45</div>
+                            <div class="performance-tagline">80s grooves meet psychedelic whimsy.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #FF8C42CC;">
+                            <div class="performance-artist"><a href="artists/niji.html">NIJI</a></div>
+                            <div class="performance-time">20:30 - 21:15</div>
+                            <div class="performance-tagline">Genre alchemist with soulful roots</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #FF8C42CC;">
+                            <div class="performance-artist"><a href="artists/gizmo-varillas.html">Gizmo Varillas</a></div>
+                            <div class="performance-time">22:00 - 22:45</div>
+                            <div class="performance-tagline">Global grooves, soulful storytelling.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="12" style="position: relative;">
+                        <div class="performance" style="background-color: #FF8C42CC;">
+                            <div class="performance-artist"><a href="artists/islandman.html">Islandman</a></div>
+                            <div class="performance-time">23:30 - 00:30</div>
+                            <div class="performance-tagline">Anatolian rhythms meet cosmic beats.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                </tr>
+                <tr>
+                    <td class="stage-name" style="background-color: #00D4FF;">Hertz</td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #00D4FFCC;">
+                            <div class="performance-artist"><a href="artists/hamraaz.html">Hamraaz</a></div>
+                            <div class="performance-time">19:45 - 20:30</div>
+                            <div class="performance-tagline">Where Armenian winds meet Persian strings</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #00D4FFCC;">
+                            <div class="performance-artist"><a href="artists/tomo-katsurada-jonny-nash.html">Tomo Katsurada &amp; Jonny Nash</a></div>
+                            <div class="performance-time">21:15 - 22:00</div>
+                            <div class="performance-tagline">A hypnotic collaboration blending Japanese psychedelic guitar and British ambient soundscapes.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="8" style="position: relative;">
+                        <div class="performance" style="background-color: #00D4FFCC;">
+                            <div class="performance-artist"><a href="artists/so-sorry.html">SO SORRY</a></div>
+                            <div class="performance-time">22:40 - 23:20</div>
+                            <div class="performance-tagline">Apologies rejected, grooves accepted.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                </tr>
+                <tr>
+                    <td class="stage-name" style="background-color: #40E0D0;">Cloud Nine</td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="8" style="position: relative;">
+                        <div class="performance" style="background-color: #40E0D0CC;">
+                            <div class="performance-artist"><a href="artists/keshavara.html">Keshavara</a></div>
+                            <div class="performance-time">19:40 - 20:20</div>
+                            <div class="performance-tagline">Global beats, boundless indie spirit</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="12" style="position: relative;">
+                        <div class="performance" style="background-color: #40E0D0CC;">
+                            <div class="performance-artist"><a href="artists/derya-yldrm-grup-simsek.html">Derya Yıldırım &amp; Grup Şimşek</a></div>
+                            <div class="performance-time">21:05 - 22:05</div>
+                            <div class="performance-tagline">Psychedelic echoes of Anatolian soul</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #40E0D0CC;">
+                            <div class="performance-artist"><a href="artists/sessa.html">Sessa</a></div>
+                            <div class="performance-time">22:50 - 23:35</div>
+                            <div class="performance-tagline">Whispered rhythms of Brazilian soul</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                </tr>
+                <tr>
+                    <td class="stage-name" style="background-color: #FFD93D;">Club Nine</td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="8" style="position: relative;">
+                        <div class="performance" style="background-color: #FFD93DCC;">
+                            <div class="performance-artist"><a href="artists/fastmusic.html">fastmusic</a></div>
+                            <div class="performance-time">20:20 - 21:00</div>
+                            <div class="performance-tagline">Desert blues meets electronic ghosts</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="8" style="position: relative;">
+                        <div class="performance" style="background-color: #FFD93DCC;">
+                            <div class="performance-artist"><a href="artists/halfpastseven.html">Halfpastseven</a></div>
+                            <div class="performance-time">22:05 - 22:45</div>
+                            <div class="performance-tagline">Amsterdam-based producer blending hiphop, house, and electronica with organic grooves.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #FFD93DCC;">
+                            <div class="performance-artist"><a href="artists/kaba-hyas.html">Kaba &amp; Hyas</a></div>
+                            <div class="performance-time">23:35 - 00:20</div>
+                            <div class="performance-tagline">French duo blending rap and electronic music with UK garage, house, drum &amp; bass, and 2step.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                </tr>
+                <tr>
+                    <td class="stage-name" style="background-color: #FF6B9D;">Pandora Foyer</td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot"></td>
+                    <td class="time-slot" colspan="9" style="position: relative;">
+                        <div class="performance" style="background-color: #FF6B9DCC;">
+                            <div class="performance-artist"><a href="artists/why-the-eye.html">Why The Eye?</a></div>
+                            <div class="performance-time">22:45 - 23:30</div>
+                            <div class="performance-tagline">Tribal beats meet alien frequencies.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot" colspan="12" style="position: relative;">
+                        <div class="performance" style="background-color: #FF6B9DCC;">
+                            <div class="performance-artist"><a href="artists/imad.html">Imad</a></div>
+                            <div class="performance-time">23:30 - 00:30</div>
+                        </div>
+                    </td>
+                    <td class="time-slot" colspan="12" style="position: relative;">
+                        <div class="performance" style="background-color: #FF6B9DCC;">
+                            <div class="performance-artist"><a href="artists/rizan-said.html">Rizan Said</a></div>
+                            <div class="performance-time">00:30 - 01:30</div>
+                            <div class="performance-tagline">Pioneering the modern dabke sound with hypnotic keyboards and electrifying rhythms.</div>
+                        </div>
+                    </td>
+                    <td class="time-slot" colspan="6" style="position: relative;">
+                        <div class="performance" style="background-color: #FF6B9DCC;">
+                            <div class="performance-artist"><a href="artists/imad.html">Imad</a></div>
+                            <div class="performance-time">01:30 - 02:00</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                </tr>
+                <tr>
+                    <td class="stage-name" style="background-color: #8B7FD6;">Park 6</td>
+                    <td class="time-slot" colspan="30" style="position: relative;">
+                        <div class="performance" style="background-color: #8B7FD6CC;">
+                            <div class="performance-artist"><a href="artists/deodaat-b2b-irma.html">Deodaat B2B Irma</a></div>
+                            <div class="performance-time">19:00 - 21:30</div>
+                        </div>
+                    </td>
+                    <td class="time-slot" colspan="54" style="position: relative;">
+                        <div class="performance" style="background-color: #8B7FD6CC;">
+                            <div class="performance-artist"><a href="artists/bankra-bike-soundsystem.html">Bankra Bike Soundsystem</a></div>
+                            <div class="performance-time">21:30 - 02:00</div>
+                        </div>
+                    </td>
+                    <td class="time-slot"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="../../shared/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

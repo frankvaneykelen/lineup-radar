@@ -53,6 +53,15 @@ class UniversalFestivalScraper:
         self.festival_slug = festival_slug
         self.year = year
         self.festival_config = FESTIVALS.get(festival_slug, {})
+        
+        # Load scraper settings from settings.json if available
+        settings_path = Path(self.config.output_dir) / "settings.json"
+        self.scraper_settings = {}
+        if settings_path.exists():
+            import json
+            with open(settings_path, 'r', encoding='utf-8') as f:
+                settings = json.load(f)
+                self.scraper_settings = settings.get('scraper', {})
     
     def scrape(self) -> List[Dict]:
         """Main scraping method that routes to appropriate strategy."""
@@ -62,12 +71,14 @@ class UniversalFestivalScraper:
         # Custom scraper for Rewire
         if self.festival_slug == 'rewire':
             return self._scrape_rewire()
-        # Check for custom scraper configuration
-        scraper_type = self.festival_config.get('scraper_type', 'generic')
-        if scraper_type == 'best-kept-secret':
+        
+        # Check for scraper config in settings.json
+        scraper_type = self.scraper_settings.get('type', '')
+        
+        if scraper_type == 'tivoli-html':
+            return self._scrape_tivoli_html()
+        elif scraper_type == 'best-kept-secret' or self.festival_config.get('scraper_type') == 'best-kept-secret':
             return self._scrape_best_kept_secret()
-        elif scraper_type == 'tivoli-venue':
-            return self._scrape_tivoli_venue()
         else:
             return self._scrape_generic()
 
@@ -179,7 +190,7 @@ class UniversalFestivalScraper:
                 driver2.quit()
                 artists.append({
                     'Artist': name,
-                    'Day': day,
+                    'Date': day,
                     'Stage': '',
                     'Cancelled': '',
                     'AI Summary': '',
@@ -191,7 +202,7 @@ class UniversalFestivalScraper:
                     'Country': '',
                     'Bio': '',
                     'Website': '',
-                    'Spotify': '',
+                    'Spotify Link': '',
                     'YouTube': '',
                     'Instagram': '',
                     'Number of People in Act': '',
@@ -307,7 +318,7 @@ class UniversalFestivalScraper:
             artists.append({
                 'Artist': artist_name,
                 'Tagline': tagline,
-                'Day': day,
+                'Date': day,
                 '_image_url': photo_url,
                 'Festival URL': full_url,
                 'Start Time': '',
@@ -317,7 +328,7 @@ class UniversalFestivalScraper:
                 'Country': '',
                 'Bio': '',
                 'Website': '',
-                'Spotify': '',
+                'Spotify Link': '',
                 'YouTube': '',
                 'Instagram': '',
                 'AI Summary': '',
@@ -336,17 +347,210 @@ class UniversalFestivalScraper:
         
         return artists
     
-    def _scrape_tivoli_venue(self) -> List[Dict]:
-        """Scrape TivoliVredenburg venue page (Footprints style)."""
+    def _scrape_tivoli_html(self) -> List[Dict]:
+        """Scrape TivoliVredenburg-style HTML page using selectors from settings.json."""
         url = self.config.lineup_url
         artists = []
+        soup = None
         
+        # Get selectors from settings
+        selectors = self.scraper_settings.get('selectors', {})
+        filters = self.scraper_settings.get('filters', {})
+        exclude_keywords = [kw.lower() for kw in filters.get('exclude_keywords', [])]
+        
+        # Try fetching from URL first
         try:
             print(f"\nFetching: {url}")
             response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
+            print(f"✓ Successfully fetched from URL")
             
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 403:
+                print(f"⚠ The venue page returned a 403 Forbidden error.")
+                
+                # Check for local HTML file
+                import os
+                from datetime import datetime
+                
+                # Look for any HTML file in current directory that might match
+                html_files = list(Path('.').glob('*.html'))
+                local_html = None
+                
+                # Try to find a file containing festival-related keywords
+                for html_file in html_files:
+                    if self.festival_slug in html_file.name.lower() or 'tivoli' in html_file.name.lower():
+                        local_html = html_file
+                        break
+                
+                if local_html and local_html.exists():
+                    # Get file modification date
+                    mod_time = os.path.getmtime(local_html)
+                    mod_date = datetime.fromtimestamp(mod_time)
+                    
+                    print(f"\n✓ Found local HTML file: {local_html}")
+                    print(f"  Last modified: {mod_date.strftime('%Y-%m-%d %H:%M:%S')}")
+                    print(f"\n❓ Do you want to download a newer version from the website?")
+                    print(f"   This may include updated artist information.")
+                    
+                    response = input("\nDownload new version? (y/n): ").strip().lower()
+                    
+                    if response == 'y':
+                        print(f"\n📥 Please download the page manually:")
+                        print(f"   1. Open {url} in your browser")
+                        print(f"   2. Right-click and select 'Save As...'")
+                        print(f"   3. Save the HTML file in: {Path.cwd()}")
+                        print(f"   4. Overwrite the existing file when prompted")
+                        
+                        input("\nPress Enter when you've saved the new file to continue...")
+                        
+                        # Reload the (now updated) file
+                        print(f"\n✓ Using updated local file")
+                    else:
+                        print(f"\n✓ Using existing local file")
+                    
+                    with open(local_html, 'r', encoding='utf-8') as f:
+                        soup = BeautifulSoup(f.read(), 'html.parser')
+                else:
+                    print(f"\n📥 No local HTML file found. Please download the page manually:")
+                    print(f"   1. Open {url} in your browser")
+                    print(f"   2. Right-click and select 'Save As...'")
+                    print(f"   3. Save the HTML file in: {Path.cwd()}")
+                    print(f"   4. Re-run: python scripts/scrape_festival.py {self.festival_slug} --year {self.year}\n")
+                    return artists
+            else:
+                print(f"⚠ Error scraping venue page: {e}")
+                return artists
+        
+        # Parse the HTML using selectors from settings
+        if soup:
+            accordion_selector = selectors.get('accordion_container', 'div.js-accordion.accordion')
+            name_selector = selectors.get('artist_name', 'div.js-accordion-trigger.accordion__title h2')
+            bio_container_selector = selectors.get('bio_container', 'div.js-accordion-target.accordion__content.flow')
+            bio_paragraph_selector = selectors.get('bio_paragraphs', 'p')
+            
+            accordions = soup.select(accordion_selector)
+            for accordion in accordions:
+                name_elem = accordion.select_one(name_selector)
+                if name_elem:
+                    artist_name = name_elem.text.strip()
+                    
+                    # Apply filters
+                    if any(keyword in artist_name.lower() for keyword in exclude_keywords):
+                        continue
+                    
+                    if artist_name:
+                        # Get bio from accordion content
+                        content_div = accordion.select_one(bio_container_selector)
+                        bio = ''
+                        if content_div:
+                            paragraphs = content_div.select(bio_paragraph_selector)
+                            bio = '\n\n'.join(p.get_text(strip=True) for p in paragraphs)
+                        
+                        artists.append({
+                            'Artist': artist_name,
+                            'Bio': bio,
+                            'Tagline': '',
+                            'Date': '',
+                            'Start Time': '',
+                            'End Time': '',
+                            'Stage': '',
+                            'Genre': '',
+                            'Country': '',
+                            'Website': '',
+                            'Spotify Link': '',
+                            'YouTube': '',
+                            'Instagram': '',
+                            'AI Summary': '',
+                            'AI Rating': '',
+                            'Number of People in Act': '',
+                            'Gender of Front Person': '',
+                            'Front Person of Color?': '',
+                            'Cancelled': '',
+                            'Festival URL': url,
+                            'Festival Bio (NL)': '',
+                            'Festival Bio (EN)': '',
+                            'Social Links': '',
+                            'Images Scraped': 'No'
+                        })
+            
+            print(f"✓ Found {len(artists)} artists with bios from HTML page")
+        
+        return artists
+        """Scrape TivoliVredenburg venue page (Footprints style)."""
+        url = self.config.lineup_url
+        artists = []
+        soup = None
+        
+        # Try fetching from URL first
+        try:
+            print(f"\nFetching: {url}")
+            response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
+            print(f"✓ Successfully fetched from URL")
+            
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 403:
+                print(f"⚠ The venue page returned a 403 Forbidden error.")
+                
+                # Check for local HTML file
+                import re
+                import os
+                from datetime import datetime
+                
+                # Look for any HTML file in current directory that might match
+                html_files = list(Path('.').glob('*.html'))
+                local_html = None
+                
+                # Try to find a file containing festival-related keywords
+                for html_file in html_files:
+                    if 'footprints' in html_file.name.lower() or 'tivoli' in html_file.name.lower():
+                        local_html = html_file
+                        break
+                
+                if local_html and local_html.exists():
+                    # Get file modification date
+                    mod_time = os.path.getmtime(local_html)
+                    mod_date = datetime.fromtimestamp(mod_time)
+                    
+                    print(f"\n✓ Found local HTML file: {local_html}")
+                    print(f"  Last modified: {mod_date.strftime('%Y-%m-%d %H:%M:%S')}")
+                    print(f"\n❓ Do you want to download a newer version from the website?")
+                    print(f"   This may include updated artist information.")
+                    
+                    response = input("\nDownload new version? (y/n): ").strip().lower()
+                    
+                    if response == 'y':
+                        print(f"\n📥 Please download the page manually:")
+                        print(f"   1. Open {url} in your browser")
+                        print(f"   2. Right-click and select 'Save As...'")
+                        print(f"   3. Save as 'Footprints Festival – TivoliVredenburg.html' in: {Path.cwd()}")
+                        print(f"   4. Overwrite the existing file when prompted")
+                        
+                        input("\nPress Enter when you've saved the new file to continue...")
+                        
+                        # Reload the (now updated) file
+                        print(f"\n✓ Using updated local file")
+                    else:
+                        print(f"\n✓ Using existing local file")
+                    
+                    with open(local_html, 'r', encoding='utf-8') as f:
+                        soup = BeautifulSoup(f.read(), 'html.parser')
+                else:
+                    print(f"\n📥 No local HTML file found. Please download the page manually:")
+                    print(f"   1. Open {url} in your browser")
+                    print(f"   2. Right-click and select 'Save As...'")
+                    print(f"   3. Save as 'Footprints Festival – TivoliVredenburg.html' in: {Path.cwd()}")
+                    print(f"   4. Re-run: python scripts/scrape_festival.py footprints --year 2026\n")
+                    return artists
+            else:
+                print(f"⚠ Error scraping venue page: {e}")
+                return artists
+        
+        # Parse the HTML (whether from URL or local file)
+        if soup:
             # Look for artist names and bios in accordion items
             accordions = soup.find_all('div', class_='js-accordion accordion')
             for accordion in accordions:
@@ -368,14 +572,14 @@ class UniversalFestivalScraper:
                                 'Artist': artist_name,
                                 'Bio': bio,
                                 'Tagline': '',
-                                'Day': '',
+                                'Date': '',
                                 'Start Time': '',
                                 'End Time': '',
                                 'Stage': '',
                                 'Genre': '',
                                 'Country': '',
                                 'Website': '',
-                                'Spotify': '',
+                                'Spotify Link': '',
                                 'YouTube': '',
                                 'Instagram': '',
                                 'AI Summary': '',
@@ -392,16 +596,6 @@ class UniversalFestivalScraper:
                             })
             
             print(f"✓ Found {len(artists)} artists with bios from venue page")
-            
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code == 403:
-                print(f"⚠ The venue page returned a 403 Forbidden error.")
-                print(f"\n📥 Please download the page manually:")
-                print(f"   1. Open {url} in your browser")
-                print(f"   2. Right-click and select 'Save As...'")
-                print(f"   3. Save in current directory and re-run script\n")
-            else:
-                print(f"⚠ Error scraping venue page: {e}")
         
         return artists
     
@@ -422,7 +616,7 @@ class UniversalFestivalScraper:
                 'Festival URL': artist.get('url', ''),
                 '_image_url': artist.get('image_url', ''),
                 'Tagline': '',
-                'Day': '',
+                'Date': '',
                 'Start Time': '',
                 'End Time': '',
                 'Stage': '',
@@ -430,7 +624,7 @@ class UniversalFestivalScraper:
                 'Country': '',
                 'Bio': '',
                 'Website': '',
-                'Spotify': '',
+                'Spotify Link': '',
                 'YouTube': '',
                 'Instagram': '',
                 'AI Summary': '',
@@ -498,21 +692,59 @@ class UniversalFestivalScraper:
         return artists
     
     def write_csv(self, artists: List[Dict]):
-        """Write artists to CSV file."""
+        """Write artists to CSV file, merging with existing data."""
         output_dir = Path(self.config.output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / f"{self.year}.csv"
         
         # Standard field order from template
         fieldnames = [
-            'Artist', 'Tagline', 'Day', 'Start Time', 'End Time', 'Stage',
+            'Artist', 'Tagline', 'Date', 'Start Time', 'End Time', 'Stage',
             'Genre', 'Country', 'Bio', 'Website', 
-            'Spotify', 'YouTube', 'Instagram',
+            'Spotify Link', 'YouTube', 'Instagram',
             'AI Summary', 'AI Rating', 
             'Number of People in Act', 'Gender of Front Person', 'Front Person of Color?',
             'Cancelled', 'Festival URL', 'Festival Bio (NL)', 'Festival Bio (EN)', 
             'Social Links', 'Images Scraped'
         ]
+        
+        # Read existing CSV if it exists
+        existing_artists = {}
+        if output_path.exists():
+            print(f"\n✓ Found existing CSV, merging data...")
+            with open(output_path, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    artist_name = row.get('Artist', '').strip()
+                    if artist_name:
+                        existing_artists[artist_name] = row
+        
+        # Merge: preserve existing data, only update scraped fields
+        merged_artists = {}
+        scraped_fields = {'Artist', 'Bio', 'Festival URL', 'Festival Bio (NL)', 'Festival Bio (EN)'}
+        
+        for artist in artists:
+            artist_name = artist.get('Artist', '').strip()
+            if not artist_name:
+                continue
+            
+            if artist_name in existing_artists:
+                # Merge: keep existing data, only update scraped fields
+                merged = existing_artists[artist_name].copy()
+                for field in scraped_fields:
+                    if field in artist and artist[field]:
+                        merged[field] = artist[field]
+                merged_artists[artist_name] = merged
+                print(f"  ✓ Updated: {artist_name}")
+            else:
+                # New artist
+                merged_artists[artist_name] = artist
+                print(f"  + Added: {artist_name}")
+        
+        # Add any existing artists not in new scrape
+        for artist_name, data in existing_artists.items():
+            if artist_name not in merged_artists:
+                merged_artists[artist_name] = data
         
         print(f"\nWriting to: {output_path}")
         
@@ -520,12 +752,13 @@ class UniversalFestivalScraper:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             
-            for artist in artists:
+            for artist_name, artist_data in merged_artists.items():
                 # Ensure all fields are present
-                row = {field: artist.get(field, '') for field in fieldnames}
+                row = {field: artist_data.get(field, '') for field in fieldnames}
                 writer.writerow(row)
         
-        print(f"✓ Wrote {len(artists)} artists to CSV")
+        new_count = sum(1 for name in merged_artists if name not in existing_artists)
+        print(f"✓ Wrote {len(merged_artists)} artists ({new_count} new, {len(existing_artists)} existing)")
         return output_path
 
 

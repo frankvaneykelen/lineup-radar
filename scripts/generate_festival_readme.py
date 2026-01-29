@@ -35,17 +35,11 @@ README_TEMPLATE = r"""# {festival_name} {year}
 
 ```powershell
 # Scrape the full lineup from the festival website
-python scripts/scrape_festival.py {slug} --year {year}
+{scrape_comment}python scripts/scrape_festival.py {slug} --year {year}
 
 # Fetch Spotify links for all artists
 python scripts/fetch_spotify_links.py --festival {slug} --year {year}
-
-# Fetch festival bios and social links
-python scripts/fetch_festival_data.py --festival {slug} --year {year}
-
-# Fetch bio for a single artist (useful for testing or updates)
-python scripts/fetch_festival_data.py --festival {slug} --year {year} --artist "Artist Name"
-
+{fetch_festival_data_commands}
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival {slug} --year {year} --ai
 
@@ -232,6 +226,11 @@ def get_additional_notes(config, csv_file):
         except Exception:
             pass
     
+    # Check if single-page lineup (no individual artist pages)
+    has_artist_pages = hasattr(config, 'artist_path') and config.artist_path and config.artist_path.strip() != ''
+    if not has_artist_pages:
+        notes.append("- **Single-Page Lineup**: This festival provides all artist information on a single webpage (no individual artist pages)")
+    
     # Add bio language note
     if hasattr(config, 'bio_language'):
         if config.bio_language == 'English':
@@ -268,6 +267,23 @@ def generate_readme(festival_slug, year):
             elif 'Utrecht' in desc:
                 location = 'TivoliVredenburg, Utrecht, Netherlands'
     
+    # Check if festival has individual artist pages
+    has_artist_pages = hasattr(config, 'artist_path') and config.artist_path and config.artist_path.strip() != ''
+    
+    # Build conditional sections
+    if has_artist_pages:
+        scrape_comment = ""
+        fetch_festival_data_commands = """
+# Fetch festival bios and social links from individual artist pages
+python scripts/fetch_festival_data.py --festival {slug} --year {year}
+
+# Fetch bio for a single artist (useful for testing or updates)
+python scripts/fetch_festival_data.py --festival {slug} --year {year} --artist "Artist Name"
+""".format(slug=config.slug, year=year)
+    else:
+        scrape_comment = "# This gets artist names and bios from the single festival page\n"
+        fetch_festival_data_commands = ""
+    
     readme_content = README_TEMPLATE.format(
         festival_name=config.name,
         year=year,
@@ -275,7 +291,9 @@ def generate_readme(festival_slug, year):
         location=location,
         slug=config.slug,
         csv_columns=get_csv_columns(csv_file),
-        additional_notes=get_additional_notes(config, csv_file)
+        additional_notes=get_additional_notes(config, csv_file),
+        scrape_comment=scrape_comment,
+        fetch_festival_data_commands=fetch_festival_data_commands
     )
     
     # Write README

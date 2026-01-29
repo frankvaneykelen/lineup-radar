@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="nl-NL">
+	<head>
+	<script data-cfasync="false">
+	const stored = localStorage.getItem('theme');
+	requestAnimationFrame(() => {
+		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		const theme = stored || (prefersDark ? 'dark' : 'light');
+		document.documentElement.setAttribute('data-theme', theme);
+		if (!stored) {
+			localStorage.setItem('theme', theme);
+		}
+	});
+</script>
+
+		<!-- Google Tag Manager -->
+		<script type="2ff1531ee1d9e512eadf9286-text/javascript">
+			(function (w, d, s, l, i) {
+				w[l] = w[l] || [];
+				w[l].push({
+					'gtm.start': new Date().getTime(),
+					event: 'gtm.js'
+				});
+				var f = d.getElementsByTagName(s)[0],
+					j = d.createElement(s),
+					dl = l != 'dataLayer' ? '&l=' + l : '';
+				j.async = true;
+				j.src =
+					'//www.googletagmanager.com/gtm.js?id=' + i + dl;
+				f.parentNode.insertBefore(j, f);
+			})(window, document, 'script', 'dataLayer', 'GTM-T5GD9T');
+		</script>
+		<!-- End Google Tag Manager -->
+
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" /><script type="2ff1531ee1d9e512eadf9286-text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam.nr-data.net"]},feature_flags:["soft_nav"]};(window.NREUM||(NREUM={})).loader_config={licenseKey:"NRJS-97305794f5117d9a583",applicationID:"1831161466",browserID:"1834985525"};;/*! For license information please see nr-loader-rum-1.308.0.min.js.LICENSE.txt */
+(()=>{var e,t,r={163:(e,t,r)=>{"use strict";r.d(t,{j:()=>E});var n=r(384),i=r(1741);var a=r(2555);r(860).K7.genericEvents;const s="experimental.resources",o="register",c=e=>{if(!e||"string"!=typeof e)return!1;try{document.createDocumentFragment().querySelector(e)}catch{return!1}return!0};var d=r(2614),u=r(944),l=r(8122);const f="[data-nr-mask]",g=e=>(0,l.a)(e,(()=>{const e={feature_flags:[],experimental:{allow_registered_children:!1,resources:!1},mask_selector:"*",block_selector:"[data-nr-block]",mask_input_options:{color:!1,date:!1,"datetime-local":!1,email:!1,month:!1,number:!1,range:!1,search:!1,tel:!1,text:!1,time:!1,url:!1,week:!1,textarea:!1,select:!1,password:!0}};return{ajax:{deny_list:void 0,block_internal:!0,enabled:!0,autoStart:!0},api:{get allow_registered_children(){return e.feature_flags.includes(o)||e.experimental.allow_registered_children},set allow_registered_children(t){e.experimental.allow_registered_children=t},duplicate_registered_data:!1},browser_consent_mode:{enabled:!1},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},get feature_flags(){return e.feature_flags},set feature_flags(t){e.feature_flags=t},generic_events:{enabled:!0,autoStart:!0},harvest:{interval:30},jserrors:{enabled:!0,autoStart:!0},logging:{enabled:!0,autoStart:!0},metrics:{enabled:!0,autoStart:!0},obfuscate:void 0,page_action:{enabled:!0},page_view_event:{enabled:!0,autoStart:!0},page_view_timing:{enabled:!0,autoStart:!0},performance:{capture_marks:!1,capture_measures:!1,capture_detail:!0,resources:{get enabled(){return e.feature_flags.includes(s)||e.experimental.resources},set enabled(t){e.experimental.resources=t},asset_types:[],first_party_domains:[],ignore_newrelic:!0}},privacy:{cookies_enabled:!0},proxy:{assets:void 0,beacon:void 0},session:{expiresMs:d.wk,inactiveMs:d.BB},session_replay:{autoStart:!0,enabled:!1,preload:!1,sampling_rate:10,error_sampling_rate:100,collect_fonts:!1,inline_images:!1,fix_stylesheets:!0,mask_all_inputs:!0,get mask_text_selector(){return e.mask_selector},set mask_text_selector(t){c(t)?e.mask_selector="".concat(t,",").concat(f):""===t||null===t?e.mask_selector=f:(0,u.R)(5,t)},get block_class(){return"nr-block"},get ignore_class(){return"nr-ignore"},get mask_text_class(){return"nr-mask"},get block_selector(){return e.block_selector},set block_selector(t){c(t)?e.block_selector+=",".concat(t):""!==t&&(0,u.R)(6,t)},get mask_input_options(){return e.mask_input_options},set mask_input_options(t){t&&"object"==typeof t?e.mask_input_options={...t,password:!0}:(0,u.R)(7,t)}},session_trace:{enabled:!0,autoStart:!0},soft_navigations:{enabled:!0,autoStart:!0},spa:{enabled:!0,autoStart:!0},ssl:void 0,user_actions:{enabled:!0,elementAttributes:["id","className","tagName","type"]}}})());var p=r(6154),m=r(9324);let h=0;const v={buildEnv:m.F3,distMethod:m.Xs,version:m.xv,originTime:p.WN},b={consented:!1},y={appMetadata:{},get consented(){return this.session?.state?.consent||b.consented},set consented(e){b.consented=e},customTransaction:void 0,denyList:void 0,disabled:!1,harvester:void 0,isolatedBacklog:!1,isRecording:!1,loaderType:void 0,maxBytes:3e4,obfuscator:void 0,onerror:void 0,ptid:void 0,releaseIds:{},session:void 0,timeKeeper:void 0,registeredEntities:[],jsAttributesMetadata:{bytes:0},get harvestCount(){return++h}},_=e=>{const t=(0,l.a)(e,y),r=Object.keys(v).reduce((e,t)=>(e[t]={value:v[t],writable:!1,configurable:!0,enumerable:!0},e),{});return Object.defineProperties(t,r)};var w=r(5701);const x=e=>{const t=e.startsWith("http");e+="/",r.p=t?e:"https://"+e};var R=r(7836),k=r(3241);const A={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0},S=e=>(0,l.a)(e,A),T=new Set;function E(e,t={},r,s){let{init:o,info:c,loader_config:d,runtime:u={},exposed:l=!0}=t;if(!c){const e=(0,n.pV)();o=e.init,c=e.info,d=e.loader_config}e.init=g(o||{}),e.loader_config=S(d||{}),c.jsAttributes??={},p.bv&&(c.jsAttributes.isWorker=!0),e.info=(0,a.D)(c);const f=e.init,m=[c.beacon,c.errorBeacon];T.has(e.agentIdentifier)||(f.proxy.assets&&(x(f.proxy.assets),m.push(f.proxy.assets)),f.proxy.beacon&&m.push(f.proxy.beacon),e.beacons=[...m],function(e){const t=(0,n.pV)();Object.getOwnPropertyNames(i.W.prototype).forEach(r=>{const n=i.W.prototype[r];if("function"!=typeof n||"constructor"===n)return;let a=t[r];e[r]&&!1!==e.exposed&&"micro-agent"!==e.runtime?.loaderType&&(t[r]=(...t)=>{const n=e[r](...t);return a?a(...t):n})})}(e),(0,n.US)("activatedFeatures",w.B)),u.denyList=[...f.ajax.deny_list||[],...f.ajax.block_internal?m:[]],u.ptid=e.agentIdentifier,u.loaderType=r,e.runtime=_(u),T.has(e.agentIdentifier)||(e.ee=R.ee.get(e.agentIdentifier),e.exposed=l,(0,k.W)({agentIdentifier:e.agentIdentifier,drained:!!w.B?.[e.agentIdentifier],type:"lifecycle",name:"initialize",feature:void 0,data:e.config})),T.add(e.agentIdentifier)}},384:(e,t,r)=>{"use strict";r.d(t,{NT:()=>s,US:()=>u,Zm:()=>o,bQ:()=>d,dV:()=>c,pV:()=>l});var n=r(6154),i=r(1863),a=r(1910);const s={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function o(){return n.gm.NREUM||(n.gm.NREUM={}),void 0===n.gm.newrelic&&(n.gm.newrelic=n.gm.NREUM),n.gm.NREUM}function c(){let e=o();return e.o||(e.o={ST:n.gm.setTimeout,SI:n.gm.setImmediate||n.gm.setInterval,CT:n.gm.clearTimeout,XHR:n.gm.XMLHttpRequest,REQ:n.gm.Request,EV:n.gm.Event,PR:n.gm.Promise,MO:n.gm.MutationObserver,FETCH:n.gm.fetch,WS:n.gm.WebSocket},(0,a.i)(...Object.values(e.o))),e}function d(e,t){let r=o();r.initializedAgents??={},t.initializedAt={ms:(0,i.t)(),date:new Date},r.initializedAgents[e]=t}function u(e,t){o()[e]=t}function l(){return function(){let e=o();const t=e.info||{};e.info={beacon:s.beacon,errorBeacon:s.errorBeacon,...t}}(),function(){let e=o();const t=e.init||{};e.init={...t}}(),c(),function(){let e=o();const t=e.loader_config||{};e.loader_config={...t}}(),o()}},782:(e,t,r)=>{"use strict";r.d(t,{T:()=>n});const n=r(860).K7.pageViewTiming},860:(e,t,r)=>{"use strict";r.d(t,{$J:()=>u,K7:()=>c,P3:()=>d,XX:()=>i,Yy:()=>o,df:()=>a,qY:()=>n,v4:()=>s});const n="events",i="jserrors",a="browser/blobs",s="rum",o="browser/logs",c={ajax:"ajax",genericEvents:"generic_events",jserrors:i,logging:"logging",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionReplay:"session_replay",sessionTrace:"session_trace",softNav:"soft_navigations",spa:"spa"},d={[c.pageViewEvent]:1,[c.pageViewTiming]:2,[c.metrics]:3,[c.jserrors]:4,[c.spa]:5,[c.ajax]:6,[c.sessionTrace]:7,[c.softNav]:8,[c.sessionReplay]:9,[c.logging]:10,[c.genericEvents]:11},u={[c.pageViewEvent]:s,[c.pageViewTiming]:n,[c.ajax]:n,[c.spa]:n,[c.softNav]:n,[c.metrics]:i,[c.jserrors]:i,[c.sessionTrace]:a,[c.sessionReplay]:a,[c.logging]:o,[c.genericEvents]:"ins"}},944:(e,t,r)=>{"use strict";r.d(t,{R:()=>i});var n=r(3241);function i(e,t){"function"==typeof console.debug&&(console.debug("New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(e),t),(0,n.W)({agentIdentifier:null,drained:null,type:"data",name:"warn",feature:"warn",data:{code:e,secondary:t}}))}},1687:(e,t,r)=>{"use strict";r.d(t,{Ak:()=>d,Ze:()=>f,x3:()=>u});var n=r(3241),i=r(7836),a=r(3606),s=r(860),o=r(2646);const c={};function d(e,t){const r={staged:!1,priority:s.P3[t]||0};l(e),c[e].get(t)||c[e].set(t,r)}function u(e,t){e&&c[e]&&(c[e].get(t)&&c[e].delete(t),p(e,t,!1),c[e].size&&g(e))}function l(e){if(!e)throw new Error("agentIdentifier required");c[e]||(c[e]=new Map)}function f(e="",t="feature",r=!1){if(l(e),!e||!c[e].get(t)||r)return p(e,t);c[e].get(t).staged=!0,g(e)}function g(e){const t=Array.from(c[e]);t.every(([e,t])=>t.staged)&&(t.sort((e,t)=>e[1].priority-t[1].priority),t.forEach(([t])=>{c[e].delete(t),p(e,t)}))}function p(e,t,r=!0){const s=e?i.ee.get(e):i.ee,c=a.i.handlers;if(!s.aborted&&s.backlog&&c){if((0,n.W)({agentIdentifier:e,type:"lifecycle",name:"drain",feature:t}),r){const e=s.backlog[t],r=c[t];if(r){for(let t=0;e&&t<e.length;++t)m(e[t],r);Object.entries(r).forEach(([e,t])=>{Object.values(t||{}).forEach(t=>{t[0]?.on&&t[0]?.context()instanceof o.y&&t[0].on(e,t[1])})})}}s.isolatedBacklog||delete c[t],s.backlog[t]=null,s.emit("drain-"+t,[])}}function m(e,t){var r=e[1];Object.values(t[r]||{}).forEach(t=>{var r=e[0];if(t[0]===r){var n=t[1],i=e[3],a=e[2];n.apply(i,a)}})}},1738:(e,t,r)=>{"use strict";r.d(t,{U:()=>g,Y:()=>f});var n=r(3241),i=r(9908),a=r(1863),s=r(944),o=r(5701),c=r(3969),d=r(8362),u=r(860),l=r(4261);function f(e,t,r,a){const f=a||r;!f||f[e]&&f[e]!==d.d.prototype[e]||(f[e]=function(){(0,i.p)(c.xV,["API/"+e+"/called"],void 0,u.K7.metrics,r.ee),(0,n.W)({agentIdentifier:r.agentIdentifier,drained:!!o.B?.[r.agentIdentifier],type:"data",name:"api",feature:l.Pl+e,data:{}});try{return t.apply(this,arguments)}catch(e){(0,s.R)(23,e)}})}function g(e,t,r,n,s){const o=e.info;null===r?delete o.jsAttributes[t]:o.jsAttributes[t]=r,(s||null===r)&&(0,i.p)(l.Pl+n,[(0,a.t)(),t,r],void 0,"session",e.ee)}},1741:(e,t,r)=>{"use strict";r.d(t,{W:()=>a});var n=r(944),i=r(4261);class a{#e(e,...t){if(this[e]!==a.prototype[e])return this[e](...t);(0,n.R)(35,e)}addPageAction(e,t){return this.#e(i.hG,e,t)}register(e){return this.#e(i.eY,e)}recordCustomEvent(e,t){return this.#e(i.fF,e,t)}setPageViewName(e,t){return this.#e(i.Fw,e,t)}setCustomAttribute(e,t,r){return this.#e(i.cD,e,t,r)}noticeError(e,t){return this.#e(i.o5,e,t)}setUserId(e,t=!1){return this.#e(i.Dl,e,t)}setApplicationVersion(e){return this.#e(i.nb,e)}setErrorHandler(e){return this.#e(i.bt,e)}addRelease(e,t){return this.#e(i.k6,e,t)}log(e,t){return this.#e(i.$9,e,t)}start(){return this.#e(i.d3)}finished(e){return this.#e(i.BL,e)}recordReplay(){return this.#e(i.CH)}pauseReplay(){return this.#e(i.Tb)}addToTrace(e){return this.#e(i.U2,e)}setCurrentRouteName(e){return this.#e(i.PA,e)}interaction(e){return this.#e(i.dT,e)}wrapLogger(e,t,r){return this.#e(i.Wb,e,t,r)}measure(e,t){return this.#e(i.V1,e,t)}consent(e){return this.#e(i.Pv,e)}}},1863:(e,t,r)=>{"use strict";function n(){return Math.floor(performance.now())}r.d(t,{t:()=>n})},1910:(e,t,r)=>{"use strict";r.d(t,{i:()=>a});var n=r(944);const i=new Map;function a(...e){return e.every(e=>{if(i.has(e))return i.get(e);const t="function"==typeof e?e.toString():"",r=t.includes("[native code]"),a=t.includes("nrWrapper");return r||a||(0,n.R)(64,e?.name||t),i.set(e,r),r})}},2555:(e,t,r)=>{"use strict";r.d(t,{D:()=>o,f:()=>s});var n=r(384),i=r(8122);const a={beacon:n.NT.beacon,errorBeacon:n.NT.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0};function s(e){try{return!!e.licenseKey&&!!e.errorBeacon&&!!e.applicationID}catch(e){return!1}}const o=e=>(0,i.a)(e,a)},2614:(e,t,r)=>{"use strict";r.d(t,{BB:()=>s,H3:()=>n,g:()=>d,iL:()=>c,tS:()=>o,uh:()=>i,wk:()=>a});const n="NRBA",i="SESSION",a=144e5,s=18e5,o={STARTED:"session-started",PAUSE:"session-pause",RESET:"session-reset",RESUME:"session-resume",UPDATE:"session-update"},c={SAME_TAB:"same-tab",CROSS_TAB:"cross-tab"},d={OFF:0,FULL:1,ERROR:2}},2646:(e,t,r)=>{"use strict";r.d(t,{y:()=>n});class n{constructor(e){this.contextId=e}}},2843:(e,t,r)=>{"use strict";r.d(t,{G:()=>a,u:()=>i});var n=r(3878);function i(e,t=!1,r,i){(0,n.DD)("visibilitychange",function(){if(t)return void("hidden"===document.visibilityState&&e());e(document.visibilityState)},r,i)}function a(e,t,r){(0,n.sp)("pagehide",e,t,r)}},3241:(e,t,r)=>{"use strict";r.d(t,{W:()=>a});var n=r(6154);const i="newrelic";function a(e={}){try{n.gm.dispatchEvent(new CustomEvent(i,{detail:e}))}catch(e){}}},3606:(e,t,r)=>{"use strict";r.d(t,{i:()=>a});var n=r(9908);a.on=s;var i=a.handlers={};function a(e,t,r,a){s(a||n.d,i,e,t,r)}function s(e,t,r,i,a){a||(a="feature"),e||(e=n.d);var s=t[a]=t[a]||{};(s[r]=s[r]||[]).push([e,i])}},3878:(e,t,r)=>{"use strict";function n(e,t){return{capture:e,passive:!1,signal:t}}function i(e,t,r=!1,i){window.addEventListener(e,t,n(r,i))}function a(e,t,r=!1,i){document.addEventListener(e,t,n(r,i))}r.d(t,{DD:()=>a,jT:()=>n,sp:()=>i})},3969:(e,t,r)=>{"use strict";r.d(t,{TZ:()=>n,XG:()=>o,rs:()=>i,xV:()=>s,z_:()=>a});const n=r(860).K7.metrics,i="sm",a="cm",s="storeSupportabilityMetrics",o="storeEventMetrics"},4234:(e,t,r)=>{"use strict";r.d(t,{W:()=>a});var n=r(7836),i=r(1687);class a{constructor(e,t){this.agentIdentifier=e,this.ee=n.ee.get(e),this.featureName=t,this.blocked=!1}deregisterDrain(){(0,i.x3)(this.agentIdentifier,this.featureName)}}},4261:(e,t,r)=>{"use strict";r.d(t,{$9:()=>d,BL:()=>o,CH:()=>g,Dl:()=>_,Fw:()=>y,PA:()=>h,Pl:()=>n,Pv:()=>k,Tb:()=>l,U2:()=>a,V1:()=>R,Wb:()=>x,bt:()=>b,cD:()=>v,d3:()=>w,dT:()=>c,eY:()=>p,fF:()=>f,hG:()=>i,k6:()=>s,nb:()=>m,o5:()=>u});const n="api-",i="addPageAction",a="addToTrace",s="addRelease",o="finished",c="interaction",d="log",u="noticeError",l="pauseReplay",f="recordCustomEvent",g="recordReplay",p="register",m="setApplicationVersion",h="setCurrentRouteName",v="setCustomAttribute",b="setErrorHandler",y="setPageViewName",_="setUserId",w="start",x="wrapLogger",R="measure",k="consent"},5289:(e,t,r)=>{"use strict";r.d(t,{GG:()=>s,Qr:()=>c,sB:()=>o});var n=r(3878),i=r(6389);function a(){return"undefined"==typeof document||"complete"===document.readyState}function s(e,t){if(a())return e();const r=(0,i.J)(e),s=setInterval(()=>{a()&&(clearInterval(s),r())},500);(0,n.sp)("load",r,t)}function o(e){if(a())return e();(0,n.DD)("DOMContentLoaded",e)}function c(e){if(a())return e();(0,n.sp)("popstate",e)}},5607:(e,t,r)=>{"use strict";r.d(t,{W:()=>n});const n=(0,r(9566).bz)()},5701:(e,t,r)=>{"use strict";r.d(t,{B:()=>a,t:()=>s});var n=r(3241);const i=new Set,a={};function s(e,t){const r=t.agentIdentifier;a[r]??={},e&&"object"==typeof e&&(i.has(r)||(t.ee.emit("rumresp",[e]),a[r]=e,i.add(r),(0,n.W)({agentIdentifier:r,loaded:!0,drained:!0,type:"lifecycle",name:"load",feature:void 0,data:e})))}},6154:(e,t,r)=>{"use strict";r.d(t,{OF:()=>c,RI:()=>i,WN:()=>u,bv:()=>a,eN:()=>l,gm:()=>s,mw:()=>o,sb:()=>d});var n=r(1863);const i="undefined"!=typeof window&&!!window.document,a="undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis.navigator instanceof WorkerNavigator),s=i?window:"undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis),o=Boolean("hidden"===s?.document?.visibilityState),c=/iPad|iPhone|iPod/.test(s.navigator?.userAgent),d=c&&"undefined"==typeof SharedWorker,u=((()=>{const e=s.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);Array.isArray(e)&&e.length>=2&&e[1]})(),Date.now()-(0,n.t)()),l=()=>"undefined"!=typeof PerformanceNavigationTiming&&s?.performance?.getEntriesByType("navigation")?.[0]?.responseStart},6389:(e,t,r)=>{"use strict";function n(e,t=500,r={}){const n=r?.leading||!1;let i;return(...r)=>{n&&void 0===i&&(e.apply(this,r),i=setTimeout(()=>{i=clearTimeout(i)},t)),n||(clearTimeout(i),i=setTimeout(()=>{e.apply(this,r)},t))}}function i(e){let t=!1;return(...r)=>{t||(t=!0,e.apply(this,r))}}r.d(t,{J:()=>i,s:()=>n})},6630:(e,t,r)=>{"use strict";r.d(t,{T:()=>n});const n=r(860).K7.pageViewEvent},7699:(e,t,r)=>{"use strict";r.d(t,{It:()=>a,KC:()=>o,No:()=>i,qh:()=>s});var n=r(860);const i=16e3,a=1e6,s="SESSION_ERROR",o={[n.K7.logging]:!0,[n.K7.genericEvents]:!1,[n.K7.jserrors]:!1,[n.K7.ajax]:!1}},7836:(e,t,r)=>{"use strict";r.d(t,{P:()=>o,ee:()=>c});var n=r(384),i=r(8990),a=r(2646),s=r(5607);const o="nr@context:".concat(s.W),c=function e(t,r){var n={},s={},u={},l=!1;try{l=16===r.length&&d.initializedAgents?.[r]?.runtime.isolatedBacklog}catch(e){}var f={on:p,addEventListener:p,removeEventListener:function(e,t){var r=n[e];if(!r)return;for(var i=0;i<r.length;i++)r[i]===t&&r.splice(i,1)},emit:function(e,r,n,i,a){!1!==a&&(a=!0);if(c.aborted&&!i)return;t&&a&&t.emit(e,r,n);var o=g(n);m(e).forEach(e=>{e.apply(o,r)});var d=v()[s[e]];d&&d.push([f,e,r,o]);return o},get:h,listeners:m,context:g,buffer:function(e,t){const r=v();if(t=t||"feature",f.aborted)return;Object.entries(e||{}).forEach(([e,n])=>{s[n]=t,t in r||(r[t]=[])})},abort:function(){f._aborted=!0,Object.keys(f.backlog).forEach(e=>{delete f.backlog[e]})},isBuffering:function(e){return!!v()[s[e]]},debugId:r,backlog:l?{}:t&&"object"==typeof t.backlog?t.backlog:{},isolatedBacklog:l};return Object.defineProperty(f,"aborted",{get:()=>{let e=f._aborted||!1;return e||(t&&(e=t.aborted),e)}}),f;function g(e){return e&&e instanceof a.y?e:e?(0,i.I)(e,o,()=>new a.y(o)):new a.y(o)}function p(e,t){n[e]=m(e).concat(t)}function m(e){return n[e]||[]}function h(t){return u[t]=u[t]||e(f,t)}function v(){return f.backlog}}(void 0,"globalEE"),d=(0,n.Zm)();d.ee||(d.ee=c)},8122:(e,t,r)=>{"use strict";r.d(t,{a:()=>i});var n=r(944);function i(e,t){try{if(!e||"object"!=typeof e)return(0,n.R)(3);if(!t||"object"!=typeof t)return(0,n.R)(4);const r=Object.create(Object.getPrototypeOf(t),Object.getOwnPropertyDescriptors(t)),a=0===Object.keys(r).length?e:r;for(let s in a)if(void 0!==e[s])try{if(null===e[s]){r[s]=null;continue}Array.isArray(e[s])&&Array.isArray(t[s])?r[s]=Array.from(new Set([...e[s],...t[s]])):"object"==typeof e[s]&&"object"==typeof t[s]?r[s]=i(e[s],t[s]):r[s]=e[s]}catch(e){r[s]||(0,n.R)(1,e)}return r}catch(e){(0,n.R)(2,e)}}},8362:(e,t,r)=>{"use strict";r.d(t,{d:()=>a});var n=r(9566),i=r(1741);class a extends i.W{agentIdentifier=(0,n.LA)(16)}},8374:(e,t,r)=>{r.nc=(()=>{try{return document?.currentScript?.nonce}catch(e){}return""})()},8990:(e,t,r)=>{"use strict";r.d(t,{I:()=>i});var n=Object.prototype.hasOwnProperty;function i(e,t,r){if(n.call(e,t))return e[t];var i=r();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},9324:(e,t,r)=>{"use strict";r.d(t,{F3:()=>i,Xs:()=>a,xv:()=>n});const n="1.308.0",i="PROD",a="CDN"},9566:(e,t,r)=>{"use strict";r.d(t,{LA:()=>o,bz:()=>s});var n=r(6154);const i="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";function a(e,t){return e?15&e[t]:16*Math.random()|0}function s(){const e=n.gm?.crypto||n.gm?.msCrypto;let t,r=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(30))),i.split("").map(e=>"x"===e?a(t,r++).toString(16):"y"===e?(3&a()|8).toString(16):e).join("")}function o(e){const t=n.gm?.crypto||n.gm?.msCrypto;let r,i=0;t&&t.getRandomValues&&(r=t.getRandomValues(new Uint8Array(e)));const s=[];for(var o=0;o<e;o++)s.push(a(r,i++).toString(16));return s.join("")}},9908:(e,t,r)=>{"use strict";r.d(t,{d:()=>n,p:()=>i});var n=r(7836).ee.get("handle");function i(e,t,r,i,a){a?(a.buffer([e],i),a.emit(e,t,r)):(n.buffer([e],i),n.emit(e,t,r))}}},n={};function i(e){var t=n[e];if(void 0!==t)return t.exports;var a=n[e]={exports:{}};return r[e](a,a.exports,i),a.exports}i.m=r,i.d=(e,t)=>{for(var r in t)i.o(t,r)&&!i.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},i.f={},i.e=e=>Promise.all(Object.keys(i.f).reduce((t,r)=>(i.f[r](e,t),t),[])),i.u=e=>"nr-rum-1.308.0.min.js",i.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),e={},t="NRBA-1.308.0.PROD:",i.l=(r,n,a,s)=>{if(e[r])e[r].push(n);else{var o,c;if(void 0!==a)for(var d=document.getElementsByTagName("script"),u=0;u<d.length;u++){var l=d[u];if(l.getAttribute("src")==r||l.getAttribute("data-webpack")==t+a){o=l;break}}if(!o){c=!0;var f={296:"sha512-+MIMDsOcckGXa1EdWHqFNv7P+JUkd5kQwCBr3KE6uCvnsBNUrdSt4a/3/L4j4TxtnaMNjHpza2/erNQbpacJQA=="};(o=document.createElement("script")).charset="utf-8",i.nc&&o.setAttribute("nonce",i.nc),o.setAttribute("data-webpack",t+a),o.src=r,0!==o.src.indexOf(window.location.origin+"/")&&(o.crossOrigin="anonymous"),f[s]&&(o.integrity=f[s])}e[r]=[n];var g=(t,n)=>{o.onerror=o.onload=null,clearTimeout(p);var i=e[r];if(delete e[r],o.parentNode&&o.parentNode.removeChild(o),i&&i.forEach(e=>e(n)),t)return t(n)},p=setTimeout(g.bind(null,void 0,{type:"timeout",target:o}),12e4);o.onerror=g.bind(null,o.onerror),o.onload=g.bind(null,o.onload),c&&document.head.appendChild(o)}},i.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.p="https://js-agent.newrelic.com/",(()=>{var e={374:0,840:0};i.f.j=(t,r)=>{var n=i.o(e,t)?e[t]:void 0;if(0!==n)if(n)r.push(n[2]);else{var a=new Promise((r,i)=>n=e[t]=[r,i]);r.push(n[2]=a);var s=i.p+i.u(t),o=new Error;i.l(s,r=>{if(i.o(e,t)&&(0!==(n=e[t])&&(e[t]=void 0),n)){var a=r&&("load"===r.type?"missing":r.type),s=r&&r.target&&r.target.src;o.message="Loading chunk "+t+" failed: ("+a+": "+s+")",o.name="ChunkLoadError",o.type=a,o.request=s,n[1](o)}},"chunk-"+t,t)}};var t=(t,r)=>{var n,a,[s,o,c]=r,d=0;if(s.some(t=>0!==e[t])){for(n in o)i.o(o,n)&&(i.m[n]=o[n]);if(c)c(i)}for(t&&t(r);d<s.length;d++)a=s[d],i.o(e,a)&&e[a]&&e[a][0](),e[a]=0},r=self["webpackChunk:NRBA-1.308.0.PROD"]=self["webpackChunk:NRBA-1.308.0.PROD"]||[];r.forEach(t.bind(null,0)),r.push=t.bind(null,r.push.bind(r))})(),(()=>{"use strict";i(8374);var e=i(8362),t=i(860);const r=Object.values(t.K7);var n=i(163);var a=i(9908),s=i(1863),o=i(4261),c=i(1738);var d=i(1687),u=i(4234),l=i(5289),f=i(6154),g=i(944),p=i(384);const m=e=>f.RI&&!0===e?.privacy.cookies_enabled;function h(e){return!!(0,p.dV)().o.MO&&m(e)&&!0===e?.session_trace.enabled}var v=i(6389),b=i(7699);class y extends u.W{constructor(e,t){super(e.agentIdentifier,t),this.agentRef=e,this.abortHandler=void 0,this.featAggregate=void 0,this.loadedSuccessfully=void 0,this.onAggregateImported=new Promise(e=>{this.loadedSuccessfully=e}),this.deferred=Promise.resolve(),!1===e.init[this.featureName].autoStart?this.deferred=new Promise((t,r)=>{this.ee.on("manual-start-all",(0,v.J)(()=>{(0,d.Ak)(e.agentIdentifier,this.featureName),t()}))}):(0,d.Ak)(e.agentIdentifier,t)}importAggregator(e,t,r={}){if(this.featAggregate)return;const n=async()=>{let n;await this.deferred;try{if(m(e.init)){const{setupAgentSession:t}=await i.e(296).then(i.bind(i,3305));n=t(e)}}catch(e){(0,g.R)(20,e),this.ee.emit("internal-error",[e]),(0,a.p)(b.qh,[e],void 0,this.featureName,this.ee)}try{if(!this.#t(this.featureName,n,e.init))return(0,d.Ze)(this.agentIdentifier,this.featureName),void this.loadedSuccessfully(!1);const{Aggregate:i}=await t();this.featAggregate=new i(e,r),e.runtime.harvester.initializedAggregates.push(this.featAggregate),this.loadedSuccessfully(!0)}catch(e){(0,g.R)(34,e),this.abortHandler?.(),(0,d.Ze)(this.agentIdentifier,this.featureName,!0),this.loadedSuccessfully(!1),this.ee&&this.ee.abort()}};f.RI?(0,l.GG)(()=>n(),!0):n()}#t(e,r,n){if(this.blocked)return!1;switch(e){case t.K7.sessionReplay:return h(n)&&!!r;case t.K7.sessionTrace:return!!r;default:return!0}}}var _=i(6630),w=i(2614),x=i(3241);class R extends y{static featureName=_.T;constructor(e){var t;super(e,_.T),this.setupInspectionEvents(e.agentIdentifier),t=e,(0,c.Y)(o.Fw,function(e,r){"string"==typeof e&&("/"!==e.charAt(0)&&(e="/"+e),t.runtime.customTransaction=(r||"http://custom.transaction")+e,(0,a.p)(o.Pl+o.Fw,[(0,s.t)()],void 0,void 0,t.ee))},t),this.importAggregator(e,()=>i.e(296).then(i.bind(i,3943)))}setupInspectionEvents(e){const t=(t,r)=>{t&&(0,x.W)({agentIdentifier:e,timeStamp:t.timeStamp,loaded:"complete"===t.target.readyState,type:"window",name:r,data:t.target.location+""})};(0,l.sB)(e=>{t(e,"DOMContentLoaded")}),(0,l.GG)(e=>{t(e,"load")}),(0,l.Qr)(e=>{t(e,"navigate")}),this.ee.on(w.tS.UPDATE,(t,r)=>{(0,x.W)({agentIdentifier:e,type:"lifecycle",name:"session",data:r})})}}class k extends e.d{constructor(e){var t;(super(),f.gm)?(this.features={},(0,p.bQ)(this.agentIdentifier,this),this.desiredFeatures=new Set(e.features||[]),this.desiredFeatures.add(R),(0,n.j)(this,e,e.loaderType||"agent"),t=this,(0,c.Y)(o.cD,function(e,r,n=!1){if("string"==typeof e){if(["string","number","boolean"].includes(typeof r)||null===r)return(0,c.U)(t,e,r,o.cD,n);(0,g.R)(40,typeof r)}else(0,g.R)(39,typeof e)},t),function(e){(0,c.Y)(o.Dl,function(t,r=!1){if("string"!=typeof t&&null!==t)return void(0,g.R)(41,typeof t);const n=e.info.jsAttributes["enduser.id"];r&&null!=n&&n!==t?(0,a.p)(o.Pl+"setUserIdAndResetSession",[t],void 0,"session",e.ee):(0,c.U)(e,"enduser.id",t,o.Dl,!0)},e)}(this),function(e){(0,c.Y)(o.nb,function(t){if("string"==typeof t||null===t)return(0,c.U)(e,"application.version",t,o.nb,!1);(0,g.R)(42,typeof t)},e)}(this),function(e){(0,c.Y)(o.d3,function(){e.ee.emit("manual-start-all")},e)}(this),function(e){(0,c.Y)(o.Pv,function(t=!0){if("boolean"==typeof t){if((0,a.p)(o.Pl+o.Pv,[t],void 0,"session",e.ee),e.runtime.consented=t,t){const t=e.features.page_view_event;t.onAggregateImported.then(e=>{const r=t.featAggregate;e&&!r.sentRum&&r.sendRum()})}}else(0,g.R)(65,typeof t)},e)}(this),this.run()):(0,g.R)(21)}get config(){return{info:this.info,init:this.init,loader_config:this.loader_config,runtime:this.runtime}}get api(){return this}run(){try{const e=function(e){const t={};return r.forEach(r=>{t[r]=!!e[r]?.enabled}),t}(this.init),n=[...this.desiredFeatures];n.sort((e,r)=>t.P3[e.featureName]-t.P3[r.featureName]),n.forEach(r=>{if(!e[r.featureName]&&r.featureName!==t.K7.pageViewEvent)return;if(r.featureName===t.K7.spa)return void(0,g.R)(67);const n=function(e){switch(e){case t.K7.ajax:return[t.K7.jserrors];case t.K7.sessionTrace:return[t.K7.ajax,t.K7.pageViewEvent];case t.K7.sessionReplay:return[t.K7.sessionTrace];case t.K7.pageViewTiming:return[t.K7.pageViewEvent];default:return[]}}(r.featureName).filter(e=>!(e in this.features));n.length>0&&(0,g.R)(36,{targetFeature:r.featureName,missingDependencies:n}),this.features[r.featureName]=new r(this)})}catch(e){(0,g.R)(22,e);for(const e in this.features)this.features[e].abortHandler?.();const t=(0,p.Zm)();delete t.initializedAgents[this.agentIdentifier]?.features,delete this.sharedAggregator;return t.ee.get(this.agentIdentifier).abort(),!1}}}var A=i(2843),S=i(782);class T extends y{static featureName=S.T;constructor(e){super(e,S.T),f.RI&&((0,A.u)(()=>(0,a.p)("docHidden",[(0,s.t)()],void 0,S.T,this.ee),!0),(0,A.G)(()=>(0,a.p)("winPagehide",[(0,s.t)()],void 0,S.T,this.ee)),this.importAggregator(e,()=>i.e(296).then(i.bind(i,2117))))}}var E=i(3969);class I extends y{static featureName=E.TZ;constructor(e){super(e,E.TZ),f.RI&&document.addEventListener("securitypolicyviolation",e=>{(0,a.p)(E.xV,["Generic/CSPViolation/Detected"],void 0,this.featureName,this.ee)}),this.importAggregator(e,()=>i.e(296).then(i.bind(i,9623)))}}new k({features:[R,T,I],loaderType:"lite"})})()})();</script>
+
+		<link rel="profile" href="https://gmpg.org/xfn/11" />
+		<link rel="pingback" href="https://www.tivolivredenburg.nl/wp/xmlrpc.php" />
+
+		<link rel="shortcut icon" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/favicon.ico">
+		<link rel="apple-touch-icon" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-precomposed.png">
+		<link rel="apple-touch-icon" sizes="57x57" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-120x120-precomposed.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/apple-touch-icon-144x144.png">
+		<link rel="icon" type="image/png" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/favicon-16x16.png" sizes="16x16">
+		<link rel="icon" type="image/png" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/favicon-160x160.png" sizes="160x160">
+		<link rel="icon" type="image/png" href="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/favicons/favicon-196x196.png" sizes="196x196">
+
+		<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO plugin v26.6 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Footprints Festival &#8211; TivoliVredenburg</title>
+	<meta property="og:locale" content="nl_NL" />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="TivoliVredenburg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@TiVre_Utrecht" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//cdn.onesignal.com' />
+<link rel='dns-prefetch' href='//player.vimeo.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style><style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='algolia-autocomplete-css' href='https://www.tivolivredenburg.nl/wp-content/plugins/wp-search-with-algolia/css/algolia-autocomplete.css?ver=2.11.1' type='text/css' media='all' />
+<link rel='stylesheet' id='styles-css' href='https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/min/project.css?ver=1764587768' type='text/css' media='all' />
+<link rel='stylesheet' id='font-css' href='https://fonts.googleapis.com/css?family=Montserrat%3A400%2C400i%2C700%2C800%7CRaleway%3A900&#038;subset=all&#038;ver=1' type='text/css' media='all' />
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/dist/vendor/react.min.js?ver=18.3.1.1" id="react-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1" id="react-dom-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/dist/escape-html.min.js?ver=6561a406d2d232a6fbd2" id="wp-escape-html-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/dist/element.min.js?ver=6a582b0c827fa25df3dd" id="wp-element-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" id="project-js-extra">
+/* <![CDATA[ */
+var customData = {"ajaxURL":"https://www.tivolivredenburg.nl/wp/wp-admin/admin-ajax.php","siteURL":"https://www.tivolivredenburg.nl/wp","themePath":"https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021","cookieFavourites":"tv_wishlist","cookieLastEvent":"last_event_page","cookieContactId":"tx_session","cookieAuth":"tx_auth"};
+//# sourceURL=project-js-extra
+/* ]]> */
+</script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/min/project.min.js?ver=1765894038" id="project-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js?ver=6.9" id="one-signal-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/js/vendor/jquery-ui.min.js?ver=1.11.4" id="jquery-ui-js"></script>
+<meta name="description" content="Footprints Festival. Avontuurlijk festival met opwindende ritmes met o.a. Gizmo Varillas, Islandman en Sessa. Zaterdag 21 februari 2026 in Pandora, Hertz, Cloud Nine, Club Nine, Studio Pandora, Park 6 in TivoliVredenburg in Utrecht." class="yoast-seo-meta-tag" />
+<link rel="canonical" href="https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026" class="yoast-seo-meta-tag" />
+<meta property="og:title" content="Footprints Festival - TivoliVredenburg" class="yoast-seo-meta-tag" />
+<meta property="og:description" content="Footprints Festival. Avontuurlijk festival met opwindende ritmes met o.a. Gizmo Varillas, Islandman en Sessa. Zaterdag 21 februari 2026 in Pandora, Hertz, Cloud Nine, Club Nine, Studio Pandora, Park 6 in TivoliVredenburg in Utrecht." class="yoast-seo-meta-tag" />
+<meta property="og:url" content="https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026" class="yoast-seo-meta-tag" />
+<meta property="og:image" content="https://tivolivredenburg.digital-asset.app/0dd98858c5" class="yoast-seo-meta-tag" />
+<meta property="og:image:width" content="2280" class="yoast-seo-meta-tag" />
+<meta property="og:image:height" content="1284" class="yoast-seo-meta-tag" />
+<meta property="og:image:type" content="image/jpg" class="yoast-seo-meta-tag" />
+<meta property="article:publisher" content="https://www.facebook.com/TivoliVredenburgUtrecht/" class="yoast-seo-meta-tag" />
+<meta property="article:modified_time" content="1970-01-01T00:00:00+00:00" class="yoast-seo-meta-tag" />
+<meta name="twitter:label1" content="Geschatte leestijd" class="yoast-seo-meta-tag" />
+<meta name="twitter:data1" content="1 minuut" class="yoast-seo-meta-tag" />
+		<style>
+			.algolia-search-highlight {
+				background-color: #fffbcc;
+				border-radius: 2px;
+				font-style: normal;
+			}
+		</style>
+		<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript>	</head>
+
+	<body class="blog wp-theme-tivoli-redesign-2021">
+
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5GD9T" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+
+				<header class="header js-header">
+	<div class="skip-link-container">
+      <a href="#main-content" class="skip-link">Ga naar hoofdinhoud</a>
+   </div>
+	<div class="header__content">
+		<div class="header__nav">
+	<ul class="header__nav-list">
+		<li class="header__nav-item">
+			<button class="menu-toggle  link  js-menu">
+				<div class="menu-toggle__open" >
+					<svg role="img" aria-label="icon-menu" width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g id="Icon/Menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<g id="Group-12" transform="translate(9.000000, 9.000000)" fill="#000000">
+								<rect id="Rectangle" x="0" y="0" width="14" height="2"></rect>
+								<rect id="Rectangle" x="0" y="6" width="14" height="2"></rect>
+								<rect id="Rectangle" x="0" y="12" width="14" height="2"></rect>
+							</g>
+						</g>
+					</svg>
+					<span>menu</span>
+				</div>
+				<div class="menu-toggle__close">
+					<svg role="img" aria-label="icon-menu-close" width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g id="Icon/Close" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<path d="M22.363961,8.22182541 L23.7781746,9.63603897 L17.4138254,15.9998254 L23.7781746,22.363961 L22.363961,23.7781746 L15.9998254,17.4138254 L9.63603897,23.7781746 L8.22182541,22.363961 L14.5858254,15.9998254 L8.22182541,9.63603897 L9.63603897,8.22182541 L15.9998254,14.5858254 L22.363961,8.22182541 Z" id="Combined-Shape" fill="#000000"></path>
+						</g>
+					</svg>
+					<span>sluiten</span>
+				</div>
+			</button>
+		</li>
+		<li class="header__nav-item header__nav-item--left-1">
+			<a href="https://www.tivolivredenburg.nl/agenda" class="link header__nav-item-link">
+				<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					<g id="Icon/Agenda" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+						<path d="M19.2,6 C19.6424,6 20,6.36654545 20,6.81818182 L19.999,7.636 L21.6,7.63636364 C22.9232,7.63636364 24,8.73763636 24,10.0909091 L24,21.5454545 C24,22.8987273 22.9232,24 21.6,24 L10.4,24 C9.0768,24 8,22.8987273 8,21.5454545 L8,10.0909091 C8,8.73763636 9.0768,7.63636364 10.4,7.63636364 L12,7.636 L12,6.81818182 C12,6.36654545 12.3576,6 12.8,6 C13.2424,6 13.6,6.36654545 13.6,6.81818182 L13.6,7.636 L18.399,7.636 L18.4,6.81818182 C18.4,6.36654545 18.7576,6 19.2,6 Z M22.4,14.181 L9.599,14.181 L9.6,21.5454545 C9.6,21.9962727 9.9584,22.3636364 10.4,22.3636364 L21.6,22.3636364 C22.0416,22.3636364 22.4,21.9962727 22.4,21.5454545 L22.4,14.181 Z M12,9.272 L10.4,9.27272727 C9.9584,9.27272727 9.6,9.64009091 9.6,10.0909091 L9.599,12.545 L22.4,12.545 L22.4,10.0909091 C22.4,9.64009091 22.0416,9.27272727 21.6,9.27272727 L19.999,9.272 L20,10.0909091 C20,10.5425455 19.6424,10.9090909 19.2,10.9090909 C18.7576,10.9090909 18.4,10.5425455 18.4,10.0909091 L18.399,9.272 L13.6,9.272 L13.6,10.0909091 C13.6,10.5425455 13.2424,10.9090909 12.8,10.9090909 C12.3576,10.9090909 12,10.5425455 12,10.0909091 L12,9.272 Z" id="Combined-Shape" fill="#020303"></path>
+					</g>
+				</svg>
+				agenda
+			</a>
+		</li>
+		<li class="header__nav-item header__nav-item--left">
+			<button class="search-toggle  link  js-search-toggle">
+				<div class="search-toggle__open">
+					<svg class="search-svg" width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					<title>Search</title>
+						<g id="Icon/Search" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<path d="M14,8 C17.8659932,8 21,11.1340068 21,15 C21,16.5272249 20.5109157,17.9402181 19.6808291,19.0908974 L24.9549513,24.363961 L23.363961,25.9549513 L18.0908974,20.6808291 C16.9402181,21.5109157 15.5272249,22 14,22 C10.1340068,22 7,18.8659932 7,15 C7,11.1340068 10.1340068,8 14,8 Z M14,10 C11.2385763,10 9,12.2385763 9,15 C9,17.7614237 11.2385763,20 14,20 C16.7614237,20 19,17.7614237 19,15 C19,12.2385763 16.7614237,10 14,10 Z" id="Combined-Shape" fill="#000000"></path>
+						</g>
+					</svg>
+					<span class="search-text">zoeken</span>
+				</div>
+				<div class="search-toggle__close">
+					<img class="search-toggle__icon" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/output/icon-close.svg" alt="search">
+					<img class="search-toggle__icon-white" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/output/icon-close--white.svg" alt="">
+					<span>sluiten</span>
+				</div>
+			</button>
+		</li>
+		<iframe id="tixsession" style="display: none" src="https://ticket.tivolivredenburg.nl/nl/itix"></iframe>
+		<li class="header__nav-item header__nav-item--right">
+
+			<a href="https://ticket.tivolivredenburg.nl/nl/buyingflow/order/" class="link header__nav-item-link header__nav-item-link--cart">
+				<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					<title>Shopping cart</title>
+					<g id="Icon/Cart" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+						<path d="M19,24 C19,22.8973333 19.8973333,22 21,22 C22.1026667,22 23,22.8973333 23,24 C23,25.1026667 22.1026667,26 21,26 C19.8973333,26 19,25.1026667 19,24 Z M10,24 C10,22.8973333 10.8973333,22 12,22 C13.1026667,22 14,22.8973333 14,24 C14,25.1026667 13.1026667,26 12,26 C10.8973333,26 10,25.1026667 10,24 Z M21.865011,17.99719 C22.28333,18.0015633 22.6678016,17.7085559 22.7493825,17.2930978 L23.8845759,11 L10,11 L10.8158088,17.235371 C10.873089,17.67357 11.268843,18.0356746 11.6845584,17.99719 L21.865011,17.99719 Z M21.6921677,20 L12.0206449,20 C10.6346775,19.9981176 9.12415942,18.9552941 8.94266368,17.5435294 L6.88565872,7.70117647 C6.82607679,7.23435294 6.43558596,6.88235294 5.97818004,6.88235294 L3.91664513,6.88235294 C3.41065702,6.88235294 3,6.46164706 3,5.94117647 C3,5.42070588 3.41065702,5 3.91664513,5 L5.97909668,5 C7.35406438,5.00094118 8.52462022,6.05694118 8.70336602,7.45552941 L8.94266368,9 L25.0828381,9 C25.3578316,9 25.6181588,9.83294118 25.7923214,10.0503529 C25.966484,10.2687059 26.036149,10.5548235 25.9820669,10.8315294 L24.4411865,17.728 C24.1863591,19.0512941 23.0570523,20 21.7453331,20 L21.6921677,20 Z" id="Combined-Shape" fill="#000000"></path>
+					</g>
+				</svg>
+				winkelwagen
+				<p class="cart-label js-cart-amount-wrapper" style="display:none;"><span class="cart-label__text js-cart-amount"></span></p>
+			</a>
+		</li>
+
+		<li class="header__nav-item">
+			<!-- todo add option for fast skin -->
+						<a href="https://ticket.tivolivredenburg.nl/nl/login/" class="link header__nav-item-link header__nav-item-link--log-in js-tx-login">
+				<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M16.5 16C17.4934 16 18.4645 15.7067 19.2905 15.1573C20.1165 14.6079 20.7602 13.827 21.1404 12.9134C21.5206 11.9998 21.62 10.9944 21.4262 10.0245C21.2324 9.05464 20.754 8.16373 20.0516 7.46446C19.3492 6.7652 18.4542 6.289 17.4799 6.09608C16.5056 5.90315 15.4957 6.00217 14.5779 6.3806C13.6601 6.75904 12.8757 7.3999 12.3238 8.22215C11.7719 9.04439 11.4773 10.0111 11.4773 11C11.4786 12.3257 12.0082 13.5967 12.9499 14.5341C13.8915 15.4714 15.1683 15.9987 16.5 16ZM16.5 7.66666C17.1623 7.66666 17.8097 7.86216 18.3603 8.22843C18.911 8.5947 19.3402 9.1153 19.5936 9.72438C19.847 10.3335 19.9133 11.0037 19.7841 11.6503C19.6549 12.2969 19.336 12.8908 18.8677 13.357C18.3994 13.8232 17.8028 14.1406 17.1533 14.2693C16.5037 14.3979 15.8304 14.3319 15.2186 14.0796C14.6067 13.8273 14.0838 13.4 13.7158 12.8519C13.3479 12.3037 13.1515 11.6593 13.1515 11C13.1515 10.1159 13.5043 9.26809 14.1323 8.64297C14.7602 8.01785 15.6119 7.66666 16.5 7.66666Z" fill="var(--clr--neutral-900)"/>
+					<path d="M16.5 17.5385C14.2464 17.5407 12.0859 18.3438 10.4924 19.7714C8.89884 21.1991 8.0025 23.1348 8 25.1538C8 25.3783 8.0995 25.5935 8.27662 25.7522C8.45374 25.9109 8.69396 26 8.94444 26C9.19493 26 9.43515 25.9109 9.61227 25.7522C9.78939 25.5935 9.88889 25.3783 9.88889 25.1538C9.88889 23.583 10.5854 22.0764 11.8252 20.9656C13.0651 19.8548 14.7466 19.2308 16.5 19.2308C18.2534 19.2308 19.9349 19.8548 21.1748 20.9656C22.4146 22.0764 23.1111 23.583 23.1111 25.1538C23.1111 25.3783 23.2106 25.5935 23.3877 25.7522C23.5648 25.9109 23.8051 26 24.0556 26C24.306 26 24.5463 25.9109 24.7234 25.7522C24.9005 25.5935 25 25.3783 25 25.1538C24.9975 23.1348 24.1012 21.1991 22.5076 19.7714C20.9141 18.3438 18.7536 17.5407 16.5 17.5385Z" fill="black"/>
+				</svg>
+				<div class="tx-username">Login</div>
+			</a>
+		</li>
+	</ul>
+</div>
+		<div class="header__logo">
+    <a href="/" aria-label="Terug naar Home">
+		<svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M140 70C140 108.66 108.66 140 70 140C31.3401 140 0 108.66 0 70C0 31.3401 31.3401 0 70 0C108.66 0 140 31.3401 140 70ZM137.2 70C137.2 107.114 107.114 137.2 70 137.2C32.8865 137.2 2.8 107.114 2.8 70C2.8 32.8865 32.8865 2.8 70 2.8C107.114 2.8 137.2 32.8865 137.2 70ZM83.3332 97.0667H36.4342V94.5691H83.3332V97.0667ZM39.3655 88.0494H41.6606C42.6684 88.0494 43.1335 88.4396 43.1335 89.0329V89.0637C43.1335 89.7031 42.6222 90.0628 41.6915 90.0628H39.3655V88.0494ZM41.3345 84.0088C42.219 84.0088 42.6997 84.3368 42.6997 84.9451V84.9768C42.6997 85.6159 42.1721 85.9279 41.257 85.9279H39.3655V84.0088H41.3345ZM42.0013 81.5752H36.4343V92.4955H42.0322C44.6225 92.4955 46.1425 91.3571 46.1425 89.4847V89.4539C46.1425 87.9721 45.3051 87.2224 43.9865 86.7859C44.9481 86.3649 45.6616 85.6159 45.6616 84.3522V84.3205C45.6616 83.5723 45.3981 82.9951 44.9634 82.5424C44.3273 81.918 43.3665 81.5752 42.0013 81.5752ZM48.3316 81.5748V87.7062C48.3316 91.1232 50.2706 92.6987 53.3411 92.6987C56.4269 92.6987 58.4274 91.1387 58.4274 87.628V81.5748H55.3878V87.7217C55.3878 89.2506 54.597 89.9686 53.372 89.9686C52.162 89.9686 51.3713 89.2198 51.3713 87.6437V81.5748H48.3316ZM67.7661 85.5223C67.7661 86.3176 67.1615 86.8169 66.1532 86.8169H64.1527V84.1806H66.1379C67.1308 84.1806 67.7661 84.6171 67.7661 85.4906V85.5223ZM66.277 81.5752H61.1444V92.4956H64.1527V89.1885H65.4864L67.673 92.4956H71.1311L68.5413 88.6893C69.8905 88.112 70.7748 87.0048 70.7748 85.3194V85.2886C70.7748 84.2121 70.449 83.3851 69.8134 82.7453C69.0844 82.0117 67.9369 81.5752 66.277 81.5752ZM72.8713 87.0352V87.0669C72.8713 90.3742 75.3834 92.7147 78.7644 92.7147C80.7489 92.7147 82.3311 91.9811 83.4787 91.014V86.1145H78.5007V88.3306H80.6252V89.6566C80.1914 89.9529 79.6329 90.1094 78.8884 90.1094C77.1671 90.1094 75.9418 88.845 75.9418 87.0669V87.0352C75.9418 85.3661 77.1515 84.0555 78.7176 84.0555C79.8035 84.0555 80.5634 84.43 81.3382 85.0854L83.1064 82.9326C81.9589 81.9337 80.6096 81.3565 78.7022 81.3565C75.3525 81.3565 72.8713 83.8534 72.8713 87.0352ZM71.131 58.7217H14.0003V56.2243H71.131V58.7217ZM14 45.8038H17.2411V54.0725H20.25V45.8038H23.5067V43.1522H14V45.8038ZM28.8435 54.0721H25.8346V43.1518H28.8435V54.0721ZM34.2574 43.152H30.9077L35.2966 54.1512H38.0878L42.4926 43.152H39.2045L36.7233 50.0634L34.2574 43.152ZM52.0324 48.612V48.6437C52.0324 50.2192 50.9318 51.5609 49.2874 51.5609C47.6283 51.5609 46.4961 50.1881 46.4961 48.612V48.5812C46.4961 47.0051 47.5974 45.6638 49.2565 45.6638C50.9164 45.6638 52.0324 47.0212 52.0324 48.612ZM43.4256 48.612V48.6437C43.4256 51.7798 45.907 54.2914 49.2565 54.2914C52.6062 54.2914 55.1189 51.7481 55.1189 48.612V48.5812C55.1189 45.4457 52.6377 42.9333 49.2874 42.9333C45.9377 42.9333 43.4256 45.4766 43.4256 48.612ZM60.6117 43.152H57.6034V54.0724H65.8688V51.4205H60.6117V43.152ZM71.1907 54.0721H68.1817V43.1518H71.1907V54.0721ZM126 77.8235H54.6954V75.3261H126V77.8235ZM58.0452 62.2542H54.6955L59.0843 73.2534H61.8756L66.2798 62.2542H62.9923L60.5111 69.1655L58.0452 62.2542ZM74.8899 66.2013C74.8899 66.9967 74.2852 67.4965 73.277 67.4965H71.2765V64.8597H73.2617C74.2546 64.8597 74.8899 65.2967 74.8899 66.1696V66.2013ZM73.401 62.2543H68.2682V73.1752H71.2765V69.8675H72.6102L74.7968 73.1752H78.2549L75.6651 69.3683C77.015 68.7911 77.8988 67.6838 77.8988 65.9984V65.9676C77.8988 64.8912 77.5728 64.0641 76.9372 63.4241C76.2082 62.6907 75.0607 62.2543 73.401 62.2543ZM89.0831 62.2542H80.3516V73.1752H89.16V70.6009H83.3291V68.8692H88.54V66.4822H83.3291V64.8125H89.0831V62.2542ZM94.6524 70.4918V64.9216H95.8776C97.692 64.9216 98.8866 65.9521 98.8866 67.6986V67.7303C98.8866 69.493 97.692 70.4918 95.8776 70.4918H94.6524ZM95.8467 62.2543H91.6441V73.1752H95.7845C99.6771 73.1752 101.957 70.8353 101.957 67.6838V67.6521C101.957 64.5005 99.708 62.2543 95.8467 62.2543ZM113.188 62.2542H104.457V73.1752H113.265V70.6009H107.434V68.8692H112.645V66.4822H107.434V64.8125H113.188V62.2542ZM118.556 62.2542H115.749V73.1752H118.727V67.1839L123.379 73.1752H126V62.2542H123.023V68.0265L118.556 62.2542Z" fill="black"/>
+		</svg>
+    </a>
+</div>
+		<section class="menu" aria-label="Site Navigation" aria-hidden="true">
+	<div class="menu__body lane flow" body-scroll-lock-ignore>
+
+		<a class="menu__logo" href="/">
+			<!-- <img class="menu__logo-img" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/output/tivoli-logo.svg" alt="Tivoli logo"> -->
+			<svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" clip-rule="evenodd" d="M140 70C140 108.66 108.66 140 70 140C31.3401 140 0 108.66 0 70C0 31.3401 31.3401 0 70 0C108.66 0 140 31.3401 140 70ZM137.2 70C137.2 107.114 107.114 137.2 70 137.2C32.8865 137.2 2.8 107.114 2.8 70C2.8 32.8865 32.8865 2.8 70 2.8C107.114 2.8 137.2 32.8865 137.2 70ZM83.3332 97.0667H36.4342V94.5691H83.3332V97.0667ZM39.3655 88.0494H41.6606C42.6684 88.0494 43.1335 88.4396 43.1335 89.0329V89.0637C43.1335 89.7031 42.6222 90.0628 41.6915 90.0628H39.3655V88.0494ZM41.3345 84.0088C42.219 84.0088 42.6997 84.3368 42.6997 84.9451V84.9768C42.6997 85.6159 42.1721 85.9279 41.257 85.9279H39.3655V84.0088H41.3345ZM42.0013 81.5752H36.4343V92.4955H42.0322C44.6225 92.4955 46.1425 91.3571 46.1425 89.4847V89.4539C46.1425 87.9721 45.3051 87.2224 43.9865 86.7859C44.9481 86.3649 45.6616 85.6159 45.6616 84.3522V84.3205C45.6616 83.5723 45.3981 82.9951 44.9634 82.5424C44.3273 81.918 43.3665 81.5752 42.0013 81.5752ZM48.3316 81.5748V87.7062C48.3316 91.1232 50.2706 92.6987 53.3411 92.6987C56.4269 92.6987 58.4274 91.1387 58.4274 87.628V81.5748H55.3878V87.7217C55.3878 89.2506 54.597 89.9686 53.372 89.9686C52.162 89.9686 51.3713 89.2198 51.3713 87.6437V81.5748H48.3316ZM67.7661 85.5223C67.7661 86.3176 67.1615 86.8169 66.1532 86.8169H64.1527V84.1806H66.1379C67.1308 84.1806 67.7661 84.6171 67.7661 85.4906V85.5223ZM66.277 81.5752H61.1444V92.4956H64.1527V89.1885H65.4864L67.673 92.4956H71.1311L68.5413 88.6893C69.8905 88.112 70.7748 87.0048 70.7748 85.3194V85.2886C70.7748 84.2121 70.449 83.3851 69.8134 82.7453C69.0844 82.0117 67.9369 81.5752 66.277 81.5752ZM72.8713 87.0352V87.0669C72.8713 90.3742 75.3834 92.7147 78.7644 92.7147C80.7489 92.7147 82.3311 91.9811 83.4787 91.014V86.1145H78.5007V88.3306H80.6252V89.6566C80.1914 89.9529 79.6329 90.1094 78.8884 90.1094C77.1671 90.1094 75.9418 88.845 75.9418 87.0669V87.0352C75.9418 85.3661 77.1515 84.0555 78.7176 84.0555C79.8035 84.0555 80.5634 84.43 81.3382 85.0854L83.1064 82.9326C81.9589 81.9337 80.6096 81.3565 78.7022 81.3565C75.3525 81.3565 72.8713 83.8534 72.8713 87.0352ZM71.131 58.7217H14.0003V56.2243H71.131V58.7217ZM14 45.8038H17.2411V54.0725H20.25V45.8038H23.5067V43.1522H14V45.8038ZM28.8435 54.0721H25.8346V43.1518H28.8435V54.0721ZM34.2574 43.152H30.9077L35.2966 54.1512H38.0878L42.4926 43.152H39.2045L36.7233 50.0634L34.2574 43.152ZM52.0324 48.612V48.6437C52.0324 50.2192 50.9318 51.5609 49.2874 51.5609C47.6283 51.5609 46.4961 50.1881 46.4961 48.612V48.5812C46.4961 47.0051 47.5974 45.6638 49.2565 45.6638C50.9164 45.6638 52.0324 47.0212 52.0324 48.612ZM43.4256 48.612V48.6437C43.4256 51.7798 45.907 54.2914 49.2565 54.2914C52.6062 54.2914 55.1189 51.7481 55.1189 48.612V48.5812C55.1189 45.4457 52.6377 42.9333 49.2874 42.9333C45.9377 42.9333 43.4256 45.4766 43.4256 48.612ZM60.6117 43.152H57.6034V54.0724H65.8688V51.4205H60.6117V43.152ZM71.1907 54.0721H68.1817V43.1518H71.1907V54.0721ZM126 77.8235H54.6954V75.3261H126V77.8235ZM58.0452 62.2542H54.6955L59.0843 73.2534H61.8756L66.2798 62.2542H62.9923L60.5111 69.1655L58.0452 62.2542ZM74.8899 66.2013C74.8899 66.9967 74.2852 67.4965 73.277 67.4965H71.2765V64.8597H73.2617C74.2546 64.8597 74.8899 65.2967 74.8899 66.1696V66.2013ZM73.401 62.2543H68.2682V73.1752H71.2765V69.8675H72.6102L74.7968 73.1752H78.2549L75.6651 69.3683C77.015 68.7911 77.8988 67.6838 77.8988 65.9984V65.9676C77.8988 64.8912 77.5728 64.0641 76.9372 63.4241C76.2082 62.6907 75.0607 62.2543 73.401 62.2543ZM89.0831 62.2542H80.3516V73.1752H89.16V70.6009H83.3291V68.8692H88.54V66.4822H83.3291V64.8125H89.0831V62.2542ZM94.6524 70.4918V64.9216H95.8776C97.692 64.9216 98.8866 65.9521 98.8866 67.6986V67.7303C98.8866 69.493 97.692 70.4918 95.8776 70.4918H94.6524ZM95.8467 62.2543H91.6441V73.1752H95.7845C99.6771 73.1752 101.957 70.8353 101.957 67.6838V67.6521C101.957 64.5005 99.708 62.2543 95.8467 62.2543ZM113.188 62.2542H104.457V73.1752H113.265V70.6009H107.434V68.8692H112.645V66.4822H107.434V64.8125H113.188V62.2542ZM118.556 62.2542H115.749V73.1752H118.727V67.1839L123.379 73.1752H126V62.2542H123.023V68.0265L118.556 62.2542Z" fill="black"></path>
+			</svg>
+		</a>
+
+		<div class="menu__content">
+			<div class="menu__list-container">
+
+				<ul class="menu__list flow">
+					<li id="menu-item-238423" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238423"><a href="https://www.tivolivredenburg.nl/agenda/" class="h2 link">Agenda</a></li>
+<li id="menu-item-238424" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238424"><a href="https://www.tivolivredenburg.nl/bezoek/" class="h2 link">Je bezoek</a></li>
+<li id="menu-item-290629" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-290629"><a href="https://www.tivolivredenburg.nl/steun/" class="h2 link">Steun ons</a></li>
+				</ul>
+				<ul class="menu__list flow">
+						<!-- todo add option for fast skin -->
+								<li id="menu-item-238423" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238423"><a href="https://ticket.tivolivredenburg.nl/nl/login/" class="h2 link" tabindex="0">
+							<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M16.5 16C17.4934 16 18.4645 15.7067 19.2905 15.1573C20.1165 14.6079 20.7602 13.827 21.1404 12.9134C21.5206 11.9998 21.62 10.9944 21.4262 10.0245C21.2324 9.05464 20.754 8.16373 20.0516 7.46446C19.3492 6.7652 18.4542 6.289 17.4799 6.09608C16.5056 5.90315 15.4957 6.00217 14.5779 6.3806C13.6601 6.75904 12.8757 7.3999 12.3238 8.22215C11.7719 9.04439 11.4773 10.0111 11.4773 11C11.4786 12.3257 12.0082 13.5967 12.9499 14.5341C13.8915 15.4714 15.1683 15.9987 16.5 16ZM16.5 7.66666C17.1623 7.66666 17.8097 7.86216 18.3603 8.22843C18.911 8.5947 19.3402 9.1153 19.5936 9.72438C19.847 10.3335 19.9133 11.0037 19.7841 11.6503C19.6549 12.2969 19.336 12.8908 18.8677 13.357C18.3994 13.8232 17.8028 14.1406 17.1533 14.2693C16.5037 14.3979 15.8304 14.3319 15.2186 14.0796C14.6067 13.8273 14.0838 13.4 13.7158 12.8519C13.3479 12.3037 13.1515 11.6593 13.1515 11C13.1515 10.1159 13.5043 9.26809 14.1323 8.64297C14.7602 8.01785 15.6119 7.66666 16.5 7.66666Z" fill="var(--clr--neutral-900)" />
+								<path d="M16.5 17.5385C14.2464 17.5407 12.0859 18.3438 10.4924 19.7714C8.89884 21.1991 8.0025 23.1348 8 25.1538C8 25.3783 8.0995 25.5935 8.27662 25.7522C8.45374 25.9109 8.69396 26 8.94444 26C9.19493 26 9.43515 25.9109 9.61227 25.7522C9.78939 25.5935 9.88889 25.3783 9.88889 25.1538C9.88889 23.583 10.5854 22.0764 11.8252 20.9656C13.0651 19.8548 14.7466 19.2308 16.5 19.2308C18.2534 19.2308 19.9349 19.8548 21.1748 20.9656C22.4146 22.0764 23.1111 23.583 23.1111 25.1538C23.1111 25.3783 23.2106 25.5935 23.3877 25.7522C23.5648 25.9109 23.8051 26 24.0556 26C24.306 26 24.5463 25.9109 24.7234 25.7522C24.9005 25.5935 25 25.3783 25 25.1538C24.9975 23.1348 24.1012 21.1991 22.5076 19.7714C20.9141 18.3438 18.7536 17.5407 16.5 17.5385Z" fill="var(--clr--neutral-900)" />
+							</svg>
+							<div class="tx-username">Login</div></a>
+					</li>
+					<li id="menu-item-238424" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238424">
+						<a href="/mijn-favorieten/" class="h2 link" tabindex="0">
+							<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M20.5815 7C19.6435 7.01411 18.726 7.26742 17.9215 7.73434C17.1171 8.20126 16.4543 8.86525 16 9.65927C15.5457 8.86525 14.8829 8.20126 14.0785 7.73434C13.2741 7.26742 12.3565 7.01411 11.4185 7C9.92324 7.06285 8.51444 7.69564 7.49991 8.76014C6.48539 9.82464 5.9476 11.2343 6.00403 12.6812C6.00403 16.3453 9.99076 20.3471 13.3344 23.0604C14.081 23.6673 15.0249 24 16 24C16.9751 24 17.919 23.6673 18.6656 23.0604C22.0092 20.3471 25.996 16.3453 25.996 12.6812C26.0524 11.2343 25.5146 9.82464 24.5001 8.76014C23.4856 7.69564 22.0768 7.06285 20.5815 7ZM17.5952 21.8274C17.1487 22.1912 16.5837 22.3906 16 22.3906C15.4163 22.3906 14.8513 22.1912 14.4048 21.8274C10.1249 18.3535 7.67003 15.0205 7.67003 12.6812C7.61308 11.6615 7.97521 10.6615 8.67742 9.89917C9.37964 9.13682 10.365 8.67401 11.4185 8.61168C12.4721 8.67401 13.4574 9.13682 14.1596 9.89917C14.8618 10.6615 15.2239 11.6615 15.167 12.6812C15.167 12.8949 15.2548 13.0999 15.411 13.251C15.5672 13.4021 15.7791 13.487 16 13.487C16.2209 13.487 16.4328 13.4021 16.589 13.251C16.7452 13.0999 16.833 12.8949 16.833 12.6812C16.7761 11.6615 17.1382 10.6615 17.8404 9.89917C18.5426 9.13682 19.5279 8.67401 20.5815 8.61168C21.635 8.67401 22.6204 9.13682 23.3226 9.89917C24.0248 10.6615 24.3869 11.6615 24.33 12.6812C24.33 15.0205 21.8751 18.3535 17.5952 21.8242V21.8274Z" fill="var(--clr--neutral-900)" />
+							</svg>
+							Favorieten</a>
+					</li>
+					<li id="menu-item-281599" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-281599">
+						<a href="https://ticket.tivolivredenburg.nl/nl/buyingflow/order/" class="h2 link" tabindex="0">
+							<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+								<title>Shopping cart</title>
+								<g id="Icon/Cart" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<path d="M19,24 C19,22.8973333 19.8973333,22 21,22 C22.1026667,22 23,22.8973333 23,24 C23,25.1026667 22.1026667,26 21,26 C19.8973333,26 19,25.1026667 19,24 Z M10,24 C10,22.8973333 10.8973333,22 12,22 C13.1026667,22 14,22.8973333 14,24 C14,25.1026667 13.1026667,26 12,26 C10.8973333,26 10,25.1026667 10,24 Z M21.865011,17.99719 C22.28333,18.0015633 22.6678016,17.7085559 22.7493825,17.2930978 L23.8845759,11 L10,11 L10.8158088,17.235371 C10.873089,17.67357 11.268843,18.0356746 11.6845584,17.99719 L21.865011,17.99719 Z M21.6921677,20 L12.0206449,20 C10.6346775,19.9981176 9.12415942,18.9552941 8.94266368,17.5435294 L6.88565872,7.70117647 C6.82607679,7.23435294 6.43558596,6.88235294 5.97818004,6.88235294 L3.91664513,6.88235294 C3.41065702,6.88235294 3,6.46164706 3,5.94117647 C3,5.42070588 3.41065702,5 3.91664513,5 L5.97909668,5 C7.35406438,5.00094118 8.52462022,6.05694118 8.70336602,7.45552941 L8.94266368,9 L25.0828381,9 C25.3578316,9 25.6181588,9.83294118 25.7923214,10.0503529 C25.966484,10.2687059 26.036149,10.5548235 25.9820669,10.8315294 L24.4411865,17.728 C24.1863591,19.0512941 23.0570523,20 21.7453331,20 L21.6921677,20 Z" id="Combined-Shape" fill="var(--clr--neutral-900)"></path>
+								</g>
+							</svg>
+							Winkelwagen</a>
+							<p class="cart-label js-cart-amount-wrapper" style="display:none;"><span class="cart-label__text js-cart-amount"></span></p>
+					</li>
+				</ul>
+
+			</div>
+
+			<div class="menu__nav-container">
+
+
+				<!-- 2023 hoofd 2 -->
+				<ul class="menu__nav-list flow">
+					<li id="menu-item-290542" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-290542"><a href="https://www.tivolivredenburg.nl/over/" class="menu__nav-link link">Over ons</a></li>
+<li id="menu-item-238427" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238427"><a href="https://www.tivolivredenburg.nl/restaurant-cafe/" class="menu__nav-link link">Restaurant &amp; Café</a></li>
+<li id="menu-item-238428" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238428"><a href="https://www.tivolivredenburg.nl/contact/" class="menu__nav-link link">Contact</a></li>
+<li id="menu-item-238429" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238429"><a href="https://www.tivolivredenburg.nl/vacatures/" class="menu__nav-link link">Vacatures</a></li>
+<li id="menu-item-238430" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238430"><a href="https://www.tivolivredenburg.nl/shop/" class="menu__nav-link link">Merchandise</a></li>
+<li id="menu-item-241475" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-241475"><a href="https://www.tivolivredenburg.nl/stories/" class="menu__nav-link link">Stories</a></li>
+<li id="menu-item-238492" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238492"><a href="https://www.tivolivredenburg.nl/foto/" class="menu__nav-link link">Foto's<br><br></a></li>
+<li id="menu-item-238434" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238434"><a href="https://www.tivolivredenburgzakelijk.nl" class="menu__nav-link link">Zakelijk</a></li>
+<li id="menu-item-238435" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238435"><a href="https://www.tivolivredenburg.nl/productie/" class="menu__nav-link link">Techniek<br><br></a></li>
+				</ul>
+
+				<!-- 2023 hoofd 3 -->
+				<ul class="menu__nav-list flow">
+					<li id="menu-item-238436" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238436"><a href="https://www.tivolivredenburg.nl/net-bevestigd/" class="menu__nav-link link">Net bevestigd</a></li>
+<li id="menu-item-267439" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-267439"><a href="https://www.tivolivredenburg.nl/nieuwsbrief/" class="menu__nav-link link">Nieuwsbrief</a></li>
+<li id="menu-item-238438" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238438"><a href="https://www.tivolivredenburg.nl/studio/" class="menu__nav-link link">Video's &#038; Podcasts<br><br></a></li>
+<li id="menu-item-238446" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238446"><a href="https://www.tivolivredenburg.nl/klassiek/" class="menu__nav-link link">Klassiek</a></li>
+<li id="menu-item-238447" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238447"><a href="https://www.tivolivredenburg.nl/pop/" class="menu__nav-link link">Pop</a></li>
+<li id="menu-item-238448" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238448"><a href="https://www.tivolivredenburg.nl/clubnights/" class="menu__nav-link link">Clubnights</a></li>
+<li id="menu-item-238449" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238449"><a href="https://www.tivolivredenburg.nl/jazz/" class="menu__nav-link link">Jazz</a></li>
+<li id="menu-item-238450" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238450"><a href="https://www.tivolivredenburg.nl/kennis/" class="menu__nav-link link">Kennis &#038; Debat</a></li>
+<li id="menu-item-238451" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238451"><a href="https://www.tivolivredenburg.nl/shelter/" class="menu__nav-link link">Shelter From The Storm</a></li>
+<li id="menu-item-238452" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238452"><a href="https://www.tivolivredenburg.nl/indie/" class="menu__nav-link link">Indie</a></li>
+<li id="menu-item-238453" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238453"><a href="https://www.tivolivredenburg.nl/heavy/" class="menu__nav-link link">Heavy</a></li>
+<li id="menu-item-238454" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238454"><a href="https://www.tivolivredenburg.nl/neoklassiek/" class="menu__nav-link link">Neoklassiek</a></li>
+<li id="menu-item-238455" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238455"><a href="https://www.tivolivredenburg.nl/global/" class="menu__nav-link link">Global</a></li>
+<li id="menu-item-238456" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238456"><a href="https://www.tivolivredenburg.nl/familieconcerten/" class="menu__nav-link link">Familie</a></li>
+<li id="menu-item-287217" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-287217"><a href="https://www.tivolivredenburg.nl/de-vrije-ruimte/" class="menu__nav-link link">De Vrije Ruimte</a></li>
+				</ul>
+
+			</div>
+		</div>
+
+		<section class="bottom-section">
+			<div class="bottom-section__toggle">
+				<label class="toggle">
+	<input type="checkbox" class="toggle__checkbox js-theme-toggle" role="switch" aria-label="light mode" tabindex="0">
+	<span class="toggle__label"></span>
+	<p class="toggle__text">Dark Mode</p>
+</label>
+			</div>
+
+			<div class="bottom-section__language">
+				<a href="/english" class="language-link">
+					<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1M11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1M11 21C13.3254 21 16.2105 16.5228 16.2105 11C16.2105 5.47715 13.3254 1 11 1M11 21C8.67459 21 5.78947 16.5228 5.78947 11C5.78947 5.47715 8.67459 1 11 1M1.52632 7.84211H20.4737M1.52632 14.1579H20.4737" stroke="currentColor" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" />
+					</svg>
+					<span>English</span>
+				</a>
+			</div>
+			<div class="bottom-section__socials socials">
+								<div class="socials__item">
+					<a class="social-link" aria-label="Volg ons op Instagram" href="https://www.instagram.com/tivolivredenburg/" target="_blank">
+	<svg focusable="false" width="33px" height="33px" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>instagram</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M10.2531254,0.848437071 C12.8546879,0.700780392 20.6523437,0.700780392 23.2539062,0.848437071 C25.7781246,0.975000858 28.0140612,1.55156207 29.8562496,3.39375043 C31.7054696,5.23593664 32.2820308,7.47187543 32.4015619,9.99609375 C32.5492185,12.5976552 32.5492185,20.3882804 32.4015619,22.9898429 C32.2749981,25.5140612 31.6984369,27.7499979 29.8562485,29.5921862 C28.0140623,31.4414062 25.7781235,32.0179675 23.2539052,32.1374996 C20.6523427,32.2851562 12.8546869,32.2851562 10.2531244,32.1374996 C7.72890496,32.0109358 5.49999893,31.4343724 3.65077996,29.5921862 C1.801561,27.75 1.22499871,25.5140612 1.10546768,22.9898429 C0.957810998,20.3882804 0.957810998,12.5906246 1.10546768,9.98906207 C1.23203039,7.46484375 1.80156207,5.22890711 3.65078104,3.38671875 C5.5,1.54453039 7.73593771,0.967969179 10.2531254,0.848437071 Z M16.469694,3.57572692 C14.0756468,3.56299381 9.45999678,3.41962495 7.46874678,4.20937371 C6.08359075,4.76484203 5.02187157,5.82656121 4.47343385,7.20468664 C3.65780842,9.27187586 3.84062135,14.2007804 3.84062135,16.4929683 L3.83978705,16.7803028 C3.82705387,19.17435 3.68368406,23.79 4.47343385,25.78125 C5.02890217,27.1664071 6.09062135,28.2281263 7.46874678,28.7765629 C9.53593493,29.5921884 14.4648405,29.4093754 16.7570285,29.4093754 C19.0492164,29.4093754 23.9710914,29.59922 26.0453101,28.7765629 C27.4304672,28.2210946 28.4921864,27.1593754 29.0406231,25.78125 C29.8632802,23.7140608 29.6734356,18.7851562 29.6734356,16.4929683 C29.6734356,14.2007804 29.8632802,9.27890539 29.0406231,7.20468664 C28.4851547,5.81952953 27.4234356,4.7578125 26.0453101,4.20937371 C23.9781231,3.39374828 19.0492164,3.57656121 16.7570285,3.57656121 Z M16.7570317,8.4140625 C21.2289071,8.4140625 24.8359375,12.0210929 24.8359375,16.4929683 C24.8359375,20.9648438 21.2289071,24.5718741 16.7570317,24.5718741 C12.2851562,24.5718741 8.67812479,20.9648438 8.67812479,16.4929683 C8.67812479,12.021094 12.2851562,8.4140625 16.7570317,8.4140625 Z M16.7570317,11.2406259 C13.8601569,11.2406259 11.5046881,13.5960946 11.5046881,16.4929694 C11.5046881,19.3898442 13.8671875,21.7453129 16.7570306,21.7453129 C19.6468737,21.7453129 22.0093741,19.3898442 22.0093741,16.4929694 C22.0093741,13.5960946 19.6539054,11.2406259 16.7570317,11.2406259 Z M25.1664071,6.19921875 C26.2070312,6.19921875 27.0507812,7.04296875 27.0507812,8.08359289 C27.0507812,9.13125086 26.2070312,9.96796918 25.1664071,9.96796918 C24.1187513,9.96796918 23.282033,9.12421918 23.282033,8.08359289 C23.282033,7.04296875 24.125783,6.19921875 25.1664071,6.19921875 Z" id="instagram" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+				</div>
+									<div class="socials__item">
+					<a class="social-link" href="https://www.facebook.com/TivoliVredenburgUtrecht/" target="_blank">
+	<svg width="20px" height="37px" viewBox="0 0 20 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>facebook</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M12.8753904,36.5 L12.8753904,20.75 L18.1270323,20.75 L19.1268761,14.2348435 L12.8753915,14.2348435 L12.8753915,10.0069525 C12.8753915,8.22453022 13.7486726,6.48710895 16.5485158,6.48710895 L19.3905458,6.48710895 L19.3905458,0.940156937 C19.3905458,0.940156937 16.8114839,0.5 14.345625,0.5 C9.19734371,0.5 5.83218741,3.62046909 5.83218741,9.26937509 L5.83218741,14.2348435 L0.109453082,14.2348435 L0.109453082,20.75 L5.83218741,20.75 L5.83218741,36.5 L12.8753904,36.5 Z" id="facebook" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+				</div>
+									<div class="socials__item">
+					<a class="social-link" aria-label="Volg ons op Tik Tok" href="https://www.tiktok.com/@tivolivredenburg" target="_blank">
+	<svg focusable="false" width="33px" height="37px" viewBox="0 0 33 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>tiktok</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M6.59515619,34.9575474 C14.2130718,39.3594837 23.7395036,33.864058 23.7427351,25.0657816 L23.7427351,25.0657816 L23.7427351,12.4995315 C26.2598574,14.3013204 29.2794712,15.2667011 32.3750011,15.2592971 L32.3750011,15.2592971 L32.3750011,9.11539054 C30.6997684,9.11574244 29.0614473,8.62326741 27.6640636,7.6992979 C25.6789864,6.42006016 24.3080558,4.38006639 23.8735143,2.05882907 C23.782214,1.54432774 23.7384361,1.02252007 23.7427341,0.5 L23.7427341,0.5 L17.5552351,0.5 L17.5552351,25.0657816 C17.5552684,26.5355957 16.9387745,27.9380305 15.8557929,28.9317632 C12.8798498,31.6624579 8.06382227,30.1475892 7.1869427,26.2050016 C6.31006312,22.2624118 10.029992,18.8490434 13.8828136,20.0609384 L13.8828136,20.0609384 L13.8828136,13.7405467 C11.36554,13.3915913 8.8037622,13.8915615 6.60242605,15.1614255 C-1.0187211,19.5577645 -1.02275944,30.5556111 6.59515619,34.9575474 Z" id="tiktok" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+				</div>
+									<div class="socials__item">
+					<a class="social-link" aria-label="Volg ons op Youtube" href="https://www.youtube.com/user/tivolivredenburg" target="_blank">
+	<svg focusable="false" width="39px" height="27px" viewBox="0 0 39 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>youtube</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M20.2050082,0.00127399215 C22.423558,0.0109440531 32.1066408,0.0940133716 34.7526507,0.807608843 C36.4047842,1.25205517 37.705986,2.56169415 38.1476192,4.22458649 C38.8646623,6.91802526 38.9409435,12.2263383 38.9490585,13.3252841 L38.9490585,13.3252841 L38.9500204,13.4938564 L38.9500204,13.4938564 L38.9500204,13.5607062 L38.9490585,13.7292785 C38.9409435,14.8282242 38.8646623,20.1365373 38.1476192,22.8299761 C37.705986,24.4928684 36.4047799,25.7479448 34.7526486,26.1923912 C32.0477764,26.9218443 21.9897113,26.9924365 20.0683208,26.9992681 L20.0683208,26.9992681 L19.4316792,26.9992681 C17.5102887,26.9924365 7.4522236,26.9218441 4.74735141,26.192389 C3.09521794,25.7479448 1.79401505,24.4928663 1.35238183,22.8299761 C0.635337781,20.1365373 0.5590565,14.8282242 0.55094147,13.7292785 L0.551882919,13.2139738 C0.564268004,11.9070236 0.657066389,6.8364059 1.35238183,4.22458649 C1.79401505,2.56169415 3.09521794,1.25212383 4.74735141,0.807608843 C7.4522236,0.0781556945 17.5102887,0.0075634543 19.4316792,0.000731947191 Z M15.8226967,7.81769514 L15.8226967,19.2368674 L25.8590336,13.5274229 L15.8226967,7.81769514 Z" id="youtube" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+				</div>
+								</div>
+		</section>
+	</div>
+</section>
+	</div>
+	<section class="search js-search bg-shadow bg-shadow--reverse">
+	<div class="search__body lane" body-scroll-lock-ignore>
+		<form method="get" class="search__form js-search-form" action="https://www.tivolivredenburg.nl/">
+			<div class="btn-group btn-group--small">
+			<label for="search-input" class="sr-only">Typ hier wat je zoekt</label>
+				<input type="text" id="search-input" name="s" placeholder="Typ hier wat je zoekt" class="btn-group__content search__form-input js-search-input" tabindex="-1">
+				<button type="submit" class="btn btn-group__link search__form-btn">
+					<span class="btn-group__btn-text js_search_label">zoeken</span>
+					<span class="svg-icon">
+						<svg x="0px" y="0px" width="100%" height="100%" viewBox="-1 -1 20 20" style="transform: translateZ(0px);"><g id="icon-search" fill="#000" fill-rule="evenodd">
+							<path fill="#000" fill-rule="evenodd" d="M7 0c3.8659932 0 7 3.1340068 7 7 0 1.5272249-.4890843 2.9402181-1.3191709 4.0908974l5.2741222 5.2730636-1.5909903 1.5909903-5.2730636-5.2741222C9.9402181 13.5109157 8.5272249 14 7 14c-3.8659932 0-7-3.1340068-7-7s3.1340068-7 7-7Zm0 2C4.2385763 2 2 4.2385763 2 7s2.2385763 5 5 5 5-2.2385763 5-5-2.2385763-5-5-5Z"></path>
+						</g></svg>
+					</span>
+				</button>
+			</div>
+		</form>
+		<button class="search__modal-close link">
+			<img class="search-toggle__icon-white" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/img/output/icon-close--white.svg" alt="search">
+			<span class="search__modal-close-text">Sluiten</span>
+		</button>
+	</div>
+</section>
+</header>
+
+
+<script type="2ff1531ee1d9e512eadf9286-text/javascript">
+    if (typeof (dataLayer) == 'undefined') {
+        var dataLayer = window.dataLayer || [];
+    }
+    dataLayer.push({
+        'ecomm_prodid': '295175',
+        'ecomm_name': 'Footprints Festival',
+        'ecomm_pagetype': 'product',
+        'ecomm_value': '36.5'
+    });
+</script>
+
+<!-- NOTE: structured-data checks on post thumbail but not from single sf_production,doesn't break if there is none  -->
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"MusicEvent","name":"Footprints Festival","url":"https:\/\/www.tivolivredenburg.nl\/agenda\/50573414\/footprints-festival-21-02-2026","startDate":"2026-02-21T18:15","endDate":"2026-02-22T01:00","location":{"@type":"LocalBusiness","name":"TivoliVredenburg","sameAs":"https:\/\/www.tivolivredenburg.nl","address":"Vredenburgkade 11, Utrecht, NL","image":"https:\/\/www.tivolivredenburg.nl\/wp-content\/themes\/tivoli-redesign-2021\/img\/input\/tivoli-vredenburg-logo-zwart.png"},"offers":{"@type":"offer","url":"https:\/\/ticket.tivolivredenburg.nl\/nl\/buyingflow\/tickets\/50204\/109326","price":"36.5","priceCurrency":"EUR","availability":"http:\/\/schema.org\/InStock","validFrom":"2025-09-26T10:00"},"organizer":{"@type":"Organization","name":"TivoliVredenburg","url":"https:\/\/www.tivolivredenburg.nl"},"image":"https:\/\/tivolivredenburg.digital-asset.app\/0dd98858c5","description":"Op zaterdag 21 februari 2026 kun je je musicologische voetafdruk weer vergroten op Footprints Festival. Verschillende zalen van TivoliVredenburg vormen een bruisende biotoop van even exotische als opwindende ritmes. Verwacht prehistorische techno en psychedelische funk, maar ook zwoele samba, jazzy grime en funky Bollywood, dit alles van internationale, opkomende artiesten als Gizmo Varillas, Islandman, Sessa, Keshavara en Derya Y\u0131ld\u0131r\u0131m &amp; Grup \u015eim\u015fek.&nbsp;Sta stil, loop rond of dans je vierkant op Footprints Festival!","eventStatus":"https:\/\/schema.org\/EventScheduled","performer":""}</script>
+<main id="main-content" class="event bg-yellow">
+
+	<div class="popup-favourites">
+	<div class="popup-favourites__main" data-logged_in="false">
+		<span class="popup-favourites__icon">
+			<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M20.5815 7C19.6435 7.01411 18.726 7.26742 17.9215 7.73434C17.1171 8.20126 16.4543 8.86525 16 9.65927C15.5457 8.86525 14.8829 8.20126 14.0785 7.73434C13.2741 7.26742 12.3565 7.01411 11.4185 7C9.92324 7.06285 8.51444 7.69564 7.49991 8.76014C6.48539 9.82464 5.9476 11.2343 6.00403 12.6812C6.00403 16.3453 9.99076 20.3471 13.3344 23.0604C14.081 23.6673 15.0249 24 16 24C16.9751 24 17.919 23.6673 18.6656 23.0604C22.0092 20.3471 25.996 16.3453 25.996 12.6812C26.0524 11.2343 25.5146 9.82464 24.5001 8.76014C23.4856 7.69564 22.0768 7.06285 20.5815 7Z" fill="var(--clr--primary-100)"/>
+			</svg>
+		</span>
+		<div class="popup-favourites__content">
+			<p class="popup-favourites__text"><a class="popup-favourites__link" href="/mijn-favorieten">Favorieten</a> worden tijdelijk opgeslagen.</p>
+			<!-- todo make this work for fast skin -->
+			<p class="popup-favourites__text"><a class="popup-favourites__link js-tx-login" href="https://ticket.tivolivredenburg.nl/nl/login/">Log in</a> om je favorieten op te slaan.</p>
+		</div>
+	</div>
+	<div class="popup-favourites__main" data-logged_in="true">
+		<span class="popup-favourites__icon">
+			<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M20.5815 7C19.6435 7.01411 18.726 7.26742 17.9215 7.73434C17.1171 8.20126 16.4543 8.86525 16 9.65927C15.5457 8.86525 14.8829 8.20126 14.0785 7.73434C13.2741 7.26742 12.3565 7.01411 11.4185 7C9.92324 7.06285 8.51444 7.69564 7.49991 8.76014C6.48539 9.82464 5.9476 11.2343 6.00403 12.6812C6.00403 16.3453 9.99076 20.3471 13.3344 23.0604C14.081 23.6673 15.0249 24 16 24C16.9751 24 17.919 23.6673 18.6656 23.0604C22.0092 20.3471 25.996 16.3453 25.996 12.6812C26.0524 11.2343 25.5146 9.82464 24.5001 8.76014C23.4856 7.69564 22.0768 7.06285 20.5815 7Z" fill="var(--clr--primary-100)"/>
+			</svg>
+		</span>
+		<div class="popup-favourites__content">
+			<p class="popup-favourites__text">Opgeslagen in <a class="popup-favourites__link" href="/mijn-favorieten">Mijn favorieten</a>.</p>
+		</div>
+	</div>
+	<div class="popup-favourites__main  popup-favourites__remove" data-logged_in="true_false">
+		<span class="popup-favourites__icon">
+			<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M20.5815 7C19.6435 7.01411 18.726 7.26742 17.9215 7.73434C17.1171 8.20126 16.4543 8.86525 16 9.65927C15.5457 8.86525 14.8829 8.20126 14.0785 7.73434C13.2741 7.26742 12.3565 7.01411 11.4185 7C9.92324 7.06285 8.51444 7.69564 7.49991 8.76014C6.48539 9.82464 5.9476 11.2343 6.00403 12.6812C6.00403 16.3453 9.99076 20.3471 13.3344 23.0604C14.081 23.6673 15.0249 24 16 24C16.9751 24 17.919 23.6673 18.6656 23.0604C22.0092 20.3471 25.996 16.3453 25.996 12.6812C26.0524 11.2343 25.5146 9.82464 24.5001 8.76014C23.4856 7.69564 22.0768 7.06285 20.5815 7ZM17.5952 21.8274C17.1487 22.1912 16.5837 22.3906 16 22.3906C15.4163 22.3906 14.8513 22.1912 14.4048 21.8274C10.1249 18.3535 7.67003 15.0205 7.67003 12.6812C7.61308 11.6615 7.97521 10.6615 8.67742 9.89917C9.37964 9.13682 10.365 8.67401 11.4185 8.61168C12.4721 8.67401 13.4574 9.13682 14.1596 9.89917C14.8618 10.6615 15.2239 11.6615 15.167 12.6812C15.167 12.8949 15.2548 13.0999 15.411 13.251C15.5672 13.4021 15.7791 13.487 16 13.487C16.2209 13.487 16.4328 13.4021 16.589 13.251C16.7452 13.0999 16.833 12.8949 16.833 12.6812C16.7761 11.6615 17.1382 10.6615 17.8404 9.89917C18.5426 9.13682 19.5279 8.67401 20.5815 8.61168C21.635 8.67401 22.6204 9.13682 23.3226 9.89917C24.0248 10.6615 24.3869 11.6615 24.33 12.6812C24.33 15.0205 21.8751 18.3535 17.5952 21.8242V21.8274Z" fill="var(--clr--neutral-900)"/>
+			</svg>
+		</span>
+		<div class="popup-favourites__content">
+			<p class="popup-favourites__text">Verwijderd uit <a class="popup-favourites__link" href="/mijn-favorieten">Mijn favorieten</a>.</p>
+		</div>
+	</div>
+</div>
+
+
+	<div class="lane lane--breadcrumb bg-white">
+		<div class="event__col event__col--breadcrumb">
+			<nav class="breadcrumbs">
+	<ul class="breadcrumbs-list" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumbs-list__item"  itemprop="itemListElement"  itemscope="" itemtype="https://schema.org/ListItem">
+			<a itemprop="item" aria-label="Terug naar home" class="breadcrumbs-list__link  link" href="https://www.tivolivredenburg.nl">
+				<i class="svg-icon loaded" data-icon="icon-home" id="svg-icon-3" aria-hidden="true">
+					<svg x="0px" y="0px" width="100%" height="100%" viewBox="-0.9 -0.9 17 15.5" style="transform: translateZ(0px);">
+						<title>Home</title>
+						<g id="icon-home" fill="#000000" fill-rule="nonzero">
+							<path d="M14.8058946 7.0226849 8.11080045.27688005c-.33308926-.3691734-.89934101-.3691734-1.23243027 0L.18327599 7.0226849c-.33308926.3691734-.19985356.63766314.29978034.63766314h1.3989749v5.16842756c0 .3691734 0 .6712244.69948746.6712244h3.23096585V8.29801119h3.39751048V13.5h3.39751048c.4996339 0 .5329428-.302051.5329428-.6712244V7.66034804h1.3989749c.4996339.03356122.5995607-.26848974.2664714-.63766314Z" fill="#000" fill-rule="nonzero"></path>
+						</g>
+					</svg>
+				</i>
+		<span class="sr-only" itemprop="name">Home</span></a>
+			<meta itemprop="position" content="1" />
+		</li>
+		<li class="breadcrumbs-list__item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+			<a itemprop="item" class="breadcrumbs-list__link  link" href="https://www.tivolivredenburg.nl/agenda/"><span itemprop="name">Agenda</span></a>
+			<meta itemprop="position" content="2" />
+		</li>
+		<!-- list item hidden -->
+		<li class="breadcrumbs-list__item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+			<a itemprop="item" class="breadcrumbs-list__link  link" href="https://www.tivolivredenburg.nl/agenda/50573414/footprints-festival-21-02-2026"><span itemprop="name">Footprints Festival</span></a>
+			<meta itemprop="position" content="3" />
+		</li>
+	</ul>
+</nav>
+		</div>
+	</div>
+
+	<div class="lane  lane--event">
+
+		<div class="event-flow">
+			<div class="event-flow__order">
+				<div class="img-container">
+
+	<picture   style="--aspect-ratio: 16/9"><source media="screen and (min-width: 0px) and (max-width: 768px)" srcset="https://tivolivredenburg.digital-asset.app/JF1HQ3EBCY 1x, https://tivolivredenburg.digital-asset.app/Elc1ZGH1wS 2x"><source media="screen and (min-width: 769px) and (max-width: 1020px)" srcset="https://tivolivredenburg.digital-asset.app/6c0sJTjIhq 1x, https://tivolivredenburg.digital-asset.app/KkVKCPpbY0 2x"><source media="screen and (min-width: 1021px) and (max-width: 1280px)" srcset="https://tivolivredenburg.digital-asset.app/JF1HQ3EBCY 1x, https://tivolivredenburg.digital-asset.app/Elc1ZGH1wS 2x"><source media="screen and (min-width: 1281px)" srcset="https://tivolivredenburg.digital-asset.app/JF1HQ3EBCY 1x, https://tivolivredenburg.digital-asset.app/Elc1ZGH1wS 2x"><img src="https://tivolivredenburg.digital-asset.app/6c0sJTjIhq" loading="lazy"  alt="Footprints Festival"  class="rounded" ></picture></div>
+
+				<div class="event__info  flow">
+					<div>
+	<div class="event-collection-cta">
+									<picture  class="event-collection-cta__figure"  style="--aspect-ratio: 16/9"><source media="screen and (min-width: 0px) and (max-width: 768px)" srcset="https://tivolivredenburg.digital-asset.app/yya6Djz4By 1x, https://tivolivredenburg.digital-asset.app/vl8BERGAbf 2x"><source media="screen and (min-width: 769px) and (max-width: 1020px)" srcset="https://tivolivredenburg.digital-asset.app/yya6Djz4By 1x, https://tivolivredenburg.digital-asset.app/vl8BERGAbf 2x"><source media="screen and (min-width: 1021px) and (max-width: 1280px)" srcset="https://tivolivredenburg.digital-asset.app/yya6Djz4By 1x, https://tivolivredenburg.digital-asset.app/vl8BERGAbf 2x"><source media="screen and (min-width: 1281px)" srcset="https://tivolivredenburg.digital-asset.app/yya6Djz4By 1x, https://tivolivredenburg.digital-asset.app/vl8BERGAbf 2x"><img src="https://tivolivredenburg.digital-asset.app/yya6Djz4By" loading="lazy"  alt="Indieprogramma"  class="rounded"  data-align="middle center"></picture>				<div class="event-collection-cta__body">
+			<p class="event-collection-cta__text">Bekijk ons volledige</p>
+			<a class="event-collection-cta__link" href="https://www.tivolivredenburg.nl/indie">Indieprogramma</a>
+		</div>
+		<div class="event-collection-cta__icon">
+			<span class="svg-icon" data-icon="icon-arrow"></span>
+		</div>
+	</div>
+</div>
+				
+					<div>
+	<dl class="description-list">
+
+				<dd class="description-list__detail description-list__detail--group"><time>18:15</time></dd>
+		<dt class="description-list__term description-list__term--group">Deuren open</dt>
+
+
+				<dd class="description-list__detail description-list__detail--group"><time>19:00</time></dd>
+		<dt class="description-list__term description-list__term--group">Aanvang</dt>
+
+
+				<dd class="description-list__detail description-list__detail--group"><time>01:00</time></dd>
+		<dt class="description-list__term description-list__term--group">Verwachte eindtijd</dt>
+
+
+						<dt class="description-list__term description-list__term--extra-info"></dt>
+		<dd class="description-list__detail description-list__detail--extra-info"></dd>
+		
+		<!-- start price data -->
+				<!-- end price data -->
+
+								
+				<dt class="description-list__term">Locatie</dt>
+		<dd class="description-list__detail">
+			Pandora, Hertz, Cloud Nine, Club Nine, Studio Pandora, Park 6		</dd>
+		
+
+		
+				<dt class="description-list__term description-list__term--accordion">Line-up</dt>
+		
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Derya Yıldırım & Grup Şimşek</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De Duits-Turkse zangeres Derya Yıldırım groeide via haar ouders op met Anatolische muziek en leerde ook de saz bespelen. Met Grup Şimşek brengt ze moderne, psychedelische versies van Anatolische volksmuziek, plus eigen werk. Hun motto: “You need a groove and a melody, and everything around it is free!”
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r5fIYQ0GDPA?si=3O23lPed2W0f2FlE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Don Melody Club</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De Amsterdamse formatie Don Melody Club debuteerde in 2021 met het album Pure Donzin, inmiddels een cultklassieker. De teksten zijn een beetje vreemd maar wel lekker, de muziek is mild-psychedelisch met op hun nieuwe ep Zonder Pardon (2024) ook eighties-invloeden. Alle psychonauten verzamelen!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dKElrXyR6iY?si=YwuSsy7oRiRBC8HE&start=244" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>fastmusic</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Het Duitse duo fastmusic komt met een volstrekt unieke combinatie van minimalistische elektropop met Malinese woestijnblues-achtige gitaarpartijen. Frontman Bela Fast maakt het ietwat spookachtige bandgeluid af met zijn falsetzang. Debuutalbum I Want To Love, And I Love (2024) is gemaakt met veel Herzblut!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/DGWj6reC_cg?si=BgNJgCWtJKRYolTJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Gizmo Varillas</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De Spaanse singer-songwriter Gizmo Varillas maakt ontspannen groovende muziek die doet denken aan Paul Simon, Paolo Nutini en José González. In de lente van 2025 verscheen zijn vierde album The World In Colour – het heerlijke openingsnummer Follow The Sun geeft meteen Varillas’ levensmotto aan!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6KZtTTHtxYI?si=HX2yO2CRtohpy322" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Halfpastseven</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De opkomende Amsterdamse producer Halfpastseven stond begin 2026 nog op ESNS met zijn organisch groovende mix van hiphop, house en elektronica. In 2025 verscheen zijn tweede album The Calm And The Storm, waarop hij zijn zorgvuldig opgebouwde sound perfectioneert. Het is tijd voor Halfpastseven!</p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Hamraaz</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Het intrigerende duo Hamraaz bestaat uit Lucie Lelaurin (Frankrijk) en Khorshid Dadbeh (Iran). Lelaurain speelt het Armeense dubbelriet-blaasinstrument doedoek, Dadbeh is gespecialiseerd in de tār, een langhalsluit. Samen bouwen ze een betoverende brug tussen traditionele Iraanse en Armeense muziek!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7Cd_SSxCGII?si=MURIYHeDuJtVmC7U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Islandman</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Islandman is het elektro-akoestische trio rondom de Istanbulse producer Tolga Böyük. ‘Neo-Turkish psychedelica’, zo omschrijft het drietal hun unieke mix van traditionele Turkse melodieën/Anatolische psychedelica met moderne elektronica/beats. Half ceremonie, half dansfeest, helemaal Islandman!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ncm2vHWZP50?si=UmQGxnSMuWOTns86" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Kaba & Hyas</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Uit Frankrijk komt het duo Kaba & Hyas, dat rap en elektronica mengt met UK garage, house, drum & bass en 2step. Na de ep’s Music For Tesla Vol. 1 en 2 verscheen in 2025 hun derde ep Wooferz Only (2025), waarmee het duo eigenhandig het gevoel van de Detroit- en Manchester-scene weer tot leven wekt!</p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Keshavara</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Keshavara begon een ruime tien jaar geleden als soloproject van de Duits-Indiase muzikant Keshav Purushotham, maar is inmiddels uitgegroeid tot een geoliede viermansformatie. Verwacht lome psychedelica, seventies-Beiroet-funk, Ennio Morricone-meets-Bollywood en minstens drie fraaie snorren!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PWMRh74aVP0?si=9dcCjY5HIQibgZbd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>NIJI</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De Engels-Nigeriaanse toetsenist NIJI werd al op zijn 14e professioneel muzikant – we hebben hier dus te maken met een hele grote. Jazz, gospel, hiphop, grime en afrobeat klinken door in zijn werk, plus NIJI’s gevoelige klassieke toucher. Debuutalbum Oríkì (2025) is een caleidoscopische ode aan zijn roots!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/t7krWsCX_o0?si=gLk7Y3qj4cQ6T-6c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Rizan Said</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De Syrische muzikant Rizan Said is een ware pionier van de moderne dabke. Met zijn hypnotiserende keyboards en opzwepende ritmes transformeert hij elk podium tot een zweterige nachtelijke dansvloer. Said werkte mee aan talloze producties voor tv, film en de Syrische cassettecultuur, én speelde met landgenoot Omar Souleyman. Verwacht een vurige liveshow waarin traditie, elektronica en pure euforie naadloos in elkaar grijpen!</p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Sessa</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De zwoele Braziliaanse singer-songwriter Sessa mengt samba met jazz, soul en een vleugje rock, waarbij hij zich net zoveel laat inspireren door Sly Stone als door tropicália en MPB. In november verschijnt zijn nieuwe album Pequena Vertigem De Amor – volgens Sessa zelf wordt de plaat ‘crooked funky’!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9pv8HZDarN4?si=f20hky3vEWNsgDr7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>SO SORRY</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Het opkomende Berlijnse viertal SO SORRY hoeft zich nergens voor te verontschuldigen, daar is hun mix van jazz, indiepop en r&b veel te goed voor. Behalve subtiel klinkt SO SORRY ook avontuurlijk, dankzij hun uitmuntende instrumentbeheersing en de soepele vocalen van Zuza Jasinska. De debuut-ep komt eraan!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/h-mfw25Kg3E?si=KAIQmvmd60__jtgJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Tomo Katsurada & Jonny Nash</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>De Japanse zanger/muzikant Tomo Katsurada (bekend van de psychedelische band Kikagaku Moyo) debuteerde in 2024 met Dream Of The Egg, een ei-p vol hypnotiserende gitaarpartijen. Op de titeltrack werkt hij samen met de Britse ambient-muzikant Jonny Nash, sindsdien zijn de twee ook een live-duo!</p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Why The Eye</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Het Brusselse kwartet Why The Eye maakt naar eigen zeggen ‘prehistorische techno’. Met zelfgemaakte instrumenten creëert de band onweerstaanbaar dansbare, tribale tracks, zoals ook te horen op hun tweede album Inspirex (2024). Geschikt voor liefhebbers van The Residents, Boards of Canada en Autechre!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/iH_bYfr9bIY?si=Dms_n0xmGsA51e58" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Park 6</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Park 6 is de hangout van Footprints festival en de plek waar jij jouw muzikale en fysieke honger kan stillen of juist even gezellig de dorst kan lessen met je vrienden. Kom dansen bij de beats van Deodaat of fiets een spreekwoordelijke etappe uit tijdens de set van Bankra Bike Soundsystem!</p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Kunst-expo door Lin-Shi Kok</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Op Footprints bevalt er meer te beleven dan alleen de muziek! Zo is er ook een expositie van kunstenaar Lin-Shi Kok. Zij heeft dit jaar het artwork ontworpen voor het festival, maar heeft daarnaast ook verschillende kunststukken staan die je kan bekijken. Deze stukken staan verspreid door het gehele festivalgebied.</p>
+				</div>
+			</div>
+		</dd>
+		
+		<dd class="description-list__detail description-list__detail--accordion">
+			<span class="anchor-holder"></span>
+			<div class="js-accordion accordion">
+				<div class="js-accordion-trigger accordion__title">
+					<h2>Met U-pas toegang voor 5 euro</h2>
+          <span class="accordion__icon svg-icon" data-icon="icon-arrow"></span>
+				</div>
+				<div class="js-accordion-target accordion__content flow">
+					<p>Op vertoon van je U-pas koop je aan de kassa van TivoliVredenburg voor 5 euro een ticket voor dit programma. Lees <a href="https://www.tivolivredenburg.nl/bezoek/korting/u-pas/">hier</a> hoe je een ticket koopt met je U-pas. <em>Wanneer een programma is uitverkocht, geldt dit ook voor U-pas tickets.</em></p>
+				</div>
+			</div>
+		</dd>
+		
+	</dl>
+</div>
+				</div>
+			</div>
+
+			<div class="event-flow__order">
+				<div class="event-cta flow">
+					<time class="h6">za 21 feb 2026</time>
+<h2>Footprints Festival</h2>
+<p class="event__subtitle">Avontuurlijk festival met opwindende ritmes met o.a. Gizmo Varillas, Islandman en Sessa</p>
+					<div class="event-cta__favourites">
+						<div>
+									<div class="btn-group">
+			<div class="btn-group__content">
+				<p class="btn-group__price h3">
+										&euro; 36,50				</p>
+			</div>
+		
+			<a class="btn btn-group__link" href="https://ticket.tivolivredenburg.nl/nl/buyingflow/tickets/50204/109326"  target="_blank"  data-status="Tickets" data-event="295175" >
+				<span class="svg-icon" data-icon="icon-shopping-cart"></span>
+				<span>Bestel tickets</span>
+			</a>
+					</div>
+					<p class="btn-group__info">
+					incl. servicekosten				</p>
+
+									</div>
+						<div class="event-cta__favourites__button-box">
+							<div class="event__favourites-wrapper">
+	<button class="event__favourites js-favourites" data-displayid="50573414" data-genre="pop-rock, indie, global-1-pop-rock, soul-funk-jazz, electronic-1, jazz, dance-by-night, indie-pop-alternative, global-1, electronic, global, turks">
+		<span class="heart-icon">
+			<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M20.5815 7C19.6435 7.01411 18.726 7.26742 17.9215 7.73434C17.1171 8.20126 16.4543 8.86525 16 9.65927C15.5457 8.86525 14.8829 8.20126 14.0785 7.73434C13.2741 7.26742 12.3565 7.01411 11.4185 7C9.92324 7.06285 8.51444 7.69564 7.49991 8.76014C6.48539 9.82464 5.9476 11.2343 6.00403 12.6812C6.00403 16.3453 9.99076 20.3471 13.3344 23.0604C14.081 23.6673 15.0249 24 16 24C16.9751 24 17.919 23.6673 18.6656 23.0604C22.0092 20.3471 25.996 16.3453 25.996 12.6812C26.0524 11.2343 25.5146 9.82464 24.5001 8.76014C23.4856 7.69564 22.0768 7.06285 20.5815 7ZM17.5952 21.8274C17.1487 22.1912 16.5837 22.3906 16 22.3906C15.4163 22.3906 14.8513 22.1912 14.4048 21.8274C10.1249 18.3535 7.67003 15.0205 7.67003 12.6812C7.61308 11.6615 7.97521 10.6615 8.67742 9.89917C9.37964 9.13682 10.365 8.67401 11.4185 8.61168C12.4721 8.67401 13.4574 9.13682 14.1596 9.89917C14.8618 10.6615 15.2239 11.6615 15.167 12.6812C15.167 12.8949 15.2548 13.0999 15.411 13.251C15.5672 13.4021 15.7791 13.487 16 13.487C16.2209 13.487 16.4328 13.4021 16.589 13.251C16.7452 13.0999 16.833 12.8949 16.833 12.6812C16.7761 11.6615 17.1382 10.6615 17.8404 9.89917C18.5426 9.13682 19.5279 8.67401 20.5815 8.61168C21.635 8.67401 22.6204 9.13682 23.3226 9.89917C24.0248 10.6615 24.3869 11.6615 24.33 12.6812C24.33 15.0205 21.8751 18.3535 17.5952 21.8242V21.8274Z" fill="var(--clr--neutral-900)"/>
+			</svg>
+		<span class="sr-only">Add event to favourites</span>
+		</span>
+		<span class="heart-icon-fill">
+			<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M20.5815 7C19.6435 7.01411 18.726 7.26742 17.9215 7.73434C17.1171 8.20126 16.4543 8.86525 16 9.65927C15.5457 8.86525 14.8829 8.20126 14.0785 7.73434C13.2741 7.26742 12.3565 7.01411 11.4185 7C9.92324 7.06285 8.51444 7.69564 7.49991 8.76014C6.48539 9.82464 5.9476 11.2343 6.00403 12.6812C6.00403 16.3453 9.99076 20.3471 13.3344 23.0604C14.081 23.6673 15.0249 24 16 24C16.9751 24 17.919 23.6673 18.6656 23.0604C22.0092 20.3471 25.996 16.3453 25.996 12.6812C26.0524 11.2343 25.5146 9.82464 24.5001 8.76014C23.4856 7.69564 22.0768 7.06285 20.5815 7Z" fill="var(--clr--primary-100)"/>
+			</svg>
+			<span class="sr-only">Remove event from favourites</span>
+		</span>
+	</button>
+	<div class="event__favourites-tooltip" role="tooltip">
+		<div class="event__favourites-tooltip__icon-box">
+			<div class="event__favourites-tooltip__icon">
+				<svg width="25" height="23" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M20.5815 7C19.6435 7.01411 18.726 7.26742 17.9215 7.73434C17.1171 8.20126 16.4543 8.86525 16 9.65927C15.5457 8.86525 14.8829 8.20126 14.0785 7.73434C13.2741 7.26742 12.3565 7.01411 11.4185 7C9.92324 7.06285 8.51444 7.69564 7.49991 8.76014C6.48539 9.82464 5.9476 11.2343 6.00403 12.6812C6.00403 16.3453 9.99076 20.3471 13.3344 23.0604C14.081 23.6673 15.0249 24 16 24C16.9751 24 17.919 23.6673 18.6656 23.0604C22.0092 20.3471 25.996 16.3453 25.996 12.6812C26.0524 11.2343 25.5146 9.82464 24.5001 8.76014C23.4856 7.69564 22.0768 7.06285 20.5815 7Z" fill="var(--clr--primary-100)"/>
+				</svg>
+			</div>
+		</div>
+		<div class="event__favourites-tooltip__text">Voeg een event toe aan je favorieten</div>
+	</div>
+</div>
+
+
+						</div>
+					</div>
+				</div>
+
+				<div class="event__text  flow">
+
+					<p>Op zaterdag 21 februari 2026 kun je je musicologische voetafdruk weer vergroten op Footprints Festival. Verschillende zalen van TivoliVredenburg vormen een bruisende biotoop van even exotische als opwindende ritmes. Verwacht prehistorische techno en psychedelische funk, maar ook zwoele samba, jazzy grime en funky Bollywood, dit alles van internationale, opkomende artiesten als Gizmo Varillas, Islandman, Sessa, Keshavara en Derya Yıldırım & Grup Şimşek. Sta stil, loop rond of dans je vierkant op Footprints Festival!</p>
+<p></p>
+<p><a href="https://www.tivolivredenburg.nl/wp-content/uploads/2026/01/260221_blokkenschema_Footprints-1_Easy-Resize.com_.jpg" class="rtf-link fallback-font" style="text-decoration:underline;"><img decoding="async" src="https://www.tivolivredenburg.nl/wp-content/uploads/2026/01/260221_blokkenschema_Footprints-1_Easy-Resize.com_.jpg"></a></p>
+<p></p>
+<p><iframe title="Spotify Embed: Footprints Festival 2026" style="border-radius: 12px" width="100%" height="352" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" data-cookieconsent="marketing" data-src="https://open.spotify.com/embed/playlist/2Qt2F5Mwnsd56LFfzagivS?utm_source=oembed"></iframe><div class="cookieconsent-optout-marketing"><span>Je cookie instellingen blokkeren Spotify. </br>Pas <a href="javascript:Cookiebot.renew()">je instellingen</a> aan om gebruik te maken van Spotify.</span></div></p>
+
+		<div class=""><a class="link" href="https://www.facebook.com/events/811830624815738/" target="_blank">Facebook event</a></div>
+			
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	
+	<div class="lane flow" style="--flow-spacer: 2.5rem">
+		<div class="has-line">
+			<h2 class="has-line__text">Zie ook</h2>
+		</div>
+
+		<section class="tile-container">
+			<article class="tile flow">
+
+
+<picture   style="--aspect-ratio: 16/9"><source media="screen and (min-width: 0px) and (max-width: 768px)" srcset="https://tivolivredenburg.digital-asset.app/ji2gc8uqKk 1x, https://tivolivredenburg.digital-asset.app/Hb6t2f4vEN 2x"><source media="screen and (min-width: 769px) and (max-width: 1020px)" srcset="https://tivolivredenburg.digital-asset.app/ji2gc8uqKk 1x, https://tivolivredenburg.digital-asset.app/Hb6t2f4vEN 2x"><source media="screen and (min-width: 1021px) and (max-width: 1280px)" srcset="https://tivolivredenburg.digital-asset.app/q0pvQVsoUp 1x, https://tivolivredenburg.digital-asset.app/ji2gc8uqKk 2x"><source media="screen and (min-width: 1281px)" srcset="https://tivolivredenburg.digital-asset.app/q0pvQVsoUp 1x, https://tivolivredenburg.digital-asset.app/ji2gc8uqKk 2x"><img src="https://tivolivredenburg.digital-asset.app/ji2gc8uqKk" loading="lazy"  alt="Footprints Festival"  class="rounded" ></picture>
+
+			<time class="tile__date h6">
+			ma 20 apr 2026		</time>
+					<h3 class="tile__title">The Vaccines</h3>
+	
+			<p class="tile__text">‘What Did You Expect from The Vaccines?’ Anniversary Tour 2026</p>
+	
+			<a aria-label="Lees meer over The Vaccines" class="tile__link" href="https://www.tivolivredenburg.nl/agenda/99910562/the-vaccines-20-04-2026"></a>
+	
+</article>
+<article class="tile flow">
+
+
+<picture   style="--aspect-ratio: 16/9"><source media="screen and (min-width: 0px) and (max-width: 768px)" srcset="https://tivolivredenburg.digital-asset.app/PRhz5XCuNG 1x, https://tivolivredenburg.digital-asset.app/aW87P7hpde 2x"><source media="screen and (min-width: 769px) and (max-width: 1020px)" srcset="https://tivolivredenburg.digital-asset.app/PRhz5XCuNG 1x, https://tivolivredenburg.digital-asset.app/aW87P7hpde 2x"><source media="screen and (min-width: 1021px) and (max-width: 1280px)" srcset="https://tivolivredenburg.digital-asset.app/fpqM1gAmY7 1x, https://tivolivredenburg.digital-asset.app/PRhz5XCuNG 2x"><source media="screen and (min-width: 1281px)" srcset="https://tivolivredenburg.digital-asset.app/fpqM1gAmY7 1x, https://tivolivredenburg.digital-asset.app/PRhz5XCuNG 2x"><img src="https://tivolivredenburg.digital-asset.app/PRhz5XCuNG" loading="lazy"  alt="Footprints Festival"  class="rounded" ></picture>
+
+			<time class="tile__date h6">
+			ma 2 mrt 2026		</time>
+					<h3 class="tile__title">Santrofi</h3>
+	
+			<p class="tile__text">Traditionele West-Afrikaanse ritmes met westerse jazz</p>
+	
+			<a aria-label="Lees meer over Santrofi" class="tile__link" href="https://www.tivolivredenburg.nl/agenda/62020632/santrofi-02-03-2026"></a>
+	
+</article>
+<article class="tile flow">
+
+
+<picture   style="--aspect-ratio: 16/9"><source media="screen and (min-width: 0px) and (max-width: 768px)" srcset="https://tivolivredenburg.digital-asset.app/f770d2b286 1x, https://tivolivredenburg.digital-asset.app/9cb3c3454d 2x"><source media="screen and (min-width: 769px) and (max-width: 1020px)" srcset="https://tivolivredenburg.digital-asset.app/f770d2b286 1x, https://tivolivredenburg.digital-asset.app/9cb3c3454d 2x"><source media="screen and (min-width: 1021px) and (max-width: 1280px)" srcset="https://tivolivredenburg.digital-asset.app/dba4551d0c 1x, https://tivolivredenburg.digital-asset.app/f770d2b286 2x"><source media="screen and (min-width: 1281px)" srcset="https://tivolivredenburg.digital-asset.app/dba4551d0c 1x, https://tivolivredenburg.digital-asset.app/f770d2b286 2x"><img src="https://tivolivredenburg.digital-asset.app/f770d2b286" loading="lazy"  alt="Footprints Festival"  class="rounded" ></picture>
+
+			<time class="tile__date h6">
+			vr 20 mrt 2026		</time>
+					<h3 class="tile__title">Thomas Azier</h3>
+	
+			<p class="tile__text">Birds of Paradise presenteert</p>
+	
+			<a aria-label="Lees meer over Thomas Azier" class="tile__link" href="https://www.tivolivredenburg.nl/agenda/47398661/thomas-azier-20-03-2026"></a>
+	
+</article>
+
+		</section>
+	</div>
+
+</main>
+
+
+<div class="lane bg-white">
+	<footer class="footer">
+				<div class="footer-newsletter">
+			
+<section class="footer-newsletter__content">
+
+	<div class="footer-newsletter__text-container">
+		<h2 class="footer-newsletter__title">Blijf op de hoogte</h2>
+		<p>Schrijf je in voor één van onze nieuwsbrieven</p>
+	</div>
+
+	<div class="footer-newsletter__form-container">
+			<form method="post" action="https://stichtingtivolivredenburg.my.salesforce-sites.com/marke__VfSubscription?type=Opt-in&language=nl&preferences=Pop&source=website-agenda" class="form footer-newsletter__form" id="newsletterform_sf">
+
+			<div class="form__field">
+				<label class="sr-only" for="email-input">E-mailadres</label>
+				<input class="form__input" type="email" placeholder="Voer je e-mailadres in" value="" name="email" id="email-input" required="required">
+			</div>
+
+			<div>
+				<button class="btn">Meld je nu aan</button>
+			</div>
+
+		</form>
+	</div>
+
+</section>
+		</div>
+				<div class="footer-content">
+			<ul class="footer__list footer__list--highlights">
+			<li id="menu-item-238420" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238420"><a href="https://www.tivolivredenburg.nl/agenda/" class="h4 link">Agenda</a></li>
+<li id="menu-item-241626" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-241626"><a href="https://www.tivolivredenburg.nl/steun/" class="h4 link">Steun ons</a></li>
+</ul>
+
+<ul class="footer__list flow">
+	<li id="menu-item-238468" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238468"><a href="https://www.tivolivredenburg.nl/bezoek/route/" class="footer__link link">Route &#038; Parkeren</a></li>
+<li id="menu-item-238469" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238469"><a href="https://www.tivolivredenburg.nl/bezoek/zalen/" class="footer__link link">Onze zalen</a></li>
+<li id="menu-item-281791" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-281791"><a href="https://www.tivolivredenburg.nl/bezoek/toegankelijkheid/" class="footer__link link">Toegankelijkheid</a></li>
+<li id="menu-item-238471" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238471"><a href="https://www.tivolivredenburg.nl/bezoek/faq/" class="footer__link link">Veelgestelde vragen</a></li>
+</ul>
+
+<ul class="footer__list flow">
+	<li id="menu-item-238473" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238473"><a href="https://www.tivolivredenburg.nl/contact/" class="footer__link link">Contact</a></li>
+<li id="menu-item-238474" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238474"><a href="https://www.tivolivredenburg.nl/vacatures/" class="footer__link link">Vacatures</a></li>
+<li id="menu-item-241650" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-241650"><a href="https://www.tivolivredenburg.nl/restaurant-cafe/" class="footer__link link">Restaurant &amp; Café</a></li>
+<li id="menu-item-293103" class="cookie-settings-link menu-item menu-item-type-custom menu-item-object-custom menu-item-293103"><a href="#" class="footer__link link">Cookie instellingen</a></li>
+</ul>
+
+<ul class="footer__list flow">
+	<li id="menu-item-238480" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-238480"><a href="https://www.tivolivredenburg.nl/net-bevestigd/" class="footer__link link">Net bevestigd</a></li>
+<li id="menu-item-241653" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-241653"><a href="https://www.tivolivredenburg.nl/studio/" class="footer__link link">Video's &#038; Podcasts</a></li>
+<li id="menu-item-241651" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-241651"><a href="https://www.tivolivredenburg.nl/foto/" class="footer__link link">Foto's</a></li>
+<li id="menu-item-241652" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-241652"><a href="https://www.tivolivredenburg.nl/stories/" class="footer__link link">Stories</a></li>
+</ul>
+					</div>
+
+		<section class="bottom-section">
+			<div class="bottom-section__toggle">
+				<label class="toggle">
+	<input type="checkbox" class="toggle__checkbox js-theme-toggle" role="switch" aria-label="light mode" tabindex="0">
+	<span class="toggle__label"></span>
+	<p class="toggle__text">Dark Mode</p>
+</label>
+			</div>
+
+			<div class="bottom-section__socials socials">
+							<div class="socials__item">
+					<a class="social-link" aria-label="Volg ons op Instagram" href="https://www.instagram.com/tivolivredenburg/" target="_blank">
+	<svg focusable="false" width="33px" height="33px" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>instagram</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M10.2531254,0.848437071 C12.8546879,0.700780392 20.6523437,0.700780392 23.2539062,0.848437071 C25.7781246,0.975000858 28.0140612,1.55156207 29.8562496,3.39375043 C31.7054696,5.23593664 32.2820308,7.47187543 32.4015619,9.99609375 C32.5492185,12.5976552 32.5492185,20.3882804 32.4015619,22.9898429 C32.2749981,25.5140612 31.6984369,27.7499979 29.8562485,29.5921862 C28.0140623,31.4414062 25.7781235,32.0179675 23.2539052,32.1374996 C20.6523427,32.2851562 12.8546869,32.2851562 10.2531244,32.1374996 C7.72890496,32.0109358 5.49999893,31.4343724 3.65077996,29.5921862 C1.801561,27.75 1.22499871,25.5140612 1.10546768,22.9898429 C0.957810998,20.3882804 0.957810998,12.5906246 1.10546768,9.98906207 C1.23203039,7.46484375 1.80156207,5.22890711 3.65078104,3.38671875 C5.5,1.54453039 7.73593771,0.967969179 10.2531254,0.848437071 Z M16.469694,3.57572692 C14.0756468,3.56299381 9.45999678,3.41962495 7.46874678,4.20937371 C6.08359075,4.76484203 5.02187157,5.82656121 4.47343385,7.20468664 C3.65780842,9.27187586 3.84062135,14.2007804 3.84062135,16.4929683 L3.83978705,16.7803028 C3.82705387,19.17435 3.68368406,23.79 4.47343385,25.78125 C5.02890217,27.1664071 6.09062135,28.2281263 7.46874678,28.7765629 C9.53593493,29.5921884 14.4648405,29.4093754 16.7570285,29.4093754 C19.0492164,29.4093754 23.9710914,29.59922 26.0453101,28.7765629 C27.4304672,28.2210946 28.4921864,27.1593754 29.0406231,25.78125 C29.8632802,23.7140608 29.6734356,18.7851562 29.6734356,16.4929683 C29.6734356,14.2007804 29.8632802,9.27890539 29.0406231,7.20468664 C28.4851547,5.81952953 27.4234356,4.7578125 26.0453101,4.20937371 C23.9781231,3.39374828 19.0492164,3.57656121 16.7570285,3.57656121 Z M16.7570317,8.4140625 C21.2289071,8.4140625 24.8359375,12.0210929 24.8359375,16.4929683 C24.8359375,20.9648438 21.2289071,24.5718741 16.7570317,24.5718741 C12.2851562,24.5718741 8.67812479,20.9648438 8.67812479,16.4929683 C8.67812479,12.021094 12.2851562,8.4140625 16.7570317,8.4140625 Z M16.7570317,11.2406259 C13.8601569,11.2406259 11.5046881,13.5960946 11.5046881,16.4929694 C11.5046881,19.3898442 13.8671875,21.7453129 16.7570306,21.7453129 C19.6468737,21.7453129 22.0093741,19.3898442 22.0093741,16.4929694 C22.0093741,13.5960946 19.6539054,11.2406259 16.7570317,11.2406259 Z M25.1664071,6.19921875 C26.2070312,6.19921875 27.0507812,7.04296875 27.0507812,8.08359289 C27.0507812,9.13125086 26.2070312,9.96796918 25.1664071,9.96796918 C24.1187513,9.96796918 23.282033,9.12421918 23.282033,8.08359289 C23.282033,7.04296875 24.125783,6.19921875 25.1664071,6.19921875 Z" id="instagram" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+				</div>
+								<div class="socials__item">
+					<a class="social-link" href="https://www.facebook.com/TivoliVredenburgUtrecht/" target="_blank">
+	<svg width="20px" height="37px" viewBox="0 0 20 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>facebook</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M12.8753904,36.5 L12.8753904,20.75 L18.1270323,20.75 L19.1268761,14.2348435 L12.8753915,14.2348435 L12.8753915,10.0069525 C12.8753915,8.22453022 13.7486726,6.48710895 16.5485158,6.48710895 L19.3905458,6.48710895 L19.3905458,0.940156937 C19.3905458,0.940156937 16.8114839,0.5 14.345625,0.5 C9.19734371,0.5 5.83218741,3.62046909 5.83218741,9.26937509 L5.83218741,14.2348435 L0.109453082,14.2348435 L0.109453082,20.75 L5.83218741,20.75 L5.83218741,36.5 L12.8753904,36.5 Z" id="facebook" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+				</div>
+								<div class="socials__item">
+					<a class="social-link" aria-label="Volg ons op Tik Tok" href="https://www.tiktok.com/@tivolivredenburg" target="_blank">
+	<svg focusable="false" width="33px" height="37px" viewBox="0 0 33 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>tiktok</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M6.59515619,34.9575474 C14.2130718,39.3594837 23.7395036,33.864058 23.7427351,25.0657816 L23.7427351,25.0657816 L23.7427351,12.4995315 C26.2598574,14.3013204 29.2794712,15.2667011 32.3750011,15.2592971 L32.3750011,15.2592971 L32.3750011,9.11539054 C30.6997684,9.11574244 29.0614473,8.62326741 27.6640636,7.6992979 C25.6789864,6.42006016 24.3080558,4.38006639 23.8735143,2.05882907 C23.782214,1.54432774 23.7384361,1.02252007 23.7427341,0.5 L23.7427341,0.5 L17.5552351,0.5 L17.5552351,25.0657816 C17.5552684,26.5355957 16.9387745,27.9380305 15.8557929,28.9317632 C12.8798498,31.6624579 8.06382227,30.1475892 7.1869427,26.2050016 C6.31006312,22.2624118 10.029992,18.8490434 13.8828136,20.0609384 L13.8828136,20.0609384 L13.8828136,13.7405467 C11.36554,13.3915913 8.8037622,13.8915615 6.60242605,15.1614255 C-1.0187211,19.5577645 -1.02275944,30.5556111 6.59515619,34.9575474 Z" id="tiktok" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+				</div>
+							<div class="socials__item">
+				<a class="social-link" aria-label="Volg ons op Youtube" href="https://www.youtube.com/user/tivolivredenburg" target="_blank">
+	<svg focusable="false" width="39px" height="27px" viewBox="0 0 39 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<title>youtube</title>
+		<g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<path d="M20.2050082,0.00127399215 C22.423558,0.0109440531 32.1066408,0.0940133716 34.7526507,0.807608843 C36.4047842,1.25205517 37.705986,2.56169415 38.1476192,4.22458649 C38.8646623,6.91802526 38.9409435,12.2263383 38.9490585,13.3252841 L38.9490585,13.3252841 L38.9500204,13.4938564 L38.9500204,13.4938564 L38.9500204,13.5607062 L38.9490585,13.7292785 C38.9409435,14.8282242 38.8646623,20.1365373 38.1476192,22.8299761 C37.705986,24.4928684 36.4047799,25.7479448 34.7526486,26.1923912 C32.0477764,26.9218443 21.9897113,26.9924365 20.0683208,26.9992681 L20.0683208,26.9992681 L19.4316792,26.9992681 C17.5102887,26.9924365 7.4522236,26.9218441 4.74735141,26.192389 C3.09521794,25.7479448 1.79401505,24.4928663 1.35238183,22.8299761 C0.635337781,20.1365373 0.5590565,14.8282242 0.55094147,13.7292785 L0.551882919,13.2139738 C0.564268004,11.9070236 0.657066389,6.8364059 1.35238183,4.22458649 C1.79401505,2.56169415 3.09521794,1.25212383 4.74735141,0.807608843 C7.4522236,0.0781556945 17.5102887,0.0075634543 19.4316792,0.000731947191 Z M15.8226967,7.81769514 L15.8226967,19.2368674 L25.8590336,13.5274229 L15.8226967,7.81769514 Z" id="youtube" fill="#000000" fill-rule="nonzero"></path>
+		</g>
+	</svg>
+</a>
+			</div>
+							</div>
+			<div class="bottom-section__language">
+				<ul class="language-nav">
+		<li >
+		<a href="/english" class="language-link toggle-language-js"
+		aria-current="page"		 aria-hidden="false">
+			<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1M11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1M11 21C13.3254 21 16.2105 16.5228 16.2105 11C16.2105 5.47715 13.3254 1 11 1M11 21C8.67459 21 5.78947 16.5228 5.78947 11C5.78947 5.47715 8.67459 1 11 1M1.52632 7.84211H20.4737M1.52632 14.1579H20.4737" stroke="currentColor" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" />
+			</svg>
+			<span>English</span>
+		</a>
+	</li>
+	<li class="active">
+		<a href="/" class="language-link toggle-language-js"
+				 aria-hidden="true">
+			<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1M11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1M11 21C13.3254 21 16.2105 16.5228 16.2105 11C16.2105 5.47715 13.3254 1 11 1M11 21C8.67459 21 5.78947 16.5228 5.78947 11C5.78947 5.47715 8.67459 1 11 1M1.52632 7.84211H20.4737M1.52632 14.1579H20.4737" stroke="currentColor" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" />
+			</svg>
+			<span>Nederlands</span>
+		</a>
+	</li>
+</ul>
+			</div>
+		</section>
+
+	</footer>
+</div>
+
+
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp/wp-*.php","/wp/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/tivoli-redesign-2021/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript">var algolia = {"debug":false,"application_id":"LDUNKO3EMZ","search_api_key":"2c4469934d242e45aeb1054e21856b6c","powered_by_enabled":false,"insights_enabled":false,"search_hits_per_page":"50","query":"","indices":{"searchable_posts":{"name":"tv_searchable_posts","id":"searchable_posts","enabled":true,"replicas":[]}},"autocomplete":{"sources":[{"index_id":"searchable_posts","index_name":"tv_searchable_posts","label":"Suggesties","admin_name":"Alle berichten","position":10,"max_suggestions":5,"tmpl_suggestion":"autocomplete-post-suggestion","enabled":true}],"input_selector":"input[name='s']:not(.no-autocomplete):not(#adminbar-search)"}};</script>
+<script type="text/html" id="tmpl-autocomplete-header">
+	<div class="autocomplete-header">
+		<div class="autocomplete-header-title">{{{ data.label }}}</div>
+		<div class="clear"></div>
+	</div>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-post-suggestion">
+	<a class="suggestion-link" href="{{ data.permalink }}" title="{{ data.post_title }}">
+		<div class="suggestion-post-attributes">
+			<span class="suggestion-post-title">{{{ data._highlightResult.post_title.value }}}
+			<# if ( data.date_formatted) { #>
+			 - {{{ data.date_formatted }}}
+			<# } #>
+			</span>
+			<!-- <# if ( data.subtitle ) { #>
+				<span class="suggestion-post-content">{{{ data.subtitle }}}</span>
+			<# } #> -->
+			<# if ( data._snippetResult['content'] ) { #>
+				<span class="suggestion-post-content">{{{ data._snippetResult['content'].value }}}</span>
+			<# } #>
+		</div>
+			</a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-term-suggestion">
+	<a class="suggestion-link" href="{{ data.permalink }}" title="{{ data.name }}">
+		<svg viewBox="0 0 21 21" width="21" height="21">
+			<svg width="21" height="21" viewBox="0 0 21 21">
+				<path
+					d="M4.662 8.72l-1.23 1.23c-.682.682-.68 1.792.004 2.477l5.135 5.135c.7.693 1.8.688 2.48.005l1.23-1.23 5.35-5.346c.31-.31.54-.92.51-1.36l-.32-4.29c-.09-1.09-1.05-2.06-2.15-2.14l-4.3-.33c-.43-.03-1.05.2-1.36.51l-.79.8-2.27 2.28-2.28 2.27zm9.826-.98c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25z"
+					fill-rule="evenodd"></path>
+			</svg>
+		</svg>
+		<span class="suggestion-post-title">{{{ data._highlightResult.name.value }}}</span>
+	</a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-footer">
+	<div class="autocomplete-footer">
+		<div class="autocomplete-footer-branding">
+			<a href="#" class="algolia-powered-by-link" title="Algolia">
+				<svg width="150px" height="25px" viewBox="0 0 572 64"><path fill="#36395A" d="M16 48.3c-3.4 0-6.3-.6-8.7-1.7A12.4 12.4 0 0 1 1.9 42C.6 40 0 38 0 35.4h6.5a6.7 6.7 0 0 0 3.9 6c1.4.7 3.3 1.1 5.6 1.1 2.2 0 4-.3 5.4-1a7 7 0 0 0 3-2.4 6 6 0 0 0 1-3.4c0-1.5-.6-2.8-1.9-3.7-1.3-1-3.3-1.6-5.9-1.8l-4-.4c-3.7-.3-6.6-1.4-8.8-3.4a10 10 0 0 1-3.3-7.9c0-2.4.6-4.6 1.8-6.4a12 12 0 0 1 5-4.3c2.2-1 4.7-1.6 7.5-1.6s5.5.5 7.6 1.6a12 12 0 0 1 5 4.4c1.2 1.8 1.8 4 1.8 6.7h-6.5a6.4 6.4 0 0 0-3.5-5.9c-1-.6-2.6-1-4.4-1s-3.2.3-4.4 1c-1.1.6-2 1.4-2.6 2.4-.5 1-.8 2-.8 3.1a5 5 0 0 0 1.5 3.6c1 1 2.6 1.7 4.7 1.9l4 .3c2.8.2 5.2.8 7.2 1.8 2.1 1 3.7 2.2 4.9 3.8a9.7 9.7 0 0 1 1.7 5.8c0 2.5-.7 4.7-2 6.6a13 13 0 0 1-5.6 4.4c-2.4 1-5.2 1.6-8.4 1.6Zm35.6 0c-2.6 0-4.8-.4-6.7-1.3a13 13 0 0 1-4.7-3.5 17.1 17.1 0 0 1-3.6-10.4v-1c0-2 .3-3.8 1-5.6a13 13 0 0 1 7.3-8.3 15 15 0 0 1 6.3-1.4A13.2 13.2 0 0 1 64 24.3c1 2.2 1.6 4.6 1.6 7.2V34H39.4v-4.3h21.8l-1.8 2.2c0-2-.3-3.7-.9-5.1a7.3 7.3 0 0 0-2.7-3.4c-1.2-.7-2.7-1.1-4.6-1.1s-3.4.4-4.7 1.3a8 8 0 0 0-2.9 3.6c-.6 1.5-.9 3.3-.9 5.4 0 2 .3 3.7 1 5.3a7.9 7.9 0 0 0 2.8 3.7c1.3.8 3 1.3 5 1.3s3.8-.5 5.1-1.3c1.3-1 2.1-2 2.4-3.2h6a11.8 11.8 0 0 1-7 8.7 16 16 0 0 1-6.4 1.2ZM80 48c-2.2 0-4-.3-5.7-1a8.4 8.4 0 0 1-3.7-3.3 9.7 9.7 0 0 1-1.3-5.2c0-2 .5-3.8 1.5-5.2a9 9 0 0 1 4.3-3.1c1.8-.7 4-1 6.7-1H89v4.1h-7.5c-2 0-3.4.5-4.4 1.4-1 1-1.6 2.1-1.6 3.6s.5 2.7 1.6 3.6c1 1 2.5 1.4 4.4 1.4 1.1 0 2.2-.2 3.2-.7 1-.4 1.9-1 2.6-2 .6-1 1-2.4 1-4.2l1.7 2.1c-.2 2-.7 3.8-1.5 5.2a9 9 0 0 1-3.4 3.3 12 12 0 0 1-5.3 1Zm9.5-.7v-8.8h-1v-10c0-1.8-.5-3.2-1.4-4.1-1-1-2.4-1.4-4.2-1.4a142.9 142.9 0 0 0-10.2.4v-5.6a74.8 74.8 0 0 1 8.6-.4c3 0 5.5.4 7.5 1.2s3.4 2 4.4 3.6c1 1.7 1.4 4 1.4 6.7v18.4h-5Zm12.9 0V17.8h5v12.3h-.2c0-4.2 1-7.4 2.8-9.5a11 11 0 0 1 8.3-3.1h1v5.6h-2a9 9 0 0 0-6.3 2.2c-1.5 1.5-2.2 3.6-2.2 6.4v15.6h-6.4Zm34.4 1a15 15 0 0 1-6.6-1.3c-1.9-.9-3.4-2-4.7-3.5a15.5 15.5 0 0 1-2.7-5c-.6-1.7-1-3.6-1-5.4v-1c0-2 .4-3.8 1-5.6a15 15 0 0 1 2.8-4.9c1.3-1.5 2.8-2.6 4.6-3.5a16.4 16.4 0 0 1 13.3.2c2 1 3.5 2.3 4.8 4a12 12 0 0 1 2 6H144c-.2-1.6-1-3-2.2-4.1a7.5 7.5 0 0 0-5.2-1.7 8 8 0 0 0-4.7 1.3 8 8 0 0 0-2.8 3.6 13.8 13.8 0 0 0 0 10.3c.6 1.5 1.5 2.7 2.8 3.6s2.8 1.3 4.8 1.3c1.5 0 2.7-.2 3.8-.8a7 7 0 0 0 2.6-2c.7-1 1-2 1.2-3.2h6.2a11 11 0 0 1-2 6.2 15.1 15.1 0 0 1-11.8 5.5Zm19.7-1v-40h6.4V31h-1.3c0-3 .4-5.5 1.1-7.6a9.7 9.7 0 0 1 3.5-4.8A9.9 9.9 0 0 1 172 17h.3c3.5 0 6 1.1 7.9 3.5 1.7 2.3 2.6 5.7 2.6 10v16.8h-6.4V29.6c0-2.1-.6-3.8-1.8-5a6.4 6.4 0 0 0-4.8-1.8c-2 0-3.7.7-5 2a7.8 7.8 0 0 0-1.9 5.5v17h-6.4Zm63.8 1a12.2 12.2 0 0 1-10.9-6.2 19 19 0 0 1-1.8-7.3h1.4v12.5h-5.1v-40h6.4v19.8l-2 3.5c.2-3.1.8-5.7 1.9-7.7a11 11 0 0 1 4.4-4.5c1.8-1 3.9-1.5 6.1-1.5a13.4 13.4 0 0 1 12.8 9.1c.7 1.9 1 3.8 1 6v1c0 2.2-.3 4.1-1 6a13.6 13.6 0 0 1-13.2 9.4Zm-1.2-5.5a8.4 8.4 0 0 0 7.9-5c.7-1.5 1.1-3.3 1.1-5.3s-.4-3.8-1.1-5.3a8.7 8.7 0 0 0-3.2-3.6 9.6 9.6 0 0 0-9.2-.2 8.5 8.5 0 0 0-3.3 3.2c-.8 1.4-1.3 3-1.3 5v2.3a9 9 0 0 0 1.3 4.8 9 9 0 0 0 3.4 3c1.4.7 2.8 1 4.4 1Zm27.3 3.9-10-28.9h6.5l9.5 28.9h-6Zm-7.5 12.2v-5.7h4.9c1 0 2-.1 2.9-.4a4 4 0 0 0 2-1.4c.4-.7.9-1.6 1.2-2.7l8.6-30.9h6.2l-9.3 32.4a14 14 0 0 1-2.5 5 8.9 8.9 0 0 1-4 2.8c-1.5.6-3.4.9-5.6.9h-4.4Zm9-12.2v-5.2h6.4v5.2H248Z"></path><path fill="#003DFF" d="M534.4 9.1H528a.8.8 0 0 1-.7-.7V1.8c0-.4.2-.7.6-.8l6.5-1c.4 0 .8.2.9.6v7.8c0 .4-.4.7-.8.7zM428 35.2V.8c0-.5-.3-.8-.7-.8h-.2l-6.4 1c-.4 0-.7.4-.7.8v35c0 1.6 0 11.8 12.3 12.2.5 0 .8-.4.8-.8V43c0-.4-.3-.7-.6-.8-4.5-.5-4.5-6-4.5-7zm106.5-21.8H528c-.4 0-.7.4-.7.8v34c0 .4.3.8.7.8h6.5c.4 0 .8-.4.8-.8v-34c0-.5-.4-.8-.8-.8zm-17.7 21.8V.8c0-.5-.3-.8-.8-.8l-6.5 1c-.4 0-.7.4-.7.8v35c0 1.6 0 11.8 12.3 12.2.4 0 .8-.4.8-.8V43c0-.4-.3-.7-.7-.8-4.4-.5-4.4-6-4.4-7zm-22.2-20.6a16.5 16.5 0 0 1 8.6 9.3c.8 2.2 1.3 4.8 1.3 7.5a19.4 19.4 0 0 1-4.6 12.6 14.8 14.8 0 0 1-5.2 3.6c-2 .9-5.2 1.4-6.8 1.4a21 21 0 0 1-6.7-1.4 15.4 15.4 0 0 1-8.6-9.3 21.3 21.3 0 0 1 0-14.4 15.2 15.2 0 0 1 8.6-9.3c2-.8 4.3-1.2 6.7-1.2s4.6.4 6.7 1.2zm-6.7 27.6c2.7 0 4.7-1 6.2-3s2.2-4.3 2.2-7.8-.7-6.3-2.2-8.3-3.5-3-6.2-3-4.7 1-6.1 3c-1.5 2-2.2 4.8-2.2 8.3s.7 5.8 2.2 7.8 3.5 3 6.2 3zm-88.8-28.8c-6.2 0-11.7 3.3-14.8 8.2a18.6 18.6 0 0 0 4.8 25.2c1.8 1.2 4 1.8 6.2 1.7s.1 0 .1 0h.9c4.2-.7 8-4 9.1-8.1v7.4c0 .4.3.7.8.7h6.4a.7.7 0 0 0 .7-.7V14.2c0-.5-.3-.8-.7-.8h-13.5zm6.3 26.5a9.8 9.8 0 0 1-5.7 2h-.5a10 10 0 0 1-9.2-14c1.4-3.7 5-6.3 9-6.3h6.4v18.3zm152.3-26.5h13.5c.5 0 .8.3.8.7v33.7c0 .4-.3.7-.8.7h-6.4a.7.7 0 0 1-.8-.7v-7.4c-1.2 4-4.8 7.4-9 8h-.1a4.2 4.2 0 0 1-.5.1h-.9a10.3 10.3 0 0 1-7-2.6c-4-3.3-6.5-8.4-6.5-14.2 0-3.7 1-7.2 3-10 3-5 8.5-8.3 14.7-8.3zm.6 28.4c2.2-.1 4.2-.6 5.7-2V21.7h-6.3a9.8 9.8 0 0 0-9 6.4 10.2 10.2 0 0 0 9.1 13.9h.5zM452.8 13.4c-6.2 0-11.7 3.3-14.8 8.2a18.5 18.5 0 0 0 3.6 24.3 10.4 10.4 0 0 0 13 .6c2.2-1.5 3.8-3.7 4.5-6.1v7.8c0 2.8-.8 5-2.2 6.3-1.5 1.5-4 2.2-7.5 2.2l-6-.3c-.3 0-.7.2-.8.5l-1.6 5.5c-.1.4.1.8.5 1h.1c2.8.4 5.5.6 7 .6 6.3 0 11-1.4 14-4.1 2.7-2.5 4.2-6.3 4.5-11.4V14.2c0-.5-.4-.8-.8-.8h-13.5zm6.3 8.2v18.3a9.6 9.6 0 0 1-5.6 2h-1a10.3 10.3 0 0 1-8.8-14c1.4-3.7 5-6.3 9-6.3h6.4zM291 31.5A32 32 0 0 1 322.8 0h30.8c.6 0 1.2.5 1.2 1.2v61.5c0 1.1-1.3 1.7-2.2 1l-19.2-17a18 18 0 0 1-11 3.4 18.1 18.1 0 1 1 18.2-14.8c-.1.4-.5.7-.9.6-.1 0-.3 0-.4-.2l-3.8-3.4c-.4-.3-.6-.8-.7-1.4a12 12 0 1 0-2.4 8.3c.4-.4 1-.5 1.6-.2l14.7 13.1v-46H323a26 26 0 1 0 10 49.7c.8-.4 1.6-.2 2.3.3l3 2.7c.3.2.3.7 0 1l-.2.2a32 32 0 0 1-47.2-28.6z"></path></svg>
+			</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-empty">
+	<div class="autocomplete-empty">
+		Geen resultaten gevonden voor 		<span class="empty-query">"{{ data.query }}"</span>
+	</div>
+</script>
+
+<script type="2ff1531ee1d9e512eadf9286-text/javascript">
+	window.addEventListener('load', function () {
+
+		/* Initialize Algolia client */
+		var client = algoliasearch( algolia.application_id, algolia.search_api_key );
+
+		/**
+		 * Algolia hits source method.
+		 *
+		 * This method defines a custom source to use with autocomplete.js.
+		 *
+		 * @param object $index Algolia index object.
+		 * @param object $params Options object to use in search.
+		 */
+		var algoliaHitsSource = function( index, params ) {
+			return function( query, callback ) {
+				index
+					.search( query, params )
+					.then( function( response ) {
+						callback( response.hits, response );
+					})
+					.catch( function( error ) {
+						callback( [] );
+					});
+			}
+		}
+
+		/* Setup autocomplete.js sources */
+		var sources = [];
+		algolia.autocomplete.sources.forEach( function( config, i ) {
+			var suggestion_template = wp.template( config[ 'tmpl_suggestion' ] );
+			sources.push( {
+				source: algoliaHitsSource( client.initIndex( config[ 'index_name' ] ), {
+					hitsPerPage: config[ 'max_suggestions' ],
+					attributesToSnippet: [
+						'content:10'
+					],
+					highlightPreTag: '__ais-highlight__',
+					highlightPostTag: '__/ais-highlight__'
+				} ),
+				templates: {
+					header: function () {
+						return wp.template( 'autocomplete-header' )( {
+							label: _.escape( config[ 'label' ] )
+						} );
+					},
+					suggestion: function ( hit ) {
+						if ( hit.escaped === true ) {
+							return suggestion_template( hit );
+						}
+						hit.escaped = true;
+
+						for ( var key in hit._highlightResult ) {
+							/* We do not deal with arrays. */
+							if ( typeof hit._highlightResult[ key ].value !== 'string' ) {
+								continue;
+							}
+							hit._highlightResult[ key ].value = _.escape( hit._highlightResult[ key ].value );
+							hit._highlightResult[ key ].value = hit._highlightResult[ key ].value.replace( /__ais-highlight__/g, '<em>' ).replace( /__\/ais-highlight__/g, '</em>' );
+						}
+
+						for ( var key in hit._snippetResult ) {
+							/* We do not deal with arrays. */
+							if ( typeof hit._snippetResult[ key ].value !== 'string' ) {
+								continue;
+							}
+
+							hit._snippetResult[ key ].value = _.escape( hit._snippetResult[ key ].value );
+							hit._snippetResult[ key ].value = hit._snippetResult[ key ].value.replace( /__ais-highlight__/g, '<em>' ).replace( /__\/ais-highlight__/g, '</em>' );
+						}
+
+						return suggestion_template( hit );
+					}
+				}
+			} );
+
+		} );
+
+		/* Setup dropdown menus */
+		document.querySelectorAll( algolia.autocomplete.input_selector ).forEach( function( element ) {
+
+			var config = {
+				minLength: 3,
+				debug: algolia.debug,
+				hint: false,
+				openOnFocus: true,
+				appendTo: 'body',
+				templates: {
+					empty: wp.template( 'autocomplete-empty' )
+				}
+			};
+
+			if ( algolia.powered_by_enabled ) {
+				config.templates.footer = wp.template( 'autocomplete-footer' );
+			}
+
+			/* Instantiate autocomplete.js */
+			var autocomplete = algoliaAutocomplete( element, config, sources )
+				.on( 'autocomplete:selected', function ( e, suggestion ) {
+					/* Redirect the user when we detect a suggestion selection. */
+					window.location.href = suggestion.permalink ?? suggestion.posts_url; // Users use the `posts_url` property instead of `permalink`.
+				} );
+
+			/* Force the dropdown to be re-drawn on scroll to handle fixed containers. */
+			window.addEventListener( 'scroll', function() {
+				if ( autocomplete.autocomplete.getWrapper().style.display === "block" ) {
+					autocomplete.autocomplete.close();
+					autocomplete.autocomplete.open();
+				}
+			} );
+		} );
+
+		var algoliaPoweredLink = document.querySelector( '.algolia-powered-by-link' );
+		if ( algoliaPoweredLink ) {
+			algoliaPoweredLink.addEventListener( 'click', function( e ) {
+				e.preventDefault();
+				window.location = "https://www.algolia.com/?utm_source=WordPress&utm_medium=extension&utm_content=" + window.location.hostname + "&utm_campaign=poweredby";
+			} );
+		}
+	});
+</script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/underscore.min.js?ver=1.13.7" id="underscore-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" id="wp-util-js-extra">
+/* <![CDATA[ */
+var _wpUtilSettings = {"ajax":{"url":"/wp/wp-admin/admin-ajax.php"}};
+//# sourceURL=wp-util-js-extra
+/* ]]> */
+</script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/wp-util.min.js?ver=6.9" id="wp-util-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/plugins/wp-search-with-algolia/js/algoliasearch/dist/algoliasearch-lite.umd.js?ver=2.11.1" id="algolia-search-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/plugins/wp-search-with-algolia/js/autocomplete.js/dist/autocomplete.min.js?ver=2.11.1" id="algolia-autocomplete-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/plugins/wp-search-with-algolia/js/autocomplete-noconflict.js?ver=2.11.1" id="algolia-autocomplete-noconflict-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/min/modernizr.min.js?ver=1764587768" id="modernizr-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/min/datalayer-site.min.js?ver=1746538711" id="datalayer-site-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/min/datalayer-vimeo.min.js?ver=1702370083" id="datalayer-vimeo-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp-content/themes/tivoli-redesign-2021/min/datalayer-youtube.min.js?ver=1702370083" id="datalayer-youtube-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://player.vimeo.com/api/player.js?ver=1.0" id="video-vimeo-api-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" id="jquery-ui-core-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" src="https://www.tivolivredenburg.nl/wp/wp-includes/js/jquery/ui/datepicker.min.js?ver=1.13.3" id="jquery-ui-datepicker-js"></script>
+<script type="2ff1531ee1d9e512eadf9286-text/javascript" id="jquery-ui-datepicker-js-after">
+/* <![CDATA[ */
+jQuery(function(jQuery){jQuery.datepicker.setDefaults({"closeText":"Sluiten","currentText":"Vandaag","monthNames":["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"],"monthNamesShort":["jan","feb","mrt","apr","mei","jun","jul","aug","sep","okt","nov","dec"],"nextText":"Volgende","prevText":"Vorige","dayNames":["zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag"],"dayNamesShort":["zo","ma","di","wo","do","vr","za"],"dayNamesMin":["Z","M","D","W","D","V","Z"],"dateFormat":"d MM yy","firstDay":1,"isRTL":false});});
+//# sourceURL=jquery-ui-datepicker-js-after
+/* ]]> */
+</script>
+		<span style="display:none" data-monitoring="web-monitoring-ok"></span>
+
+<script type="2ff1531ee1d9e512eadf9286-text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"NRJS-97305794f5117d9a583","applicationID":"1831161466","transactionName":"ZwEHNxRWWBFUAkFfV15LJAASXlkMGhJcWF9cAUgQAGhGEFoFQFVMWQsL","queueTime":0,"applicationTime":613,"atts":"S0YEQVxMSx8=","errorBeacon":"bam.nr-data.net","agent":""}</script><script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="2ff1531ee1d9e512eadf9286-|49" defer></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"63916cc67c1d4b7ebd728339f23fd2fd","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

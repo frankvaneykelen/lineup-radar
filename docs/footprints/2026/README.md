@@ -16,16 +16,11 @@
 
 ```powershell
 # Scrape the full lineup from the festival website
+# This gets artist names and bios from the single festival page
 python scripts/scrape_festival.py footprints --year 2026
 
 # Fetch Spotify links for all artists
 python scripts/fetch_spotify_links.py --festival footprints --year 2026
-
-# Fetch festival bios and social links
-python scripts/fetch_festival_data.py --festival footprints --year 2026
-
-# Fetch bio for a single artist (useful for testing or updates)
-python scripts/fetch_festival_data.py --festival footprints --year 2026 --artist "Artist Name"
 
 # Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival footprints --year 2026 --ai
@@ -103,9 +98,11 @@ The `2026.csv` file contains these columns:
 - **Country** - Country of origin
 - **Bio** - AI-generated or general biography
 - **Website** - Official website
+- **Spotify Link** - Spotify artist link
+- **YouTube** - YouTube channel
+- **Instagram** - Instagram profile
 - **AI Summary** - AI-generated critical assessment (preserved on updates)
 - **AI Rating** - AI-generated rating 1-10 (preserved on updates)
-- **Spotify Link** - Spotify artist link
 - **Number of People in Act** - Band size
 - **Gender of Front Person** - Gender identification
 - **Front Person of Color?** - Yes/No
@@ -120,5 +117,6 @@ The `2026.csv` file contains these columns:
 
 - **Personal Data Preserved**: The "AI Summary" and "AI Rating" columns are never overwritten when running update scripts
 - **Date Format**: Dates are in YYYY-MM-DD format for precise scheduling
+- **Single-Page Lineup**: This festival provides all artist information on a single webpage (no individual artist pages)
 - **Dutch Bios**: Festival provides Dutch biographies
 - **Image Downloads**: Artist images are automatically downloaded when generating artist pages

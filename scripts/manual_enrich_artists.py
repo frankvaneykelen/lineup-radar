@@ -166,7 +166,7 @@ def get_input(prompt, default=None, allow_empty=True):
     return value
 
 
-def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists, fieldnames):
+def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists, fieldnames, festival_name):
     """Prompt for artist data interactively."""
     
     # Create artist-specific directory
@@ -180,7 +180,7 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
     print(f"{'='*60}")
     
     # Show Google search link
-    search_query = f'"{artist_name}" Alkmaar Eigenste Victorie Muziek'
+    search_query = f'"{artist_name}"'
     search_url = f"https://www.google.com/search?q={quote_plus(search_query)}"
     print(f"\n🔍 Google Search: {search_url}")
     
@@ -514,7 +514,7 @@ def main():
         print(f"\n[{i}/{len(artists_to_process)}]")
         
         # Process this artist (modifies in place)
-        process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists, fieldnames)
+        process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists, fieldnames, config.name)
         modified = True
         
         print(f"\n✓ All fields saved for {artist_name}")

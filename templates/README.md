@@ -91,6 +91,19 @@ Festival-specific settings that should be preserved across regenerations. This f
 - `official_spotify_playlist` - Official festival Spotify playlist URL
 - `spotify_playlist_id` - LineupRadar curated Spotify playlist URL
 
+**Archiving:**
+- `archived` - Boolean flag (true/false) to mark past festivals for archive display
+
+**Scraper Configuration (optional):**
+- `scraper.type` - Scraper type identifier (e.g., "tivoli-html", "best-kept-secret")
+- `scraper.selectors` - CSS selectors for HTML parsing
+  - `accordion_container` - Container element for artist entries
+  - `artist_name` - Element containing artist name
+  - `bio_container` - Element containing artist bio
+  - `bio_paragraphs` - Paragraph elements within bio
+- `scraper.filters` - Filtering options
+  - `exclude_keywords` - Array of keywords to exclude from scraping (e.g., ["u-pas", "park 6"])
+
 ### Usage
 
 Create a `settings.json` file in each festival year directory (e.g., `docs/alkmaarse-eigenste/2026/settings.json`):

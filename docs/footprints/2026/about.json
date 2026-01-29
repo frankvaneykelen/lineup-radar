@@ -1,12 +1,12 @@
 {
   "festival": "footprints",
   "year": 2026,
-  "generated_at": "2026-01-28T22:20:25.471662+00:00",
+  "generated_at": "2026-01-28T23:59:58.972577+00:00",
   "stats": {
-    "total_artists": 11,
+    "total_artists": 19,
     "genre_counts": {
-      "Electronic": 3,
-      "Psychedelic": 2,
+      "Electronic": 5,
+      "Psychedelic": 3,
       "Indie Pop": 2,
       "Jazz": 2,
       "Anatolian rock": 1,
@@ -16,52 +16,67 @@
       "Malian desert blues": 1,
       "Indie": 1,
       "World Music": 1,
+      "hiphop": 1,
+      "house": 1,
+      "electronica": 1,
       "Traditional Iranian": 1,
       "Armenian Folk": 1,
+      "Rap": 1,
+      "UK Garage": 1,
+      "House": 1,
+      "Drum & Bass": 1,
+      "2step": 1,
       "Gospel": 1,
       "Hip-Hop": 1,
       "Grime": 1,
       "Afrobeat": 1,
       "Classical": 1,
+      "Dabke": 1,
       "MPB": 1,
       "Psychedelic Folk": 1,
       "R&B": 1,
+      "Ambient": 1,
       "Experimental": 1
     },
-    "dj_count": 0,
+    "dj_count": 1,
     "country_counts": {
       "Germany": 4,
-      "Netherlands": 1,
+      "Netherlands": 2,
+      "France": 2,
+      "UK": 2,
       "Spain": 1,
-      "France": 1,
       "Iran": 1,
       "Turkey": 1,
-      "UK": 1,
       "Nigeria": 1,
+      "Syria": 1,
       "Brazil": 1,
+      "Japan": 1,
       "Belgium": 1
     },
     "gender_counts": {
       "Female": 2,
-      "Male": 8,
-      "Mixed": 1
+      "Male": 11,
+      "Mixed": 2,
+      "Unknown": 4
     },
     "poc_counts": {
-      "Yes": 7,
-      "No": 4
+      "Yes": 10,
+      "No": 5,
+      "Unknown": 4
     },
-    "average_rating": 7.73,
-    "rated_count": 11,
-    "rated_percentage": 100.0,
+    "average_rating": 8.33,
+    "rated_count": 15,
+    "rated_percentage": 78.9,
     "rating_counts": {
-      "9-10": 1,
+      "9-10": 5,
       "8-9": 8,
-      "6-7": 2
+      "6-7": 2,
+      "Unrated": 4
     },
-    "has_spotify_links": 11,
-    "spotify_percentage": 100.0,
+    "has_spotify_links": 15,
+    "spotify_percentage": 78.9,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Footprints Festival 2026**  \nTaking place on February 21, 2026, the Footprints Festival continues its tradition of celebrating musical diversity and artistic innovation. Featuring 11 artists spanning a wide range of genres, from electronic and psychedelic to jazz, Anatolian rock, and Malian desert blues, the lineup offers an eclectic mix that promises to captivate audiences. With an average rating of 7.73 and 100% of rated artists scoring above 6, the festival guarantees a high-quality experience for music lovers.\n\nThis year’s lineup reflects a strong commitment to cultural and geographical diversity, with artists hailing from 10 countries, including Germany, Iran, Turkey, and Brazil. The festival also highlights underrepresented voices, with 7 out of 11 artists identifying as people of color and a mix of male, female, and mixed-gender acts. This inclusive approach ensures a rich tapestry of perspectives and sounds that transcend borders and genres.\n\nFootprints Festival 2026 is more than just a musical event; it’s a celebration of global artistry and collaboration. With all artists featured on Spotify, attendees can explore the lineup in advance and prepare for a day of discovery and connection. Whether you're drawn to the minimalist beats of electropop, the soulful strains of R&B, or the vibrant rhythms of Afrobeat, this year’s festival promises to leave an indelible mark."
+  "ai_profile": "**Footprints Festival 2026**  \nTaking place on February 21, 2026, the Footprints Festival celebrates a rich tapestry of global sounds and genres, featuring 19 talented artists from 12 different countries. With acts hailing from Germany, the UK, Nigeria, Iran, and beyond, this year’s lineup showcases an eclectic mix of musical styles, from Electronic and Psychedelic to Malian Desert Blues, Traditional Iranian, and UK Garage. The festival’s diversity reflects its commitment to embracing both traditional and contemporary sounds, creating a truly unique musical experience.\n\nThis year, Footprints Festival highlights a wide range of voices, with a strong emphasis on representation. Over half of the artists are people of color, and the lineup includes a mix of male, female, and mixed-gender acts. While the majority of artists have Spotify links available, the festival continues to spotlight emerging and lesser-known talent alongside acclaimed performers, ensuring a balance of discovery and familiarity for music lovers.\n\nWith an impressive average rating of 8.33 from attendees, Footprints Festival 2026 promises a high-quality lineup that has already garnered significant praise. Notably, nearly 87% of the rated artists scored an 8 or higher, reflecting the festival’s careful curation. Whether you’re looking to dance to the beats of UK Garage and House, or lose yourself in the soulful sounds of Psychedelic Folk and Gospel, Footprints Festival is set to be a vibrant celebration of music, culture, and global artistry."
 }

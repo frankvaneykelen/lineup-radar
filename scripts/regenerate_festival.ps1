@@ -153,6 +153,11 @@ try {
         $failureCount++
     } else {
         Write-Host "✓ Generated lineup index page" -ForegroundColor Green
+        # Extract and log the saved file path
+        $matchedLine = $output1 | Where-Object { $_ -match "✓ Generated (.+)" } | Select-Object -First 1
+        if ($matchedLine -and $matchedLine -match "✓ Generated (.+)") {
+            Write-Host "  → $($matches[1])" -ForegroundColor DarkGray
+        }
         $successCount++
     }
     

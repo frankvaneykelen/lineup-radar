@@ -165,6 +165,11 @@ foreach ($festival in $festivalsToProcess) {
         }
         
         Write-Host "✓ Generated lineup index page" -ForegroundColor Green
+        
+        $successCount++
+        
+        # Log the path to the generated lineup index file
+        Write-Host "  → docs/$festivalSlug/$year/index.html" -ForegroundColor Gray
         $successCount++
         
         # Generate timetable if schedule data exists

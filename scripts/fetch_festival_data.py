@@ -613,6 +613,13 @@ def main():
     
     print(f"\n=== Fetching Festival Data for {config.name} {args.year} ===\n")
     
+    # Check if festival has individual artist pages
+    if not config.artist_path or config.artist_path.strip() == '':
+        print(f"⚠ This festival has no individual artist pages (artist_path is empty)")
+        print(f"  All artist data should already be in the CSV from the scraper.")
+        print(f"  Skipping fetch_festival_data - use fetch_spotify_links.py and enrich_artists.py instead.\n")
+        sys.exit(0)
+    
     # Filter to single artist if specified
     all_rows = rows  # Keep reference to all rows for saving
     if args.artist:
