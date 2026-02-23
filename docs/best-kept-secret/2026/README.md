@@ -21,7 +21,7 @@ python scripts/scrape_festival.py best-kept-secret --year 2026
 # Fetch Spotify links for all artists
 python scripts/fetch_spotify_links.py --festival best-kept-secret --year 2026
 
-# Fetch festival bios and social links
+# Fetch festival bios and social links from individual artist pages
 python scripts/fetch_festival_data.py --festival best-kept-secret --year 2026
 
 # Fetch bio for a single artist (useful for testing or updates)
