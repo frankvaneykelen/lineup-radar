@@ -11,5 +11,20 @@
   "start_date": "2026-06-12",
   "end_date": "2026-06-14",
   "stages": [],
-  "archived": false
+  "archived": false,
+  "hide_from_navigation": false,
+  "scraper": {
+    "type": "html-list",
+    "selectors": {
+      "artist_items": "li.act-list__item",
+      "artist_link": "a.act",
+      "artist_name": ".act__content .act__title span",
+      "tagline": ".act__content .act__tagline",
+      "image": "img[data-cb-image-format=\"default_act_item\"]",
+      "date": ".act__content-meta span"
+    },
+    "filters": {
+      "href_contains": "/bands/"
+    }
+  }
 }

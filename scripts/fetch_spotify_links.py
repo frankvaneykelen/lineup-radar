@@ -190,7 +190,7 @@ def update_spotify_links(csv_path: Path, festival: str = 'down-the-rabbit-hole',
             else:
                 print(f"  ✓ Verified: {artist_name}")
             
-            row['Spotify'] = new_link
+            row['Spotify Link'] = new_link
         else:
             print(f"  ⚠️  Not found: {artist_name}")
             skipped_count += 1

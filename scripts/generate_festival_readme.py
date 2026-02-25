@@ -37,25 +37,25 @@ README_TEMPLATE = r"""# {festival_name} {year}
 # Scrape the full lineup from the festival website
 {scrape_comment}python scripts/scrape_festival.py {slug} --year {year}
 
-# Fetch Spotify links for all artists
+# 1. Fetch Spotify links for all artists
 python scripts/fetch_spotify_links.py --festival {slug} --year {year}
 {fetch_festival_data_commands}
-# Enrich artist data with AI-generated insights
+# 3. Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival {slug} --year {year} --ai
 
-# Enrich artist data with AI-generated insights for a specific artist   
+# Optional: Enrich artist data with AI-generated insights for a specific artist   
 python scripts/enrich_artists.py --festival {slug} --year {year} --ai --artist "Artist Name"
 
-# Manually enrich artist data interactively (prompts for missing fields)
+# Optional: Manually enrich artist data interactively (prompts for missing fields)
 python scripts/manual_enrich_artists.py --festival {slug} --year {year}
 
-# Manually enrich a specific artist
+# Optional: Manually enrich a specific artist
 python scripts/manual_enrich_artists.py --festival {slug} --year {year} --artist "Artist Name"
 
-# Translate Dutch festival bios to English (requires Azure OpenAI credentials)
+# Optional: Translate Dutch festival bios to English (requires Azure OpenAI credentials)
 python scripts/helpers/translate_festival_bios.py --festival {slug} --year {year}
 
-# Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
+# Optional: Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
 python scripts/helpers/generate_taglines.py --festival {slug} --year {year}
 ```
 
@@ -274,10 +274,10 @@ def generate_readme(festival_slug, year):
     if has_artist_pages:
         scrape_comment = ""
         fetch_festival_data_commands = """
-# Fetch festival bios and social links from individual artist pages
+# 2. Fetch festival bios and social links from individual artist pages
 python scripts/fetch_festival_data.py --festival {slug} --year {year}
 
-# Fetch bio for a single artist (useful for testing or updates)
+# Optional: Fetch bio for a single artist (useful for testing or updates)
 python scripts/fetch_festival_data.py --festival {slug} --year {year} --artist "Artist Name"
 """.format(slug=config.slug, year=year)
     else:

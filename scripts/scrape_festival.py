@@ -22,7 +22,7 @@ import argparse
 import requests
 from bs4 import BeautifulSoup
 from typing import Dict, List, Optional
-from helpers.config import get_festival_config, FESTIVALS
+from helpers.config import get_festival_config
 from helpers.slug import artist_name_to_slug
 
 
@@ -52,8 +52,7 @@ class UniversalFestivalScraper:
         self.config = get_festival_config(festival_slug, year)
         self.festival_slug = festival_slug
         self.year = year
-        self.festival_config = FESTIVALS.get(festival_slug, {})
-        
+
         # Load scraper settings from settings.json if available
         settings_path = Path(self.config.output_dir) / "settings.json"
         self.scraper_settings = {}
@@ -77,8 +76,8 @@ class UniversalFestivalScraper:
         
         if scraper_type == 'tivoli-html':
             return self._scrape_tivoli_html()
-        elif scraper_type == 'best-kept-secret' or self.festival_config.get('scraper_type') == 'best-kept-secret':
-            return self._scrape_best_kept_secret()
+        elif scraper_type == 'html-list':
+            return self._scrape_html_list()
         else:
             return self._scrape_generic()
 
@@ -272,49 +271,50 @@ class UniversalFestivalScraper:
         print(f"✓ Parsed {len(artists)} artists from Book(Sheet1).csv")
         return artists
     
-    def _scrape_best_kept_secret(self) -> List[Dict]:
-        """Scrape Best Kept Secret using their specific HTML structure."""
+    def _scrape_html_list(self) -> List[Dict]:
+        """Scrape a festival lineup from an HTML list page using selectors from settings.json."""
         url = self.config.lineup_url
-        
+        selectors = self.scraper_settings.get('selectors', {})
+        filters = self.scraper_settings.get('filters', {})
+        href_contains = filters.get('href_contains', '')
+
         print(f"\nFetching: {url}")
         response = requests.get(url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        
+
         artists = []
-        act_items = soup.select('li.act-list__item')
+        act_items = soup.select(selectors.get('artist_items', 'li'))
         print(f"Found {len(act_items)} artist entries\n")
-        
+
         for item in act_items:
-            link = item.select_one('a.act')
+            link = item.select_one(selectors.get('artist_link', 'a'))
             if not link:
                 continue
-            
+
             href = link.get('href', '')
-            if not href or '/bands/' not in href:
+            if not href or (href_contains and href_contains not in href):
                 continue
-            
-            # Extract artist name from span
-            name_elem = link.select_one('.act__content .act__title span')
+
+            name_elem = link.select_one(selectors.get('artist_name', ''))
             if not name_elem:
                 continue
             artist_name = name_elem.get_text(strip=True)
-            
-            # Extract tagline
-            tagline_elem = link.select_one('.act__content .act__tagline')
+
+            tagline_sel = selectors.get('tagline', '')
+            tagline_elem = link.select_one(tagline_sel) if tagline_sel else None
             tagline = tagline_elem.get_text(strip=True) if tagline_elem else ''
-            
-            # Extract image URL
-            img_elem = link.select_one('img[data-cb-image-format="default_act_item"]')
+
+            image_sel = selectors.get('image', '')
+            img_elem = link.select_one(image_sel) if image_sel else None
             photo_url = img_elem.get('src', '') if img_elem else ''
-            
-            # Extract day
-            day_elem = link.select_one('.act__content-meta span')
+
+            date_sel = selectors.get('date', '')
+            day_elem = link.select_one(date_sel) if date_sel else None
             day = day_elem.get_text(strip=True) if day_elem else ''
-            
-            # Build full URL
-            full_url = f"https://www.bestkeptsecret.nl{href}" if href.startswith('/') else href
-            
+
+            full_url = f"{self.config.base_url}{href}" if href.startswith('/') else href
+
             artists.append({
                 'Artist': artist_name,
                 'Tagline': tagline,
@@ -342,9 +342,9 @@ class UniversalFestivalScraper:
                 'Social Links': '',
                 'Images Scraped': ''
             })
-            
+
             print(f"  ✓ {artist_name} ({day})")
-        
+
         return artists
     
     def _scrape_tivoli_html(self) -> List[Dict]:

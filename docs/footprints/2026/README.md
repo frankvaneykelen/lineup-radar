@@ -19,25 +19,25 @@
 # This gets artist names and bios from the single festival page
 python scripts/scrape_festival.py footprints --year 2026
 
-# Fetch Spotify links for all artists
+# 1. Fetch Spotify links for all artists
 python scripts/fetch_spotify_links.py --festival footprints --year 2026
 
-# Enrich artist data with AI-generated insights
+# 3. Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival footprints --year 2026 --ai
 
-# Enrich artist data with AI-generated insights for a specific artist   
+# Optional: Enrich artist data with AI-generated insights for a specific artist   
 python scripts/enrich_artists.py --festival footprints --year 2026 --ai --artist "Artist Name"
 
-# Manually enrich artist data interactively (prompts for missing fields)
+# Optional: Manually enrich artist data interactively (prompts for missing fields)
 python scripts/manual_enrich_artists.py --festival footprints --year 2026
 
-# Manually enrich a specific artist
+# Optional: Manually enrich a specific artist
 python scripts/manual_enrich_artists.py --festival footprints --year 2026 --artist "Artist Name"
 
-# Translate Dutch festival bios to English (requires Azure OpenAI credentials)
+# Optional: Translate Dutch festival bios to English (requires Azure OpenAI credentials)
 python scripts/helpers/translate_festival_bios.py --festival footprints --year 2026
 
-# Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
+# Optional: Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
 python scripts/helpers/generate_taglines.py --festival footprints --year 2026
 ```
 

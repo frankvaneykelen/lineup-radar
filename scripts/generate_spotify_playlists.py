@@ -298,7 +298,7 @@ def get_first_track_from_single(sp: spotipy.Spotify, single_id: str) -> Optional
         return None
 
 
-def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: str, festival: str = None, year: int = None, artists_list: List[Dict] = None, artist_dict: Dict = None) -> List[str]:
+def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: str, festival: str = None, year: int = None, artists_list: List[Dict] = None, artist_dict: Dict = None, idx: int = 0, total: int = 0) -> List[str]:
     """
     Select 5 tracks for an artist following the rules:
     1. Top 3 tracks (by popularity)
@@ -309,7 +309,8 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
     
     Returns list of track URIs.
     """
-    print(f"\n🎵 Processing: {artist_name}")
+    counter = f"[{idx:02d}/{total:02d}] " if total else ""
+    print(f"\n🎵 {counter}Processing: {artist_name}")
     
     # Get top tracks (this may update the CSV and return a new artist_id)
     result = get_artist_top_tracks(sp, artist_id, artist_name, festival, year, artists_list, artist_dict)
@@ -516,10 +517,10 @@ def generate_playlist_for_festival(sp: spotipy.Spotify, festival: str, year: int
     # Collect tracks
     all_track_uris = []
     
-    for artist in artists:
+    for idx, artist in enumerate(artists, 1):
         try:
             # Check if we need to reload artist info from CSV (in case it was updated)
-            track_uris = select_tracks_for_artist(sp, artist['spotify_id'], artist['name'], festival, year, artists, artist)
+            track_uris = select_tracks_for_artist(sp, artist['spotify_id'], artist['name'], festival, year, artists, artist, idx, len(artists))
             all_track_uris.extend(track_uris)
             time.sleep(1.0)  # Rate limiting - prevent API throttling
         except Exception as e:

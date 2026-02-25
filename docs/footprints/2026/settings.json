@@ -19,6 +19,7 @@
     "Park 6"
   ],
   "archived": true,
+  "hide_from_navigation": false,
   "scraper": {
     "type": "tivoli-html",
     "selectors": {

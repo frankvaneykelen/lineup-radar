@@ -11,5 +11,9 @@
   "start_date": "2026-02-06",
   "end_date": "2026-02-08",
   "stages": [],
-  "archived": true
+  "archived": true,
+  "hide_from_navigation": false,
+  "scraper": {
+    "type": "grauzone"
+  }
 }

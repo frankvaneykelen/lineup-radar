@@ -18,5 +18,9 @@
     "Overloop",
     "Sluis"
   ],
-  "archived": true
+  "archived": true,
+  "hide_from_navigation": false,
+  "scraper": {
+    "type": "podium-victorie-venue"
+  }
 }

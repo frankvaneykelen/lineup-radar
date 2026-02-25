@@ -242,7 +242,10 @@ def generate_homepage(docs_dir: Path):
             archived_lineups.append(lineup)
         else:
             upcoming_lineups.append(lineup)
-    
+
+    # Upcoming: chronological ascending (nearest first)
+    upcoming_lineups.sort(key=lambda l: (int(l['year']), l['start_date'] if l['start_date'] else '9999-99-99', l['festival']))
+
     # Render upcoming festivals section
     if upcoming_lineups:
         html += f"""                            <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #00d9ff;">Upcoming Festivals</h3>

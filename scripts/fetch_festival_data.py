@@ -66,103 +66,110 @@ def needs_festival_data(row: Dict) -> bool:
     return any(not row.get(field, '').strip() for field in festival_fields) or images_scraped
 
 
-def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, config, existing_url: str = '') -> Dict[str, str]:
+def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, config, existing_row: Dict = None) -> Dict[str, str]:
     """
-    Fetch festival data for an artist.
-    
+    Fetch festival data for an artist, skipping sections that are already complete.
+
     Args:
         artist_name: Name of the artist
         scraper: FestivalScraper instance
         config: Festival configuration
-        existing_url: Existing Festival URL from CSV (if available)
-    
+        existing_row: Existing CSV row dict (used to skip already-filled fields)
+
     Returns:
         Dict with festival bio (NL/EN), URL, and social links
     """
+    if existing_row is None:
+        existing_row = {}
+
+    existing_url = existing_row.get('Festival URL', '').strip()
+    needs_bio = (
+        not existing_row.get('Festival Bio (NL)', '').strip()
+        or not existing_row.get('Festival Bio (EN)', '').strip()
+    )
+    needs_social = not existing_row.get('Social Links', '').strip()
+    needs_images = existing_row.get('Images Scraped', '').strip().lower() != 'yes'
+
     # Use existing URL if available, otherwise generate from slug
     if existing_url:
         festival_url = existing_url
     else:
         slug = artist_name_to_slug(artist_name)
         festival_url = config.get_artist_url(slug)
-    
+
+    missing = [m for m, needed in [('bio', needs_bio), ('social links', needs_social), ('images', needs_images)] if needed]
+    print(f"  → Missing: {', '.join(missing)}")
     print(f"  → Fetching from {festival_url}")
-    
+
     result = {
         'Festival URL': festival_url,
         'Festival Bio (NL)': '',
         'Festival Bio (EN)': '',
         'Social Links': '',
-        'Images Scraped': 'No'
+        'Images Scraped': ''  # Empty = don't overwrite; set to 'Yes' only when actually downloaded
     }
-    
+
     try:
-        # Fetch HTML directly from the festival URL
         html = scraper.fetch_page(festival_url)
         if not html:
             print(f"  ⚠ Could not fetch page")
             return result
-        
-        # Extract bio from HTML
-        bio = scraper.extract_bio(html, artist_name)
-        if bio:
-            print(f"  ✓ Fetched bio ({len(bio)} chars)")
-            
-            # Handle language-specific logic
-            if config.bio_language == 'Dutch':
-                result['Festival Bio (NL)'] = bio
-                
-                # Translate to English
-                print(f"  → Translating bio to English...")
-                bio_en = translate_text(bio, "Dutch", "English")
-                if bio_en:
-                    result['Festival Bio (EN)'] = bio_en
-                    print(f"  ✓ Translated bio ({len(bio_en)} chars)")
-            elif config.bio_language == 'English':
-                # Bio is already in English
-                result['Festival Bio (EN)'] = bio
-                result['Festival Bio (NL)'] = ''  # No Dutch version
+
+        # Extract bio only if needed
+        if needs_bio:
+            bio = scraper.extract_bio(html, artist_name)
+            if bio:
+                print(f"  ✓ Fetched bio ({len(bio)} chars)")
+                if config.bio_language == 'Dutch':
+                    result['Festival Bio (NL)'] = bio
+                    print(f"  → Translating bio to English...")
+                    bio_en = translate_text(bio, "Dutch", "English")
+                    if bio_en:
+                        result['Festival Bio (EN)'] = bio_en
+                        print(f"  ✓ Translated bio ({len(bio_en)} chars)")
+                elif config.bio_language == 'English':
+                    result['Festival Bio (EN)'] = bio
+                else:
+                    result['Festival Bio (EN)'] = bio
             else:
-                # Unknown language - store as English
-                result['Festival Bio (EN)'] = bio
-                result['Festival Bio (NL)'] = ''
+                print(f"  ⚠ No bio found on festival website")
         else:
-            print(f"  ⚠ No bio found on festival website")
-        
-        # Extract social links from the same HTML
-        if html:
+            print(f"  ✓ Bio already present, skipping")
+
+        # Extract social links only if needed
+        if needs_social:
             social_links = extract_social_links(html)
             if social_links:
                 result['Social Links'] = json.dumps(social_links)
                 print(f"  ✓ Found {len(social_links)} social link(s)")
-        
-        # Extract and download images
-        if html:
+        else:
+            print(f"  ✓ Social links already present, skipping")
+
+        # Download images only if needed
+        if needs_images:
             image_urls = extract_images_from_html(html, config, artist_name)
             if image_urls:
                 print(f"  → Found {len(image_urls)} image URL(s)")
                 for url in image_urls:
                     print(f"     {url}")
-                    
                 slug = artist_name_to_slug(artist_name)
-                # Create artist-specific image directory
                 artist_images_dir = Path(f"docs/{config.slug}/{config.year}/artists/{slug}")
                 artist_images_dir.mkdir(parents=True, exist_ok=True)
-                
                 downloaded_count = 0
                 for img_url in image_urls:
                     filename = download_image(img_url, artist_images_dir, slug)
                     if filename:
                         downloaded_count += 1
-                
                 if downloaded_count > 0:
                     result['Images Scraped'] = 'Yes'
                     print(f"  ✓ Downloaded {downloaded_count} image(s)")
             else:
                 print(f"  ⚠ No artist-specific images found")
-        
+        else:
+            print(f"  ✓ Images already scraped, skipping")
+
         return result
-        
+
     except Exception as e:
         print(f"  ✗ Error fetching data: {e}")
         return result
@@ -649,9 +656,8 @@ def main():
             skipped_count += 1
             continue
         
-        # Fetch festival data
-        existing_url = row.get('Festival URL', '').strip()
-        festival_data = fetch_artist_festival_data(artist_name, scraper, config, existing_url)
+        # Fetch festival data (pass full row so function skips already-complete sections)
+        festival_data = fetch_artist_festival_data(artist_name, scraper, config, row)
         
         # Update row
         for key, value in festival_data.items():

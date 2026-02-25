@@ -11,5 +11,9 @@
   "start_date": null,
   "end_date": null,
   "stages": [],
-  "archived": false
+  "archived": false,
+  "hide_from_navigation": false,
+  "scraper": {
+    "type": "generic"
+  }
 }
