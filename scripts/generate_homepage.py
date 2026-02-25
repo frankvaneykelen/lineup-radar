@@ -57,15 +57,15 @@ def find_festival_lineups(docs_dir: Path) -> List[dict]:
                             'start_date': start_date
                         })
     
-    # Sort by start_date (festivals with no date go last), then by festival name
-    # Use a tuple for sorting: (year, date_or_large_value, festival_name)
+    # Sort by most recent first: year desc, then start_date desc.
+    # Festivals with no date should go last within their year.
     def sort_key(lineup):
-        year = lineup['year']
-        # If no start_date, use 9999-12-31 to sort it last within its year
-        date = lineup['start_date'] if lineup['start_date'] else '9999-12-31'
+        year = int(lineup['year'])
+        # If no start_date, use a very old date so it sorts last when reversed
+        date = lineup['start_date'] if lineup['start_date'] else '0000-00-00'
         return (year, date, lineup['festival'])
     
-    return sorted(lineups, key=sort_key)
+    return sorted(lineups, key=sort_key, reverse=True)
 
 
 def render_festival_card(lineup: dict) -> str:
