@@ -109,6 +109,11 @@ def generate_charts_page():
             'csv': Path('docs/best-kept-secret/2026/2026.csv'),
             'slug': 'best-kept-secret',
             'color': '#FFD700'
+        },
+        'Lowlands': {
+            'csv': Path('docs/lowlands/2026/2026.csv'),
+            'slug': 'lowlands',
+            'color': '#A78BFA'
         }
     }
     
@@ -136,7 +141,7 @@ def generate_charts_page():
     
     title = "Festival Comparison Charts - Frank's LineupRadar"
     base_url = "https://frankvaneykelen.github.io/lineup-radar/"
-    description = "Compare lineup diversity and quality across Down The Rabbit Hole, Pinkpop, Rock Werchter, Footprints, and Best Kept Secret festivals."
+    description = "Compare lineup diversity and quality across Down The Rabbit Hole, Pinkpop, Rock Werchter, Footprints, Best Kept Secret, and Lowlands festivals."
     url = f"{base_url}charts.html"
     
     # Generate HTML
@@ -146,7 +151,7 @@ def generate_charts_page():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Festival Comparison Charts - Frank's LineupRadar</title>
-    <meta name="description" content="Compare lineup diversity and quality across Down The Rabbit Hole, Pinkpop, and Rock Werchter festivals.">
+    <meta name="description" content="Compare lineup diversity and quality across Down The Rabbit Hole, Pinkpop, Rock Werchter, Footprints, Best Kept Secret, and Lowlands festivals.">
     <link rel="icon" type="image/png" sizes="16x16" href="shared/favicon_16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="shared/favicon_32x32.png">
     <link rel="icon" type="image/png" sizes="48x48" href="shared/favicon_48x48.png">

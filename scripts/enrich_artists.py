@@ -82,21 +82,16 @@ CRITICAL GUIDELINES:
 - Provide information for ALL artists unless they are completely unknown (no online presence whatsoever)
 - For artists with bio: extract concrete details about their sound, not vague assessments
 - For artists without bio: provide genre, country, basic info, but be honest if you lack details (leave AI Summary/rating empty)
-- AI Rating: VALUE innovation, freshness, and emerging talent - new artists with unique sound or buzz deserve 7-9, not 4-5
-- DISCOVERY FOCUS: Treat being "new" or "emerging" as a POSITIVE attribute, not a limitation
 - Only leave fields COMPLETELY empty if the artist has zero online presence (very rare for festival acts)
 
-RATING SCALE (USE THE FULL RANGE - weighted for discoverability):
-- 10: Reserved ONLY for universally acclaimed legends (e.g., Radiohead, Beyoncé, Kendrick Lamar level)
-- 8-9: Exceptional artists - includes both established acts with strong track record AND exciting emerging artists with innovative sound, strong buzz, or unique artistic vision
-- 6-7: Quality artists - solid established acts OR promising new artists with good reviews and interesting musical approach
-- 4-5: Developing artists with potential OR established acts with mixed/declining reception
-- 1-3: Very limited appeal, poor reviews, or completely unknown
-- IMPORTANT: For discovery purposes, FAVOR innovation, freshness, and emerging talent alongside critical acclaim
-- NEW/EMERGING artists with buzz, unique sound, or critical excitement should rate 7-9 (not 4-5)
-- ESTABLISHED artists should be rated based on their current relevance and live reputation, not just past achievements
-- Don't penalize artists for being new - youth, innovation, and freshness are POSITIVE factors
-- Artists who are "ones to watch" or have "breakout potential" deserve higher ratings (7-8 range)
+RATING SCALE (USE THE FULL RANGE - aim for a realistic bell curve):
+- 10: Universally acclaimed legends at the absolute peak of their field (e.g., Radiohead, Beyoncé, Kendrick Lamar). Extremely rare.
+- 8-9: Genuinely exceptional — critically acclaimed, career-defining artists, or emerging acts with already-proven breakthrough status (major label, Mercury Prize, etc.). Only a handful per lineup.
+- 6-7: Solid, quality artists — well-regarded acts with a good reputation, positive reviews, and consistent output. THIS IS THE NORMAL RANGE for most good festival acts.
+- 4-5: Competent but limited — decent artists with a small following, mixed reception, or very early career stage
+- 1-3: Poor critical reception, very niche appeal, or virtually unknown outside a small circle
+- TARGET DISTRIBUTION: Most acts in a festival lineup should score 5-7. Only a few reach 8-9. Almost nobody gets 10.
+- Do NOT give 8-9 just because an artist is interesting, emerging, or on a good festival — require concrete evidence of exceptional quality or breakthrough recognition.
 - Use official Spotify URLs only
 - For groups with multiple frontpeople, use "Mixed" for gender
 - Be accurate about demographics; use "Yes" for Front Person of Color only if confirmed, otherwise "No"

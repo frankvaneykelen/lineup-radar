@@ -153,7 +153,6 @@ def get_artist_top_tracks(sp: spotipy.Spotify, artist_id: str, artist_name: str,
         # Get artist info first to log the actual Spotify name
         try:
             artist_info = sp.artist(artist_id)
-            time.sleep(0.2)  # Rate limiting after API call
         except Exception as e:
             # Catch and format rate limit errors early
             formatted_error = format_retry_time(str(e))
@@ -168,7 +167,6 @@ def get_artist_top_tracks(sp: spotipy.Spotify, artist_id: str, artist_name: str,
         # Get top tracks (up to 10)
         try:
             results = sp.artist_top_tracks(artist_id, country='US')
-            time.sleep(0.2)  # Rate limiting after API call
         except Exception as e:
             # Catch and format rate limit errors early
             formatted_error = format_retry_time(str(e))
@@ -243,7 +241,6 @@ def get_artist_singles(sp: spotipy.Spotify, artist_id: str, artist_name: str) ->
         # Get singles (limit 50)
         try:
             results = sp.artist_albums(artist_id, album_type='single', limit=50)
-            time.sleep(0.2)  # Rate limiting after API call
         except Exception as e:
             # Catch and format rate limit errors early
             formatted_error = format_retry_time(str(e))
@@ -275,7 +272,6 @@ def get_first_track_from_single(sp: spotipy.Spotify, single_id: str) -> Optional
     try:
         try:
             album = sp.album(single_id)
-            time.sleep(0.2)  # Rate limiting after API call
         except Exception as e:
             # Catch and format rate limit errors early
             formatted_error = format_retry_time(str(e))
@@ -375,7 +371,6 @@ def select_tracks_for_artist(sp: spotipy.Spotify, artist_id: str, artist_name: s
             print(f"  ⊗ Skipped duplicate: {track['name']}")
         
         single_idx += 1
-        time.sleep(0.5)  # Rate limiting - prevent API throttling
     
     # Fill remaining slots with any available tracks from top tracks
     if len(selected_uris) < 5:
@@ -522,7 +517,6 @@ def generate_playlist_for_festival(sp: spotipy.Spotify, festival: str, year: int
             # Check if we need to reload artist info from CSV (in case it was updated)
             track_uris = select_tracks_for_artist(sp, artist['spotify_id'], artist['name'], festival, year, artists, artist, idx, len(artists))
             all_track_uris.extend(track_uris)
-            time.sleep(1.0)  # Rate limiting - prevent API throttling
         except Exception as e:
             formatted_error = format_retry_time(str(e))
             print(f"  ❌ Error processing {artist['name']}: {formatted_error}")

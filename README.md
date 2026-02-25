@@ -15,6 +15,7 @@ Below are some of the festivals currently supported by LineupRadar. This is not 
 - **Rock Werchter** (English, Werchter)
 - **Footprints Festival** (Dutch, Utrecht - custom scraper with Spotify integration)
 - **Best Kept Secret** (Dutch, Hilvarenbeek)
+- **Lowlands** (Dutch, Biddinghuizen)
 
 Each festival can have its own configuration (language, scraping patterns, etc.).
 

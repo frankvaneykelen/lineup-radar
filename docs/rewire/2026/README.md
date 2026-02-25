@@ -18,31 +18,31 @@
 # Scrape the full lineup from the festival website
 python scripts/scrape_festival.py rewire --year 2026
 
-# Fetch Spotify links for all artists
+# 1. Fetch Spotify links for all artists
 python scripts/fetch_spotify_links.py --festival rewire --year 2026
 
-# Fetch festival bios and social links
+# 2. Fetch festival bios and social links from individual artist pages
 python scripts/fetch_festival_data.py --festival rewire --year 2026
 
-# Fetch bio for a single artist (useful for testing or updates)
+# Optional: Fetch bio for a single artist (useful for testing or updates)
 python scripts/fetch_festival_data.py --festival rewire --year 2026 --artist "Artist Name"
 
-# Enrich artist data with AI-generated insights
+# 3. Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival rewire --year 2026 --ai
 
-# Enrich artist data with AI-generated insights for a specific artist   
+# Optional: Enrich artist data with AI-generated insights for a specific artist   
 python scripts/enrich_artists.py --festival rewire --year 2026 --ai --artist "Artist Name"
 
-# Manually enrich artist data interactively (prompts for missing fields)
+# Optional: Manually enrich artist data interactively (prompts for missing fields)
 python scripts/manual_enrich_artists.py --festival rewire --year 2026
 
-# Manually enrich a specific artist
+# Optional: Manually enrich a specific artist
 python scripts/manual_enrich_artists.py --festival rewire --year 2026 --artist "Artist Name"
 
-# Translate Dutch festival bios to English (requires Azure OpenAI credentials)
+# Optional: Translate Dutch festival bios to English (requires Azure OpenAI credentials)
 python scripts/helpers/translate_festival_bios.py --festival rewire --year 2026
 
-# Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
+# Optional: Generate taglines for artists that don't have one yet (requires Azure OpenAI credentials)
 python scripts/helpers/generate_taglines.py --festival rewire --year 2026
 ```
 

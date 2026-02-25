@@ -1,0 +1,21 @@
+{
+  "name": "Lowlands",
+  "base_url": "https://lowlands.nl",
+  "lineup_url": "https://lowlands.nl/acts/",
+  "artist_path": "/acts/",
+  "bio_language": "Dutch",
+  "rating_boost": 0.0,
+  "description": "A major Dutch music and arts festival held annually in Biddinghuizen, Netherlands, known for its diverse multi-genre lineup across multiple stages.",
+  "official_spotify_playlist": "https://open.spotify.com/playlist/3m3Tgm4DEdVFrduNTxnbPt",
+  "spotify_playlist_id": "https://open.spotify.com/playlist/01FdnDxoiJ6ONBBp6SQT68",
+  "start_date": "2026-08-14",
+  "end_date": "2026-08-16",
+  "stages": [],
+  "archived": false,
+  "hide_from_navigation": false,
+  "scraper": {
+    "type": "generic",
+    "image_index": 8,
+    "bio_selector": ".act-detail__text p"
+  }
+}

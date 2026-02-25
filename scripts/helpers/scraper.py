@@ -127,6 +127,10 @@ class FestivalScraper:
         if self.festival_key not in self.learned_selectors:
             self.learned_selectors[self.festival_key] = {}
         
+        # Seed selectors from settings.json (takes priority over learned_selectors.json)
+        if getattr(config, 'bio_selector', ''):
+            self.learned_selectors[self.festival_key]['bio_selector'] = config.bio_selector
+        
         self.session_learned = False  # Track if we learned anything new this session
     
     def fetch_page(self, url: str, timeout: int = 10, use_selenium: bool = False) -> Optional[str]:
@@ -577,6 +581,11 @@ class FestivalScraper:
         for link in soup.find_all('a', href=True):
             href = link.get('href', '')
             if self.config.artist_path in href:
+                # Skip links that point to the artist path itself (nav/menu links)
+                # e.g. href="/acts/" when artist_path="/acts/" — not an artist page
+                after_path = href.split(self.config.artist_path, 1)[-1].strip('/')
+                if not after_path:
+                    continue
                 # Skip navigation/tab links (those with just day names)
                 link_text = link.get_text(strip=True)
                 if link_text in ['Overview', 'Friday', 'FridayFri', 'Saturday', 'SaturdaySat', 'Sunday', 'SundaySun', 'Monday', 'Tuesday', 'Wednesday', 'Thursday']:
@@ -601,6 +610,9 @@ class FestivalScraper:
                     artist_name, 
                     flags=re.IGNORECASE
                 ).strip()
+                
+                # Deduplicate doubled text (some festival sites repeat the name for CSS animations)
+                artist_name = self._deduplicate_name(artist_name)
                 
                 # Build full URL
                 full_url = href if href.startswith('http') else f"{self.config.base_url}{href}"
@@ -649,6 +661,9 @@ class FestivalScraper:
                 flags=re.IGNORECASE
             ).strip()
             
+            # Deduplicate doubled text (some festival sites repeat the name for CSS animations)
+            artist_name = self._deduplicate_name(artist_name)
+            
             # Build full URL
             full_url = href if href.startswith('http') else f"{self.config.base_url}{href}"
             
@@ -660,6 +675,41 @@ class FestivalScraper:
                 })
         
         return artists
+    
+    @staticmethod
+    def _deduplicate_name(name: str) -> str:
+        """
+        Deduplicate artist names that are repeated twice in link text.
+        Some festival sites (e.g. Lowlands) repeat the name for CSS animation effects.
+        
+        Examples:
+          'Tyler, The Creator Tyler, The Creator' -> 'Tyler, The Creator'
+          'LordeLorde' -> 'Lorde'
+        """
+        text = name.strip()
+        if not text:
+            return text
+        n = len(text)
+        # Check exact repetition without separator: "FooFoo" -> "Foo"
+        if n % 2 == 0:
+            half = n // 2
+            if text[:half] == text[half:]:
+                return text[:half]
+        # Check repetition with single-space separator: "Foo Foo" -> "Foo"
+        if ' ' in text:
+            mid = (n - 1) // 2
+            # The separator is a space at position mid
+            if n % 2 == 1 and text[mid] == ' ' and text[:mid] == text[mid + 1:]:
+                return text[:mid]
+            # Also check word-level duplication for names with multiple words
+            words = text.split()
+            wn = len(words)
+            if wn >= 2 and wn % 2 == 0:
+                first_half = ' '.join(words[:wn // 2])
+                second_half = ' '.join(words[wn // 2:])
+                if first_half == second_half:
+                    return first_half
+        return text
     
     def save_learned_selectors_if_needed(self):
         """Save learned selectors if any were learned this session."""

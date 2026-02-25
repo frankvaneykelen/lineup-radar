@@ -365,22 +365,33 @@ def extract_images_from_html(html: str, config, artist_name: str = '') -> List[s
                 candidate_imgs.append(img_url)
 
             if candidate_imgs:
-                print("\n[USER INPUT REQUIRED] No artist image found by strict rules.")
-                print(f"Artist: {artist_name}")
-                print("Select which image(s) to use (comma-separated indices, or leave blank to skip):")
-                for idx, img in enumerate(candidate_imgs):
-                    print(f"  [{idx}] {img}")
-                selection = input("Enter indices (e.g. 0 or 0,2): ").strip()
-                if selection:
-                    try:
-                        indices = [int(i) for i in selection.split(',') if i.strip().isdigit()]
-                        for i in indices:
-                            if 0 <= i < len(candidate_imgs):
-                                artist_images.append(candidate_imgs[i])
-                    except Exception as e:
-                        print(f"[WARN] Invalid input, no images selected. Error: {e}")
-                else:
-                    print("No fallback image selected for this artist.")
+                # Use configured image_index if available — avoids interactive prompts
+                configured_index = getattr(config, 'image_index', None)
+                if configured_index is not None:
+                    if 0 <= configured_index < len(candidate_imgs):
+                        artist_images.append(candidate_imgs[configured_index])
+                        print(f"  → Using configured image_index={configured_index}: {candidate_imgs[configured_index]}")
+                    else:
+                        print(f"  ⚠ Configured image_index={configured_index} out of range (0–{len(candidate_imgs)-1}), falling back to prompt")
+                        configured_index = None  # fall through to interactive
+                
+                if configured_index is None:
+                    print("\n[USER INPUT REQUIRED] No artist image found by strict rules.")
+                    print(f"Artist: {artist_name}")
+                    print("Select which image(s) to use (comma-separated indices, or leave blank to skip):")
+                    for idx, img in enumerate(candidate_imgs):
+                        print(f"  [{idx}] {img}")
+                    selection = input("Enter indices (e.g. 0 or 0,2): ").strip()
+                    if selection:
+                        try:
+                            indices = [int(i) for i in selection.split(',') if i.strip().isdigit()]
+                            for i in indices:
+                                if 0 <= i < len(candidate_imgs):
+                                    artist_images.append(candidate_imgs[i])
+                        except Exception as e:
+                            print(f"[WARN] Invalid input, no images selected. Error: {e}")
+                    else:
+                        print("No fallback image selected for this artist.")
 
         # Use second image if available (first is often festival logo)
         if len(artist_images) >= 2:

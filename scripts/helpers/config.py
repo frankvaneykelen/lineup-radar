@@ -25,6 +25,8 @@ class FestivalConfig:
     description: str = ''  # Short description of the festival
     official_spotify_playlist: str = ''  # Official festival Spotify playlist URL
     spotify_playlist_id: str = ''  # LineupRadar curated Spotify playlist URL
+    image_index: Optional[int] = None  # Fixed index into candidate image list (for festivals where auto-detection fails)
+    bio_selector: str = ''  # CSS selector for bio text on artist pages (pre-configures the learned selector)
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -109,6 +111,9 @@ def get_festival_config(
             try:
                 with settings_path.open('r', encoding='utf-8') as fh:
                     s = json.load(fh)
+                scraper_cfg = s.get('scraper', {})
+                raw_idx = scraper_cfg.get('image_index')
+                image_index = int(raw_idx) if raw_idx is not None else None
                 return FestivalConfig(
                     name=s.get('name', festival),
                     year=year,
@@ -121,6 +126,8 @@ def get_festival_config(
                     description=s.get('description', ''),
                     official_spotify_playlist=s.get('official_spotify_playlist', ''),
                     spotify_playlist_id=s.get('spotify_playlist_id', ''),
+                    image_index=image_index,
+                    bio_selector=scraper_cfg.get('bio_selector', ''),
                 )
             except Exception:
                 pass
