@@ -55,6 +55,9 @@ python scripts/generate_html.py --festival down-the-rabbit-hole --year 2026
 # Generate individual artist pages with images
 python scripts/generate_artist_pages.py --festival down-the-rabbit-hole --year 2026
 
+# Generate the timetable (schedule) HTML page
+python scripts/generate_timetable.py --festival down-the-rabbit-hole --year 2026
+
 # Generate the About page with statistics
 python scripts/generate_about.py --festival down-the-rabbit-hole --year 2026
 
@@ -117,6 +120,7 @@ The `2026.csv` file contains these columns:
 - **Festival Bio (EN)** - English bio from festival
 - **Social Links** - JSON with social media links
 - **Images Scraped** - Yes/No if images downloaded
+- **End Date** - End Date
 
 ## Notes
 

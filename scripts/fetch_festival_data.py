@@ -60,7 +60,11 @@ def needs_festival_data(row: Dict) -> bool:
     festival_fields = [
         'Festival Bio (NL)',
         'Festival Bio (EN)',
-        'Festival URL'
+        'Festival URL',
+        'Date',
+        'Start Time',
+        'End Time',
+        'Stage'
     ]
     images_scraped = row.get('Images Scraped', '').strip().lower() != 'yes'
     return any(not row.get(field, '').strip() for field in festival_fields) or images_scraped
@@ -106,6 +110,11 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
         'Festival Bio (NL)': '',
         'Festival Bio (EN)': '',
         'Social Links': '',
+        'Date': '',
+        'Start Time': '',
+        'End Time': '',
+        'End Date': '',
+        'Stage': '',
         'Images Scraped': ''  # Empty = don't overwrite; set to 'Yes' only when actually downloaded
     }
 
@@ -144,6 +153,40 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
                 print(f"  ✓ Found {len(social_links)} social link(s)")
         else:
             print(f"  ✓ Social links already present, skipping")
+
+        # Extract schedule info (date, start time, end time, end date, stage) if any are missing
+        needs_schedule = (
+            not existing_row.get('Date', '').strip()
+            or not existing_row.get('Start Time', '').strip()
+            or not existing_row.get('End Time', '').strip()
+            or not existing_row.get('End Date', '').strip()
+            or not existing_row.get('Stage', '').strip()
+        )
+        if needs_schedule:
+            # Get stage names from config for matching
+            stage_names = getattr(config, 'stages', [])
+            schedule_info = scraper.extract_schedule_info(html, stage_names)
+            if any(schedule_info.values()):
+                if schedule_info.get('date'):
+                    result['Date'] = schedule_info['date']
+                    print(f"  ✓ Extracted date: {schedule_info['date']}")
+                if schedule_info.get('start_time'):
+                    result['Start Time'] = schedule_info['start_time']
+                    print(f"  ✓ Extracted start time: {schedule_info['start_time']}")
+                if schedule_info.get('end_time'):
+                    result['End Time'] = schedule_info['end_time']
+                    print(f"  ✓ Extracted end time: {schedule_info['end_time']}")
+                if schedule_info.get('end_date'):
+                    result['End Date'] = schedule_info['end_date']
+                    if schedule_info['end_date'] != schedule_info.get('date'):
+                        print(f"  ✓ Extracted end date: {schedule_info['end_date']} (midnight crossover detected)")
+                if schedule_info.get('stage'):
+                    result['Stage'] = schedule_info['stage']
+                    print(f"  ✓ Extracted stage: {schedule_info['stage']}")
+            else:
+                print(f"  ⚠ No schedule info found on festival website")
+        else:
+            print(f"  ✓ Schedule info already present, skipping")
 
         # Download images only if needed
         if needs_images:
@@ -216,6 +259,21 @@ def extract_images_from_html(html: str, config, artist_name: str = '') -> List[s
 
     artist_images = []
     og_image_found = False
+    
+    # Load excluded image URLs from config (for festivals with sponsor/logo images)
+    excluded_images = getattr(config, 'excluded_image_urls', [])
+    if not excluded_images and hasattr(config, 'slug'):
+        # Load from settings.json if available
+        from pathlib import Path
+        import json
+        settings_path = Path(config.output_dir) / "settings.json"
+        if settings_path.exists():
+            try:
+                with open(settings_path, 'r', encoding='utf-8') as f:
+                    settings = json.load(f)
+                    excluded_images = settings.get('scraper', {}).get('excluded_image_urls', [])
+            except:
+                pass
 
     try:
         # Try og:image meta tag first (Bospop, many WordPress sites) - HIGHEST PRIORITY
@@ -290,6 +348,10 @@ def extract_images_from_html(html: str, config, artist_name: str = '') -> List[s
                 # Skip sponsor/logo images
                 if any(skip in img_lower for skip in ['rabobank', 'sponsor', 'woordmerk', 'rgb', 'logo', 'brand', 'default', 'placeholder']):
                     continue
+                
+                # Skip excluded images
+                if any(excluded.lower() in img_url.lower() for excluded in excluded_images):
+                    continue
 
                 if img_url.startswith('//'):
                     img_url = 'https:' + img_url
@@ -358,6 +420,11 @@ def extract_images_from_html(html: str, config, artist_name: str = '') -> List[s
                 # Skip thumbnails and obvious non-artist images
                 if any(skip in img_lower for skip in ['thumb', 'logo', 'icon', 'brand', 'sponsor', 'default', 'placeholder']):
                     continue
+                
+                # Skip excluded images
+                if any(excluded.lower() in img_url.lower() for excluded in excluded_images):
+                    continue
+                
                 if img_url.startswith('//'):
                     img_url = 'https:' + img_url
                 elif img_url.startswith('/'):
@@ -593,7 +660,7 @@ def main():
                 'Artist', 'Genre', 'Country', 'Bio', 'AI Summary', 'AI Rating',
                 'Spotify Link', 'Number of People in Act', 'Gender of Front Person',
                 'Front Person of Color?', 'Festival URL', 'Festival Bio (NL)',
-                'Festival Bio (EN)', 'Social Links', 'Images Scraped'
+                'Festival Bio (EN)', 'Social Links', 'Date', 'Start Time', 'End Time', 'End Date', 'Images Scraped'
             ])
             writer.writeheader()
             for artist in artists:
@@ -604,7 +671,7 @@ def main():
                     'Spotify Link': '', 'Number of People in Act': '',
                     'Gender of Front Person': '', 'Front Person of Color?': '',
                     'Festival Bio (NL)': '', 'Festival Bio (EN)': '',
-                    'Social Links': '', 'Images Scraped': ''
+                    'Social Links': '', 'Date': '', 'Start Time': '', 'End Time': '', 'End Date': '', 'Images Scraped': ''
                 })
         
         print(f"✓ Created CSV with {len(artists)} artists")
@@ -618,6 +685,11 @@ def main():
         'Festival Bio (NL)',
         'Festival Bio (EN)',
         'Social Links',
+        'Date',
+        'Start Time',
+        'End Time',
+        'End Date',
+        'Stage',
         'Images Scraped'
     ]
     

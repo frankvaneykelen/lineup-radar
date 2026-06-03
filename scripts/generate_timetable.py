@@ -183,7 +183,20 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
         "Cloud Nine": "#40E0D0",      # Turquoise
         "Club Nine": "#FFD93D",       # Yellow
         "Pandora Foyer": "#FF6B9D",   # Coral Pink
-        "Park 6": "#8B7FD6"           # Purple
+        "Park 6": "#8B7FD6",           # Purple
+        
+        # Down The Rabbit Hole (colors inspired by official branding)
+        "Hotot": "#FF7A66",         # Coral
+        "Teddy Widder": "#6BCB77",   # Fresh Green
+        "Fuzzy Lop": "#4D96FF",      # Sky Blue
+        "Rex": "#FFD166",            # Warm Yellow
+        "The Bizarre": "#9B5DE5",    # Violet
+        "Bossa Nova": "#F15BB5",     # Magenta
+        "The Croque Madama": "#00CC99",# Mint
+        "Holding": "#FFB4A2",        # Peach
+        "Radiate VI": "#00A6FB",     # Bright Cyan
+        "Idyllische Veldje": "#8FD694" # Soft Lime
+
     }
     
     # Get unique stages and sort them according to stages_order

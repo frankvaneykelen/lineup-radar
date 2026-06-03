@@ -10,10 +10,29 @@
   "spotify_playlist_id": "https://open.spotify.com/playlist/3ERLeyNAEgIpUSh1ll3BLM",
   "start_date": "2026-07-03",
   "end_date": "2026-07-05",
-  "stages": [],
+  "stages": [
+    "Hotot",
+    "Teddy Widder",
+    "Fuzzy Lop",
+    "Rex",
+    "The Bizarre",
+    "Bossa Nova",
+    "The Croque Madama",
+    "Holding",
+    "Radiate VI",
+    "Idyllische Veldje"
+  ],
   "archived": false,
   "hide_from_navigation": false,
   "scraper": {
-    "type": "generic"
+    "type": "generic",
+    "excluded_image_urls": [
+      "btn_close.svg",
+      "btn_play.svg",
+      "btn_play_trans.svg",
+      "rabobank",
+      "kruidvat",
+      "unox"
+    ]
   }
 }

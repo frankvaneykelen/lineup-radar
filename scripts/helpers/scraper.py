@@ -375,6 +375,95 @@ class FestivalScraper:
         html_text = re.sub(r'\n\s*\n', '\n\n', html_text).strip()
         return html_text
     
+    def extract_schedule_info(self, html: str, stage_names: list = None) -> dict:
+        """
+        Extract schedule information (date, start time, end time, stage) from artist page.
+        
+        Supports format: 
+            "zondag, 05 Jul 2026 15:30 - 16:30"
+            "The Bizarre"  (on next line)
+        
+        Automatically detects midnight crossovers (e.g., 23:40 - 01:00 next day)
+        
+        Args:
+            html: HTML content of artist page
+            stage_names: List of valid stage names to match against (optional)
+            
+        Returns:
+            Dict with keys 'date', 'start_time', 'end_date', 'end_time', 'stage'
+            (or empty strings if not found). end_date differs from date only for midnight crossovers.
+        """
+        import re
+        from datetime import datetime, timedelta
+        
+        result = {'date': '', 'start_time': '', 'end_date': '', 'end_time': '', 'stage': ''}
+        
+        if not html:
+            return result
+        
+        # Pattern: "zondag, 05 Jul 2026 15:30 - 16:30"
+        # Day name can be any day, date format is DD Mmm YYYY HH:MM - HH:MM
+        schedule_pattern = r'(?:maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag),?\s+(\d{1,2})\s+(jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec)\s+(\d{4})\s+(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})'
+        
+        match = re.search(schedule_pattern, html, re.IGNORECASE)
+        if match:
+            day, month_abbr, year, start_hour, start_min, end_hour, end_min = match.groups()
+            
+            # Map Dutch month abbreviations to numbers
+            month_map = {
+                'jan': '01', 'feb': '02', 'mrt': '03', 'apr': '04', 'mei': '05', 'jun': '06',
+                'jul': '07', 'aug': '08', 'sep': '09', 'okt': '10', 'nov': '11', 'dec': '12'
+            }
+            month_num = month_map.get(month_abbr.lower(), '07')
+            
+            # Format date as YYYY-MM-DD
+            start_date_str = f"{year}-{month_num}-{day.zfill(2)}"
+            result['date'] = start_date_str
+            result['start_time'] = f"{start_hour.zfill(2)}:{start_min}"
+            result['end_time'] = f"{end_hour.zfill(2)}:{end_min}"
+            
+            # Detect midnight crossover: if end_time < start_time, concert runs into next day
+            start_minutes = int(start_hour) * 60 + int(start_min)
+            end_minutes = int(end_hour) * 60 + int(end_min)
+            
+            if end_minutes < start_minutes:
+                # Concert runs past midnight - calculate next day
+                start_date_obj = datetime.strptime(start_date_str, '%Y-%m-%d')
+                end_date_obj = start_date_obj + timedelta(days=1)
+                result['end_date'] = end_date_obj.strftime('%Y-%m-%d')
+            else:
+                # Same day event
+                result['end_date'] = start_date_str
+            
+            # Extract stage name that appears after the time (on next line or nearby)
+            # Look for text after the time pattern
+            match_end = match.end()
+            following_text = html[match_end:match_end+500]  # Look at next 500 chars
+            
+            # Split into lines and look for a line that matches a known stage name
+            lines = following_text.split('\n')
+            for line in lines[:5]:  # Check next 5 lines
+                line_clean = line.strip().strip('</>').strip()
+                if not line_clean or len(line_clean) < 2:
+                    continue
+                
+                # If stage_names provided, match against those (case-insensitive)
+                if stage_names:
+                    for stage_name in stage_names:
+                        if stage_name.lower() in line_clean.lower() or line_clean.lower() in stage_name.lower():
+                            result['stage'] = line_clean
+                            break
+                    if result['stage']:
+                        break
+                else:
+                    # No stage list provided, try to extract first meaningful line
+                    # Skip lines that look like HTML tags or are too long (likely bio text)
+                    if '<' not in line and '>' not in line and len(line_clean) < 100:
+                        result['stage'] = line_clean
+                        break
+        
+        return result
+    
     def fetch_artist_bio(self, artist_name: str) -> str:
         """
         Fetch artist bio from their festival page.

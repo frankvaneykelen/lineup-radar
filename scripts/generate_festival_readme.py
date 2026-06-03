@@ -68,6 +68,9 @@ python scripts/generate_html.py --festival {slug} --year {year}
 # Generate individual artist pages with images
 python scripts/generate_artist_pages.py --festival {slug} --year {year}
 
+# Generate the timetable (schedule) HTML page
+python scripts/generate_timetable.py --festival {slug} --year {year}
+
 # Generate the About page with statistics
 python scripts/generate_about.py --festival {slug} --year {year}
 
