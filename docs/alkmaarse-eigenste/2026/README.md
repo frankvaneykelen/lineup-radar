@@ -50,6 +50,9 @@ python scripts/generate_html.py --festival alkmaarse-eigenste --year 2026
 # Generate individual artist pages with images
 python scripts/generate_artist_pages.py --festival alkmaarse-eigenste --year 2026
 
+# Generate the timetable (schedule) HTML page
+python scripts/generate_timetable.py --festival alkmaarse-eigenste --year 2026
+
 # Generate the About page with statistics
 python scripts/generate_about.py --festival alkmaarse-eigenste --year 2026
 

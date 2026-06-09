@@ -1,7 +1,7 @@
 {
   "festival": "pinkpop",
   "year": 2026,
-  "generated_at": "2026-02-25T21:48:55.464231+00:00",
+  "generated_at": "2026-06-09T19:20:23.289402+00:00",
   "stats": {
     "total_artists": 32,
     "genre_counts": {
@@ -59,20 +59,20 @@
       "No": 31,
       "Yes": 1
     },
-    "average_rating": 6.88,
-    "rated_count": 32,
-    "rated_percentage": 100.0,
+    "average_rating": 7.25,
+    "rated_count": 12,
+    "rated_percentage": 37.5,
     "rating_counts": {
-      "9-10": 2,
-      "8-9": 5,
-      "7-8": 15,
-      "6-7": 7,
-      "5-6": 3
+      "9-10": 1,
+      "8-9": 3,
+      "7-8": 6,
+      "6-7": 2,
+      "Unrated": 20
     },
     "has_spotify_links": 32,
     "spotify_percentage": 100.0,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Pinkpop 2026 Festival Profile (June 19-21, 2026)**  \n\nPinkpop 2026 brings an eclectic mix of 32 artists to Landgraaf, Netherlands, showcasing a vibrant blend of genres and styles. Alternative Rock leads the lineup with eight acts, followed by Pop, Indie Rock, and Indie Pop, reflecting the festival’s dedication to modern, genre-spanning music. With artists also delving into Punk Rock, Electropop, and even niche styles like Gothic Rock and Rave Rock, Pinkpop continues to offer something for everyone.  \n\nThis year’s lineup is truly international, with acts hailing from the United Kingdom and the United States (9 each), the Netherlands (7), and other countries like Germany, Canada, and Australia. Gender representation highlights a male-dominated lineup (20 male-led acts), but female (8) and mixed-gender (4) groups contribute to a more diverse roster. However, representation of artists of color remains low, with only one act identifying as such, highlighting opportunities for broader inclusivity in the future.  \n\nWith all acts rated by festival-goers and an average score of 6.88, Pinkpop 2026 promises a solid mix of crowd-pleasers and rising stars. Notably, all artists are connected to Spotify, ensuring attendees can explore the lineup ahead of time. As always, Pinkpop continues to celebrate its legacy of blending iconic names with fresh talent, creating an unforgettable summer music experience.  "
+  "ai_profile": "**Pinkpop 2026 Festival Profile**  \n\nSet to take place from June 19–21, 2026, Pinkpop continues its legacy as one of Europe’s most iconic music festivals, bringing together 32 diverse artists from across the globe. This year’s lineup is a genre-spanning celebration, with a strong focus on Alternative Rock (8 acts), Pop (7 acts), and Indie Rock (6 acts), while also exploring niche sounds like Post-Punk Revival, Electropunk, and Rave Rock. From established headliners to emerging talent, the festival promises a vibrant mix of styles that cater to a wide range of musical tastes.  \n\nPinkpop 2026 boasts an impressive international roster, with artists hailing from eight countries. The United Kingdom and the United States lead the charge with nine acts each, followed closely by the Netherlands with seven performances, showcasing local talent on an international stage. Germany, Canada, Australia, Belgium, and Sweden add further global flavor, ensuring a rich and eclectic musical experience.  \n\nThe festival also highlights strides in gender diversity, with eight female-led acts and four mixed-gender groups taking the stage. However, there remains room for growth in representation, as only one artist in the lineup identifies as a person of color. With 100% of the artists providing Spotify links, fans can easily explore the music in advance, building excitement for what promises to be a dynamic and memorable weekend in Landgraaf.  \n\n"
 }

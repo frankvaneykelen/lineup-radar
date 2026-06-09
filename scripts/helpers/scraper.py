@@ -403,11 +403,11 @@ class FestivalScraper:
         
         # Pattern: "zondag, 05 Jul 2026 15:30 - 16:30"
         # Day name can be any day, date format is DD Mmm YYYY HH:MM - HH:MM
-        schedule_pattern = r'(?:maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag),?\s+(\d{1,2})\s+(jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec)\s+(\d{4})\s+(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})'
+        schedule_pattern = r'(maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag),?\s+(\d{1,2})\s+(jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec)\s+(\d{4})\s+(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})'
         
         match = re.search(schedule_pattern, html, re.IGNORECASE)
         if match:
-            day, month_abbr, year, start_hour, start_min, end_hour, end_min = match.groups()
+            weekday_name, day, month_abbr, year, start_hour, start_min, end_hour, end_min = match.groups()
             
             # Map Dutch month abbreviations to numbers
             month_map = {
@@ -418,6 +418,15 @@ class FestivalScraper:
             
             # Format date as YYYY-MM-DD
             start_date_str = f"{year}-{month_num}-{day.zfill(2)}"
+            start_date_obj = datetime.strptime(start_date_str, '%Y-%m-%d')
+
+            # Some festival pages label after-midnight sets under the previous festival day
+            # (e.g., "vrijdag ... 00:45 - 03:00"). Normalize those to the next calendar day.
+            start_hour_int = int(start_hour)
+            if start_hour_int < 6:
+                start_date_obj += timedelta(days=1)
+
+            start_date_str = start_date_obj.strftime('%Y-%m-%d')
             result['date'] = start_date_str
             result['start_time'] = f"{start_hour.zfill(2)}:{start_min}"
             result['end_time'] = f"{end_hour.zfill(2)}:{end_min}"
@@ -428,7 +437,6 @@ class FestivalScraper:
             
             if end_minutes < start_minutes:
                 # Concert runs past midnight - calculate next day
-                start_date_obj = datetime.strptime(start_date_str, '%Y-%m-%d')
                 end_date_obj = start_date_obj + timedelta(days=1)
                 result['end_date'] = end_date_obj.strftime('%Y-%m-%d')
             else:

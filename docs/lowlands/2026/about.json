@@ -1,11 +1,11 @@
 {
   "festival": "lowlands",
   "year": 2026,
-  "generated_at": "2026-02-25T22:08:46.519697+00:00",
+  "generated_at": "2026-06-09T19:21:07.669213+00:00",
   "stats": {
     "total_artists": 56,
     "genre_counts": {
-      "Electronic": 9,
+      "Electronic": 10,
       "Soul": 6,
       "Hip-Hop": 5,
       "Funk": 5,
@@ -13,10 +13,11 @@
       "Experimental": 5,
       "Rap": 4,
       "Pop": 4,
+      "Jazz": 4,
       "Indie Pop": 3,
-      "Jazz": 3,
       "Reggae": 2,
       "Techno": 2,
+      "Grunge": 2,
       "World": 2,
       "Neo-Soul": 1,
       "Alternative Pop": 1,
@@ -54,7 +55,6 @@
       "Minimal": 1,
       "Dub": 1,
       "Indie Rock": 1,
-      "Grunge": 1,
       "Tropicália": 1,
       "Experimental Pop": 1,
       "hyperpop, EDM, hip-hop": 1,
@@ -63,6 +63,7 @@
       "rap": 1,
       "Hardcore": 1,
       "Metalcore": 1,
+      "Britpop": 1,
       "Post-rock": 1,
       "Art rock": 1,
       "Indie": 1,
@@ -108,24 +109,24 @@
       "she": 1
     },
     "poc_counts": {
-      "Yes": 22,
-      "No": 22,
-      "Unknown": 12
+      "Yes": 24,
+      "No": 25,
+      "Unknown": 7
     },
-    "average_rating": 7.42,
-    "rated_count": 45,
-    "rated_percentage": 80.4,
+    "average_rating": 7.04,
+    "rated_count": 25,
+    "rated_percentage": 44.6,
     "rating_counts": {
-      "9-10": 5,
-      "8-9": 14,
-      "7-8": 21,
+      "9-10": 2,
+      "8-9": 2,
+      "7-8": 16,
       "6-7": 5,
-      "Unrated": 11
+      "Unrated": 31
     },
     "has_spotify_links": 55,
     "spotify_percentage": 98.2,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "Lowlands 2026 taking place August 14 - 16, 2026 features 56 artists. Top genres include Electronic, Soul, Hip-Hop. Average user rating: 7.42. The lineup includes 24 male, 8 female, 15 mixed/group, 1 non-binary, with 22 artists of color."
+  "ai_profile": "**Lowlands 2026: A Celebration of Diversity and Sound**  \nFrom August 14–16, 2026, Lowlands returns with a lineup as eclectic and vibrant as ever, featuring 56 artists from across the globe. With acts hailing from 20 countries, including the USA, Netherlands, UK, Australia, and as far afield as Japan, Brazil, and Malaysia, the festival is a true international gathering of talent. The lineup reflects a rich tapestry of genres, from the pulsating beats of Electronic (10 acts) to the soulful rhythms of R&B, Soul, and Funk, as well as cutting-edge Experimental and Hip-Hop sounds. Fans can also look forward to unique performances spanning Jazz, Indie Pop, Reggae, and even niche styles like Kuduro, Tropicália, and Industrial Hip-Hop.\n\nLowlands 2026 stands out for its commitment to diversity. Nearly half of the artists identify as people of color, and the festival embraces a mix of gender identities, with male, female, non-binary, and mixed-gender acts all represented. This inclusivity extends to the music itself, with artists blending genres like hyperpop, EDM, and rap, and pushing boundaries with Experimental Rock and Neo-Soul. With 98% of the lineup available on Spotify, attendees can easily explore the diverse sounds ahead of the festival.\n\nThis year’s edition also features three DJs and a mix of emerging and established acts, creating a dynamic atmosphere where fresh voices and seasoned performers share the stage. Whether you’re into the raw energy of Punk Rock and Metalcore or the smooth grooves of Nu-Disco and Downtempo, Lowlands 2026 promises an unforgettable experience for every music lover."
 }

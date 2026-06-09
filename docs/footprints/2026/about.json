@@ -1,7 +1,7 @@
 {
   "festival": "footprints",
   "year": 2026,
-  "generated_at": "2026-02-25T21:48:01.362079+00:00",
+  "generated_at": "2026-06-09T19:19:22.227028+00:00",
   "stats": {
     "total_artists": 19,
     "genre_counts": {
@@ -64,19 +64,16 @@
       "No": 5,
       "Unknown": 4
     },
-    "average_rating": 8.33,
-    "rated_count": 15,
-    "rated_percentage": 78.9,
+    "average_rating": null,
+    "rated_count": 0,
+    "rated_percentage": 0,
     "rating_counts": {
-      "9-10": 5,
-      "8-9": 8,
-      "6-7": 2,
-      "Unrated": 4
+      "Unrated": 19
     },
     "has_spotify_links": 15,
     "spotify_percentage": 78.9,
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Footprints Festival 2026** is set to return on February 21, 2026, with an electrifying lineup of 19 artists spanning a diverse range of genres. From the pulsating beats of Electronic and House to the rich traditions of Anatolian Rock, Malian Desert Blues, and Armenian Folk, the festival promises a sonic journey across cultures and styles. Notably, the roster showcases a strong inclination toward experimental and psychedelic sounds, with several acts exploring avant-garde and genre-blending approaches.\n\nThe festival’s lineup reflects a significant commitment to diversity. Artists hail from 12 different countries, including Germany, Nigeria, Iran, and Brazil, bringing a global perspective to the stage. Additionally, more than half of the artists are people of color, highlighting the festival’s dedication to amplifying traditionally underrepresented voices in music. While male artists form the majority of the lineup, the inclusion of female and mixed-gender acts adds an important layer of representation.\n\nWith an average rating of 8.33 from attendees and 79% of performers available on Spotify, Footprints Festival 2026 has already set high expectations. The mix of established and emerging talents, alongside a vibrant tapestry of genres and cultures, ensures a unique and inclusive experience for music lovers. Whether you're drawn to the hypnotic rhythms of Afrobeat, the introspection of minimalist electropop, or the energy of UK Garage, this festival has something for everyone."
+  "ai_profile": "**Footprints Festival 2026: A Global Tapestry of Sound**  \nMark your calendars for February 21, 2026, as the Footprints Festival returns with a dynamic lineup of 19 artists from across the globe. This year’s event celebrates a kaleidoscope of genres, from pulsating Electronic beats and Psychedelic grooves to the rich traditions of Anatolian Rock, Malian Desert Blues, and Armenian Folk. With a lineup spanning over 30 unique musical styles, the festival promises an unparalleled auditory journey that bridges cultures and genres.\n\nThe festival’s diversity shines through its international representation, with artists hailing from 12 countries, including Germany, Nigeria, Turkey, Iran, and Japan. In addition to its geographical breadth, Footprints Festival champions inclusion, featuring 10 artists of color and a mix of solo acts and collaborative groups. While male artists dominate the lineup, there’s a growing presence of female and mixed-gender acts, reflecting a gradual shift toward broader representation in the music industry.\n\nKnown for its forward-thinking curation, Footprints Festival 2026 brings together both emerging and established talents, with 79% of the artists offering Spotify links to explore their work. Whether you're drawn to the hypnotic rhythms of Drum & Bass and UK Garage or the soulful melodies of Gospel and R&B, this year’s edition promises to leave an indelible mark on music lovers of all tastes. Don’t miss this celebration of sound, culture, and creativity!"
 }

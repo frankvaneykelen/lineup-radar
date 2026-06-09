@@ -70,7 +70,14 @@ def needs_festival_data(row: Dict) -> bool:
     return any(not row.get(field, '').strip() for field in festival_fields) or images_scraped
 
 
-def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, config, existing_row: Dict = None) -> Dict[str, str]:
+def fetch_artist_festival_data(
+    artist_name: str,
+    scraper: FestivalScraper,
+    config,
+    existing_row: Dict = None,
+    force: bool = False,
+    schedule_only: bool = False,
+) -> Dict[str, str]:
     """
     Fetch festival data for an artist, skipping sections that are already complete.
 
@@ -79,6 +86,8 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
         scraper: FestivalScraper instance
         config: Festival configuration
         existing_row: Existing CSV row dict (used to skip already-filled fields)
+        force: Re-fetch all sections even when fields are already populated
+        schedule_only: Re-fetch only schedule fields (Date/Start Time/End Time/End Date/Stage)
 
     Returns:
         Dict with festival bio (NL/EN), URL, and social links
@@ -87,12 +96,14 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
         existing_row = {}
 
     existing_url = existing_row.get('Festival URL', '').strip()
+    refresh_schedule = force or schedule_only
     needs_bio = (
-        not existing_row.get('Festival Bio (NL)', '').strip()
+        force and not schedule_only
+        or not existing_row.get('Festival Bio (NL)', '').strip()
         or not existing_row.get('Festival Bio (EN)', '').strip()
     )
-    needs_social = not existing_row.get('Social Links', '').strip()
-    needs_images = existing_row.get('Images Scraped', '').strip().lower() != 'yes'
+    needs_social = (force and not schedule_only) or not existing_row.get('Social Links', '').strip()
+    needs_images = (force and not schedule_only) or existing_row.get('Images Scraped', '').strip().lower() != 'yes'
 
     # Use existing URL if available, otherwise generate from slug
     if existing_url:
@@ -156,7 +167,8 @@ def fetch_artist_festival_data(artist_name: str, scraper: FestivalScraper, confi
 
         # Extract schedule info (date, start time, end time, end date, stage) if any are missing
         needs_schedule = (
-            not existing_row.get('Date', '').strip()
+            refresh_schedule
+            or not existing_row.get('Date', '').strip()
             or not existing_row.get('Start Time', '').strip()
             or not existing_row.get('End Time', '').strip()
             or not existing_row.get('End Date', '').strip()
@@ -614,6 +626,11 @@ def main():
         help="Re-fetch data even if already present"
     )
     parser.add_argument(
+        "--schedule-only",
+        action="store_true",
+        help="Re-fetch only schedule fields (Date/Start Time/End Time/End Date/Stage)"
+    )
+    parser.add_argument(
         "--artist",
         type=str,
         help="Fetch data for a single artist only"
@@ -734,13 +751,20 @@ def main():
         print(f"[{idx+1}/{len(rows_to_process)}] {artist_name}")
         
         # Check if needs data
-        if not args.force and not needs_festival_data(row):
+        if not args.force and not args.schedule_only and not needs_festival_data(row):
             print(f"  ✓ Already has festival data (use --force to re-fetch)")
             skipped_count += 1
             continue
         
         # Fetch festival data (pass full row so function skips already-complete sections)
-        festival_data = fetch_artist_festival_data(artist_name, scraper, config, row)
+        festival_data = fetch_artist_festival_data(
+            artist_name,
+            scraper,
+            config,
+            row,
+            force=args.force,
+            schedule_only=args.schedule_only,
+        )
         
         # Update row
         for key, value in festival_data.items():

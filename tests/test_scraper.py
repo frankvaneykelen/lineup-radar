@@ -139,3 +139,52 @@ class TestFestivalScraper:
         
         assert elapsed >= 0.1
         assert elapsed < 0.2  # Allow some margin
+
+    def test_extract_schedule_info_shifts_after_midnight_to_next_day(self, sample_dtrh_config):
+        """After-midnight sets should be assigned to the next calendar date."""
+        scraper = FestivalScraper(sample_dtrh_config)
+        html = """
+        <div>
+            vrijdag, 03 Jul 2026 00:45 - 03:00
+            <p>Hotot</p>
+        </div>
+        """
+
+        result = scraper.extract_schedule_info(html)
+
+        assert result['date'] == '2026-07-04'
+        assert result['start_time'] == '00:45'
+        assert result['end_time'] == '03:00'
+        assert result['end_date'] == '2026-07-04'
+
+    def test_extract_schedule_info_keeps_evening_date(self, sample_dtrh_config):
+        """Evening sets should keep the original parsed date."""
+        scraper = FestivalScraper(sample_dtrh_config)
+        html = """
+        <div>
+            vrijdag, 03 Jul 2026 21:15 - 22:15
+            <p>Hotot</p>
+        </div>
+        """
+
+        result = scraper.extract_schedule_info(html)
+
+        assert result['date'] == '2026-07-03'
+        assert result['end_date'] == '2026-07-03'
+
+    def test_extract_schedule_info_midnight_crossover_still_sets_next_end_date(self, sample_dtrh_config):
+        """Late-night sets crossing midnight should still increment end_date."""
+        scraper = FestivalScraper(sample_dtrh_config)
+        html = """
+        <div>
+            vrijdag, 03 Jul 2026 23:40 - 01:00
+            <p>Hotot</p>
+        </div>
+        """
+
+        result = scraper.extract_schedule_info(html)
+
+        assert result['date'] == '2026-07-03'
+        assert result['start_time'] == '23:40'
+        assert result['end_time'] == '01:00'
+        assert result['end_date'] == '2026-07-04'

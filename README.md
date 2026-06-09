@@ -119,6 +119,7 @@ Festivals can be marked as archived to hide them from the main navigation while 
    ```
 
 **What happens when a festival is archived:**
+
 - Removed from the main navigation menu (hamburger menu)
 - Moved to the "Past Festivals" section on the homepage (first 6 shown + "View All" button)
 - Listed on the dedicated archive page (`docs/archive.html`)
@@ -130,6 +131,7 @@ Festivals can be marked as archived to hide them from the main navigation while 
 2. Regenerate with `.\scripts\regenerate_general.ps1`
 
 **Files affected by archiving:**
+
 - `scripts/helpers/menu.py` - Filters archived festivals from navigation
 - `scripts/generate_homepage.py` - Separates upcoming vs archived festivals
 - `scripts/generate_archive.py` - Generates dedicated archive page
