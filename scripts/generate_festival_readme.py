@@ -282,6 +282,9 @@ python scripts/fetch_festival_data.py --festival {slug} --year {year}
 
 # Optional: Fetch bio for a single artist (useful for testing or updates)
 python scripts/fetch_festival_data.py --festival {slug} --year {year} --artist "Artist Name"
+
+# Optional: Re-scrape only schedule fields (Date, Start Time, End Time, Stage) without touching bios or images
+python scripts/fetch_festival_data.py --festival {slug} --year {year} --schedule-only
 """.format(slug=config.slug, year=year)
     else:
         scrape_comment = "# This gets artist names and bios from the single festival page\n"
