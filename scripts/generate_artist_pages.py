@@ -441,6 +441,10 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     
     # AI COLUMN: Bio, AI Summary, AI Rating
     
+    tagline_html = ""
+    if tagline:
+        tagline_html = f'<p class="mb-2"><strong>{escape_html(tagline)}</strong></p>'
+
     # AI-generated Bio Section
     if bio:
         # Check if bio starts with the festival bio disclaimer
@@ -449,6 +453,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
             bio_text = bio[len(disclaimer):]
             html += f"""                <div>
                     <h2>Bio</h2>
+                    {tagline_html}
                     <p class="mb-2"><small class="fst-italic"><i class="bi bi-info-circle-fill"></i> Using festival bio due to a lack of publicly available data</small></p>
                     <p>{escape_html(bio_text)}</p>
                 </div>
@@ -456,12 +461,14 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         else:
             html += f"""                <div>
                     <h2>Bio</h2>
+                    {tagline_html}
                     <p>{escape_html(bio)}</p>
                 </div>
 """
     else:
         html += f"""                <div>
                     <h2>Bio</h2>
+                    {tagline_html}
                     <p>There is no information about this artist yet. If you can supply this information, please 
                         <a href="https://github.com/frankvaneykelen/lineup-radar/issues/new?title=Artist%20Info:%20{urllib.parse.quote(artist_name)}" target="_blank" style="color: #00a8cc;">create an issue on the repo</a> with the relevant information like, in any language you like:</p>
                     <ul>

@@ -24,6 +24,7 @@ from helpers import (
     FestivalScraper,
     get_festival_config
 )
+from helpers.genre_utils import normalize_genre_row, normalize_genre_value, audit_genre_separators
 
 
 def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
@@ -32,7 +33,7 @@ def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
         print(f"✗ CSV file not found: {csv_path}")
         sys.exit(1)
     
-    with open(csv_path, 'r', encoding='utf-8') as f:
+    with open(csv_path, 'r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         headers = reader.fieldnames
         rows = list(reader)
@@ -142,6 +143,8 @@ CRITICAL: If you cannot find reliable information about this artist, leave Bio, 
             content = content.split("```")[1].split("```")[0].strip()
         
         artist_data = json.loads(content)
+        if "Genre" in artist_data:
+            artist_data["Genre"] = normalize_genre_value(artist_data.get("Genre", ""))
         return artist_data
         
     except Exception as e:
@@ -327,6 +330,13 @@ def validate_csv(csv_path: Path, artists: List[str] = None, all_artists: bool = 
 def save_csv(csv_path: Path, headers: List[str], rows: List[Dict]):
     """Save CSV file with UTF-8 encoding."""
     import csv
+    for row in rows:
+        normalize_genre_row(row)
+
+    offenders = audit_genre_separators(rows)
+    if offenders:
+        print(f"  ⚠️  Normalized genre separators for {len(offenders)} artist(s) before saving")
+
     with open(csv_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=headers)
         writer.writeheader()

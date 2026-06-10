@@ -18,11 +18,12 @@ import json
 import os
 import requests
 from typing import Dict, List
+from helpers.genre_utils import normalize_genre_row, audit_genre_separators
 
 
 def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
     """Load CSV file and return headers and rows."""
-    with open(csv_path, 'r', encoding='utf-8') as f:
+    with open(csv_path, 'r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         headers = reader.fieldnames
         rows = list(reader)
@@ -31,6 +32,13 @@ def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
 
 def save_csv(csv_path: Path, headers: List[str], rows: List[Dict]):
     """Save CSV file with UTF-8 encoding."""
+    for row in rows:
+        normalize_genre_row(row)
+
+    offenders = audit_genre_separators(rows)
+    if offenders:
+        print(f"  ⚠️  Normalized genre separators for {len(offenders)} artist(s) before saving")
+
     with open(csv_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=headers)
         writer.writeheader()

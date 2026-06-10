@@ -31,6 +31,7 @@ from helpers import (
     artist_name_to_slug,
     translate_text
 )
+from helpers.genre_utils import normalize_genre_row, audit_genre_separators
 
 
 def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
@@ -39,7 +40,7 @@ def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
         print(f"✗ CSV file not found: {csv_path}")
         sys.exit(1)
     
-    with open(csv_path, 'r', encoding='utf-8') as f:
+    with open(csv_path, 'r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         headers = list(reader.fieldnames)
         rows = list(reader)
@@ -48,6 +49,13 @@ def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
 
 def save_csv(csv_path: Path, headers: List[str], rows: List[Dict]):
     """Save CSV file with UTF-8 encoding."""
+    for row in rows:
+        normalize_genre_row(row)
+
+    offenders = audit_genre_separators(rows)
+    if offenders:
+        print(f"  ⚠️  Normalized genre separators for {len(offenders)} artist(s) before saving")
+
     with open(csv_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=headers)
         writer.writeheader()

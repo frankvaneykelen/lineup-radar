@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from helpers import get_festival_config, artist_name_to_slug
 from helpers.ai_client import call_azure_openai
+from helpers.genre_utils import normalize_genre_value
 
 
 def scrape_website(url):
@@ -200,6 +201,8 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
     
     def save_progress():
         """Save CSV after each field update."""
+        if artist_data.get('Genre'):
+            artist_data['Genre'] = normalize_genre_value(artist_data['Genre'])
         with open(csv_path, 'w', encoding='utf-8', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
@@ -254,9 +257,9 @@ def process_artist(artist_data, artists_dir, artist_name, csv_path, all_artists,
     if not artist_data.get('Genre'):
         if ai_data and ai_data.get('genre'):
             confirm = get_input(f"Genre: {ai_data['genre']} (press Enter to accept, or type different)", default="accept")
-            artist_data['Genre'] = ai_data['genre'] if confirm == "accept" else confirm
+            artist_data['Genre'] = normalize_genre_value(ai_data['genre'] if confirm == "accept" else confirm)
         else:
-            artist_data['Genre'] = get_input("Genre (lowercase, use / to separate multiple genres, e.g., indie rock/pop/electronic)")
+            artist_data['Genre'] = normalize_genre_value(get_input("Genre (lowercase, use / to separate multiple genres, e.g., indie rock/pop/electronic)"))
         if artist_data['Genre']:
             save_progress()
     
@@ -479,7 +482,7 @@ def main():
     print(f"CSV: {csv_path}")
     print()
     
-    with open(csv_path, 'r', encoding='utf-8') as f:
+    with open(csv_path, 'r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         fieldnames = reader.fieldnames
         all_artists = list(reader)

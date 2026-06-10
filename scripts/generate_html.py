@@ -36,7 +36,7 @@ def generate_html(csv_file, output_dir, config):
     artists = []
     headers = []
     
-    with open(csv_file, 'r', encoding='utf-8') as f:
+    with open(csv_file, 'r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         headers = reader.fieldnames
         for row in reader:
@@ -169,10 +169,10 @@ def generate_html(csv_file, output_dir, config):
                 {'<div class="filter-group"><label for="stageFilter">Filter by Stage</label><select id="stageFilter"><option value="">All Stages</option></select></div>' if has_schedule_data else ''}
                 
                 <div class="filter-group">
-                    <label for="genreFilter">Filter by Genre</label>
-                    <select id="genreFilter">
-                        <option value="">All Genres</option>
-                    </select>
+                    <label style="margin-bottom: 8px; display: block;">Filter by Genre</label>
+                    <input type="text" id="genreSearch" class="search-box" placeholder="Search genres..." style="width: 100%; margin-bottom: 8px; padding: 6px 8px; font-size: 0.9em;">
+                    <div class="checkbox-group" id="genreFilters" style="max-height: 200px; overflow-y: auto;">
+                    </div>
                 </div>
                 
                 <div class="filter-group">
@@ -453,6 +453,41 @@ def generate_html(csv_file, output_dir, config):
             }}
         }}
         
+        // Normalize legacy/free-text demographic values to filter categories.
+        function normalizeGender(value) {{
+            if (!value) return 'Unknown';
+            const normalized = String(value).trim().toLowerCase();
+            if (!normalized) return 'Unknown';
+
+            const maleValues = ['male', 'man', 'm', 'he', 'him', 'he/him'];
+            const femaleValues = ['female', 'woman', 'f', 'she', 'her', 'she/her'];
+            const mixedValues = ['mixed'];
+            const nonBinaryValues = ['non-binary', 'non binary', 'nonbinary', 'nb', 'enby', 'they/them', 'they'];
+            const unknownValues = ['unknown', 'n/a', 'na', '?', '-', ''];
+
+            if (maleValues.includes(normalized)) return 'Male';
+            if (femaleValues.includes(normalized)) return 'Female';
+            if (mixedValues.includes(normalized)) return 'Mixed';
+            if (nonBinaryValues.includes(normalized)) return 'Non-binary';
+            if (unknownValues.includes(normalized)) return 'Unknown';
+            return 'Unknown';
+        }}
+
+        function normalizePoc(value) {{
+            if (!value) return 'Unknown';
+            const normalized = String(value).trim().toLowerCase();
+            if (!normalized) return 'Unknown';
+
+            const yesValues = ['yes', 'y', 'true', '1'];
+            const noValues = ['no', 'n', 'false', '0'];
+            const unknownValues = ['unknown', 'n/a', 'na', '?', '-', ''];
+
+            if (yesValues.includes(normalized)) return 'Yes';
+            if (noValues.includes(normalized)) return 'No';
+            if (unknownValues.includes(normalized)) return 'Unknown';
+            return 'Unknown';
+        }}
+
         // Count genres (split by / to handle multiple genres per artist)
         const genreCounts = {{}};
         artistsData.forEach(a => {{
@@ -477,13 +512,36 @@ def generate_html(csv_file, output_dir, config):
         }});
         const countries = Object.keys(countryCounts).sort();
         
-        const genreSelect = document.getElementById('genreFilter');
+        // Create genre checkboxes
+        const genreFilters = document.getElementById('genreFilters');
         genres.forEach(genre => {{
-            const option = document.createElement('option');
-            option.value = genre;
-            option.textContent = `${{genre}} (${{genreCounts[genre]}})`;
-            genreSelect.appendChild(option);
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = genre;
+            checkbox.checked = true;
+            checkbox.addEventListener('change', filterTable);
+            
+            label.appendChild(checkbox);
+            label.innerHTML += ` ${{genre}} (${{genreCounts[genre]}})`;
+            label.style.display = 'block';
+            label.style.marginBottom = '4px';
+            genreFilters.appendChild(label);
         }});
+        
+        // Genre search functionality
+        const genreSearch = document.getElementById('genreSearch');
+        if (genreSearch) {{
+            genreSearch.addEventListener('input', function() {{
+                const searchTerm = this.value.toLowerCase();
+                const genreLabels = document.querySelectorAll('#genreFilters label');
+                
+                genreLabels.forEach(label => {{
+                    const genreName = label.textContent.split(' (')[0].toLowerCase();
+                    label.style.display = genreName.includes(searchTerm) ? 'block' : 'none';
+                }});
+            }});
+        }}
         
         const countrySelect = document.getElementById('countryFilter');
         countries.forEach(country => {{
@@ -525,12 +583,12 @@ def generate_html(csv_file, output_dir, config):
             <option value="1">1+ (All) (${{ratingCounts['1']}})</option>
         `;
         
-        // Count genders and POC (treat empty as Unknown)
+        // Count normalized genders and POC values.
         const genderCounts = {{}};
         const pocCounts = {{}};
         artistsData.forEach(a => {{
-            const gender = a['Gender of Front Person'] || 'Unknown';
-            const poc = a['Front Person of Color?'] || 'Unknown';
+            const gender = normalizeGender(a['Gender of Front Person']);
+            const poc = normalizePoc(a['Front Person of Color?']);
             genderCounts[gender] = (genderCounts[gender] || 0) + 1;
             pocCounts[poc] = (pocCounts[poc] || 0) + 1;
         }});
@@ -566,15 +624,15 @@ def generate_html(csv_file, output_dir, config):
         // Search and filter functionality
         function filterTable() {{
             const searchTerm = document.getElementById('searchBox').value.toLowerCase();
-            const genreFilter = document.getElementById('genreFilter').value;
             const countryFilter = document.getElementById('countryFilter').value;
             const ratingFilter = document.getElementById('ratingFilter').value;
             const dateFilter = hasScheduleData ? document.getElementById('dateFilter').value : '';
             const stageFilter = hasScheduleData ? document.getElementById('stageFilter').value : '';
             
-            // Get checked genders and POC values
+            // Get checked genders, POC values, and genres
             const checkedGenders = Array.from(document.querySelectorAll('#genderFilters input:checked')).map(cb => cb.value);
             const checkedPOC = Array.from(document.querySelectorAll('#pocFilters input:checked')).map(cb => cb.value);
+            const checkedGenres = Array.from(document.querySelectorAll('#genreFilters input:checked')).map(cb => cb.value);
             
             const rows = document.querySelectorAll('#artistTableBody tr');
             let visibleCount = 0;
@@ -585,13 +643,15 @@ def generate_html(csv_file, output_dir, config):
                 const searchText = Object.values(artist).join(' ').toLowerCase();
                 
                 const matchesSearch = !searchTerm || searchText.includes(searchTerm);
-                const matchesGenre = !genreFilter || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).includes(genreFilter));
+                const matchesGenre = checkedGenres.length === 0 || (artist.Genre && artist.Genre.split('/').map(g => g.trim()).some(g => checkedGenres.includes(g)));
                 const matchesCountry = !countryFilter || (artist.Country && artist.Country.split('/').map(c => c.trim()).includes(countryFilter));
                 const matchesRating = !ratingFilter || (artist['AI Rating'] && parseFloat(artist['AI Rating']) >= parseFloat(ratingFilter));
                 const matchesDate = !dateFilter || (artist['Date'] && artist['Date'] === dateFilter);
                 const matchesStage = !stageFilter || (artist['Stage'] && artist['Stage'] === stageFilter);
-                const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artist['Gender of Front Person'] || 'Unknown');
-                const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artist['Front Person of Color?'] || 'Unknown');
+                const artistGender = normalizeGender(artist['Gender of Front Person']);
+                const artistPOC = normalizePoc(artist['Front Person of Color?']);
+                const matchesGender = checkedGenders.length === 0 || checkedGenders.includes(artistGender);
+                const matchesPOC = checkedPOC.length === 0 || checkedPOC.includes(artistPOC);
                 
                 if (matchesSearch && matchesGenre && matchesCountry && matchesRating && matchesDate && matchesStage && matchesGender && matchesPOC) {{
                     row.classList.remove('hidden');
@@ -692,7 +752,6 @@ def generate_html(csv_file, output_dir, config):
         
         // Event listeners
         document.getElementById('searchBox').addEventListener('input', filterTable);
-        document.getElementById('genreFilter').addEventListener('change', filterTable);
         document.getElementById('countryFilter').addEventListener('change', filterTable);
         document.getElementById('ratingFilter').addEventListener('change', filterTable);
         
@@ -704,8 +763,8 @@ def generate_html(csv_file, output_dir, config):
             if (stageFilter) stageFilter.addEventListener('change', filterTable);
         }}
         
-        // Add listeners for gender and POC checkboxes
-        document.querySelectorAll('#genderFilters input, #pocFilters input').forEach(checkbox => {{
+        // Add listeners for gender, POC, and genre checkboxes
+        document.querySelectorAll('#genderFilters input, #pocFilters input, #genreFilters input').forEach(checkbox => {{
             checkbox.addEventListener('change', filterTable);
         }});
         

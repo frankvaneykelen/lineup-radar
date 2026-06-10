@@ -16,6 +16,7 @@ import csv
 from typing import Dict, List
 import json
 from helpers.config import get_festival_config
+from helpers.genre_utils import normalize_genre_row, normalize_genre_value, audit_genre_separators
 
 
 def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
@@ -24,7 +25,7 @@ def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
         print(f"✗ CSV file not found: {csv_path}")
         sys.exit(1)
     
-    with open(csv_path, 'r', encoding='utf-8') as f:
+    with open(csv_path, 'r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         headers = reader.fieldnames
         rows = list(reader)
@@ -33,6 +34,13 @@ def load_csv(csv_path: Path) -> tuple[List[str], List[Dict]]:
 
 def save_csv(csv_path: Path, headers: List[str], rows: List[Dict]):
     """Save CSV file with UTF-8 encoding."""
+    for row in rows:
+        normalize_genre_row(row)
+
+    offenders = audit_genre_separators(rows)
+    if offenders:
+        print(f"  ⚠️  Normalized genre separators for {len(offenders)} artist(s) before saving")
+
     with open(csv_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=headers)
         writer.writeheader()
@@ -216,6 +224,12 @@ def enrich_artist_with_ai(artist_name: str, existing_bio: str = "", rating_boost
             return {}
 
         artist_data = json.loads(content)
+        if "Genre" in artist_data:
+            original_genre = str(artist_data.get("Genre", "") or "")
+            normalized_genre = normalize_genre_value(original_genre)
+            if normalized_genre != original_genre.strip():
+                print(f"  ⚠️  {artist_name}: Normalized Genre separator to slash format")
+            artist_data["Genre"] = normalized_genre
         provider = "Azure OpenAI" if use_azure else "GitHub Models"
 
         # Validate and log rating issues
@@ -452,6 +466,8 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
                                     elif key in ["AI Rating", "AI Summary"] and not str(value).strip():
                                         print(f"    ℹ️  {artist_name}.{key}: Left empty (AI had insufficient data)")
                                         row[key] = value
+                                    elif key == "Genre":
+                                        row[key] = normalize_genre_value(value)
                                     else:
                                         row[key] = value
                     except Exception as e:
@@ -511,6 +527,8 @@ def enrich_csv(csv_path: Path, use_ai: bool = False, parallel: bool = False, rat
                             elif field in ["AI Rating", "AI Summary"] and not str(value).strip():
                                 print(f"    ℹ️  {artist_name}.{field}: Left empty (AI had insufficient data)")
                                 row[field] = value
+                            elif field == "Genre":
+                                row[field] = normalize_genre_value(value)
                             else:
                                 row[field] = value
             else:

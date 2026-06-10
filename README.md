@@ -251,6 +251,18 @@ The AI will automatically populate all empty fields including:
 
 **Note:** When AI lacks data for an artist, the system automatically uses the festival bio as a fallback, prefixed with "[using festival bio due to a lack of publicly available data]".
 
+**Genre separator audit:**
+
+Before generating HTML, you can audit all festival CSV files for comma-separated genres and optionally fix them:
+
+```powershell
+python scripts/audit_genre_separators.py
+python scripts/audit_genre_separators.py --fix
+python scripts/audit_genre_separators.py --fail-on-find
+```
+
+This script scans CSV files under `docs/`, reports any `Genre` values that still use commas instead of `/`, and can normalize them in place.
+
 #### Step 3: Fetch Spotify Links
 
 After enriching artist data, you can fetch official Spotify links from the festival website or Spotify API:
