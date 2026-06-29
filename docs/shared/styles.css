@@ -376,6 +376,12 @@ td.artist-cell-with-bg strong {
     z-index: 1;
 }
 
+/* Keep cancelled badge above the image overlay in artist table cells */
+td.artist-cell-with-bg .badge {
+    position: relative;
+    z-index: 1;
+}
+
 
 tr.hidden {
     display: none;

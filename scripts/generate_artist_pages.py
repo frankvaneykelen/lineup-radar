@@ -81,6 +81,12 @@ def escape_html(text):
             .replace("'", "&#39;"))
 
 
+def is_cancelled(value):
+    """Return True when a CSV Cancelled value indicates a cancelled performance."""
+    normalized = str(value or '').strip().lower()
+    return normalized in {'yes', 'true', '1', 'y'}
+
+
 def fetch_artist_page_content(artist: Dict, config=None) -> Dict[str, any]:
     """
     Get artist information from CSV (festival data should be pre-fetched by fetch_festival_data.py).
@@ -224,6 +230,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
     }
     gender = gender_map.get(gender_raw, gender_raw.capitalize() if gender_raw else '')
     poc = artist.get('Front Person of Color?', '').strip()
+    cancelled = is_cancelled(artist.get('Cancelled', ''))
     
     festival_url = festival_content['url']
     festival_bio = festival_content.get('festival_bio', '')
@@ -361,7 +368,7 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
                 </div>
             </div>
             <div class="artist-header-content">
-                <h1>{escape_html(artist_name)} <span class="opacity-50">@ <a href="../index.html" style="color: inherit; text-decoration: none;">{config.name} {year}</a></span></h1>
+                <h1>{escape_html(artist_name)}{' <span class="badge bg-danger align-middle ms-2">Cancelled</span>' if cancelled else ''} <span class="opacity-50">@ <a href="../index.html" style="color: inherit; text-decoration: none;">{config.name} {year}</a></span></h1>
                 <div class="badges d-flex flex-wrap gap-2">
 """
     
@@ -384,6 +391,12 @@ def generate_artist_page(artist: Dict, year: str, festival_content: Dict,
         <div class="artist-content container-fluid">
             <div class="row g-4">
                 <div class="col-auto image-column" style="width: 450px;">
+"""
+
+    if cancelled:
+        html += """                <div class="alert alert-danger mx-3 mt-3 mb-3" role="alert">
+                    <strong>This performance has been cancelled.</strong>
+                </div>
 """
     
     # IMAGE COLUMN: Hero Image/Carousel only

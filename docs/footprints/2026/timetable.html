@@ -51,6 +51,96 @@
             min-width: 120px;
             border-left: 1px solid white;
         }
+
+        .timetable thead tr.day-row th {
+            top: 0;
+            z-index: 12;
+        }
+
+        .timetable thead tr.time-row th {
+            top: 36px;
+            z-index: 11;
+        }
+
+        .timetable th.day-header {
+            background: linear-gradient(90deg, #1f1f1f, #2f2f2f);
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .timetable th.day-header.day-even {
+            background: linear-gradient(90deg, #1f1f1f, #2f2f2f);
+        }
+
+        .timetable th.day-header.day-odd {
+            background: linear-gradient(90deg, #252525, #353535);
+        }
+
+        .timetable th.time-header {
+            background: #3a3a3a;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .timetable th.time-header.day-even {
+            background: #3a3a3a;
+        }
+
+        .timetable th.time-header.day-odd {
+            background: #464646;
+        }
+
+        .timetable td.time-slot.day-even {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .timetable td.time-slot.day-odd {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .timetable th.day-boundary,
+        .timetable td.day-boundary {
+            border-left: 3px solid rgba(0, 0, 0, 0.35) !important;
+        }
+
+        body.dark-mode .timetable th.day-header {
+            background: linear-gradient(90deg, #2a2a2a, #383838);
+        }
+
+        body.dark-mode .timetable th.day-header.day-even {
+            background: linear-gradient(90deg, #2a2a2a, #383838);
+        }
+
+        body.dark-mode .timetable th.day-header.day-odd {
+            background: linear-gradient(90deg, #313131, #404040);
+        }
+
+        body.dark-mode .timetable th.time-header {
+            background: #323232;
+        }
+
+        body.dark-mode .timetable th.time-header.day-even {
+            background: #323232;
+        }
+
+        body.dark-mode .timetable th.time-header.day-odd {
+            background: #3a3a3a;
+        }
+
+        body.dark-mode .timetable td.time-slot.day-even {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        body.dark-mode .timetable td.time-slot.day-odd {
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+        body.dark-mode .timetable th.day-boundary,
+        body.dark-mode .timetable td.day-boundary {
+            border-left-color: rgba(255, 255, 255, 0.4) !important;
+        }
         
         .timetable th.stage-header {
             background: #222;
@@ -160,10 +250,6 @@
                     <a href="../../index.html" class="home-link">
                         <i class="bi bi-house-door-fill"></i> Home
                     </a>
-<div class="festival-section">Best Kept Secret 2026</div>
-<div class="festival-links"><a href="../../best-kept-secret/2026/index.html">Lineup</a> | <a href="../../best-kept-secret/2026/about.html">About</a></div>
-<div class="festival-section">Pinkpop 2026</div>
-<div class="festival-links"><a href="../../pinkpop/2026/index.html">Lineup</a> | <a href="../../pinkpop/2026/about.html">About</a></div>
 <div class="festival-section">Rock Werchter 2026</div>
 <div class="festival-links"><a href="../../rock-werchter/2026/index.html">Lineup</a> | <a href="../../rock-werchter/2026/about.html">About</a></div>
 <div class="festival-section">Down The Rabbit Hole 2026</div>
@@ -202,440 +288,438 @@
 <div class="timetable-container">
     <table class="timetable">
         <thead>
-            <tr>
+            <tr class="day-row">
                 <th class="stage-header">Stage</th>
-                    <th colspan="6">19:00</th>
-                    <th colspan="6">19:30</th>
-                    <th colspan="6">20:00</th>
-                    <th colspan="6">20:30</th>
-                    <th colspan="6">21:00</th>
-                    <th colspan="6">21:30</th>
-                    <th colspan="6">22:00</th>
-                    <th colspan="6">22:30</th>
-                    <th colspan="6">23:00</th>
-                    <th colspan="6">23:30</th>
-                    <th colspan="6">00:00</th>
-                    <th colspan="6">00:30</th>
-                    <th colspan="6">01:00</th>
-                    <th colspan="6">01:30</th>
-                    <th colspan="6">02:00</th>
+                    <th class="day-header day-even" colspan="60">Sat 21 Feb</th>
+                    <th class="day-header day-odd day-boundary" colspan="24">Sun 22 Feb</th>
+                </tr>
+            <tr class="time-row">
+                <th class="stage-header">Stage</th>
+                    <th class="time-header day-even" colspan="6">19:00</th>
+                    <th class="time-header day-even" colspan="6">19:30</th>
+                    <th class="time-header day-even" colspan="6">20:00</th>
+                    <th class="time-header day-even" colspan="6">20:30</th>
+                    <th class="time-header day-even" colspan="6">21:00</th>
+                    <th class="time-header day-even" colspan="6">21:30</th>
+                    <th class="time-header day-even" colspan="6">22:00</th>
+                    <th class="time-header day-even" colspan="6">22:30</th>
+                    <th class="time-header day-even" colspan="6">23:00</th>
+                    <th class="time-header day-even" colspan="6">23:30</th>
+                    <th class="time-header day-odd day-boundary" colspan="6">00:00</th>
+                    <th class="time-header day-odd" colspan="6">00:30</th>
+                    <th class="time-header day-odd" colspan="6">01:00</th>
+                    <th class="time-header day-odd" colspan="6">01:30</th>
                 </tr>
         </thead>
         <tbody>
                 <tr>
                     <td class="stage-name" style="background-color: #FF8C42;">Pandora</td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #FF8C42CC;">
                             <div class="performance-artist"><a href="artists/don-melody-club.html">Don Melody Club</a></div>
-                            <div class="performance-time">19:00 - 19:45</div>
+                            <div class="performance-time">Sat 19:00 - 19:45</div>
                             <div class="performance-tagline">80s grooves meet psychedelic whimsy.</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #FF8C42CC;">
                             <div class="performance-artist"><a href="artists/niji.html">NIJI</a></div>
-                            <div class="performance-time">20:30 - 21:15</div>
+                            <div class="performance-time">Sat 20:30 - 21:15</div>
                             <div class="performance-tagline">Genre alchemist with soulful roots</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #FF8C42CC;">
                             <div class="performance-artist"><a href="artists/gizmo-varillas.html">Gizmo Varillas</a></div>
-                            <div class="performance-time">22:00 - 22:45</div>
+                            <div class="performance-time">Sat 22:00 - 22:45</div>
                             <div class="performance-tagline">Global grooves, soulful storytelling.</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="12" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="12" style="position: relative;">
                         <div class="performance" style="background-color: #FF8C42CC;">
                             <div class="performance-artist"><a href="artists/islandman.html">Islandman</a></div>
-                            <div class="performance-time">23:30 - 00:30</div>
+                            <div class="performance-time">Sat 23:30 - 00:30</div>
                             <div class="performance-tagline">Anatolian rhythms meet cosmic beats.</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
                 </tr>
                 <tr>
                     <td class="stage-name" style="background-color: #00D4FF;">Hertz</td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #00D4FFCC;">
                             <div class="performance-artist"><a href="artists/hamraaz.html">Hamraaz</a></div>
-                            <div class="performance-time">19:45 - 20:30</div>
+                            <div class="performance-time">Sat 19:45 - 20:30</div>
                             <div class="performance-tagline">Where Armenian winds meet Persian strings</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #00D4FFCC;">
                             <div class="performance-artist"><a href="artists/tomo-katsurada-jonny-nash.html">Tomo Katsurada &amp; Jonny Nash</a></div>
-                            <div class="performance-time">21:15 - 22:00</div>
+                            <div class="performance-time">Sat 21:15 - 22:00</div>
                             <div class="performance-tagline">A hypnotic collaboration blending Japanese psychedelic guitar and British ambient soundscapes.</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="8" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="8" style="position: relative;">
                         <div class="performance" style="background-color: #00D4FFCC;">
                             <div class="performance-artist"><a href="artists/so-sorry.html">SO SORRY</a></div>
-                            <div class="performance-time">22:40 - 23:20</div>
+                            <div class="performance-time">Sat 22:40 - 23:20</div>
                             <div class="performance-tagline">Apologies rejected, grooves accepted.</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-odd day-boundary"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
                 </tr>
                 <tr>
                     <td class="stage-name" style="background-color: #40E0D0;">Cloud Nine</td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="8" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="8" style="position: relative;">
                         <div class="performance" style="background-color: #40E0D0CC;">
                             <div class="performance-artist"><a href="artists/keshavara.html">Keshavara</a></div>
-                            <div class="performance-time">19:40 - 20:20</div>
+                            <div class="performance-time">Sat 19:40 - 20:20</div>
                             <div class="performance-tagline">Global beats, boundless indie spirit</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="12" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="12" style="position: relative;">
                         <div class="performance" style="background-color: #40E0D0CC;">
                             <div class="performance-artist"><a href="artists/derya-yldrm-grup-simsek.html">Derya Yıldırım &amp; Grup Şimşek</a></div>
-                            <div class="performance-time">21:05 - 22:05</div>
+                            <div class="performance-time">Sat 21:05 - 22:05</div>
                             <div class="performance-tagline">Psychedelic echoes of Anatolian soul</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #40E0D0CC;">
                             <div class="performance-artist"><a href="artists/sessa.html">Sessa</a></div>
-                            <div class="performance-time">22:50 - 23:35</div>
+                            <div class="performance-time">Sat 22:50 - 23:35</div>
                             <div class="performance-tagline">Whispered rhythms of Brazilian soul</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-odd day-boundary"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
                 </tr>
                 <tr>
                     <td class="stage-name" style="background-color: #FFD93D;">Club Nine</td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="8" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="8" style="position: relative;">
                         <div class="performance" style="background-color: #FFD93DCC;">
                             <div class="performance-artist"><a href="artists/fastmusic.html">fastmusic</a></div>
-                            <div class="performance-time">20:20 - 21:00</div>
+                            <div class="performance-time">Sat 20:20 - 21:00</div>
                             <div class="performance-tagline">Desert blues meets electronic ghosts</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="8" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="8" style="position: relative;">
                         <div class="performance" style="background-color: #FFD93DCC;">
                             <div class="performance-artist"><a href="artists/halfpastseven.html">Halfpastseven</a></div>
-                            <div class="performance-time">22:05 - 22:45</div>
+                            <div class="performance-time">Sat 22:05 - 22:45</div>
                             <div class="performance-tagline">Amsterdam-based producer blending hiphop, house, and electronica with organic grooves.</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #FFD93DCC;">
                             <div class="performance-artist"><a href="artists/kaba-hyas.html">Kaba &amp; Hyas</a></div>
-                            <div class="performance-time">23:35 - 00:20</div>
+                            <div class="performance-time">Sat 23:35 - 00:20</div>
                             <div class="performance-tagline">French duo blending rap and electronic music with UK garage, house, drum &amp; bass, and 2step.</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
+                    <td class="time-slot day-odd"></td>
                 </tr>
                 <tr>
                     <td class="stage-name" style="background-color: #FF6B9D;">Pandora Foyer</td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot"></td>
-                    <td class="time-slot" colspan="9" style="position: relative;">
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even"></td>
+                    <td class="time-slot day-even" colspan="9" style="position: relative;">
                         <div class="performance" style="background-color: #FF6B9DCC;">
                             <div class="performance-artist"><a href="artists/why-the-eye.html">Why The Eye?</a></div>
-                            <div class="performance-time">22:45 - 23:30</div>
+                            <div class="performance-time">Sat 22:45 - 23:30</div>
                             <div class="performance-tagline">Tribal beats meet alien frequencies.</div>
                         </div>
                     </td>
-                    <td class="time-slot" colspan="12" style="position: relative;">
+                    <td class="time-slot day-even" colspan="12" style="position: relative;">
                         <div class="performance" style="background-color: #FF6B9DCC;">
                             <div class="performance-artist"><a href="artists/imad.html">Imad</a></div>
-                            <div class="performance-time">23:30 - 00:30</div>
+                            <div class="performance-time">Sat 23:30 - 00:30</div>
                         </div>
                     </td>
-                    <td class="time-slot" colspan="12" style="position: relative;">
+                    <td class="time-slot day-odd" colspan="12" style="position: relative;">
                         <div class="performance" style="background-color: #FF6B9DCC;">
                             <div class="performance-artist"><a href="artists/rizan-said.html">Rizan Said</a></div>
-                            <div class="performance-time">00:30 - 01:30</div>
+                            <div class="performance-time">Sun 00:30 - 01:30</div>
                             <div class="performance-tagline">Pioneering the modern dabke sound with hypnotic keyboards and electrifying rhythms.</div>
                         </div>
                     </td>
-                    <td class="time-slot" colspan="6" style="position: relative;">
+                    <td class="time-slot day-odd" colspan="6" style="position: relative;">
                         <div class="performance" style="background-color: #FF6B9DCC;">
                             <div class="performance-artist"><a href="artists/imad.html">Imad</a></div>
-                            <div class="performance-time">01:30 - 02:00</div>
+                            <div class="performance-time">Sun 01:30 - 02:00</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
                 </tr>
                 <tr>
                     <td class="stage-name" style="background-color: #8B7FD6;">Park 6</td>
-                    <td class="time-slot" colspan="30" style="position: relative;">
+                    <td class="time-slot day-even" colspan="30" style="position: relative;">
                         <div class="performance" style="background-color: #8B7FD6CC;">
                             <div class="performance-artist"><a href="artists/deodaat-b2b-irma.html">Deodaat B2B Irma</a></div>
-                            <div class="performance-time">19:00 - 21:30</div>
+                            <div class="performance-time">Sat 19:00 - 21:30</div>
                         </div>
                     </td>
-                    <td class="time-slot" colspan="54" style="position: relative;">
+                    <td class="time-slot day-even" colspan="54" style="position: relative;">
                         <div class="performance" style="background-color: #8B7FD6CC;">
                             <div class="performance-artist"><a href="artists/bankra-bike-soundsystem.html">Bankra Bike Soundsystem</a></div>
-                            <div class="performance-time">21:30 - 02:00</div>
+                            <div class="performance-time">Sat 21:30 - 02:00</div>
                         </div>
                     </td>
-                    <td class="time-slot"></td>
                 </tr>
             </tbody>
         </table>

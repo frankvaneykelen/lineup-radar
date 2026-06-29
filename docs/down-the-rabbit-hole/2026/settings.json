@@ -11,16 +11,16 @@
   "start_date": "2026-07-03",
   "end_date": "2026-07-05",
   "stages": [
-    "Hotot",
     "Teddy Widder",
-    "Fuzzy Lop",
-    "Rex",
-    "The Bizarre",
     "Bossa Nova",
-    "the CROQUE Madame",
+    "Rex",
     "Holding",
+    "Fuzzy Lop",
     "Radiate VI",
-    "Idyllische Veldje"
+    "Idyllische Veldje",
+    "the CROQUE Madame",
+    "The Bizarre",
+    "Hotot"
   ],
   "archived": false,
   "hide_from_navigation": false,
@@ -34,5 +34,6 @@
       "kruidvat",
       "unox"
     ]
-  }
+  },
+  "map": "https://downtherabbithole.nl/img/cache/media_4602_original_85-DTRH26%20Totaal.webp"
 }

@@ -236,7 +236,7 @@ This requires API setup. Run `python scripts/enrich_artists.py --setup` for inst
 ```powershell
 $env:AZURE_OPENAI_KEY = "your-azure-openai-key-here"
 $env:AZURE_OPENAI_ENDPOINT = "https://your-resource.cognitiveservices.azure.com"
-$env:AZURE_OPENAI_DEPLOYMENT = "gpt-4o"
+$env:AZURE_OPENAI_DEPLOYMENT = "gpt-4o-mini"
 python scripts/enrich_artists.py --ai --parallel
 ```
 

@@ -29,6 +29,17 @@ def escape_html(text: str) -> str:
     return html.escape(str(text))
 
 
+def is_cancelled(value: str) -> bool:
+    """Return True when a CSV Cancelled value indicates a cancelled performance."""
+    normalized = str(value or '').strip().lower()
+    return normalized in {'yes', 'true', '1', 'y'}
+
+
+def normalize_stage_name(stage: str) -> str:
+    """Normalize stage names for case-insensitive comparisons."""
+    return ' '.join(str(stage or '').split()).casefold()
+
+
 def parse_date(date_str: str) -> Optional[date]:
     """Parse date string in YYYY-MM-DD format."""
     if not date_str:
@@ -132,8 +143,9 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
         date = perf.get('Date', '').strip()
         stage = perf.get('Stage', '').strip()
         start_time = perf.get('Start Time', '').strip()
+        cancelled = is_cancelled(perf.get('Cancelled', ''))
         
-        if date and stage and start_time:
+        if date and stage and start_time and not cancelled:
             if date not in scheduled_performances:
                 scheduled_performances[date] = []
             scheduled_performances[date].append(perf)
@@ -196,17 +208,17 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
         "Pandora Foyer": "#FF6B9D",   # Coral Pink
         "Park 6": "#8B7FD6",           # Purple
         
-        # Down The Rabbit Hole (colors inspired by official branding)
-        "Hotot": "#FF7A66",            # Coral
-        "Teddy Widder": "#6BCB77",     # Fresh Green
-        "Fuzzy Lop": "#4D96FF",        # Sky Blue
-        "Rex": "#FFD166",              # Warm Yellow
-        "The Bizarre": "#9B5DE5",      # Violet
-        "Bossa Nova": "#F15BB5",       # Magenta
-        "the CROQUE Madame": "#00CC99",# Mint
-        "Holding": "#FFB4A2",          # Peach
-        "Radiate VI": "#00A6FB",       # Bright Cyan
-        "Idyllische Veldje": "#BDFAC1" # Soft Lime
+        # Down The Rabbit Hole (inspired by https://downtherabbithole.nl/plattegrond but lightened for better black-text readability)
+        "Hotot": "#f4b183",
+        "Teddy Widder": "#d9a48f",
+        "Fuzzy Lop": "#8fd4bf",
+        "REX": "#b9bbb6",
+        "The Bizarre": "#d59abf",
+        "Bossa Nova": "#8fc2e8",
+        "the CROQUE Madame": "#8b74ff",
+        "HOLDING": "#faaaaa",
+        "RADIATE VI": "#e7c37a",
+        "Idyllische Veldje": "#bea6d9"
 
     }
     
@@ -218,16 +230,28 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
             if stage:
                 unique_stages.add(stage)
     
-    # Sort stages according to predefined order, put unknown stages at end
+    # Sort stages according to predefined order (case-insensitive), put unknown stages at end
     sorted_stages = []
+    used_stages = set()
+    unique_stage_by_normalized = {
+        normalize_stage_name(stage): stage for stage in unique_stages
+    }
+
     for stage in stages_order:
-        if stage in unique_stages:
-            sorted_stages.append(stage)
-    
+        matched_stage = unique_stage_by_normalized.get(normalize_stage_name(stage))
+        if matched_stage and matched_stage not in used_stages:
+            sorted_stages.append(matched_stage)
+            used_stages.add(matched_stage)
+
     # Add any stages not in the predefined order
     for stage in sorted(unique_stages):
-        if stage not in sorted_stages:
+        if stage not in used_stages:
             sorted_stages.append(stage)
+            used_stages.add(stage)
+
+    stage_color_by_normalized = {
+        normalize_stage_name(name): color for name, color in stage_colors.items()
+    }
     
     # Create grid structure: stage -> time_slot -> performance (full multi-day timeline)
     grid = {stage: {} for stage in sorted_stages}
@@ -282,7 +306,7 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
             max-width: 1900px;
             margin: 0 auto;
             overflow-x: auto;
-            padding: 20px;
+            padding: 20px 20px 20px 0;
         }}
         
         .timetable {{
@@ -413,7 +437,7 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
             border: 1px solid #ddd;
             padding: 0;
             vertical-align: top;
-            height: 90px;
+            height: 75px;
             position: relative;
         }}
         
@@ -424,7 +448,7 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
         .timetable td.stage-name {{
             font-weight: 600;
             font-size: 1.1rem;
-            padding: 12px;
+            padding: 8px;
             position: sticky;
             left: 0;
             z-index: 5;
@@ -518,6 +542,7 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
                     <a href="timetable.html" class="btn btn-primary btn-sm px-3 py-1 active" style="font-weight: 600;"><i class="bi bi-calendar3"></i> Timetable</a>
                     <a href="about.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-info-circle"></i> About</a>
                     {('<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;">🎪 Festival Site</a>') if config.lineup_url else ''}
+                    {('<a href="' + config.map + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-map-fill"></i> Map</a>') if config.map else ''}
                     {('<a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> Official Playlist</a>') if config.official_spotify_playlist else ''}
                     {('<a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>') if config.spotify_playlist_id else ''}
                 </p>
@@ -590,7 +615,10 @@ def generate_timetable_html(csv_file: Path, output_dir: Path, festival: str = 'a
     
     # Generate rows for each stage
     for stage in sorted_stages:
-        stage_color = stage_colors.get(stage, '#999999')
+        stage_color = stage_color_by_normalized.get(
+            normalize_stage_name(stage),
+            '#999999'
+        )
         
         html_content += f'                <tr>\n'
         html_content += f'                    <td class="stage-name" style="background-color: {stage_color};">{escape_html(stage)}</td>\n'

@@ -348,6 +348,7 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None, art
                     {has_schedule_button}
                     <a href="about.html" class="btn btn-primary btn-sm px-3 py-1 active" style="font-weight: 600;"><i class="bi bi-info-circle"></i> About</a>
                     {'<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;">🎪 Festival Site</a>' if config.lineup_url else ''}
+                    {'<a href="' + config.map + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-map-fill"></i> Map</a>' if config.map else ''}
                     {'<a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> Official Playlist</a>' if config.official_spotify_playlist else ''}
                     {'<a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>' if config.spotify_playlist_id else ''}
                 </p>

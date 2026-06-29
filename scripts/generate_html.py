@@ -29,6 +29,12 @@ def escape_html(text):
             .replace('"', "&quot;")
             .replace("'", "&#39;"))
 
+
+def is_cancelled(value):
+    """Return True when a CSV Cancelled value indicates a cancelled performance."""
+    normalized = str(value or '').strip().lower()
+    return normalized in {'yes', 'true', '1', 'y'}
+
 def generate_html(csv_file, output_dir, config):
     """Generate HTML page from CSV file."""
     
@@ -150,6 +156,7 @@ def generate_html(csv_file, output_dir, config):
                     {('<a href="timetable.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-calendar3"></i> Timetable</a>') if has_schedule_data else ''}
                     <a href="about.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-info-circle"></i> About</a>
                     {('<a href="' + config.lineup_url + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;">🎪 Festival Site</a>') if config.lineup_url else ''}
+                    {('<a href="' + config.map + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-map-fill"></i> Map</a>') if config.map else ''}
                     {('<a href="' + config.official_spotify_playlist + '" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> Official Playlist</a>') if config.official_spotify_playlist else ''}
                     {('<a href="' + config.spotify_playlist_id + '" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-spotify"></i> LineupRadar Playlist</a>') if config.spotify_playlist_id else ''}
                 </p>
@@ -318,10 +325,18 @@ def generate_html(csv_file, output_dir, config):
         }
         poc_display = poc_emoji_map.get(poc, escape_html(poc))
         
+        cancelled = is_cancelled(artist.get('Cancelled', ''))
+
         # Create link to individual artist page
         artist_name = artist.get('Artist', '')
         artist_slug = artist_name_to_slug(artist_name)
         artist_page_url = f"artists/{artist_slug}.html"
+
+        artist_name_html = escape_html(artist_name)
+        if cancelled:
+            artist_name_html = f'<span class="text-decoration-line-through" style="text-decoration-thickness: 2px;">{artist_name_html}</span>'
+
+        cancelled_badge_html = ' <span class="badge bg-danger ms-2 align-middle" style="font-size: 0.82rem; padding: 0.2em 0.45em 0.3em;">Cancelled</span>' if cancelled else ''
         
         # Get artist image if it exists
         artist_cell_class = 'artist-cell-clickable'
@@ -381,7 +396,7 @@ def generate_html(csv_file, output_dir, config):
         
         html_content += f"""                    <tr data-index="{idx}">
                         <td class="{artist_cell_class}" onclick="window.location.href='{artist_page_url}'" {artist_cell_style} title="{bio_tooltip}">
-                            <strong>{escape_html(artist_name)}</strong>
+                            <strong>{artist_name_html}</strong>{cancelled_badge_html}
                         </td>
                         <td class="tagline">{tagline}</td>
                         {schedule_td}

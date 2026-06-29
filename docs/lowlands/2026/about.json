@@ -1,7 +1,7 @@
 {
   "festival": "lowlands",
   "year": 2026,
-  "generated_at": "2026-06-09T19:21:07.669213+00:00",
+  "generated_at": "2026-06-29T19:30:29.887413+00:00",
   "stats": {
     "total_artists": 56,
     "genre_counts": {
@@ -15,7 +15,9 @@
       "Pop": 4,
       "Jazz": 4,
       "Indie Pop": 3,
+      "hyperpop": 2,
       "Reggae": 2,
+      "hip-hop": 2,
       "Techno": 2,
       "Grunge": 2,
       "World": 2,
@@ -26,7 +28,6 @@
       "indie pop": 1,
       "Hardcore Punk": 1,
       "Alternative Rock": 1,
-      "hyperpop": 1,
       "Punk Rock": 1,
       "Garage Rock": 1,
       "Folk": 1,
@@ -45,7 +46,7 @@
       "Kuduro": 1,
       "indie rock": 1,
       "indie house": 1,
-      "hip-hop, punk": 1,
+      "punk": 1,
       "Experimental Hip-Hop": 1,
       "Industrial Hip-Hop": 1,
       "Dutch rap": 1,
@@ -57,7 +58,7 @@
       "Indie Rock": 1,
       "Tropicália": 1,
       "Experimental Pop": 1,
-      "hyperpop, EDM, hip-hop": 1,
+      "EDM": 1,
       "electropop": 1,
       "Hyperpop": 1,
       "rap": 1,
@@ -128,5 +129,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Lowlands 2026: A Celebration of Diversity and Sound**  \nFrom August 14–16, 2026, Lowlands returns with a lineup as eclectic and vibrant as ever, featuring 56 artists from across the globe. With acts hailing from 20 countries, including the USA, Netherlands, UK, Australia, and as far afield as Japan, Brazil, and Malaysia, the festival is a true international gathering of talent. The lineup reflects a rich tapestry of genres, from the pulsating beats of Electronic (10 acts) to the soulful rhythms of R&B, Soul, and Funk, as well as cutting-edge Experimental and Hip-Hop sounds. Fans can also look forward to unique performances spanning Jazz, Indie Pop, Reggae, and even niche styles like Kuduro, Tropicália, and Industrial Hip-Hop.\n\nLowlands 2026 stands out for its commitment to diversity. Nearly half of the artists identify as people of color, and the festival embraces a mix of gender identities, with male, female, non-binary, and mixed-gender acts all represented. This inclusivity extends to the music itself, with artists blending genres like hyperpop, EDM, and rap, and pushing boundaries with Experimental Rock and Neo-Soul. With 98% of the lineup available on Spotify, attendees can easily explore the diverse sounds ahead of the festival.\n\nThis year’s edition also features three DJs and a mix of emerging and established acts, creating a dynamic atmosphere where fresh voices and seasoned performers share the stage. Whether you’re into the raw energy of Punk Rock and Metalcore or the smooth grooves of Nu-Disco and Downtempo, Lowlands 2026 promises an unforgettable experience for every music lover."
+  "ai_profile": "**Lowlands Festival 2026 Profile**\n\nSet against the vibrant backdrop of the Netherlands, Lowlands Festival 2026 promises an eclectic mix of sounds and cultures from August 14 to 16. Featuring a diverse lineup of 56 artists, attendees can expect an array of genres ranging from Electronic and Soul to Indie Rock and Experimental Hip-Hop. With 10 electronic acts leading the charge, the festival showcases a trend toward genre-blending, highlighting the innovative spirit of contemporary music.\n\nDiversity is a hallmark of this year's festival, with artists hailing from various countries including the USA, UK, and Australia, among others. The lineup also represents a significant commitment to inclusivity, with 24 artists identifying as people of color and a balanced gender representation that includes 24 male, 8 female, and 15 mixed-gender acts. This mix not only enriches the festival experience but also underscores a growing recognition of the importance of varied perspectives in the music industry.\n\nAs Lowlands continues to embrace its role as a cultural melting pot, the festival also emphasizes accessibility in music discovery, with 98% of artists featured on Spotify. This commitment to modern engagement ensures that fans can easily explore the sounds of both established and emerging artists, making Lowlands 2026 a must-attend event for music lovers seeking a dynamic and inclusive festival experience."
 }

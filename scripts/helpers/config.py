@@ -28,6 +28,7 @@ class FestivalConfig:
     image_index: Optional[int] = None  # Fixed index into candidate image list (for festivals where auto-detection fails)
     bio_selector: str = ''  # CSS selector for bio text on artist pages (pre-configures the learned selector)
     stages: list = None  # List of stage names for the festival
+    map: str = ''  # Festival map URL
     
     def get_artist_url(self, slug: str) -> str:
         """
@@ -130,6 +131,7 @@ def get_festival_config(
                     image_index=image_index,
                     bio_selector=scraper_cfg.get('bio_selector', ''),
                     stages=s.get('stages', []),
+                    map=s.get('map', ''),
                 )
             except Exception:
                 pass

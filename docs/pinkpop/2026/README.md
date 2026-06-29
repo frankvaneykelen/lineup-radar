@@ -27,6 +27,9 @@ python scripts/fetch_festival_data.py --festival pinkpop --year 2026
 # Optional: Fetch bio for a single artist (useful for testing or updates)
 python scripts/fetch_festival_data.py --festival pinkpop --year 2026 --artist "Artist Name"
 
+# Optional: Re-scrape only schedule fields (Date, Start Time, End Time, Stage) without touching bios or images
+python scripts/fetch_festival_data.py --festival pinkpop --year 2026 --schedule-only
+
 # 3. Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival pinkpop --year 2026 --ai
 

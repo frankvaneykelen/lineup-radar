@@ -1,19 +1,19 @@
 {
   "festival": "grauzone",
   "year": 2026,
-  "generated_at": "2026-06-09T19:19:40.546341+00:00",
+  "generated_at": "2026-06-29T19:28:58.965593+00:00",
   "stats": {
     "total_artists": 70,
     "genre_counts": {
       "Darkwave": 12,
       "Post-punk": 9,
       "Electronic": 7,
+      "EBM": 6,
       "post-punk": 6,
       "Techno": 5,
       "Synthpop": 4,
       "electro": 3,
       "Industrial": 3,
-      "EBM": 3,
       "Punk": 3,
       "Synthwave": 3,
       "Electro": 2,
@@ -22,7 +22,7 @@
       "Alternative Rock": 2,
       "New Wave": 2,
       "Shoegaze": 2,
-      "Italo disco, EBM": 2,
+      "Italo disco": 2,
       "Indie Rock": 1,
       "synth-punk": 1,
       "coldwave": 1,
@@ -45,7 +45,8 @@
       "kosmische": 1,
       "Noise Rock": 1,
       "Oi!": 1,
-      "EBM, New Beat, Trance": 1,
+      "New Beat": 1,
+      "Trance": 1,
       "post-hardcore": 1,
       "Art Rock": 1,
       "dark pop": 1,
@@ -111,5 +112,5 @@
     "year": 2026
   },
   "previous_year_comparison": {},
-  "ai_profile": "**Grauzone Festival 2026**  \nTaking place from February 6 to 8, Grauzone Festival 2026 once again cements itself as a hub for boundary-pushing music and subcultural exploration. Featuring a remarkable lineup of 70 artists, the festival spans a broad spectrum of genres, with a strong focus on Darkwave (12 artists), Post-punk (15 combined acts across variations), and Electronic (7 artists). Other notable genres include Techno, Synthpop, Industrial, EBM, and Synthwave, alongside eclectic touches of Ambient, Folk, Psychedelic Rock, and even Italo Disco. This diversity highlights Grauzone’s commitment to embracing both niche and experimental sounds.  \n\nThe festival’s lineup draws talent from across the globe, with France (13 artists), the USA (16 combined acts), and the Netherlands (9 artists) leading the charge, alongside contributions from countries as varied as Japan, Turkey, Morocco, and Serbia. This international mix underscores Grauzone’s reputation as a melting pot of cultural influences. The gender representation is equally varied, with a mix of male, female, and non-binary artists, as well as mixed-gender groups. Notably, 11 performers are confirmed to be people of color, reflecting growing inclusivity in the festival’s curation.  \n\nGrauzone Festival’s 2026 edition promises an immersive and genre-defying experience, celebrating the intersections of music, art, and culture. With its focus on diversity and innovation, it continues to be a vital platform for both rising stars and established pioneers in the underground and alternative music scenes."
+  "ai_profile": "**Grauzone Festival 2026 Profile**\n\nTaking place from February 6 to 8, 2026, the Grauzone Festival promises an eclectic gathering of 70 artists, showcasing a rich tapestry of genres that reflect the festival's commitment to the dark and avant-garde. With a significant representation of Darkwave (12 artists), Post-punk (15 artists combined), and a diverse range of electronic sounds, including EBM and Synthpop, the lineup is set to captivate fans of underground music. The festival's focus on genre-blending is highlighted by the inclusion of styles such as Industrial, Techno, and even Folk, creating an atmosphere that encourages exploration and discovery.\n\nInternationally, the festival boasts a vibrant mix of artists from 15 countries, with notable representation from France, the USA, and the Netherlands. This geographical diversity enriches the event, allowing attendees to experience a multitude of cultural influences and sounds. The lineup not only reflects musical variety but also emphasizes inclusivity, featuring a mix of male, female, and non-binary artists. The presence of 11 artists identifying as people of color showcases the festival's commitment to diversity, providing a platform for underrepresented voices in the music scene.\n\nGrauzone Festival 2026 is not only a celebration of music but also a gathering that champions inclusivity and artistic expression. With a blend of established acts and emerging talents, attendees can expect a dynamic experience that resonates with the festival's ethos of exploring the darker corners of sound and creativity. Join us for a weekend where genres collide, cultures intertwine, and the spirit of innovation thrives."
 }
