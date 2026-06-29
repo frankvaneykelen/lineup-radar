@@ -5,7 +5,7 @@
   "artist_path": "/programma/",
   "bio_language": "Dutch",
   "rating_boost": 0.0,
-  "description": "A boutique music and arts festival in Beuningen, Netherlands, known for its eclectic lineup and intimate atmosphere.",
+  "description": "A boutique music and arts festival in Beuningen, Netherlands, known for its eclectic lineup and intimate atmosphere. Stage order mnemonic: \"Tired Bunnies Rock Hideous Footwear, Raving In Crocs, Bouncing Home\" or \"Thuis Bedacht Rosa Hoe Fijn Rondlopen Is: Crocs Blijken Heerlijk!\".",
   "official_spotify_playlist": "",
   "spotify_playlist_id": "https://open.spotify.com/playlist/3ERLeyNAEgIpUSh1ll3BLM",
   "start_date": "2026-07-03",
@@ -35,5 +35,6 @@
       "unox"
     ]
   },
-  "map": "https://downtherabbithole.nl/img/cache/media_4602_original_85-DTRH26%20Totaal.webp"
+  "map": "https://downtherabbithole.nl/img/cache/media_4602_original_85-DTRH26%20Totaal.webp",
+  "mnemonic": "Tired Bunnies Rock Hideous Footwear, Raving In Crocs, Bouncing Home"
 }
