@@ -9,6 +9,8 @@ and a simple `about.html` page summarising the findings.
 from __future__ import annotations
 import sys
 from pathlib import Path
+import html
+import re
 
 # Add scripts directory to path for helpers module
 import sys
@@ -23,6 +25,31 @@ import argparse
 from helpers import get_festival_config, generate_hamburger_menu
 from helpers.ai_client import enrich_with_ai
 from helpers.text_utils import markdown_to_html
+
+
+def extract_map_diagram(markdown_file: Path) -> tuple[str, str] | None:
+    if not markdown_file.exists():
+        return None
+
+    try:
+        content = markdown_file.read_text(encoding='utf-8')
+    except OSError:
+        return None
+
+    # Prefer SVG when present for pixel-precise layout control.
+    svg_match = re.search(r'```svg\s*(.*?)```', content, re.DOTALL | re.IGNORECASE)
+    if svg_match:
+        svg_markup = svg_match.group(1).strip()
+        if svg_markup:
+            return ('svg', svg_markup)
+
+    mermaid_match = re.search(r'```mermaid\s*(.*?)```', content, re.DOTALL | re.IGNORECASE)
+    if mermaid_match:
+        mermaid_markup = mermaid_match.group(1).strip()
+        if mermaid_markup:
+            return ('mermaid', mermaid_markup)
+
+    return None
 
 
 def load_artists(csv_file: Path) -> list[dict]:
@@ -246,7 +273,7 @@ def write_outputs(output_dir: Path, about: dict, html_profile: str):
     print(f"✓ Wrote {json_path} and {html_path}")
 
 
-def render_html(config, stats, profile_text, start_date=None, end_date=None, artists=None):
+def render_html(config, stats, profile_text, start_date=None, end_date=None, artists=None, map_diagram=None):
     # Generate menu HTML (use escaped=False since we'll manually escape in the f-string)
     menu_html = generate_hamburger_menu(path_prefix="../../", escaped=False)
     
@@ -285,8 +312,37 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None, art
             for artist in artists
         )
     has_schedule_button = '<a href="timetable.html" class="btn btn-primary btn-sm px-3 py-1" style="font-weight: 600;"><i class="bi bi-calendar3"></i> Timetable</a>' if has_schedule_data else ''
+    map_section_html = ''
+    mermaid_script_html = ''
+    if map_diagram:
+        diagram_type, diagram_markup = map_diagram
+        if diagram_type == 'svg':
+            map_section_html = f"""
+            <section class=\"mb-5\">
+                <h2 style=\"margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 600;\">Festival Map</h2>
+                <div class=\"stat-card\" style=\"padding: 0.25rem; overflow-x: auto;\">
+                    {diagram_markup}
+                </div>
+            </section>"""
+        elif diagram_type == 'mermaid':
+            escaped_diagram = html.escape(diagram_markup)
+            map_section_html = f"""
+            <section class=\"mb-5\">
+                <h2 style=\"margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 600;\">Festival Map</h2>
+                <div class=\"stat-card\" style=\"padding: 0.25rem; overflow-x: auto;\">
+                    <div class=\"mermaid\">{escaped_diagram}</div>
+                </div>
+            </section>"""
+            mermaid_script_html = """
+    <script type=\"module\">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+        });
+    </script>"""
     
-    html = f"""<!DOCTYPE html>
+    html_output = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -360,7 +416,9 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None, art
                 <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 600;">Festival Profile</h2>
                 <div class="profile-text">{markdown_to_html(profile_text)}</div>
             </section>
-            
+
+{map_section_html}
+
             <section>
                 <h2 style="margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600;">Festival Statistics</h2>
                 <div class="stats-grid">
@@ -441,6 +499,7 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None, art
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="../../shared/script.js"></script>
+{mermaid_script_html}
     <script>
         // Prepare data for charts
         const genderData = {json.dumps(dict(stats.get('gender_counts', {})))};
@@ -539,7 +598,7 @@ def render_html(config, stats, profile_text, start_date=None, end_date=None, art
 </body>
 </html>
 """
-    return html
+    return html_output
 
 
 def main():
@@ -605,7 +664,8 @@ def main():
         'ai_profile': profile_text
     }
 
-    html = render_html(config, stats, profile_text, start_date, end_date, artists)
+    map_diagram = extract_map_diagram(out_dir / 'map.md')
+    html = render_html(config, stats, profile_text, start_date, end_date, artists, map_diagram)
     write_outputs(out_dir, about, html)
     
     # Generate/update README for this festival edition
