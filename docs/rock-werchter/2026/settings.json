@@ -11,7 +11,7 @@
   "start_date": "2026-07-02",
   "end_date": "2026-07-05",
   "stages": [],
-  "archived": false,
+  "archived": true,
   "hide_from_navigation": false,
   "scraper": {
     "type": "generic"

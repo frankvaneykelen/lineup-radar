@@ -22,7 +22,7 @@
     "The Bizarre",
     "Hotot"
   ],
-  "archived": false,
+  "archived": true,
   "hide_from_navigation": false,
   "scraper": {
     "type": "generic",

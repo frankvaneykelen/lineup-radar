@@ -27,6 +27,9 @@ python scripts/fetch_festival_data.py --festival rewire --year 2026
 # Optional: Fetch bio for a single artist (useful for testing or updates)
 python scripts/fetch_festival_data.py --festival rewire --year 2026 --artist "Artist Name"
 
+# Optional: Re-scrape only schedule fields (Date, Start Time, End Time, Stage) without touching bios or images
+python scripts/fetch_festival_data.py --festival rewire --year 2026 --schedule-only
+
 # 3. Enrich artist data with AI-generated insights
 python scripts/enrich_artists.py --festival rewire --year 2026 --ai
 
@@ -54,6 +57,9 @@ python scripts/generate_html.py --festival rewire --year 2026
 
 # Generate individual artist pages with images
 python scripts/generate_artist_pages.py --festival rewire --year 2026
+
+# Generate the timetable (schedule) HTML page
+python scripts/generate_timetable.py --festival rewire --year 2026
 
 # Generate the About page with statistics
 python scripts/generate_about.py --festival rewire --year 2026
